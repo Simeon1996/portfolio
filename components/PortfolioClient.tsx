@@ -14,7 +14,7 @@ const ME = {
   name: 'Simeon Ivanov',
   role: 'AI Expert/Developer/Engineer, DevOps, and Full-Stack Developer',
   bio: `I'm a software engineer and DevOps architect with 12+ years of experience building and scaling products across Python, Java, JavaScript, and PHP, using frameworks like Spring, Django, FastAPI, Angular, React and more.\n\nI've designed and operated cloud-native platforms on AWS and GKE with Kubernetes and Docker, with a strong focus on reliability, performance, security and delivery speed. My current focus is AI-first product engineering: building machine learning and agentic systems with PyTorch, NumPy, Pandas, and LangChain to turn cutting-edge models into practical business outcomes.`,
-  email: 'dev.grayscale@gmail.com',
+  email: 'simeonivanov1996@gmail.com',
   photo: '/about/me-abstract.jpg',
   socials: [
     // { label: 'GitHub',   href: 'https://github.com' },
