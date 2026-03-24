@@ -1,0 +1,59 @@
+---
+title: "Building a production LLM pipeline in 2025"
+date: 2025-01-15
+excerpt: "What nobody tells you about taking an LLM demo to production — from chunking strategies to eval loops and cost control."
+tags: ["LLM", "DevOps", "AI"]
+published: true
+---
+
+## From demo to production: the gap is real
+
+Every LLM demo works. The data is curated, the queries are predictable, and the context window is never exceeded. Production is different.
+
+Users ask unexpected questions. Documents are messy. The context window fills up. Costs spiral. And suddenly your 95% accuracy demo is a 70% accuracy embarrassment.
+
+Here's what I've learned shipping LLM features to real users.
+
+## 1. Chunking strategy matters more than model choice
+
+Most teams spend time picking the right model. They should spend time picking the right chunking strategy.
+
+Naive fixed-size chunking (every 500 tokens) breaks semantic units and destroys retrieval quality. Instead:
+
+- **Semantic chunking** — split on paragraph or section boundaries
+- **Overlapping windows** — 20% overlap between chunks to preserve context
+- **Hierarchical** — store both summary chunks and detail chunks
+
+```python
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+
+splitter = RecursiveCharacterTextSplitter(
+    chunk_size=512,
+    chunk_overlap=100,
+    separators=["\n\n", "\n", ". ", " "]
+)
+```
+
+## 2. Build an eval loop before you optimize
+
+You can't improve what you can't measure. Before tuning prompts or swapping models, build a simple eval:
+
+1. Collect 50–100 real user queries
+2. Write expected outputs (or use an LLM as judge)
+3. Score every pipeline change against this set
+
+Without this, you're flying blind and optimizing for vibes.
+
+## 3. Cost control from day one
+
+GPT-4 at scale is expensive. Structure your pipeline to use expensive models sparingly:
+
+- Route simple queries to a cheap model (Haiku, Flash)
+- Reserve expensive models for complex reasoning
+- Cache frequent queries — most production traffic repeats
+
+## 4. Observability is non-negotiable
+
+Log every LLM call: input, output, latency, token count, cost. Use LangSmith, Langfuse, or a custom solution. When something breaks at 3am, you'll thank yourself.
+
+Shipping is the start, not the finish.

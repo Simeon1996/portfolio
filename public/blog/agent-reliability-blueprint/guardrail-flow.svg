@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">Guardrail and Escalation Flow</title>
+  <desc id="desc">A flowchart that shows pre-tool checks, action execution, post-tool validation, and escalation outcomes.</desc>
+  <defs>
+    <linearGradient id="bg2" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#081424"/>
+      <stop offset="60%" stop-color="#12263d"/>
+      <stop offset="100%" stop-color="#1f2f46"/>
+    </linearGradient>
+    <linearGradient id="ok" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#4ef2a5"/>
+      <stop offset="100%" stop-color="#78ffe2"/>
+    </linearGradient>
+    <linearGradient id="warn" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#ff7cae"/>
+      <stop offset="100%" stop-color="#ffd178"/>
+    </linearGradient>
+    <filter id="softGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      .title { font: 700 40px 'Space Grotesk', sans-serif; fill: #e9f6ff; }
+      .sub { font: 500 17px 'Space Mono', monospace; fill: #9dc1d8; }
+      .stepTitle { font: 700 17px 'Space Grotesk', sans-serif; fill: #e3f5ff; }
+      .stepText { font: 500 13px 'Space Mono', monospace; fill: #9bc4dd; }
+      .okText { font: 700 12px 'Space Mono', monospace; fill: #6affc7; letter-spacing: 1.4px; }
+      .warnText { font: 700 12px 'Space Mono', monospace; fill: #ffb4ce; letter-spacing: 1.4px; }
+      .card { fill: rgba(14, 29, 46, 0.82); stroke: rgba(120, 179, 216, 0.44); stroke-width: 1.2; rx: 14; }
+      .cardWarn { fill: rgba(49, 24, 40, 0.72); stroke: rgba(255, 142, 180, 0.5); stroke-width: 1.2; rx: 14; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="820" fill="url(#bg2)"/>
+
+  <g opacity="0.16">
+    <circle cx="220" cy="150" r="180" fill="#2f4f74"/>
+    <circle cx="1180" cy="640" r="220" fill="#2c4f6b"/>
+  </g>
+
+  <text class="title" x="80" y="88">Guardrail And Escalation Flow</text>
+  <text class="sub" x="80" y="118">A deterministic path from request intake to safe action or human handoff</text>
+
+  <g>
+    <rect class="card" x="90" y="180" width="260" height="120"/>
+    <text class="stepTitle" x="116" y="222">1. Intake + Classify</text>
+    <text class="stepText" x="116" y="248">Intent, sensitivity, expected</text>
+    <text class="stepText" x="116" y="268">side effects, auth scope</text>
+
+    <rect class="card" x="420" y="180" width="280" height="120"/>
+    <text class="stepTitle" x="446" y="222">2. Pre-Tool Guardrail</text>
+    <text class="stepText" x="446" y="248">Schema checks, policy linting,</text>
+    <text class="stepText" x="446" y="268">budget and permission gating</text>
+
+    <rect class="card" x="770" y="180" width="270" height="120"/>
+    <text class="stepTitle" x="796" y="222">3. Execute Safely</text>
+    <text class="stepText" x="796" y="248">Tool call in sandbox with</text>
+    <text class="stepText" x="796" y="268">idempotent retries + timeout</text>
+
+    <rect class="card" x="1100" y="180" width="230" height="120"/>
+    <text class="stepTitle" x="1126" y="222">4. Post-Tool Check</text>
+    <text class="stepText" x="1126" y="248">Result schema, anomaly,</text>
+    <text class="stepText" x="1126" y="268">confidence thresholds</text>
+  </g>
+
+  <g>
+    <rect class="card" x="420" y="430" width="280" height="160"/>
+    <text class="stepTitle" x="446" y="472">5A. Safe Response</text>
+    <text class="stepText" x="446" y="498">Cited output, redaction pass,</text>
+    <text class="stepText" x="446" y="518">audit event emitted</text>
+    <text class="okText" x="446" y="552">AUTONOMY PRESERVED</text>
+
+    <rect class="cardWarn" x="830" y="420" width="360" height="180"/>
+    <text class="stepTitle" x="856" y="462">5B. Escalate To Human</text>
+    <text class="stepText" x="856" y="488">Attach full trace: prompts, tool calls,</text>
+    <text class="stepText" x="856" y="508">risk score timeline, blocked actions</text>
+    <text class="warnText" x="856" y="544">HIGH RISK OR LOW CONFIDENCE</text>
+  </g>
+
+  <g fill="none" stroke-linecap="round" stroke-width="3" filter="url(#softGlow)">
+    <path d="M350 240 H420" stroke="url(#ok)"/>
+    <path d="M700 240 H770" stroke="url(#ok)"/>
+    <path d="M1040 240 H1100" stroke="url(#ok)"/>
+
+    <path d="M1215 300 V360 H560 V430" stroke="url(#ok)"/>
+    <path d="M1215 300 V380 H1010 V420" stroke="url(#warn)"/>
+  </g>
+
+  <g>
+    <rect x="486" y="364" width="152" height="34" rx="17" fill="rgba(60, 170, 130, 0.2)" stroke="rgba(110, 255, 210, 0.56)"/>
+    <text class="okText" x="516" y="386">PASS CHECKS</text>
+
+    <rect x="958" y="364" width="172" height="34" rx="17" fill="rgba(152, 49, 89, 0.24)" stroke="rgba(255, 149, 195, 0.56)"/>
+    <text class="warnText" x="988" y="386">FAIL CHECKS</text>
+  </g>
+
+  <g fill="#96ffe5">
+    <circle cx="350" cy="240" r="4"/>
+    <circle cx="420" cy="240" r="4"/>
+    <circle cx="700" cy="240" r="4"/>
+    <circle cx="770" cy="240" r="4"/>
+    <circle cx="1040" cy="240" r="4"/>
+    <circle cx="1100" cy="240" r="4"/>
+  </g>
+
+  <text class="sub" x="80" y="760">Outcome: deterministic policy gates convert uncertain model behavior into controllable system behavior.</text>
+</svg>

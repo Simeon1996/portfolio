@@ -1,0 +1,45 @@
+---
+title: "Why RAG beats fine-tuning for most use cases"
+date: 2025-02-10
+excerpt: "Fine-tuning is expensive, brittle, and often overkill. Here's why Retrieval-Augmented Generation wins for 90% of production AI use cases."
+tags: ["LLM", "RAG", "AI"]
+published: true
+---
+
+## The problem with fine-tuning
+
+Fine-tuning a language model sounds appealing — train it on your data, make it "yours". But in practice, it comes with a set of costly tradeoffs that most teams don't anticipate.
+
+**It's expensive.** Even with LoRA and QLoRA making things cheaper, a proper fine-tuning run on a capable base model still requires significant GPU hours and storage. And you'll do it more than once.
+
+**It goes stale fast.** Fine-tuned on data from Q3? By Q1 next year, half your knowledge is outdated. You're back to square one.
+
+**It hallucinates confidently.** Fine-tuning teaches the model style and format, not facts. The model still makes things up — it just does it in your tone of voice now.
+
+## What RAG does differently
+
+RAG separates the model from the knowledge. Instead of baking information into weights, you retrieve the relevant documents at query time and pass them to the model as context.
+
+```python
+# Simplified RAG pipeline
+def answer(query: str) -> str:
+    docs = vector_store.search(query, top_k=5)
+    context = "\n\n".join([d.text for d in docs])
+    return llm.complete(f"Context:\n{context}\n\nQuestion: {query}")
+```
+
+The result: knowledge that's always up-to-date (just re-index), grounded responses that cite sources, and no retraining required when your data changes.
+
+## When fine-tuning actually makes sense
+
+To be fair, fine-tuning wins in specific scenarios:
+
+- **Format adherence** — You need the model to always output a specific JSON schema
+- **Domain vocabulary** — Medical, legal, or technical jargon not in the base model
+- **Latency-critical** — Smaller fine-tuned model beats large model + RAG retrieval time
+
+For everything else — Q&A over docs, internal knowledge bases, customer support bots — RAG is faster to build, cheaper to run, and easier to maintain.
+
+## The verdict
+
+Start with RAG. Add fine-tuning only when you have a concrete problem RAG can't solve.

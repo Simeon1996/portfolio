@@ -1,0 +1,91 @@
+<svg width="800" height="450" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+  <rect width="800" height="450" fill="#08131f"/>
+  <rect width="800" height="40" fill="#0d1b2b"/>
+  <rect x="0" y="40" width="800" height="1" fill="#244763"/>
+  <text x="20" y="26" fill="#ff0080" font-size="14" font-weight="bold">Objection Handler · Live Assist</text>
+  <text x="580" y="26" fill="#5a8090" font-size="11">Call: Maria Petrov · Acme Corp</text>
+
+  <!-- Detected objection banner -->
+  <rect x="10" y="50" width="780" height="52" rx="4" fill="#ff0080" opacity="0.1" stroke="#ff0080" stroke-width="1"/>
+  <rect x="10" y="50" width="4" height="52" fill="#ff0080"/>
+  <text x="24" y="67" fill="#ff0080" font-size="10" font-weight="bold">OBJECTION DETECTED</text>
+  <text x="200" y="67" fill="#3a6080" font-size="10">Confidence: 91%</text>
+  <rect x="24" y="74" width="660" height="22" rx="2" fill="#ff0080" opacity="0.1"/>
+  <text x="32" y="89" fill="#c8e0f4" font-size="12">"Your pricing seems too high compared to what we're currently paying for our existing solution..."</text>
+
+  <!-- Objection category badge -->
+  <rect x="700" y="58" width="80" height="36" rx="3" fill="#ff0080" opacity="0.2" stroke="#ff0080" stroke-width="1"/>
+  <text x="740" y="74" fill="#ff0080" font-size="10" font-weight="bold" text-anchor="middle">PRICE</text>
+  <text x="740" y="86" fill="#ff0080" font-size="9" text-anchor="middle">OBJECTION</text>
+
+  <!-- Playbook response cards -->
+  <text x="14" y="122" fill="#5a8090" font-size="10">RECOMMENDED RESPONSES (3)</text>
+
+  <!-- Card 1: Best match -->
+  <rect x="10" y="128" width="370" height="140" rx="4" fill="#0d1b2b" stroke="#00ff88" stroke-width="1.5"/>
+  <rect x="10" y="128" width="370" height="28" rx="4" fill="#00ff88" opacity="0.1"/>
+  <circle cx="26" cy="142" r="8" fill="#00ff88" opacity="0.3"/>
+  <text x="26" y="146" fill="#00ff88" font-size="9" text-anchor="middle" font-weight="bold">1</text>
+  <text x="40" y="146" fill="#00ff88" font-size="11" font-weight="bold">ROI Value Reframe</text>
+  <rect x="300" y="131" width="72" height="20" rx="3" fill="#00ff88"/>
+  <text x="336" y="144" fill="#08131f" font-size="10" font-weight="bold" text-anchor="middle">94% match</text>
+
+  <text x="20" y="172" fill="#c8e0f4" font-size="10">"I understand the concern — but let's look at total cost.</text>
+  <text x="20" y="186" fill="#c8e0f4" font-size="10">Our customers typically see 3.2x ROI in the first year</text>
+  <text x="20" y="200" fill="#c8e0f4" font-size="10">through time savings alone. That means the platform</text>
+  <text x="20" y="214" fill="#c8e0f4" font-size="10">often pays for itself within the first quarter."</text>
+  <text x="20" y="232" fill="#5a8090" font-size="9">Category: Price objection · Used 142 times · 68% close rate</text>
+  <text x="340" y="260" fill="#00ff88" font-size="9">▶ Use this</text>
+
+  <!-- Card 2 -->
+  <rect x="390" y="128" width="200" height="140" rx="4" fill="#0d1b2b" stroke="#00f5ff" stroke-width="1"/>
+  <rect x="390" y="128" width="200" height="28" rx="4" fill="#00f5ff" opacity="0.1"/>
+  <text x="406" y="146" fill="#00f5ff" font-size="11" font-weight="bold">Competitor Compare</text>
+  <rect x="536" y="131" width="46" height="20" rx="3" fill="#00f5ff" opacity="0.3"/>
+  <text x="559" y="144" fill="#00f5ff" font-size="10" text-anchor="middle">78%</text>
+
+  <text x="400" y="172" fill="#c8e0f4" font-size="10">"Compared to alternatives,</text>
+  <text x="400" y="186" fill="#c8e0f4" font-size="10">we offer deeper analytics</text>
+  <text x="400" y="200" fill="#c8e0f4" font-size="10">and native integrations at</text>
+  <text x="400" y="214" fill="#c8e0f4" font-size="10">a comparable price point..."</text>
+  <text x="400" y="232" fill="#5a8090" font-size="9">Used 87x · 54% close</text>
+
+  <!-- Card 3 -->
+  <rect x="600" y="128" width="190" height="140" rx="4" fill="#0d1b2b" stroke="#9d00ff" stroke-width="1"/>
+  <rect x="600" y="128" width="190" height="28" rx="4" fill="#9d00ff" opacity="0.1"/>
+  <text x="616" y="146" fill="#9d00ff" font-size="11" font-weight="bold">Flexible Pricing</text>
+  <rect x="736" y="131" width="46" height="20" rx="3" fill="#9d00ff" opacity="0.3"/>
+  <text x="759" y="144" fill="#9d00ff" font-size="10" text-anchor="middle">61%</text>
+
+  <text x="610" y="172" fill="#c8e0f4" font-size="10">"We can tailor a pilot</text>
+  <text x="610" y="186" fill="#c8e0f4" font-size="10">package to fit your budget</text>
+  <text x="610" y="200" fill="#c8e0f4" font-size="10">with a 90-day trial that</text>
+  <text x="610" y="214" fill="#c8e0f4" font-size="10">scales as you grow..."</text>
+  <text x="610" y="232" fill="#5a8090" font-size="9">Used 63x · 47% close</text>
+
+  <!-- Talk track notes -->
+  <rect x="10" y="278" width="370" height="162" rx="4" fill="#0d1b2b" stroke="#244763" stroke-width="1"/>
+  <rect x="10" y="278" width="370" height="28" fill="#112338"/>
+  <text x="24" y="297" fill="#c8e0f4" font-size="12" font-weight="bold">Talk Track Guidance</text>
+  <text x="24" y="325" fill="#5a8090" font-size="10">KEY POINTS TO EMPHASIZE:</text>
+  <text x="24" y="342" fill="#c8e0f4" font-size="10">• Avg 3.2x ROI in year 1 (see case study deck pg.4)</text>
+  <text x="24" y="358" fill="#c8e0f4" font-size="10">• Setup takes only 2 weeks vs 3-month industry avg</text>
+  <text x="24" y="374" fill="#c8e0f4" font-size="10">• Support included: no extra cost vs competitors</text>
+  <text x="24" y="390" fill="#c8e0f4" font-size="10">• Pilot option available: 90 days, no commitment</text>
+  <text x="24" y="420" fill="#5a8090" font-size="10">AVOID: Don't mention competitor by name first</text>
+
+  <!-- Similar wins -->
+  <rect x="390" y="278" width="400" height="162" rx="4" fill="#0d1b2b" stroke="#244763" stroke-width="1"/>
+  <rect x="390" y="278" width="400" height="28" fill="#112338"/>
+  <text x="404" y="297" fill="#c8e0f4" font-size="12" font-weight="bold">Similar Wins</text>
+  <text x="404" y="325" fill="#5a8090" font-size="10">DEALS CLOSED WITH SAME OBJECTION:</text>
+
+  <rect x="402" y="332" width="380" height="28" rx="2" fill="#08131f"/>
+  <text x="412" y="348" fill="#c8e0f4" font-size="10">TechCorp Inc · Q3 2024 · $84K ACV · ROI reframe → closed 2w</text>
+
+  <rect x="402" y="366" width="380" height="28" rx="2" fill="#08131f"/>
+  <text x="412" y="382" fill="#c8e0f4" font-size="10">DataSystems Ltd · Q4 2024 · $120K ACV · pilot offer → closed</text>
+
+  <rect x="402" y="400" width="380" height="28" rx="2" fill="#08131f"/>
+  <text x="412" y="416" fill="#c8e0f4" font-size="10">GlobalOps · Jan 2025 · $56K ACV · competitor compare → closed</text>
+</svg>

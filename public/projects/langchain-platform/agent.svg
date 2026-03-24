@@ -1,0 +1,123 @@
+<svg width="800" height="450" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+  <rect width="800" height="450" fill="#08131f"/>
+  <rect width="800" height="40" fill="#0d1b2b"/>
+  <rect x="0" y="40" width="800" height="1" fill="#244763"/>
+  <text x="20" y="26" fill="#00f5ff" font-size="14" font-weight="bold">LangGraph Agent · Step Log</text>
+  <text x="560" y="26" fill="#5a8090" font-size="11">Task: Research &amp; summarize Q4 2024 financials</text>
+
+  <!-- Timeline panel -->
+  <rect x="10" y="50" width="540" height="390" rx="4" fill="#0d1b2b" stroke="#244763" stroke-width="1"/>
+  <rect x="10" y="50" width="540" height="28" fill="#112338"/>
+  <text x="24" y="69" fill="#c8e0f4" font-size="12" font-weight="bold">Thought / Action / Observation Cycle</text>
+
+  <!-- Step 1: Thought -->
+  <rect x="22" y="88" width="516" height="48" rx="3" fill="#08131f"/>
+  <rect x="22" y="88" width="56" height="48" rx="3" fill="#9d00ff" opacity="0.2"/>
+  <text x="50" y="108" fill="#9d00ff" font-size="9" text-anchor="middle" font-weight="bold">THOUGHT</text>
+  <text x="50" y="122" fill="#9d00ff" font-size="8" text-anchor="middle">14:32:01</text>
+  <text x="90" y="106" fill="#c8e0f4" font-size="10">"I need to find Q4 2024 financial data. I should start by searching the</text>
+  <text x="90" y="120" fill="#c8e0f4" font-size="10">document store for annual report and earnings releases."</text>
+  <text x="90" y="132" fill="#3a6080" font-size="9">Node: agent · tokens: 342</text>
+
+  <!-- Connector -->
+  <line x1="50" y1="136" x2="50" y2="148" stroke="#244763" stroke-width="1"/>
+
+  <!-- Step 1: Action -->
+  <rect x="22" y="148" width="516" height="48" rx="3" fill="#08131f"/>
+  <rect x="22" y="148" width="56" height="48" rx="3" fill="#00f5ff" opacity="0.2"/>
+  <text x="50" y="168" fill="#00f5ff" font-size="9" text-anchor="middle" font-weight="bold">ACTION</text>
+  <text x="50" y="182" fill="#00f5ff" font-size="8" text-anchor="middle">14:32:02</text>
+  <rect x="90" y="155" width="440" height="34" rx="2" fill="#112338"/>
+  <text x="100" y="169" fill="#00f5ff" font-size="9" font-family="monospace">tool: retriever_search</text>
+  <text x="100" y="183" fill="#5a8090" font-size="9" font-family="monospace">args: &#123;"query": "Q4 2024 annual revenue earnings"&#125;</text>
+
+  <line x1="50" y1="196" x2="50" y2="208" stroke="#244763" stroke-width="1"/>
+
+  <!-- Step 1: Observation -->
+  <rect x="22" y="208" width="516" height="48" rx="3" fill="#08131f"/>
+  <rect x="22" y="208" width="56" height="48" rx="3" fill="#00ff88" opacity="0.2"/>
+  <text x="50" y="228" fill="#00ff88" font-size="9" text-anchor="middle" font-weight="bold">OBS</text>
+  <text x="50" y="242" fill="#00ff88" font-size="8" text-anchor="middle">14:32:03</text>
+  <text x="90" y="226" fill="#c8e0f4" font-size="10">"Retrieved 5 chunks. Top: annual_report_2024.pdf p.34: 'Total revenue</text>
+  <text x="90" y="240" fill="#c8e0f4" font-size="10">$42.8B for Q4 2024, up 18% YoY.' Score: 0.94"</text>
+  <text x="90" y="252" fill="#3a6080" font-size="9">Tool: retriever_search · latency: 141ms · 5 docs</text>
+
+  <line x1="50" y1="256" x2="50" y2="268" stroke="#244763" stroke-width="1"/>
+
+  <!-- Step 2: Thought -->
+  <rect x="22" y="268" width="516" height="40" rx="3" fill="#08131f"/>
+  <rect x="22" y="268" width="56" height="40" rx="3" fill="#9d00ff" opacity="0.2"/>
+  <text x="50" y="285" fill="#9d00ff" font-size="9" text-anchor="middle" font-weight="bold">THOUGHT</text>
+  <text x="50" y="299" fill="#9d00ff" font-size="8" text-anchor="middle">14:32:03</text>
+  <text x="90" y="284" fill="#c8e0f4" font-size="10">"I have revenue data. Now I should look for segment breakdown and</text>
+  <text x="90" y="296" fill="#c8e0f4" font-size="10">compare with analyst estimates."</text>
+
+  <line x1="50" y1="308" x2="50" y2="320" stroke="#244763" stroke-width="1"/>
+
+  <!-- Step 2: Action -->
+  <rect x="22" y="320" width="516" height="40" rx="3" fill="#08131f"/>
+  <rect x="22" y="320" width="56" height="40" rx="3" fill="#00f5ff" opacity="0.2"/>
+  <text x="50" y="337" fill="#00f5ff" font-size="9" text-anchor="middle" font-weight="bold">ACTION</text>
+  <text x="50" y="351" fill="#00f5ff" font-size="8" text-anchor="middle">14:32:04</text>
+  <rect x="90" y="327" width="440" height="26" rx="2" fill="#112338"/>
+  <text x="100" y="340" fill="#00f5ff" font-size="9" font-family="monospace">tool: retriever_search</text>
+  <text x="100" y="350" fill="#5a8090" font-size="9" font-family="monospace">args: &#123;"query": "Q4 2024 segment revenue cloud enterprise"&#125;</text>
+
+  <line x1="50" y1="360" x2="50" y2="372" stroke="#244763" stroke-width="1"/>
+
+  <!-- Final: Output -->
+  <rect x="22" y="372" width="516" height="56" rx="3" fill="#112338" stroke="#ffe000" stroke-width="1"/>
+  <rect x="22" y="372" width="56" height="56" rx="3" fill="#ffe000" opacity="0.15"/>
+  <text x="50" y="392" fill="#ffe000" font-size="9" text-anchor="middle" font-weight="bold">FINAL</text>
+  <text x="50" y="406" fill="#ffe000" font-size="8" text-anchor="middle">14:32:06</text>
+  <text x="90" y="388" fill="#c8e0f4" font-size="10">"Q4 2024 Summary: Total revenue $42.8B (+18% YoY). Cloud: $8.7B</text>
+  <text x="90" y="402" fill="#c8e0f4" font-size="10">(+34%). Enterprise: 92% retention. New products: $2.3B. Beat analyst</text>
+  <text x="90" y="416" fill="#c8e0f4" font-size="10">consensus by 8%. Sources: annual_report_2024.pdf [1][2][3]"</text>
+  <text x="90" y="425" fill="#3a6080" font-size="9">Node: final_answer · total_tokens: 1,284 · iterations: 2</text>
+
+  <!-- Right panel -->
+  <rect x="560" y="50" width="230" height="390" rx="4" fill="#0d1b2b" stroke="#244763" stroke-width="1"/>
+  <rect x="560" y="50" width="230" height="28" fill="#112338"/>
+  <text x="574" y="69" fill="#c8e0f4" font-size="12" font-weight="bold">Run Metadata</text>
+
+  <rect x="572" y="88" width="206" height="56" rx="3" fill="#08131f" stroke="#244763" stroke-width="1"/>
+  <text x="582" y="104" fill="#5a8090" font-size="9">TOTAL DURATION</text>
+  <text x="582" y="126" fill="#00ff88" font-size="20" font-weight="bold">5.2s</text>
+
+  <rect x="572" y="154" width="98" height="44" rx="3" fill="#08131f" stroke="#244763" stroke-width="1"/>
+  <text x="582" y="170" fill="#5a8090" font-size="9">STEPS</text>
+  <text x="582" y="190" fill="#00f5ff" font-size="16" font-weight="bold">7</text>
+
+  <rect x="680" y="154" width="98" height="44" rx="3" fill="#08131f" stroke="#244763" stroke-width="1"/>
+  <text x="690" y="170" fill="#5a8090" font-size="9">TOOL CALLS</text>
+  <text x="690" y="190" fill="#9d00ff" font-size="16" font-weight="bold">2</text>
+
+  <!-- Tool calls list -->
+  <text x="574" y="218" fill="#5a8090" font-size="9">TOOLS USED</text>
+  <rect x="572" y="224" width="206" height="22" rx="2" fill="#08131f"/>
+  <circle cx="584" cy="235" r="4" fill="#00f5ff"/>
+  <text x="594" y="239" fill="#c8e0f4" font-size="9">retriever_search × 2</text>
+  <text x="746" y="239" fill="#3a6080" font-size="9">282ms</text>
+
+  <!-- Token breakdown -->
+  <text x="574" y="266" fill="#5a8090" font-size="9">TOKEN BREAKDOWN</text>
+  <rect x="572" y="272" width="206" height="80" rx="3" fill="#08131f"/>
+  <text x="582" y="288" fill="#5a8090" font-size="9">System prompt</text>
+  <text x="748" y="288" fill="#3a6080" font-size="9" text-anchor="end">248</text>
+  <text x="582" y="304" fill="#5a8090" font-size="9">Tool schemas</text>
+  <text x="748" y="304" fill="#3a6080" font-size="9" text-anchor="end">184</text>
+  <text x="582" y="320" fill="#5a8090" font-size="9">Observations</text>
+  <text x="748" y="320" fill="#3a6080" font-size="9" text-anchor="end">612</text>
+  <text x="582" y="336" fill="#5a8090" font-size="9">Agent thoughts</text>
+  <text x="748" y="336" fill="#3a6080" font-size="9" text-anchor="end">240</text>
+  <text x="582" y="346" fill="#244763" stroke-width="0.5"/>
+  <line x1="582" y1="346" x2="772" y2="346" stroke="#244763" stroke-width="1"/>
+
+  <!-- Graph structure -->
+  <text x="574" y="366" fill="#5a8090" font-size="9">GRAPH NODES VISITED</text>
+  <rect x="572" y="372" width="206" height="62" rx="3" fill="#08131f"/>
+  <text x="582" y="388" fill="#3a6080" font-size="9" font-family="monospace">start → agent → tools →</text>
+  <text x="582" y="403" fill="#3a6080" font-size="9" font-family="monospace">agent → tools → agent →</text>
+  <text x="582" y="418" fill="#ffe000" font-size="9" font-family="monospace">final_answer → END</text>
+  <text x="582" y="430" fill="#3a6080" font-size="9">LangGraph StateGraph</text>
+</svg>

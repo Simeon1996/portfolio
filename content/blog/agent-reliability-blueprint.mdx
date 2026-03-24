@@ -1,0 +1,119 @@
+---
+title: "Agent Reliability Blueprint: SLOs, Guardrails, and Human Override"
+date: 2026-03-20
+excerpt: "A practical architecture for shipping autonomous AI agents safely in production, from SLOs and circuit breakers to escalation ladders."
+tags: ["LLM", "Agents", "DevOps", "AI"]
+published: true
+---
+
+## Why most agent demos fail in production
+
+Agent demos look magical because the environment is clean, the tools are predictable, and no one is measuring blast radius.
+
+Production is the opposite:
+
+- Tool outputs drift and APIs timeout.
+- Users ask long-tail questions your prompts never saw.
+- Small hallucinations become expensive operational mistakes.
+
+The fix is not "better prompting" alone. You need a reliability system around the model.
+
+![Signal map for production agent reliability](/blog/agent-reliability-blueprint/signal-map.svg)
+
+A production-ready agent stack should treat model calls like any other critical distributed system component: observable, budgeted, and reversible.
+
+## 1. Define reliability in numbers, not vibes
+
+Before adding more tools or workflows, define SLOs for your agent behavior.
+
+Use explicit targets such as:
+
+- Task success rate at least 95%
+- Hallucination-with-action rate at most 0.5%
+- P95 response latency at most 4.5s
+- Escalation success (handoff completed) at least 99%
+
+If you cannot measure these, you cannot safely scale agent autonomy.
+
+## 2. Split control plane from execution plane
+
+A common anti-pattern is letting one prompt decide everything. Instead, separate responsibilities:
+
+- Control plane: policy checks, budget checks, routing, approvals
+- Execution plane: retrieval, reasoning, tool execution, response synthesis
+
+This allows you to reject unsafe plans before any side effects happen.
+
+```python
+# Pseudo-flow: enforce policy before side effects.
+def run_agent(request):
+    plan = planner.generate_plan(request)
+
+    decision = policy_engine.evaluate(
+        plan=plan,
+        risk_score=score_risk(plan),
+        remaining_budget=get_budget(request.user_id)
+    )
+
+    if not decision.allow:
+        return escalate_to_human(request, reason=decision.reason)
+
+    return execute_plan(plan)
+```
+
+## 3. Add guardrails where damage can occur
+
+Most teams place guardrails only on output text. That is too late.
+
+High-value guardrail checkpoints:
+
+- Pre-tool guardrail: validate tool name, arguments, and auth scope
+- Mid-plan guardrail: block step amplification (infinite loops, retries)
+- Post-tool guardrail: schema and anomaly validation for tool responses
+- Pre-response guardrail: redaction, citation checks, policy linting
+
+Think of each gate as a circuit breaker, not a style filter.
+
+![Guardrail and escalation flow for autonomous agents](/blog/agent-reliability-blueprint/guardrail-flow.svg)
+
+## 4. Design escalation ladders, not binary fail states
+
+When confidence drops, the agent should degrade gracefully:
+
+1. Retry with constrained context and deterministic tools
+2. Switch to a narrower specialist chain
+3. Require user confirmation for high-impact actions
+4. Hand off to a human operator with full trace context
+
+Escalation should be cheap, fast, and respectful of user time.
+
+## 5. Log traces that support root-cause analysis
+
+For every turn, capture:
+
+- Prompt template hash and model/version
+- Retrieved documents and ranking scores
+- Tool calls with arguments and return payload summaries
+- Policy decisions and risk score history
+- Token usage, latency, and final outcome label
+
+A useful trace is one that answers: "Why did this action happen, and how do we prevent the bad version next time?"
+
+## 6. Run weekly reliability drills
+
+Chaos engineering applies to agents too.
+
+Run scheduled drills:
+
+- Simulate retrieval outages
+- Inject stale or contradictory context
+- Force tool schema mismatches
+- Drop confidence signals to verify escalation
+
+Then compare your SLOs before and after each mitigation. Reliability is a continuous system, not a launch checklist.
+
+## Final takeaway
+
+Strong agent products are not just smart. They are **controllable**.
+
+Ship autonomy with explicit budgets, measurable guardrails, and deterministic escalation paths. That is how you move from flashy demo to trusted production system.

@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Brand DNA</title>
+  <desc id="desc">Identity extraction from narrative brief and references</desc>
+  <defs>
+    <linearGradient id="bgT" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a0b26"/>
+      <stop offset="50%" stop-color="#2a1340"/>
+      <stop offset="100%" stop-color="#10172f"/>
+    </linearGradient>
+    <linearGradient id="paintT" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ff5f6d"/>
+      <stop offset="33%" stop-color="#ffc371"/>
+      <stop offset="66%" stop-color="#7d5fff"/>
+      <stop offset="100%" stop-color="#3de1ff"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bgT)"/>
+  <path d="M0 760 C240 640 460 860 760 760 C980 690 1260 860 1600 740 V900 H0 Z" fill="#121d37" opacity="0.7"/>
+
+  <rect x="60" y="60" width="1480" height="780" rx="24" fill="#120f2c" stroke="#3d2f68"/>
+  <rect x="60" y="60" width="1480" height="4" fill="url(#paintT)"/>
+
+  <text x="120" y="132" fill="#f7d9ff" font-family="Arial, sans-serif" font-size="32">Brand DNA</text>
+  <text x="120" y="172" fill="#b39bc9" font-family="Arial, sans-serif" font-size="20">Identity extraction from narrative brief and references</text>
+
+  <rect x="120" y="220" width="420" height="560" rx="16" fill="#1f1840" stroke="#5b4a8d"/>
+  <text x="156" y="270" fill="#d9c8ff" font-family="Arial, sans-serif" font-size="24">Moodboard</text>
+  <rect x="156" y="300" width="348" height="140" rx="12" fill="#2a1f55"/>
+  <rect x="156" y="458" width="168" height="140" rx="12" fill="#3f2c7e"/>
+  <rect x="336" y="458" width="168" height="140" rx="12" fill="#5d3cb0"/>
+  <rect x="156" y="616" width="348" height="128" rx="12" fill="#2a1f55"/>
+
+  <rect x="570" y="220" width="460" height="560" rx="16" fill="#1b1640" stroke="#5b4a8d"/>
+  <text x="604" y="270" fill="#d9c8ff" font-family="Arial, sans-serif" font-size="24">Generations</text>
+  <rect x="604" y="306" width="392" height="420" rx="14" fill="#2c225a"/>
+  <path d="M640 660 Q720 520 820 620 T960 580" fill="none" stroke="#ff6b8a" stroke-width="6"/>
+  <path d="M640 620 Q740 700 860 620 T980 650" fill="none" stroke="#54d7ff" stroke-width="5"/>
+  <text x="640" y="760" fill="#f3e8ff" font-family="Arial, sans-serif" font-size="20">Variant explorer with prompt controls</text>
+
+  <rect x="1060" y="220" width="420" height="560" rx="16" fill="#1b1640" stroke="#5b4a8d"/>
+  <text x="1094" y="270" fill="#d9c8ff" font-family="Arial, sans-serif" font-size="24">Brand Tokens</text>
+  <rect x="1094" y="306" width="352" height="70" rx="10" fill="#2c225a"/>
+  <rect x="1094" y="390" width="352" height="70" rx="10" fill="#2c225a"/>
+  <rect x="1094" y="474" width="352" height="70" rx="10" fill="#2c225a"/>
+  <rect x="1094" y="558" width="352" height="70" rx="10" fill="#2c225a"/>
+  <rect x="1094" y="642" width="352" height="70" rx="10" fill="#2c225a"/>
+  <text x="1120" y="350" fill="#f7d9ff" font-family="Arial, sans-serif" font-size="20">Color scale and semantic aliases</text>
+  <text x="1120" y="434" fill="#f7d9ff" font-family="Arial, sans-serif" font-size="20">Typography roles and spacing rhythm</text>
+  <text x="1120" y="518" fill="#f7d9ff" font-family="Arial, sans-serif" font-size="20">Component state matrix export</text>
+  <text x="1120" y="602" fill="#f7d9ff" font-family="Arial, sans-serif" font-size="20">Accessibility checks and fixes</text>
+  <text x="1120" y="686" fill="#f7d9ff" font-family="Arial, sans-serif" font-size="20">Hand-off package for production</text>
+
+  <rect x="120" y="800" width="690" height="40" rx="10" fill="#261f52"/>
+  <rect x="830" y="800" width="650" height="40" rx="10" fill="#261f52"/>
+  <text x="146" y="827" fill="#f6ddff" font-family="Arial, sans-serif" font-size="20">Constraint fidelity: 95%</text>
+  <text x="856" y="827" fill="#f6ddff" font-family="Arial, sans-serif" font-size="20">Brand vectors generated: 480</text>
+</svg>

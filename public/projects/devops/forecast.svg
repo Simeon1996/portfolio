@@ -1,0 +1,225 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" width="900" height="500" font-family="'SF Mono','Fira Mono','Consolas',monospace">
+  <defs>
+    <filter id="fs1"><feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#1a2535" flood-opacity="0.08"/></filter>
+    <pattern id="dots" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="15" cy="15" r="0.8" fill="#d0daea"/>
+    </pattern>
+    <linearGradient id="fcastfill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2563eb" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#2563eb" stop-opacity="0.01"/>
+    </linearGradient>
+    <linearGradient id="gblue" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2563eb" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#2563eb" stop-opacity="0.06"/>
+    </linearGradient>
+    <linearGradient id="gpurple" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0.06"/>
+    </linearGradient>
+    <linearGradient id="ggreen" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0.06"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background + dot grid -->
+  <rect width="900" height="500" fill="#f7f9fc"/>
+  <rect width="900" height="500" fill="url(#dots)"/>
+
+  <!-- Header bar -->
+  <rect x="0" y="0" width="900" height="34" fill="#eef2f8"/>
+  <rect x="0" y="33" width="900" height="1" fill="#e4eaf3"/>
+  <text x="16" y="21" font-size="11" font-weight="700" fill="#1a2535" letter-spacing="1.2">CLOUD SPEND FORECAST</text>
+  <text x="884" y="21" font-size="10" fill="#8aa0b8" text-anchor="end">Q1 2025 · AWS · $2.4M budget</text>
+
+  <!-- ── SANKEY SECTION (left 2/3) ── -->
+
+  <!-- Root node -->
+  <rect x="26" y="64" width="150" height="46" rx="5" fill="white" filter="url(#fs1)"/>
+  <rect x="26" y="64" width="4" height="46" rx="2" fill="#2563eb"/>
+  <text x="40" y="81" font-size="9" font-weight="700" fill="#4a6080" letter-spacing="0.5">TOTAL BUDGET</text>
+  <text x="40" y="99" font-size="13" font-weight="700" fill="#2563eb">$2.4M</text>
+
+  <!-- Flow ribbons: root → tier-1 -->
+  <path d="M176 74 C218 74,218 107,260 107 L260 140 C218 140,218 98,176 94 Z" fill="url(#gblue)"/>
+  <path d="M176 86 C218 86,218 192,260 192 L260 214 C218 214,218 100,176 98 Z" fill="url(#gpurple)"/>
+  <path d="M176 96 C218 96,218 272,260 272 L260 294 C218 294,218 108,176 106 Z" fill="url(#ggreen)"/>
+
+  <!-- Tier-1: Compute -->
+  <rect x="260" y="96" width="136" height="46" rx="5" fill="white" filter="url(#fs1)"/>
+  <rect x="260" y="96" width="4" height="46" rx="2" fill="#2563eb"/>
+  <text x="274" y="114" font-size="9" font-weight="700" fill="#4a6080" letter-spacing="0.5">COMPUTE</text>
+  <text x="274" y="131" font-size="12" font-weight="700" fill="#2563eb">$980K</text>
+
+  <!-- Tier-1: Storage -->
+  <rect x="260" y="180" width="136" height="46" rx="5" fill="white" filter="url(#fs1)"/>
+  <rect x="260" y="180" width="4" height="46" rx="2" fill="#8b5cf6"/>
+  <text x="274" y="198" font-size="9" font-weight="700" fill="#4a6080" letter-spacing="0.5">STORAGE</text>
+  <text x="274" y="215" font-size="12" font-weight="700" fill="#8b5cf6">$420K</text>
+
+  <!-- Tier-1: Network -->
+  <rect x="260" y="264" width="136" height="46" rx="5" fill="white" filter="url(#fs1)"/>
+  <rect x="260" y="264" width="4" height="46" rx="2" fill="#10b981"/>
+  <text x="274" y="282" font-size="9" font-weight="700" fill="#4a6080" letter-spacing="0.5">NETWORK</text>
+  <text x="274" y="299" font-size="12" font-weight="700" fill="#10b981">$310K</text>
+
+  <!-- Flow ribbons: Compute → EC2/Lambda/ECS -->
+  <path d="M396 106 C434 106,434 76,472 76 L472 90 C434 90,434 120,396 120 Z" fill="url(#gblue)"/>
+  <path d="M396 120 C434 120,434 148,472 148 L472 162 C434 162,434 134,396 134 Z" fill="url(#gblue)"/>
+  <path d="M396 134 C434 134,434 220,472 220 L472 234 C434 234,434 148,396 148 Z" fill="url(#gblue)"/>
+
+  <!-- Flow ribbons: Storage → S3/RDS -->
+  <path d="M396 190 C434 190,434 306,472 306 L472 320 C434 320,434 204,396 204 Z" fill="url(#gpurple)"/>
+  <path d="M396 204 C434 204,434 358,472 358 L472 372 C434 372,434 218,396 218 Z" fill="url(#gpurple)"/>
+
+  <!-- Flow ribbons: Network → CloudFront/VPC -->
+  <path d="M396 274 C434 274,434 408,472 408 L472 422 C434 422,434 288,396 288 Z" fill="url(#ggreen)"/>
+  <path d="M396 288 C434 288,434 448,472 448 L472 460 C434 460,434 302,396 302 Z" fill="url(#ggreen)"/>
+
+  <!-- Tier-2: EC2 -->
+  <rect x="472" y="66" width="108" height="38" rx="5" fill="white" filter="url(#fs1)"/>
+  <rect x="472" y="66" width="4" height="38" rx="2" fill="#2563eb"/>
+  <text x="484" y="81" font-size="8" fill="#4a6080">EC2</text>
+  <text x="484" y="96" font-size="10" font-weight="700" fill="#1a2535">$580K</text>
+
+  <!-- Tier-2: Lambda -->
+  <rect x="472" y="136" width="108" height="38" rx="5" fill="white" filter="url(#fs1)"/>
+  <rect x="472" y="136" width="4" height="38" rx="2" fill="#2563eb"/>
+  <text x="484" y="151" font-size="8" fill="#4a6080">Lambda</text>
+  <text x="484" y="166" font-size="10" font-weight="700" fill="#1a2535">$240K</text>
+
+  <!-- Tier-2: ECS -->
+  <rect x="472" y="208" width="108" height="38" rx="5" fill="white" filter="url(#fs1)"/>
+  <rect x="472" y="208" width="4" height="38" rx="2" fill="#2563eb"/>
+  <text x="484" y="223" font-size="8" fill="#4a6080">ECS</text>
+  <text x="484" y="238" font-size="10" font-weight="700" fill="#1a2535">$160K</text>
+
+  <!-- Tier-2: S3 -->
+  <rect x="472" y="294" width="108" height="38" rx="5" fill="white" filter="url(#fs1)"/>
+  <rect x="472" y="294" width="4" height="38" rx="2" fill="#8b5cf6"/>
+  <text x="484" y="309" font-size="8" fill="#4a6080">S3</text>
+  <text x="484" y="324" font-size="10" font-weight="700" fill="#1a2535">$280K</text>
+
+  <!-- Tier-2: RDS -->
+  <rect x="472" y="346" width="108" height="38" rx="5" fill="white" filter="url(#fs1)"/>
+  <rect x="472" y="346" width="4" height="38" rx="2" fill="#8b5cf6"/>
+  <text x="484" y="361" font-size="8" fill="#4a6080">RDS</text>
+  <text x="484" y="376" font-size="10" font-weight="700" fill="#1a2535">$140K</text>
+
+  <!-- Tier-2: CloudFront -->
+  <rect x="472" y="396" width="108" height="38" rx="5" fill="white" filter="url(#fs1)"/>
+  <rect x="472" y="396" width="4" height="38" rx="2" fill="#10b981"/>
+  <text x="484" y="411" font-size="8" fill="#4a6080">CloudFront</text>
+  <text x="484" y="426" font-size="10" font-weight="700" fill="#1a2535">$190K</text>
+
+  <!-- Tier-2: VPC -->
+  <rect x="472" y="444" width="108" height="38" rx="5" fill="white" filter="url(#fs1)"/>
+  <rect x="472" y="444" width="4" height="38" rx="2" fill="#10b981"/>
+  <text x="484" y="459" font-size="8" fill="#4a6080">VPC</text>
+  <text x="484" y="474" font-size="10" font-weight="700" fill="#1a2535">$120K</text>
+
+  <!-- Section divider -->
+  <line x1="604" y1="40" x2="604" y2="458" stroke="#e4eaf3" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- ── FORECAST CHART (right panel) ── -->
+  <rect x="616" y="44" width="272" height="298" rx="6" fill="white" filter="url(#fs1)"/>
+
+  <!-- Chart title -->
+  <text x="752" y="60" font-size="8.5" fill="#4a6080" text-anchor="middle" letter-spacing="1">MONTHLY SPEND TREND</text>
+
+  <!-- Forecast zone background -->
+  <rect x="732" y="68" width="146" height="220" rx="3" fill="#eff6ff"/>
+  <text x="805" y="80" font-size="7" fill="#bfdbfe" text-anchor="middle" letter-spacing="1">FORECAST</text>
+
+  <!-- Horizontal grid lines (chart area y: 70–290, x: 630–878) -->
+  <line x1="630" y1="104" x2="878" y2="104" stroke="#e4eaf3" stroke-width="0.7"/>
+  <line x1="630" y1="138" x2="878" y2="138" stroke="#e4eaf3" stroke-width="0.7"/>
+  <line x1="630" y1="172" x2="878" y2="172" stroke="#e4eaf3" stroke-width="0.7"/>
+  <line x1="630" y1="206" x2="878" y2="206" stroke="#e4eaf3" stroke-width="0.7"/>
+  <line x1="630" y1="240" x2="878" y2="240" stroke="#e4eaf3" stroke-width="0.7"/>
+  <line x1="630" y1="288" x2="878" y2="288" stroke="#e4eaf3" stroke-width="0.9"/>
+
+  <!-- Y-axis labels (250K at y=104, 200K=138, 150K=172, 100K=206, 50K=240, 0=288) -->
+  <text x="626" y="107" font-size="7.5" fill="#8aa0b8" text-anchor="end">250K</text>
+  <text x="626" y="141" font-size="7.5" fill="#8aa0b8" text-anchor="end">200K</text>
+  <text x="626" y="175" font-size="7.5" fill="#8aa0b8" text-anchor="end">150K</text>
+  <text x="626" y="209" font-size="7.5" fill="#8aa0b8" text-anchor="end">100K</text>
+  <text x="626" y="243" font-size="7.5" fill="#8aa0b8" text-anchor="end">50K</text>
+
+  <!-- Budget cap dashed line at $200K (y=138) -->
+  <line x1="630" y1="138" x2="878" y2="138" stroke="#ef4444" stroke-width="1.3" stroke-dasharray="5,3" opacity="0.75"/>
+  <rect x="820" y="126" width="52" height="14" rx="3" fill="#fef2f2"/>
+  <text x="846" y="137" font-size="7" fill="#ef4444" font-weight="700" text-anchor="middle">Cap $200K</text>
+
+  <!-- Data: scale y=288 (0) to y=104 (250K), so 1K = 0.736px -->
+  <!-- Jan $155K → y=288-(155*0.736)=288-114=174 -->
+  <!-- Feb $168K → y=288-124=164 -->
+  <!-- Mar $142K → y=288-104=184 -->
+  <!-- Apr $178K → y=288-131=157 -->
+  <!-- May $194K → y=288-143=145 -->
+  <!-- Jun $212K → y=288-156=132 -->
+  <!-- X positions: Jan=650, Feb=692, Mar=732, Apr=772, May=812, Jun=858 -->
+
+  <!-- Forecast fill under dashed line -->
+  <path d="M732 184 C752 175,772 163,792 157 C812 151,832 143,858 132 L858 288 L732 288 Z" fill="url(#fcastfill)"/>
+
+  <!-- Actual line (solid blue) -->
+  <polyline points="650,174 692,164 732,184" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Forecast line (dashed blue) -->
+  <polyline points="732,184 772,157 812,145 858,132" fill="none" stroke="#2563eb" stroke-width="2" stroke-dasharray="5,3" stroke-linecap="round" opacity="0.6"/>
+
+  <!-- Actual data dots -->
+  <circle cx="650" cy="174" r="4" fill="white" stroke="#2563eb" stroke-width="2"/>
+  <circle cx="692" cy="164" r="4" fill="white" stroke="#2563eb" stroke-width="2"/>
+  <circle cx="732" cy="184" r="5" fill="#2563eb"/>
+
+  <!-- Forecast dots -->
+  <circle cx="772" cy="157" r="3.5" fill="white" stroke="#2563eb" stroke-width="1.5" opacity="0.65"/>
+  <circle cx="812" cy="145" r="3.5" fill="white" stroke="#2563eb" stroke-width="1.5" opacity="0.65"/>
+  <circle cx="858" cy="132" r="3.5" fill="white" stroke="#2563eb" stroke-width="1.5" opacity="0.65"/>
+
+  <!-- AI Forecast badge -->
+  <rect x="820" y="113" width="72" height="16" rx="5" fill="#dcfce7"/>
+  <text x="856" y="124" font-size="7.5" fill="#10b981" font-weight="700" text-anchor="middle">AI Forecast ↑12%</text>
+
+  <!-- X-axis labels -->
+  <text x="650" y="302" font-size="8" fill="#4a6080" text-anchor="middle">Jan</text>
+  <text x="692" y="302" font-size="8" fill="#4a6080" text-anchor="middle">Feb</text>
+  <text x="732" y="302" font-size="8" fill="#4a6080" text-anchor="middle">Mar</text>
+  <text x="772" y="302" font-size="8" fill="#93c5fd" text-anchor="middle">Apr</text>
+  <text x="812" y="302" font-size="8" fill="#93c5fd" text-anchor="middle">May</text>
+  <text x="858" y="302" font-size="8" fill="#93c5fd" text-anchor="middle">Jun</text>
+
+  <!-- Legend in chart -->
+  <line x1="628" y1="318" x2="648" y2="318" stroke="#2563eb" stroke-width="2.5"/>
+  <text x="652" y="321" font-size="7.5" fill="#4a6080">Actual</text>
+  <line x1="692" y1="318" x2="712" y2="318" stroke="#2563eb" stroke-width="2" stroke-dasharray="4,2" opacity="0.6"/>
+  <text x="716" y="321" font-size="7.5" fill="#4a6080">Forecast</text>
+  <line x1="762" y1="318" x2="782" y2="318" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4,2" opacity="0.75"/>
+  <text x="786" y="321" font-size="7.5" fill="#4a6080">Budget cap</text>
+
+  <!-- ── BOTTOM METRIC CHIPS ── -->
+  <rect x="0" y="460" width="900" height="40" fill="#eef2f8"/>
+  <rect x="0" y="460" width="900" height="1" fill="#e4eaf3"/>
+
+  <rect x="18" y="469" width="158" height="22" rx="11" fill="white" filter="url(#fs1)"/>
+  <circle cx="34" cy="480" r="4" fill="#2563eb"/>
+  <text x="44" y="484" font-size="9" fill="#1a2535" font-weight="600">Actual MTD</text>
+  <text x="124" y="484" font-size="9" fill="#2563eb" font-weight="700">$142K</text>
+
+  <rect x="188" y="469" width="172" height="22" rx="11" fill="white" filter="url(#fs1)"/>
+  <circle cx="204" cy="480" r="4" fill="#8b5cf6"/>
+  <text x="214" y="484" font-size="9" fill="#1a2535" font-weight="600">Forecast EOM</text>
+  <text x="318" y="484" font-size="9" fill="#8b5cf6" font-weight="700">$198K</text>
+
+  <rect x="372" y="469" width="146" height="22" rx="11" fill="white" filter="url(#fs1)"/>
+  <circle cx="388" cy="480" r="4" fill="#10b981"/>
+  <text x="398" y="484" font-size="9" fill="#1a2535" font-weight="600">vs Budget</text>
+  <text x="466" y="484" font-size="9" fill="#10b981" font-weight="700">-1%</text>
+
+  <rect x="530" y="469" width="160" height="22" rx="11" fill="white" filter="url(#fs1)"/>
+  <circle cx="546" cy="480" r="4" fill="#f59e0b"/>
+  <text x="556" y="484" font-size="9" fill="#1a2535" font-weight="600">MoM Change</text>
+  <text x="642" y="484" font-size="9" fill="#f59e0b" font-weight="700">+8.3%</text>
+</svg>

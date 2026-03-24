@@ -1,0 +1,289 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="500" viewBox="0 0 900 500">
+  <defs>
+    <radialGradient id="bgT" cx="50%" cy="50%" r="75%">
+      <stop offset="0%" stop-color="#0d1220"/>
+      <stop offset="100%" stop-color="#020408"/>
+    </radialGradient>
+    <filter id="glowLine" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowDot" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="900" height="500" fill="url(#bgT)"/>
+
+  <!-- Subtle vertical glow columns -->
+  <rect x="98" y="0" width="2" height="500" fill="#94a3b8" fill-opacity="0.03"/>
+  <rect x="298" y="0" width="2" height="500" fill="#94a3b8" fill-opacity="0.03"/>
+  <rect x="498" y="0" width="2" height="500" fill="#94a3b8" fill-opacity="0.03"/>
+
+  <!-- ===== HEADER ===== -->
+  <text x="290" y="24" font-family="'Inter', sans-serif" font-size="13" font-weight="700" fill="#e2e8f0" text-anchor="middle" letter-spacing="2">SKILL DEMAND INTELLIGENCE</text>
+  <text x="290" y="40" font-family="'Inter', sans-serif" font-size="8.5" fill="#475569" text-anchor="middle" letter-spacing="0.5">48K job postings · Q3 2024 → Q1 2025 · Normalized demand rank</text>
+  <line x1="30" y1="48" x2="570" y2="48" stroke="#1e293b" stroke-width="1"/>
+
+  <!-- ===== SLOPE CHART AREA (x: 60-540, y: 65-430) ===== -->
+  <!-- Quarter column positions: Q3=100, Q4=300, Q1=500 -->
+  <!-- Rank positions: rank 1 = y:75, rank 12 = y:425, step = (425-75)/11 = 31.8 -->
+  <!-- rank_y(r) = 75 + (r-1)*31.8 -->
+  <!-- rank 1 = 75, 2=107, 3=139, 4=170, 5=202, 6=234, 7=266, 8=298, 9=329, 10=361, 11=393, 12=425 -->
+
+  <!-- Column header tick lines -->
+  <line x1="100" y1="58" x2="100" y2="440" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,4"/>
+  <line x1="300" y1="58" x2="300" y2="440" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,4"/>
+  <line x1="500" y1="58" x2="500" y2="440" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,4"/>
+
+  <!-- Quarter labels -->
+  <rect x="64" y="56" width="72" height="18" rx="4" fill="#111827"/>
+  <text x="100" y="69" font-family="'Inter', sans-serif" font-size="9" font-weight="600" fill="#94a3b8" text-anchor="middle" letter-spacing="0.5">Q3 2024</text>
+  <rect x="264" y="56" width="72" height="18" rx="4" fill="#111827"/>
+  <text x="300" y="69" font-family="'Inter', sans-serif" font-size="9" font-weight="600" fill="#94a3b8" text-anchor="middle" letter-spacing="0.5">Q4 2024</text>
+  <rect x="464" y="56" width="72" height="18" rx="4" fill="#111827"/>
+  <text x="500" y="69" font-family="'Inter', sans-serif" font-size="9" font-weight="600" fill="#94a3b8" text-anchor="middle" letter-spacing="0.5">Q1 2025</text>
+
+  <!-- Y-axis rank labels -->
+  <g font-family="monospace" font-size="8" fill="#334155" text-anchor="end">
+    <text x="58" y="79">#1</text>
+    <text x="58" y="110">#2</text>
+    <text x="58" y="142">#3</text>
+    <text x="58" y="174">#4</text>
+    <text x="58" y="205">#5</text>
+    <text x="58" y="237">#6</text>
+    <text x="58" y="269">#7</text>
+    <text x="58" y="300">#8</text>
+    <text x="58" y="332">#9</text>
+    <text x="58" y="364">#10</text>
+    <text x="58" y="395">#11</text>
+    <text x="58" y="427">#12</text>
+  </g>
+
+  <!-- Horizontal rank guide lines (very faint) -->
+  <g stroke="#94a3b8" stroke-opacity="0.05" stroke-width="1">
+    <line x1="65" y1="75" x2="535" y2="75"/>
+    <line x1="65" y1="107" x2="535" y2="107"/>
+    <line x1="65" y1="139" x2="535" y2="139"/>
+    <line x1="65" y1="170" x2="535" y2="170"/>
+    <line x1="65" y1="202" x2="535" y2="202"/>
+    <line x1="65" y1="234" x2="535" y2="234"/>
+    <line x1="65" y1="266" x2="535" y2="266"/>
+    <line x1="65" y1="298" x2="535" y2="298"/>
+    <line x1="65" y1="329" x2="535" y2="329"/>
+    <line x1="65" y1="361" x2="535" y2="361"/>
+    <line x1="65" y1="393" x2="535" y2="393"/>
+    <line x1="65" y1="425" x2="535" y2="425"/>
+  </g>
+
+  <!-- ===== SKILL LINES ===== -->
+  <!-- LLM/RAG (pink #f472b6): 8→4→1  ranks 298→170→75 -->
+  <g filter="url(#glowLine)">
+    <polyline points="100,298 300,170 500,75" stroke="#f472b6" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+  </g>
+  <g filter="url(#glowDot)">
+    <circle cx="100" cy="298" r="5" fill="#f472b6"/>
+    <circle cx="300" cy="170" r="5" fill="#f472b6"/>
+    <circle cx="500" cy="75" r="6" fill="#f472b6"/>
+  </g>
+  <text x="510" y="79" font-family="'Inter', sans-serif" font-size="9" font-weight="700" fill="#f472b6">↑ LLM/RAG</text>
+
+  <!-- Python (cyan #22d3ee): 1→1→2  ranks 75→75→107 -->
+  <g filter="url(#glowLine)">
+    <polyline points="100,75 300,75 500,107" stroke="#22d3ee" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+  </g>
+  <g filter="url(#glowDot)">
+    <circle cx="100" cy="75" r="5" fill="#22d3ee"/>
+    <circle cx="300" cy="75" r="5" fill="#22d3ee"/>
+    <circle cx="500" cy="107" r="5" fill="#22d3ee"/>
+  </g>
+  <text x="510" y="111" font-family="'Inter', sans-serif" font-size="9" font-weight="600" fill="#22d3ee">Python</text>
+
+  <!-- Kubernetes (indigo #6366f1): 3→3→3  rank 139→139→139 -->
+  <g filter="url(#glowLine)">
+    <polyline points="100,139 300,139 500,139" stroke="#6366f1" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+  </g>
+  <circle cx="100" cy="139" r="5" fill="#6366f1"/>
+  <circle cx="300" cy="139" r="5" fill="#6366f1"/>
+  <circle cx="500" cy="139" r="5" fill="#6366f1"/>
+  <text x="510" y="143" font-family="'Inter', sans-serif" font-size="9" font-weight="600" fill="#6366f1">Kubernetes</text>
+
+  <!-- Rust (orange #fb923c): 12→9→5  ranks 425→329→202 -->
+  <g filter="url(#glowLine)">
+    <polyline points="100,425 300,329 500,202" stroke="#fb923c" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+  </g>
+  <g filter="url(#glowDot)">
+    <circle cx="100" cy="425" r="5" fill="#fb923c"/>
+    <circle cx="300" cy="329" r="5" fill="#fb923c"/>
+    <circle cx="500" cy="202" r="5" fill="#fb923c"/>
+  </g>
+  <text x="510" y="206" font-family="'Inter', sans-serif" font-size="9" font-weight="700" fill="#fb923c">↑ Rust</text>
+
+  <!-- TypeScript (blue #60a5fa): 4→4→4  rank 170→170→170 -->
+  <polyline points="100,170 300,170 500,170" stroke="#60a5fa" stroke-width="2" fill="none" stroke-linejoin="round"/>
+  <circle cx="100" cy="170" r="4.5" fill="#60a5fa"/>
+  <circle cx="300" cy="170" r="4.5" fill="#60a5fa"/>
+  <circle cx="500" cy="170" r="4.5" fill="#60a5fa"/>
+  <text x="510" y="174" font-family="'Inter', sans-serif" font-size="9" font-weight="600" fill="#60a5fa">TypeScript</text>
+
+  <!-- dbt (emerald #34d399): 7→6→6  ranks 266→234→234 -->
+  <polyline points="100,266 300,234 500,234" stroke="#34d399" stroke-width="2" fill="none" stroke-linejoin="round"/>
+  <circle cx="100" cy="266" r="4.5" fill="#34d399"/>
+  <circle cx="300" cy="234" r="4.5" fill="#34d399"/>
+  <circle cx="500" cy="234" r="4.5" fill="#34d399"/>
+  <text x="510" y="238" font-family="'Inter', sans-serif" font-size="9" font-weight="600" fill="#34d399">dbt</text>
+
+  <!-- Spark (violet #a78bfa): 5→7→8  ranks 202→266→298 -->
+  <polyline points="100,202 300,266 500,298" stroke="#a78bfa" stroke-width="2" fill="none" stroke-linejoin="round" stroke-dasharray="4,2"/>
+  <circle cx="100" cy="202" r="4.5" fill="#a78bfa"/>
+  <circle cx="300" cy="266" r="4.5" fill="#a78bfa"/>
+  <circle cx="500" cy="298" r="4.5" fill="#a78bfa"/>
+  <text x="510" y="302" font-family="'Inter', sans-serif" font-size="9" fill="#a78bfa">↓ Spark</text>
+
+  <!-- Java (amber #f59e0b): 2→5→9  ranks 107→202→329 -->
+  <g filter="url(#glowLine)">
+    <polyline points="100,107 300,202 500,329" stroke="#f59e0b" stroke-width="2.5" fill="none" stroke-linejoin="round" stroke-dasharray="5,2"/>
+  </g>
+  <circle cx="100" cy="107" r="5" fill="#f59e0b"/>
+  <circle cx="300" cy="202" r="5" fill="#f59e0b"/>
+  <circle cx="500" cy="329" r="5" fill="#f59e0b"/>
+  <text x="510" y="333" font-family="'Inter', sans-serif" font-size="9" fill="#f59e0b">↓ Java</text>
+
+  <!-- Go (teal #2dd4bf): 6→8→7  ranks 234→298→266 -->
+  <polyline points="100,234 300,298 500,266" stroke="#2dd4bf" stroke-width="2" fill="none" stroke-linejoin="round"/>
+  <circle cx="100" cy="234" r="4.5" fill="#2dd4bf"/>
+  <circle cx="300" cy="298" r="4.5" fill="#2dd4bf"/>
+  <circle cx="500" cy="266" r="4.5" fill="#2dd4bf"/>
+  <text x="510" y="270" font-family="'Inter', sans-serif" font-size="9" fill="#2dd4bf">Go</text>
+
+  <!-- Terraform (green #4ade80): 9→10→10  ranks 329→361→361 -->
+  <polyline points="100,329 300,361 500,361" stroke="#4ade80" stroke-width="2" fill="none" stroke-linejoin="round" stroke-dasharray="3,3"/>
+  <circle cx="100" cy="329" r="4.5" fill="#4ade80"/>
+  <circle cx="300" cy="361" r="4.5" fill="#4ade80"/>
+  <circle cx="500" cy="361" r="4.5" fill="#4ade80"/>
+  <text x="510" y="365" font-family="'Inter', sans-serif" font-size="9" fill="#4ade80">Terraform</text>
+
+  <!-- Q3 left-side skill labels -->
+  <g font-family="'Inter', sans-serif" font-size="8" fill="#475569" text-anchor="end">
+    <text x="92" y="79">LLM/RAG</text>
+    <text x="92" y="79">&#x00A0;</text>
+    <text x="92" y="111">Java</text>
+    <text x="92" y="143">Kubernetes</text>
+    <text x="92" y="174">TypeScript</text>
+    <text x="92" y="206">Spark</text>
+    <text x="92" y="238">Go</text>
+    <text x="92" y="270">dbt</text>
+    <text x="92" y="302">LLM/RAG</text>
+    <text x="92" y="334">Terraform</text>
+    <text x="92" y="429">Rust</text>
+    <text x="92" y="303">&#x00A0;</text>
+  </g>
+  <!-- Cleaner left labels -->
+  <g font-family="'Inter', sans-serif" font-size="7.5" fill="#334155" text-anchor="end">
+    <text x="92" y="79">8</text>
+    <text x="92" y="111">2</text>
+    <text x="92" y="143">3</text>
+    <text x="92" y="174">4</text>
+    <text x="92" y="206">5</text>
+    <text x="92" y="238">6</text>
+    <text x="92" y="270">7</text>
+    <text x="92" y="302">8</text>
+    <text x="92" y="334">9</text>
+    <text x="92" y="429">12</text>
+  </g>
+
+  <!-- ===== RIGHT PANEL ===== -->
+  <!-- FASTEST GROWING panel -->
+  <rect x="598" y="58" width="288" height="222" rx="10" fill="#0d1220" stroke="#1e293b" stroke-width="1"/>
+  <text x="614" y="78" font-family="'Inter', sans-serif" font-size="8.5" font-weight="700" fill="#475569" letter-spacing="1.5">FASTEST GROWING</text>
+  <line x1="614" y1="84" x2="870" y2="84" stroke="#1e293b" stroke-width="1"/>
+
+  <!-- Row 1: LLM/RAG +340% -->
+  <rect x="614" y="90" width="22" height="22" rx="5" fill="#fbbf24" fill-opacity="0.2"/>
+  <text x="625" y="106" font-family="'Inter', sans-serif" font-size="10" fill="#fbbf24" text-anchor="middle" font-weight="700">1</text>
+  <text x="644" y="106" font-family="'Inter', sans-serif" font-size="9.5" fill="#e2e8f0" font-weight="600">LLM / RAG</text>
+  <rect x="720" y="93" width="88" height="16" rx="3" fill="#1e293b"/>
+  <rect x="720" y="93" width="88" height="16" rx="3" fill="#f472b6" fill-opacity="0.3"/>
+  <text x="864" y="105" font-family="'Inter', sans-serif" font-size="8" fill="#f472b6" text-anchor="end" font-weight="700">+340%</text>
+
+  <!-- Row 2: Rust +180% -->
+  <rect x="614" y="120" width="22" height="22" rx="5" fill="#94a3b8" fill-opacity="0.2"/>
+  <text x="625" y="136" font-family="'Inter', sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle" font-weight="700">2</text>
+  <text x="644" y="136" font-family="'Inter', sans-serif" font-size="9.5" fill="#e2e8f0" font-weight="600">Rust</text>
+  <rect x="720" y="123" width="72" height="16" rx="3" fill="#1e293b"/>
+  <rect x="720" y="123" width="72" height="16" rx="3" fill="#fb923c" fill-opacity="0.3"/>
+  <text x="864" y="135" font-family="'Inter', sans-serif" font-size="8" fill="#fb923c" text-anchor="end" font-weight="700">+180%</text>
+
+  <!-- Row 3: Wasm +142% -->
+  <rect x="614" y="150" width="22" height="22" rx="5" fill="#cd7c2a" fill-opacity="0.2"/>
+  <text x="625" y="166" font-family="'Inter', sans-serif" font-size="10" fill="#cd7c2a" text-anchor="middle" font-weight="700">3</text>
+  <text x="644" y="166" font-family="'Inter', sans-serif" font-size="9.5" fill="#e2e8f0" font-weight="600">Wasm</text>
+  <rect x="720" y="153" width="57" height="16" rx="3" fill="#1e293b"/>
+  <rect x="720" y="153" width="57" height="16" rx="3" fill="#22d3ee" fill-opacity="0.25"/>
+  <text x="864" y="165" font-family="'Inter', sans-serif" font-size="8" fill="#22d3ee" text-anchor="end" font-weight="700">+142%</text>
+
+  <!-- Row 4: Vector DBs +128% -->
+  <rect x="614" y="180" width="22" height="22" rx="5" fill="#1e293b"/>
+  <text x="625" y="196" font-family="'Inter', sans-serif" font-size="10" fill="#64748b" text-anchor="middle" font-weight="700">4</text>
+  <text x="644" y="196" font-family="'Inter', sans-serif" font-size="9.5" fill="#e2e8f0" font-weight="600">Vector DBs</text>
+  <rect x="720" y="183" width="51" height="16" rx="3" fill="#1e293b"/>
+  <rect x="720" y="183" width="51" height="16" rx="3" fill="#6366f1" fill-opacity="0.3"/>
+  <text x="864" y="195" font-family="'Inter', sans-serif" font-size="8" fill="#a78bfa" text-anchor="end" font-weight="700">+128%</text>
+
+  <!-- Row 5: MCP/Agents +115% -->
+  <rect x="614" y="210" width="22" height="22" rx="5" fill="#1e293b"/>
+  <text x="625" y="226" font-family="'Inter', sans-serif" font-size="10" fill="#64748b" text-anchor="middle" font-weight="700">5</text>
+  <text x="644" y="226" font-family="'Inter', sans-serif" font-size="9.5" fill="#e2e8f0" font-weight="600">MCP / Agents</text>
+  <rect x="720" y="213" width="46" height="16" rx="3" fill="#1e293b"/>
+  <rect x="720" y="213" width="46" height="16" rx="3" fill="#34d399" fill-opacity="0.3"/>
+  <text x="864" y="225" font-family="'Inter', sans-serif" font-size="8" fill="#34d399" text-anchor="end" font-weight="700">+115%</text>
+
+  <!-- FASTEST DECLINING panel -->
+  <rect x="598" y="292" width="288" height="142" rx="10" fill="#0d1220" stroke="#1e293b" stroke-width="1"/>
+  <text x="614" y="312" font-family="'Inter', sans-serif" font-size="8.5" font-weight="700" fill="#475569" letter-spacing="1.5">FASTEST DECLINING</text>
+  <line x1="614" y1="318" x2="870" y2="318" stroke="#1e293b" stroke-width="1"/>
+
+  <!-- Java -38% -->
+  <rect x="614" y="324" width="22" height="22" rx="5" fill="#1e293b"/>
+  <text x="625" y="340" font-family="'Inter', sans-serif" font-size="10" fill="#64748b" text-anchor="middle">1</text>
+  <text x="644" y="340" font-family="'Inter', sans-serif" font-size="9.5" fill="#e2e8f0">Java</text>
+  <rect x="720" y="327" width="55" height="16" rx="3" fill="#7f1d1d" fill-opacity="0.5"/>
+  <text x="864" y="339" font-family="'Inter', sans-serif" font-size="8" fill="#fca5a5" text-anchor="end" font-weight="700">-38%</text>
+
+  <!-- PHP -51% -->
+  <rect x="614" y="354" width="22" height="22" rx="5" fill="#1e293b"/>
+  <text x="625" y="370" font-family="'Inter', sans-serif" font-size="10" fill="#64748b" text-anchor="middle">2</text>
+  <text x="644" y="370" font-family="'Inter', sans-serif" font-size="9.5" fill="#e2e8f0">PHP</text>
+  <rect x="720" y="357" width="72" height="16" rx="3" fill="#7f1d1d" fill-opacity="0.5"/>
+  <text x="864" y="369" font-family="'Inter', sans-serif" font-size="8" fill="#fca5a5" text-anchor="end" font-weight="700">-51%</text>
+
+  <!-- jQuery -67% -->
+  <rect x="614" y="384" width="22" height="22" rx="5" fill="#1e293b"/>
+  <text x="625" y="400" font-family="'Inter', sans-serif" font-size="10" fill="#64748b" text-anchor="middle">3</text>
+  <text x="644" y="400" font-family="'Inter', sans-serif" font-size="9.5" fill="#e2e8f0">jQuery</text>
+  <rect x="720" y="387" width="96" height="16" rx="3" fill="#7f1d1d" fill-opacity="0.5"/>
+  <text x="864" y="399" font-family="'Inter', sans-serif" font-size="8" fill="#fca5a5" text-anchor="end" font-weight="700">-67%</text>
+
+  <!-- ===== BOTTOM INSIGHT CHIPS ===== -->
+  <line x1="0" y1="448" x2="900" y2="448" stroke="#1e293b" stroke-width="1"/>
+  <rect x="14" y="458" width="178" height="28" rx="6" fill="#0d1220" stroke="#1e293b" stroke-width="1"/>
+  <circle cx="28" cy="472" r="4" fill="#f472b6"/>
+  <text x="38" y="476" font-family="'Inter', sans-serif" font-size="8" fill="#94a3b8">Hottest skill: <tspan fill="#e2e8f0" font-weight="600">LLM/RAG</tspan></text>
+
+  <rect x="200" y="458" width="164" height="28" rx="6" fill="#0d1220" stroke="#1e293b" stroke-width="1"/>
+  <circle cx="214" cy="472" r="4" fill="#22d3ee"/>
+  <text x="224" y="476" font-family="'Inter', sans-serif" font-size="8" fill="#94a3b8">Most stable: <tspan fill="#e2e8f0" font-weight="600">Python</tspan></text>
+
+  <rect x="372" y="458" width="190" height="28" rx="6" fill="#0d1220" stroke="#1e293b" stroke-width="1"/>
+  <circle cx="386" cy="472" r="4" fill="#ef4444"/>
+  <text x="396" y="476" font-family="'Inter', sans-serif" font-size="8" fill="#94a3b8">Biggest drop: <tspan fill="#fca5a5" font-weight="600">jQuery -67%</tspan></text>
+
+  <rect x="570" y="458" width="190" height="28" rx="6" fill="#0d1220" stroke="#1e293b" stroke-width="1"/>
+  <circle cx="584" cy="472" r="4" fill="#34d399"/>
+  <text x="594" y="476" font-family="'Inter', sans-serif" font-size="8" fill="#94a3b8">New entrant: <tspan fill="#34d399" font-weight="600">MCP/Agents</tspan></text>
+
+  <rect x="768" y="458" width="120" height="28" rx="6" fill="#0d1220" stroke="#1e293b" stroke-width="1"/>
+  <circle cx="782" cy="472" r="4" fill="#fb923c"/>
+  <text x="792" y="476" font-family="'Inter', sans-serif" font-size="8" fill="#94a3b8">Rising fast: <tspan fill="#fb923c" font-weight="600">Rust</tspan></text>
+</svg>

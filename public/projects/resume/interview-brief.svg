@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Interview Brief</title>
+  <desc id="desc">Targeted interviewer packets from candidate evidence</desc>
+  <defs>
+    <linearGradient id="bgR" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a1715"/>
+      <stop offset="100%" stop-color="#132a2b"/>
+    </linearGradient>
+    <linearGradient id="mintR" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bgR)"/>
+  <rect x="58" y="58" width="1484" height="784" rx="20" fill="#0f2324" stroke="#2d5250"/>
+  <rect x="58" y="58" width="1484" height="3" fill="url(#mintR)"/>
+
+  <text x="116" y="130" fill="#b6e7df" font-family="Arial, sans-serif" font-size="30">Interview Brief</text>
+  <text x="116" y="168" fill="#7eaca6" font-family="Arial, sans-serif" font-size="20">Targeted interviewer packets from candidate evidence</text>
+
+  <rect x="116" y="214" width="410" height="592" rx="14" fill="#143031" stroke="#2e5b59"/>
+  <text x="152" y="266" fill="#a7dbd2" font-family="Arial, sans-serif" font-size="24">Candidate Card</text>
+  <circle cx="196" cy="330" r="34" fill="#2a5f5b"/>
+  <rect x="248" y="306" width="232" height="16" rx="8" fill="#3a7f79"/>
+  <rect x="248" y="334" width="180" height="14" rx="7" fill="#305f5d"/>
+  <rect x="152" y="390" width="328" height="16" rx="8" fill="#305f5d"/>
+  <rect x="152" y="420" width="292" height="16" rx="8" fill="#305f5d"/>
+  <rect x="152" y="450" width="312" height="16" rx="8" fill="#305f5d"/>
+  <text x="152" y="520" fill="#c5efe9" font-family="Arial, sans-serif" font-size="20">Top Skills</text>
+  <rect x="152" y="542" width="110" height="34" rx="17" fill="#256f65"/>
+  <rect x="272" y="542" width="110" height="34" rx="17" fill="#256f65"/>
+  <rect x="392" y="542" width="88" height="34" rx="17" fill="#256f65"/>
+  <text x="178" y="565" fill="#eafffb" font-family="Arial, sans-serif" font-size="16">Python</text>
+  <text x="298" y="565" fill="#eafffb" font-family="Arial, sans-serif" font-size="16">MLOps</text>
+  <text x="414" y="565" fill="#eafffb" font-family="Arial, sans-serif" font-size="16">NLP</text>
+
+  <rect x="554" y="214" width="988" height="592" rx="14" fill="#12292a" stroke="#2e5b59"/>
+  <text x="590" y="266" fill="#a7dbd2" font-family="Arial, sans-serif" font-size="24">Talent Graph and Match Evidence</text>
+
+  <g stroke="#3f7e79" stroke-width="2" fill="none" opacity="0.9">
+    <path d="M690 380 L840 330 L1000 390 L1160 340 L1320 410"/>
+    <path d="M690 520 L840 560 L1000 500 L1160 560 L1320 500"/>
+    <path d="M840 330 L840 560"/>
+    <path d="M1000 390 L1000 500"/>
+    <path d="M1160 340 L1160 560"/>
+  </g>
+  <g>
+    <circle cx="690" cy="380" r="13" fill="#22d3ee"/>
+    <circle cx="840" cy="330" r="13" fill="#34d399"/>
+    <circle cx="1000" cy="390" r="13" fill="#facc15"/>
+    <circle cx="1160" cy="340" r="13" fill="#22d3ee"/>
+    <circle cx="1320" cy="410" r="13" fill="#34d399"/>
+    <circle cx="690" cy="520" r="13" fill="#facc15"/>
+    <circle cx="840" cy="560" r="13" fill="#22d3ee"/>
+    <circle cx="1000" cy="500" r="13" fill="#34d399"/>
+    <circle cx="1160" cy="560" r="13" fill="#facc15"/>
+    <circle cx="1320" cy="500" r="13" fill="#22d3ee"/>
+  </g>
+
+  <rect x="610" y="620" width="420" height="130" rx="12" fill="#17393a"/>
+  <rect x="1050" y="620" width="420" height="130" rx="12" fill="#17393a"/>
+  <text x="642" y="690" fill="#d2f3ef" font-family="Arial, sans-serif" font-size="22">Prep time reduced: 72%</text>
+  <text x="1082" y="690" fill="#d2f3ef" font-family="Arial, sans-serif" font-size="22">Reviewer rating: 4.7/5</text>
+
+  <text x="116" y="828" fill="#62928e" font-family="Arial, sans-serif" font-size="20">Talent Graph Visual System</text>
+</svg>

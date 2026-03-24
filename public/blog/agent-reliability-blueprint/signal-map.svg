@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">Production Agent Reliability Signal Map</title>
+  <desc id="desc">A stylized system diagram showing user input, planner, policy, tool execution, and observability loops.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="cyanLine" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="pinkLine" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      .title { font: 700 42px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
+      .sub { font: 500 18px 'Space Mono', monospace; fill: #9bc0d8; }
+      .nodeTitle { font: 700 18px 'Space Grotesk', sans-serif; fill: #dbf4ff; }
+      .nodeText { font: 500 13px 'Space Mono', monospace; fill: #9cc4dd; }
+      .label { font: 600 12px 'Space Mono', monospace; fill: #8ef4ff; letter-spacing: 1.5px; }
+      .metric { font: 600 12px 'Space Mono', monospace; fill: #ffc6dd; letter-spacing: 1.5px; }
+      .card { fill: rgba(14, 30, 47, 0.76); stroke: rgba(109, 181, 222, 0.45); stroke-width: 1.2; rx: 14; }
+      .cardHot { fill: rgba(43, 19, 42, 0.42); stroke: rgba(255, 119, 177, 0.42); stroke-width: 1.2; rx: 14; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="820" fill="url(#bg)"/>
+
+  <g opacity="0.15">
+    <path d="M0 120 H1400 M0 220 H1400 M0 320 H1400 M0 420 H1400 M0 520 H1400 M0 620 H1400" stroke="#5fa2d0" stroke-width="1"/>
+    <path d="M140 0 V820 M340 0 V820 M540 0 V820 M740 0 V820 M940 0 V820 M1140 0 V820" stroke="#5fa2d0" stroke-width="1"/>
+  </g>
+
+  <text class="title" x="76" y="84">Production Agent Reliability Signal Map</text>
+  <text class="sub" x="76" y="116">From user intent to controlled execution and feedback loops</text>
+
+  <g>
+    <rect class="card" x="90" y="190" width="220" height="110"/>
+    <text class="nodeTitle" x="116" y="232">User Request</text>
+    <text class="nodeText" x="116" y="258">Intent + context + urgency</text>
+
+    <rect class="card" x="360" y="170" width="260" height="140"/>
+    <text class="nodeTitle" x="386" y="212">Planner</text>
+    <text class="nodeText" x="386" y="238">Task graph, tool plan,</text>
+    <text class="nodeText" x="386" y="258">confidence and risk hints</text>
+
+    <rect class="cardHot" x="680" y="140" width="280" height="190"/>
+    <text class="nodeTitle" x="706" y="182">Policy + Budget Engine</text>
+    <text class="nodeText" x="706" y="208">Auth scope checks</text>
+    <text class="nodeText" x="706" y="228">Cost and latency budgets</text>
+    <text class="nodeText" x="706" y="248">Safety and compliance gates</text>
+    <text class="metric" x="706" y="284">ALLOW / CONSTRAIN / ESCALATE</text>
+
+    <rect class="card" x="1020" y="190" width="270" height="110"/>
+    <text class="nodeTitle" x="1046" y="232">Execution Layer</text>
+    <text class="nodeText" x="1046" y="258">RAG + tools + action runners</text>
+  </g>
+
+  <g>
+    <rect class="card" x="360" y="420" width="260" height="180"/>
+    <text class="nodeTitle" x="386" y="462">Observability</text>
+    <text class="nodeText" x="386" y="488">Trace IDs + prompt hash</text>
+    <text class="nodeText" x="386" y="508">Tool args + outputs</text>
+    <text class="nodeText" x="386" y="528">Token/cost/latency timeline</text>
+    <text class="label" x="386" y="564">SLO FEEDBACK LOOP</text>
+
+    <rect class="cardHot" x="760" y="430" width="300" height="160"/>
+    <text class="nodeTitle" x="786" y="472">Human Escalation Queue</text>
+    <text class="nodeText" x="786" y="498">Triggered by risk or low confidence</text>
+    <text class="nodeText" x="786" y="518">Operator sees complete trace context</text>
+    <text class="metric" x="786" y="550">TARGET HANDOFF &lt; 30s</text>
+  </g>
+
+  <g fill="none" stroke-linecap="round" stroke-width="3" filter="url(#glow)">
+    <path d="M310 245 H360" stroke="url(#cyanLine)"/>
+    <path d="M620 240 H680" stroke="url(#cyanLine)"/>
+    <path d="M960 245 H1020" stroke="url(#cyanLine)"/>
+    <path d="M1150 300 V380 H490 V420" stroke="url(#cyanLine)"/>
+    <path d="M930 330 V430" stroke="url(#pinkLine)"/>
+    <path d="M760 510 H620 V510" stroke="url(#pinkLine)"/>
+    <path d="M360 510 H250 V300" stroke="url(#cyanLine)"/>
+  </g>
+
+  <g fill="#8ceeff" opacity="0.9">
+    <circle cx="310" cy="245" r="4"/>
+    <circle cx="360" cy="245" r="4"/>
+    <circle cx="620" cy="240" r="4"/>
+    <circle cx="680" cy="240" r="4"/>
+    <circle cx="960" cy="245" r="4"/>
+    <circle cx="1020" cy="245" r="4"/>
+    <circle cx="930" cy="430" r="4" fill="#ff93bb"/>
+  </g>
+
+  <text class="sub" x="76" y="770">Design principle: models reason, policies decide, humans retain override.</text>
+</svg>

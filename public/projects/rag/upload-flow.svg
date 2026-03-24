@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Upload Flow</title>
+  <desc id="desc">Example screenshot style panel for upload and indexing flow.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#071422"/>
+      <stop offset="100%" stop-color="#13273a"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00f5ff"/>
+      <stop offset="100%" stop-color="#00ff88"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect x="80" y="80" width="1440" height="740" rx="18" fill="#0c1c2c" stroke="#1a3348"/>
+  <rect x="80" y="80" width="1440" height="3" fill="url(#accent)"/>
+
+  <rect x="130" y="150" width="460" height="610" rx="12" fill="#10283d" stroke="#22455f"/>
+  <text x="160" y="200" fill="#9bc2de" font-family="Arial, sans-serif" font-size="30">PDF Queue</text>
+  <rect x="160" y="240" width="400" height="70" rx="8" fill="#0b3f5b"/>
+  <text x="185" y="284" fill="#d8f8ff" font-family="Arial, sans-serif" font-size="24">Investor_Report_Q1.pdf</text>
+  <rect x="160" y="332" width="400" height="70" rx="8" fill="#0f3552"/>
+  <text x="185" y="376" fill="#d8f8ff" font-family="Arial, sans-serif" font-size="24">Compliance_Manual.pdf</text>
+  <rect x="160" y="424" width="400" height="70" rx="8" fill="#0f3552"/>
+  <text x="185" y="468" fill="#d8f8ff" font-family="Arial, sans-serif" font-size="24">System_Architecture.pdf</text>
+
+  <rect x="640" y="150" width="830" height="610" rx="12" fill="#0d2436" stroke="#20455f"/>
+  <text x="680" y="200" fill="#9bc2de" font-family="Arial, sans-serif" font-size="30">Ingestion Pipeline</text>
+  <line x1="760" y1="320" x2="910" y2="320" stroke="#00f5ff" stroke-width="6"/>
+  <line x1="970" y1="320" x2="1120" y2="320" stroke="#00f5ff" stroke-width="6"/>
+  <line x1="1180" y1="320" x2="1330" y2="320" stroke="#00f5ff" stroke-width="6"/>
+  <rect x="690" y="280" width="140" height="80" rx="10" fill="#113a58"/>
+  <text x="716" y="329" fill="#e8fbff" font-family="Arial, sans-serif" font-size="22">OCR</text>
+  <rect x="900" y="280" width="140" height="80" rx="10" fill="#113a58"/>
+  <text x="921" y="329" fill="#e8fbff" font-family="Arial, sans-serif" font-size="22">Chunk</text>
+  <rect x="1110" y="280" width="140" height="80" rx="10" fill="#113a58"/>
+  <text x="1129" y="329" fill="#e8fbff" font-family="Arial, sans-serif" font-size="22">Embed</text>
+  <rect x="1320" y="280" width="120" height="80" rx="10" fill="#124769"/>
+  <text x="1340" y="329" fill="#e8fbff" font-family="Arial, sans-serif" font-size="22">Store</text>
+
+  <rect x="690" y="430" width="750" height="280" rx="10" fill="#0f2f47"/>
+  <text x="725" y="485" fill="#b8dbf0" font-family="Arial, sans-serif" font-size="24">Status: 184 docs indexed, avg 3.7s/doc</text>
+  <rect x="725" y="525" width="640" height="24" rx="12" fill="#174560"/>
+  <rect x="725" y="525" width="520" height="24" rx="12" fill="#00ff88"/>
+  <text x="725" y="600" fill="#d5f8e9" font-family="Arial, sans-serif" font-size="22">Index coverage: 81%</text>
+
+  <text x="120" y="845" fill="#3f6a86" font-family="Arial, sans-serif" font-size="20">Feature Snapshot • Upload Flow</text>
+</svg>

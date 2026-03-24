@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Live Call Stream</title>
+  <desc id="desc">Low-latency transcript and diarization</desc>
+  <defs>
+    <linearGradient id="bgS" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#170f2e"/>
+      <stop offset="100%" stop-color="#1f1f4c"/>
+    </linearGradient>
+    <linearGradient id="glowS" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#60a5fa"/>
+      <stop offset="100%" stop-color="#f472b6"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bgS)"/>
+  <circle cx="1280" cy="150" r="220" fill="#7c3aed" opacity="0.25"/>
+  <circle cx="300" cy="740" r="240" fill="#f472b6" opacity="0.2"/>
+
+  <rect x="70" y="60" width="1460" height="780" rx="24" fill="#131b3a" stroke="#38457a"/>
+  <rect x="70" y="60" width="1460" height="4" fill="url(#glowS)"/>
+
+  <text x="130" y="134" fill="#c7d8ff" font-family="Arial, sans-serif" font-size="30">Live Call Stream</text>
+  <text x="130" y="172" fill="#90a5d8" font-family="Arial, sans-serif" font-size="20">Low-latency transcript and diarization</text>
+
+  <rect x="130" y="220" width="920" height="500" rx="16" fill="#1a2550" stroke="#4457a1"/>
+  <text x="168" y="270" fill="#b7c9ff" font-family="Arial, sans-serif" font-size="24">Live Conversation</text>
+
+  <path d="M170 335 Q220 280 270 335 T370 335 T470 335 T570 335 T670 335 T770 335 T870 335 T970 335" fill="none" stroke="#60a5fa" stroke-width="5"/>
+  <path d="M170 380 Q220 440 270 380 T370 380 T470 380 T570 380 T670 380 T770 380 T870 380 T970 380" fill="none" stroke="#f472b6" stroke-width="4" opacity="0.9"/>
+
+  <rect x="168" y="430" width="560" height="92" rx="14" fill="#23306a"/>
+  <rect x="452" y="540" width="560" height="92" rx="14" fill="#30408b"/>
+  <text x="196" y="485" fill="#e7eeff" font-family="Arial, sans-serif" font-size="21">Buyer asks about procurement timeline and penalties.</text>
+  <text x="480" y="595" fill="#f5f7ff" font-family="Arial, sans-serif" font-size="21">AI suggests rebuttal with source-backed objection handling.</text>
+
+  <rect x="1080" y="220" width="390" height="500" rx="16" fill="#1a2550" stroke="#4457a1"/>
+  <text x="1116" y="270" fill="#b7c9ff" font-family="Arial, sans-serif" font-size="24">Copilot Actions</text>
+  <rect x="1116" y="300" width="318" height="92" rx="12" fill="#2b3a81"/>
+  <rect x="1116" y="410" width="318" height="92" rx="12" fill="#2b3a81"/>
+  <rect x="1116" y="520" width="318" height="92" rx="12" fill="#2b3a81"/>
+  <text x="1140" y="354" fill="#dbe6ff" font-family="Arial, sans-serif" font-size="20">Suggest talk track</text>
+  <text x="1140" y="464" fill="#dbe6ff" font-family="Arial, sans-serif" font-size="20">Update CRM fields</text>
+  <text x="1140" y="574" fill="#dbe6ff" font-family="Arial, sans-serif" font-size="20">Flag coaching moment</text>
+
+  <rect x="130" y="748" width="680" height="64" rx="10" fill="#24346f"/>
+  <rect x="830" y="748" width="640" height="64" rx="10" fill="#24346f"/>
+  <text x="158" y="790" fill="#d6e2ff" font-family="Arial, sans-serif" font-size="22">Recommendation latency: 320ms</text>
+  <text x="858" y="790" fill="#d6e2ff" font-family="Arial, sans-serif" font-size="22">Word error rate: 7.8%</text>
+
+  <text x="130" y="836" fill="#6e80b6" font-family="Arial, sans-serif" font-size="20">Realtime Revenue Copilot Visual System</text>
+</svg>

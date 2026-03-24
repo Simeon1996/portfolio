@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Chat Workspace</title>
+  <desc id="desc">Example screenshot style panel of the main RAG chat workspace.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#061320"/>
+      <stop offset="100%" stop-color="#10283a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect x="65" y="65" width="1470" height="770" rx="20" fill="#0b1d2e" stroke="#1d3a52"/>
+  <rect x="65" y="65" width="1470" height="3" fill="#00f5ff"/>
+
+  <rect x="110" y="120" width="320" height="660" rx="12" fill="#10253a"/>
+  <text x="145" y="170" fill="#98c1dc" font-family="Arial, sans-serif" font-size="28">Libraries</text>
+  <rect x="145" y="210" width="250" height="70" rx="9" fill="#124160"/>
+  <text x="172" y="253" fill="#e6fbff" font-family="Arial, sans-serif" font-size="23">Engineering Docs</text>
+  <rect x="145" y="300" width="250" height="70" rx="9" fill="#103754"/>
+  <text x="172" y="343" fill="#e6fbff" font-family="Arial, sans-serif" font-size="23">Compliance</text>
+  <rect x="145" y="390" width="250" height="70" rx="9" fill="#103754"/>
+  <text x="172" y="433" fill="#e6fbff" font-family="Arial, sans-serif" font-size="23">Product Specs</text>
+
+  <rect x="470" y="120" width="1020" height="660" rx="12" fill="#0f273b"/>
+  <text x="510" y="170" fill="#98c1dc" font-family="Arial, sans-serif" font-size="28">Conversation</text>
+
+  <rect x="510" y="220" width="910" height="120" rx="12" fill="#12324b"/>
+  <text x="542" y="270" fill="#d5edf9" font-family="Arial, sans-serif" font-size="22">User: Summarize all vendor SLA penalties in plain language.</text>
+
+  <rect x="560" y="370" width="860" height="180" rx="12" fill="#164262"/>
+  <text x="595" y="425" fill="#e8fbff" font-family="Arial, sans-serif" font-size="22">Assistant: Found 12 clauses across 4 contracts.</text>
+  <text x="595" y="465" fill="#d0e6f6" font-family="Arial, sans-serif" font-size="20">Top risk: delayed incident response over 4h triggers 2.5% monthly credit.</text>
+  <text x="595" y="500" fill="#d0e6f6" font-family="Arial, sans-serif" font-size="20">See citations on the right panel for exact sections and dates.</text>
+
+  <rect x="510" y="590" width="910" height="90" rx="10" fill="#12324b"/>
+  <text x="542" y="646" fill="#a8cbdf" font-family="Arial, sans-serif" font-size="22">Ask a follow-up about terms, exclusions, and renewal windows...</text>
+
+  <text x="120" y="845" fill="#3f6a86" font-family="Arial, sans-serif" font-size="20">Feature Snapshot • Chat Workspace</text>
+</svg>
