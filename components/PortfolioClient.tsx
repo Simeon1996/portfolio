@@ -13,7 +13,7 @@ import ThemeToggle from './ThemeToggle'
 const ME = {
   name: 'Simeon Ivanov',
   role: 'AI Expert/Developer/Engineer, DevOps, and Full-Stack Developer',
-  bio: `I'm a software engineer and DevOps architect with 11+ years of experience building and scaling products across Python, Java, JavaScript, and PHP, using frameworks like Spring, Django, FastAPI, Angular, React and more.\n\nI've designed and operated cloud-native platforms on AWS and GKE with Kubernetes and Docker, with a strong focus on reliability, performance, security and delivery speed. My current focus is AI-first product engineering: building machine learning and agentic systems with PyTorch, NumPy, Pandas, and LangChain to turn cutting-edge models into practical business outcomes.`,
+  bio: `I'm a software engineer and DevOps architect with 12+ years of experience building and scaling products across Python, Java, JavaScript, and PHP, using frameworks like Spring, Django, FastAPI, Angular, React and more.\n\nI've designed and operated cloud-native platforms on AWS and GKE with Kubernetes and Docker, with a strong focus on reliability, performance, security and delivery speed. My current focus is AI-first product engineering: building machine learning and agentic systems with PyTorch, NumPy, Pandas, and LangChain to turn cutting-edge models into practical business outcomes.`,
   email: 'dev.grayscale@gmail.com',
   photo: '/about/me-abstract.jpg',
   socials: [
@@ -595,7 +595,7 @@ export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }
 
               <div style={{ fontFamily: mono, fontSize: isPhone ? 16 : 18, fontWeight: 900, letterSpacing: 1, marginBottom: 4 }}>{ME.name}</div>
               <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: 2, color: C.cyan, textTransform: 'uppercase', marginBottom: 18 }}>AI Expert/Developer/Engineer, DevOps, and Full-Stack Developer</div>
-              <p style={{ fontSize: isPhone ? 12 : 13, fontWeight: 300, color: C.muted2, lineHeight: 1.9, marginBottom: 24, whiteSpace: 'pre-line' }}>{`I'm a software engineer and DevOps architect with 11+ years of experience building and scaling products across Python, Java, JavaScript, and PHP, using frameworks like Spring, Django, FastAPI, Angular, React and more.\n\nI've designed and operated cloud-native platforms on AWS and GKE with Kubernetes and Docker, with a strong focus on reliability, performance, security and delivery speed. My current focus is AI-first product engineering: building machine learning and agentic systems with PyTorch, NumPy, Pandas, and LangChain to turn cutting-edge models into practical business outcomes.`}</p>
+              <p style={{ fontSize: isPhone ? 12 : 13, fontWeight: 300, color: C.muted2, lineHeight: 1.9, marginBottom: 24, whiteSpace: 'pre-line' }}>{`I'm a software engineer and DevOps architect with 12+ years of experience building and scaling products across Python, Java, JavaScript, and PHP, using frameworks like Spring, Django, FastAPI, Angular, React and more.\n\nI've designed and operated cloud-native platforms on AWS and GKE with Kubernetes and Docker, with a strong focus on reliability, performance, security and delivery speed. My current focus is AI-first product engineering: building machine learning and agentic systems with PyTorch, NumPy, Pandas, and LangChain to turn cutting-edge models into practical business outcomes.`}</p>
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                 {ME.socials.map(s => (
                   <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
@@ -964,7 +964,7 @@ export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }
           </motion.div>
 
           <motion.div variants={revealVariant} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: `1px solid ${C.border}`, paddingTop: 32, flexWrap: 'wrap', gap: 16 }}>
-            <span style={{ fontSize: 10, letterSpacing: 1.5, color: C.muted }}>{`© ${new Date().getFullYear()} ${ME.name} — BUILT WITH NEXT.JS & VERCEL`}</span>
+            <span style={{ fontSize: 10, letterSpacing: 1.5, color: C.muted }}>{`© ${new Date().getFullYear()} ${ME.name}`}</span>
             <div style={{ display: 'flex', gap: 28 }}>
               {ME.socials.map(s => (
                 <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
