@@ -70,10 +70,22 @@ export default function ContactForm({ C, mono, services, form }: Props) {
     return Object.keys(e).length === 0
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     if (!validate()) return
     setSending(true)
-    setTimeout(() => { setSending(false); setSent(true) }, 900)
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, service, desc }),
+      })
+      if (!res.ok) throw new Error('Failed')
+      setSent(true)
+    } catch {
+      setErrors(p => ({ ...p, submit: true }))
+    } finally {
+      setSending(false)
+    }
   }
 
   if (sent) {
@@ -136,7 +148,7 @@ export default function ContactForm({ C, mono, services, form }: Props) {
           >
             <option value="" disabled>{form.servicePlaceholder}</option>
             {services.map(s => (
-              <option key={s.num} value={s.num} style={{ background: C.card, color: C.text }}>
+              <option key={s.num} value={s.title} style={{ background: C.card, color: C.text }}>
                 {s.title}
               </option>
             ))}
@@ -160,6 +172,13 @@ export default function ContactForm({ C, mono, services, form }: Props) {
           style={{ ...fieldStyle(C, focused === 'desc', !!errors.desc), resize: 'vertical', lineHeight: 1.7 }}
         />
       </div>
+
+      {/* Submit error */}
+      {errors.submit && (
+        <p style={{ marginBottom: 10, fontSize: 11, color: 'var(--pink)', fontFamily: mono, letterSpacing: .5 }}>
+          Something went wrong — please try again or email directly.
+        </p>
+      )}
 
       {/* Submit */}
       <button
