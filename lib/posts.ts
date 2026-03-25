@@ -9,10 +9,12 @@ export interface Post {
   slug: string
   title: string
   date: string
+  updatedAt?: string
   excerpt: string
   tags: string[]
   published: boolean
   readingTime: number
+  wordCount: number
   url: string
   content: string
 }
@@ -29,10 +31,12 @@ export function getAllPosts(): Post[] {
         slug,
         title: data.title ?? '',
         date: data.date ? new Date(data.date).toISOString() : '',
+        updatedAt: data.updatedAt ? new Date(data.updatedAt).toISOString() : undefined,
         excerpt: data.excerpt ?? '',
         tags: data.tags ?? [],
         published: data.published !== false,
         readingTime: Math.ceil(stats.minutes),
+        wordCount: content.split(/\s+/).filter(Boolean).length,
         url: `/blog/${slug}`,
         content,
       }

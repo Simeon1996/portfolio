@@ -1,28 +1,20 @@
 import type { MetadataRoute } from 'next'
 import { getAllPosts } from '@/lib/posts'
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://simeonivanov.dev'
-
-const PROJECT_SLUGS = [
-  'rag', 'agent', 'devops', 'saas', 'resume', 'style',
-  'email-rag', 'langchain-platform', 'mcp-platform',
-  'android-freelance', 'quizforge', 'cookingintelligence',
-  'botversehub', 'freelance',
-]
+import { PROJECT_DETAILS } from '@/lib/projects'
+import { SITE_URL } from '@/lib/config'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const posts = getAllPosts()
 
   const blogEntries: MetadataRoute.Sitemap = posts.map(post => ({
     url: `${SITE_URL}/blog/${post.slug}`,
-    lastModified: new Date(post.date),
+    lastModified: new Date(post.updatedAt ?? post.date),
     changeFrequency: 'monthly',
     priority: 0.8,
   }))
 
-  const projectEntries: MetadataRoute.Sitemap = PROJECT_SLUGS.map(slug => ({
+  const projectEntries: MetadataRoute.Sitemap = Object.keys(PROJECT_DETAILS).map(slug => ({
     url: `${SITE_URL}/projects/${slug}`,
-    lastModified: new Date(),
     changeFrequency: 'monthly',
     priority: 0.6,
   }))
@@ -36,7 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${SITE_URL}/blog`,
-      lastModified: new Date(),
+      lastModified: posts[0] ? new Date(posts[0].date) : new Date(),
       changeFrequency: 'weekly',
       priority: 0.9,
     },

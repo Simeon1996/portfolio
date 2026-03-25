@@ -1,8 +1,7 @@
 import { getAllPosts } from '@/lib/posts'
 import Link from 'next/link'
 import type { Metadata } from 'next'
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://simeonivanov.dev'
+import { SITE_URL } from '@/lib/config'
 
 export const metadata: Metadata = {
   title: 'Blog',
@@ -19,6 +18,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Blog — Simeon Ivanov',
     description: 'Technical writing on AI engineering, LLMs, RAG, and production software development.',
+    creator: '@simeonivanov',
   },
 }
 

@@ -2,8 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import ThemeProvider from '@/components/ThemeProvider'
 import { Analytics } from '@vercel/analytics/next'
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://simeonivanov.dev'
+import { SITE_URL } from '@/lib/config'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -47,7 +46,6 @@ const personJsonLd = {
   jobTitle: 'AI Engineer & Full-Stack Developer',
   description: 'Building LLM-powered products, scalable APIs, and interfaces that feel effortless. Specialising in RAG, AI agents, DevOps, and full-stack engineering.',
   knowsAbout: ['LLM', 'RAG', 'AI Agents', 'DevOps', 'LangChain', 'Python', 'TypeScript', 'React', 'Next.js', 'Kubernetes'],
-  sameAs: [],
 }
 
 // Prevent flash of un-themed content by setting data-theme before React hydrates
