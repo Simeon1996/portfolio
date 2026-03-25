@@ -1,0 +1,41 @@
+# Simeon Ivanov — AI Engineer, DevOps & Full-Stack Developer
+
+## About
+
+Simeon Ivanov is an AI Engineer, DevOps practitioner, and Full-Stack Developer specialising in LLM-powered products, scalable APIs, and developer tooling. He builds production-grade AI systems — from RAG pipelines and autonomous agents to cloud cost optimisation platforms and real-time voice assistants.
+
+## Expertise
+
+- **LLM & RAG**: Production RAG pipelines with hybrid BM25 + dense retrieval, query rewriting, re-ranking, streaming responses. Frameworks: LangChain, LangGraph, LangSmith, LangServe.
+- **AI Agents**: Multi-agent architectures, tool-calling, memory management, human-in-the-loop escalation, SLOs and guardrails for production agents.
+- **DevOps & Cloud**: Kubernetes, Terraform, AWS, CI/CD, FinOps, infrastructure right-sizing, anomaly detection.
+- **Full-Stack**: React, Next.js, Angular, TypeScript, Python (FastAPI, Django), Java (Spring Boot).
+- **Databases**: PostgreSQL, Neo4j, Pinecone, Qdrant, OpenSearch, Redis.
+- **Mobile**: Android (Kotlin, Jetpack Compose, MVVM).
+
+## Blog
+
+Technical writing on AI engineering, LLMs, and software development:
+
+- /blog/agent-reliability-blueprint — Agent Reliability Blueprint: SLOs, Guardrails, and Human Override. Practical architecture for shipping autonomous AI agents safely in production.
+- /blog/production-llm-pipeline — Building a production LLM pipeline in 2025. What nobody tells you about taking an LLM demo to production — chunking, eval loops, cost control.
+- /blog/why-rag-beats-finetuning — Why RAG beats fine-tuning for most use cases. Retrieval-Augmented Generation vs fine-tuning for 90% of production AI use cases.
+
+## Projects
+
+Selected work:
+
+- /projects/rag — GPT Document Intelligence. Natural language querying over PDF libraries using LangChain, OpenAI embeddings, and Pinecone. Hybrid BM25 + dense retrieval.
+- /projects/agent — Autonomous Incident Commander. Multi-agent SRE system that detects incidents, builds causal graphs, executes runbooks, and drafts postmortems.
+- /projects/devops — FinOps Autopilot. AI platform for cloud cost forecasting, anomaly detection, and infrastructure right-sizing PRs.
+- /projects/saas — Voice Revenue Copilot. Real-time sales assistant with live transcription, objection-handling playbooks, and CRM sync.
+- /projects/email-rag — High-Traffic Email RAG Engine. Production pipeline ingesting millions of emails/day with hybrid retrieval and p99 latency under 300ms.
+- /projects/langchain-platform — LangChain AI Application Platform. Multi-tenant platform with LCEL pipelines, LangSmith tracing, LangGraph workflows.
+- /projects/mcp-platform — Claude MCP Integration Platform. Suite of production Model Context Protocol servers with OAuth-scoped auth and audit logging.
+- /projects/quizforge — QuizzYourself. AI quiz generation platform using LLMs.
+- /projects/cookingintelligence — CookingIntelligence. AI recipe generation with interactive step-by-step cooking guidance.
+- /projects/botversehub — BotverseHub. Unified platform for managing, training, and chatting with AI bots.
+
+## Contact
+
+Available for consulting, freelance, and full-time opportunities in AI engineering, DevOps, and full-stack development.

@@ -2,9 +2,24 @@ import { getAllPosts } from '@/lib/posts'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://simeonivanov.dev'
+
 export const metadata: Metadata = {
   title: 'Blog',
-  description: 'Thoughts on AI, LLMs, and software development.',
+  description: 'Technical writing by Simeon Ivanov on AI engineering, LLMs, RAG, autonomous agents, and production software development.',
+  keywords: ['AI blog', 'LLM', 'RAG', 'AI agents', 'software engineering', 'Simeon Ivanov'],
+  alternates: { canonical: `${SITE_URL}/blog` },
+  openGraph: {
+    title: 'Blog — Simeon Ivanov',
+    description: 'Technical writing on AI engineering, LLMs, RAG, autonomous agents, and production software development.',
+    url: `${SITE_URL}/blog`,
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Blog — Simeon Ivanov',
+    description: 'Technical writing on AI engineering, LLMs, RAG, and production software development.',
+  },
 }
 
 interface BlogPageProps {

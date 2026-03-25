@@ -1,6 +1,9 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import type { Metadata } from 'next'
 import ImageSlider from './ImageSlider'
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://simeonivanov.dev'
 
 const PROJECT_DETAILS: Record<string, {
   title: string
@@ -212,6 +215,29 @@ const PROJECT_DETAILS: Record<string, {
 
 export function generateStaticParams() {
   return Object.keys(PROJECT_DETAILS).map(slug => ({ slug }))
+}
+
+export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
+  const project = PROJECT_DETAILS[params.slug]
+  if (!project) return {}
+  const projectUrl = `${SITE_URL}/projects/${params.slug}`
+  return {
+    title: project.title,
+    description: project.description,
+    keywords: project.stack,
+    alternates: { canonical: projectUrl },
+    openGraph: {
+      title: project.title,
+      description: project.description,
+      url: projectUrl,
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: project.title,
+      description: project.description,
+    },
+  }
 }
 
 export default function ProjectPage({ params }: { params: { slug: string } }) {
