@@ -1,0 +1,267 @@
+---
+title: "Why Would I Use an MCP Server?"
+date: 2026-03-25
+excerpt: "Everyone is talking about MCP. Before you wire one up, understand what it actually solves — and whether you even need it. A practical breakdown for engineers building real LLM applications."
+tags: ["MCP", "AI", "LLM", "Tooling"]
+published: true
+---
+
+# Why Would I Use an MCP Server?
+
+Here is the honest situation: you have an LLM application. It needs to query a database, read some files, or call an internal API. You have already seen function calling. You have probably wired up a few ad-hoc tool handlers. Things work. So when someone drops "MCP" into the conversation, the natural reaction is — why would I change anything?
+
+That is the right question. MCP is not magic, and it is not always the answer. But there is a specific class of problems it solves cleanly, and once you hit those problems, you will understand immediately why the pattern exists.
+
+This post is about when MCP earns its place, what it actually gives you over alternatives, and where it is overkill.
+
+---
+
+## Table of Contents
+
+1. [What MCP is (the short version)](#what-mcp-is-the-short-version)
+2. [The core value proposition](#the-core-value-proposition)
+3. [Concrete use cases](#concrete-use-cases)
+4. [Writing an MCP server](#writing-an-mcp-server)
+5. [Connecting a client](#connecting-a-client)
+6. [MCP vs. the alternatives](#mcp-vs-the-alternatives)
+7. [When MCP shines vs. when it's overkill](#when-mcp-shines-vs-when-its-overkill)
+8. [Key Takeaways](#key-takeaways)
+
+---
+
+## What MCP Is (the Short Version)
+
+MCP stands for **Model Context Protocol**. It is an open standard, introduced by Anthropic in late 2024, that defines how an LLM host (a client — Claude Desktop, your custom agent, a VS Code extension) connects to external servers that expose tools, resources, and prompts.
+
+Think of it as a USB-C port for LLM capabilities. Before USB-C, every device had its own connector. MCP is the standardized interface that lets any compliant host talk to any compliant server without custom glue code for every pairing.
+
+The protocol is transport-agnostic. Servers can run over stdio (local subprocess), HTTP with Server-Sent Events, or WebSockets. The host negotiates capabilities at connection time. Everything — tool definitions, resource schemas, sampling requests — flows through a structured JSON-RPC message layer.
+
+That is the mechanism. Now for what actually matters: what it gives you.
+
+---
+
+## The Core Value Proposition
+
+The problem MCP solves is **integration sprawl**.
+
+Without a standard, every AI application that needs external context builds its own system: custom function schemas passed at inference time, bespoke API wrappers, hardcoded tool handlers, environment-specific glue that only works in one app. When you want to reuse that database connector in a second application, you copy-paste the code. When the database schema changes, you update it in three places.
+
+MCP inverts this. The integration lives in the server. Any compliant host can connect to it. The tool definitions, the access logic, the schema — all centralized in one place. You write the Postgres MCP server once. Claude Desktop, your custom agent, and your CI bot all connect to the same server.
+
+The second thing MCP standardizes is the **capability negotiation model**. Servers declare what they expose — tools, resources, and/or prompts. Clients discover that at runtime. This means a client does not need to be hardcoded for a specific server's capabilities. You can swap servers, add new tools, or version capabilities without rebuilding the host.
+
+> **Pro tip:** The distinction between "tools" (callable functions), "resources" (readable context like files or DB rows), and "prompts" (reusable prompt templates) is load-bearing in MCP's design. Most tutorials focus only on tools. Resources are underused and often the right primitive for injecting large context blobs without a function call overhead.
+
+---
+
+## Concrete Use Cases
+
+### Connecting LLMs to Databases
+
+This is the most common use case and the clearest win. You build an MCP server that wraps your database — it exposes a `query` tool, maybe a `list_tables` resource, maybe a `describe_schema` tool. Any LLM host can now query your database without you re-implementing the connection logic, credential management, and query sanitization in every application.
+
+This also puts access control in one place. You control what queries are allowed at the server level. The LLM host just calls the tool.
+
+### File System and Document Access
+
+An MCP server wrapping a file system or document store lets your LLM read, search, and write files without embedding file I/O logic into every agent. This is particularly useful for coding assistants, documentation bots, and any agent that needs to operate on a local or networked file tree.
+
+### Internal Tools and APIs
+
+Your company has internal APIs — a deployment system, a metrics dashboard, a ticketing system, a feature flag service. Without MCP, every LLM application that needs to call those APIs either duplicates the client code or depends on a shared SDK that couples your AI tooling to your internal platform's release cycle. An MCP server per internal service is a cleaner boundary: the service team owns the server, the AI application teams consume it.
+
+### Multi-agent Orchestration
+
+As covered in [Agentic AI: The Next Big Shift](/blog/agentic-ai-the-next-shift), agents increasingly delegate to sub-agents or specialized tools. MCP makes it practical to give each sub-agent a consistent interface to its capabilities, regardless of whether the orchestrator and sub-agent are built with the same framework.
+
+### Developer Tooling
+
+This is where MCP has the most production deployments right now. VS Code extensions, JetBrains plugins, and terminal-based agents use MCP servers to expose IDE capabilities (code diagnostics, symbol lookups, test runners) to the LLM. The tooling ecosystem here has matured faster than anywhere else, and the available open-source MCP servers for developer use cases are worth examining before writing your own.
+
+---
+
+## Writing an MCP Server
+
+Here is a minimal but real MCP server in TypeScript using the official `@modelcontextprotocol/sdk` package. It exposes two tools: one to query a Postgres database, and one to list available tables.
+
+```typescript
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { z } from "zod";
+import { Pool } from "pg";
+
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+
+const server = new McpServer({
+  name: "postgres-mcp",
+  version: "1.0.0",
+});
+
+// Tool: run a read-only SQL query
+server.tool(
+  "query",
+  "Execute a read-only SQL query and return results as JSON",
+  {
+    sql: z.string().describe("A read-only SQL SELECT statement"),
+  },
+  async ({ sql }) => {
+    // Enforce read-only at the connection level in production
+    const result = await pool.query(sql);
+    return {
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(result.rows, null, 2),
+        },
+      ],
+    };
+  }
+);
+
+// Resource: expose the database schema as a readable resource
+server.resource(
+  "schema",
+  "postgres://schema",
+  async (uri) => {
+    const result = await pool.query(`
+      SELECT table_name, column_name, data_type
+      FROM information_schema.columns
+      WHERE table_schema = 'public'
+      ORDER BY table_name, ordinal_position
+    `);
+    return {
+      contents: [
+        {
+          uri: uri.href,
+          mimeType: "application/json",
+          text: JSON.stringify(result.rows, null, 2),
+        },
+      ],
+    };
+  }
+);
+
+const transport = new StdioServerTransport();
+await server.connect(transport);
+```
+
+A few things worth noting in this example:
+
+- **Zod schemas for tool inputs** — MCP uses JSON Schema under the hood, but the SDK accepts Zod schemas and handles the conversion. Define your inputs strictly; the host relies on this schema to present tools to the model correctly.
+- **Resources vs. tools** — The schema is exposed as a resource, not a tool. The host can read it once at context assembly time rather than having the LLM call a function to retrieve it. Less inference overhead, more efficient context use.
+- **Transport** — `StdioServerTransport` is right for local subprocess usage (Claude Desktop, local agents). Switch to `StreamableHTTPServerTransport` for a remote deployment.
+
+> **Pro tip:** Always run your Postgres MCP server with a read-only database user unless write access is explicitly required. The model calling arbitrary SQL with a write-capable connection is a fast path to regret.
+
+---
+
+## Connecting a Client
+
+On the Python side, using the `mcp` package to connect to that server and call the `query` tool:
+
+```python
+import asyncio
+import json
+from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
+
+server_params = StdioServerParameters(
+    command="node",
+    args=["dist/server.js"],
+    env={"DATABASE_URL": "postgresql://user:pass@localhost/mydb"},
+)
+
+async def run_query(sql: str) -> list[dict]:
+    async with stdio_client(server_params) as (read, write):
+        async with ClientSession(read, write) as session:
+            await session.initialize()
+
+            # Optionally read the schema resource before querying
+            schema_resource = await session.read_resource("postgres://schema")
+
+            # Call the query tool
+            result = await session.call_tool("query", {"sql": sql})
+            return json.loads(result.content[0].text)
+
+rows = asyncio.run(run_query("SELECT id, name FROM users LIMIT 10"))
+```
+
+In practice, if you are embedding this in a larger agent or LLM pipeline, you would not call tools manually like this. You would hand the MCP session's tool list to your LLM call and let the model decide when to invoke tools based on the conversation. The SDK provides helpers to convert MCP tool definitions to OpenAI-compatible function schemas if your inference layer expects that format.
+
+---
+
+## MCP vs. the Alternatives
+
+### vs. Custom Function Calling / Tool Definitions
+
+Every major inference provider supports function calling: you pass a list of tool schemas at inference time, the model decides to call a tool, you execute it, and you return the result. This works. For a single-application integration with a small set of tools, it is perfectly reasonable.
+
+The gap opens when you need to reuse those tools across applications, share them between teams, or manage them independently of the inference layer. With raw function calling, the tool definitions live in your application code. With MCP, they live in the server. The server is the unit of deployment, versioning, and ownership.
+
+### vs. LangChain / LlamaIndex Tool Abstractions
+
+Framework-level tool abstractions (LangChain's `Tool`, LlamaIndex's `FunctionTool`) give you reusable tool definitions within that framework's ecosystem. The problem is portability. A LangChain tool does not work in a non-LangChain application without a port. An MCP server works in any MCP-compatible host, framework-agnostic.
+
+If you are already deep in one framework and not sharing tools across teams or applications, the framework's native tooling may be the lower-friction path. If you are building capabilities you want to be reusable across the organization, MCP's portability is the actual value.
+
+### vs. Direct API Calls in Agent Code
+
+The simplest approach: the agent just imports your API client and calls it directly. No abstraction layer, no protocol. This is fine for small, self-contained agents you own end-to-end.
+
+It starts breaking down when:
+- Multiple agents need the same capability and you do not want to copy the client code.
+- The capability is owned by a different team and you want a defined interface boundary.
+- You need to audit or rate-limit what the LLM can do, and application-level code is the wrong place to enforce that.
+- You want the capability to be available to LLM hosts you do not control (Claude Desktop, third-party agents).
+
+### vs. OpenAI GPT Actions / Plugins
+
+GPT Actions let you expose HTTP endpoints that GPT-4 can call. MCP is more general: it supports multiple transport types, supports resources and prompts (not just callable functions), and works across any LLM, not just OpenAI's models. If you are exclusively on OpenAI and deploying to ChatGPT, Actions may be simpler. If you are building infrastructure for your own agents or for Claude, MCP is the right layer.
+
+---
+
+## When MCP Shines vs. When It's Overkill
+
+**MCP earns its keep when:**
+
+- You are building a capability that multiple agents or applications will share. The centralization is the point.
+- You want to expose internal tools to LLM hosts you do not control — Claude Desktop, third-party integrations, external developers via a public MCP server.
+- Your team structure maps naturally to server ownership: the data team owns the database MCP server, the platform team owns the deployment MCP server. Each team publishes a versioned server; AI applications consume it.
+- You need a clean audit boundary — all LLM interactions with a system go through one server, making logging and access control straightforward.
+- You are in the developer tooling space, where the MCP ecosystem is already mature and many clients already support it natively.
+
+**MCP is overkill when:**
+
+- You have one application, one set of tools, and no plans to share them. Raw function calling is less infrastructure for the same result.
+- Your tools are highly stateful or tightly coupled to your application's runtime — forcing them into a separate server process adds complexity without benefit.
+- You are prototyping. Adding a protocol layer in the early stages when requirements are still changing is friction you do not need yet. Build it when reuse is real, not anticipated.
+- Your LLM host does not support MCP. If you are building on a framework or platform that does not have MCP client support, the protocol buys you nothing until that changes.
+
+> **Pro tip:** The question to ask is not "should I use MCP?" but "who else needs this capability besides this application?" If the answer is nobody, skip the abstraction. If the answer is two or more teams or applications, MCP pays for itself quickly.
+
+As production LLM systems mature — see [Building a Production LLM Pipeline](/blog/production-llm-pipeline) for the broader picture — the operational argument for MCP gets stronger. Centralized capability servers, versioned interfaces, and clear ownership boundaries are not premature optimization at scale; they are table stakes.
+
+---
+
+## Key Takeaways
+
+- MCP is a standardized protocol for connecting LLM hosts to external tools, resources, and prompts — not a framework, not a library, a protocol.
+- The core value is **reusability and centralization**: write a capability once in a server, use it from any compliant host.
+- Use **tools** for callable functions, **resources** for readable context blobs, and **prompts** for reusable prompt templates. Most implementations only use tools and leave efficiency gains on the table.
+- MCP beats raw function calling when you need portability across applications or teams. It loses when you have a single application with no sharing requirements.
+- The TypeScript SDK is more mature and has a larger community than the Python SDK as of early 2026. Either works for production; the TypeScript ecosystem has more open-source server implementations to reference.
+- Enforce access control at the server level, not the prompt level. The server is the right boundary.
+- Do not reach for MCP in a prototype. Reach for it when the reuse case is concrete and real.
+
+---
+
+## Related Posts
+
+- [Agentic AI: The Next Big Shift](/blog/agentic-ai-the-next-shift) — The architectural shifts driving agent adoption and what they demand from your tooling layer.
+- [Building the Perfect RAG](/blog/building-the-perfect-rag) — If your MCP server is exposing a retrieval capability, this is the pipeline design it should sit in front of.
+- [Building a Production LLM Pipeline](/blog/production-llm-pipeline) — The operational context for where MCP fits in a mature LLM system architecture.
+
+---
+
+*Building something interesting with MCP, or hit a sharp edge I glossed over? Drop it in the comments — I am especially curious about production war stories from teams who have run MCP servers at scale.*

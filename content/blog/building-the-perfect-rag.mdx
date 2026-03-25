@@ -1,0 +1,368 @@
+---
+title: "Building the Perfect RAG"
+date: 2026-03-25
+excerpt: "Every RAG prototype works. Production is where pipelines break. A practical guide to chunking, retrieval, advanced techniques, and eval strategies that hold up under real load."
+tags: ["RAG", "LLM", "AI"]
+published: true
+---
+
+# Building the Perfect RAG
+
+Every RAG prototype works. The embedding model is fast, the top-5 results look relevant, and the LLM strings together a coherent answer. Then you ship it, and reality arrives: answers that ignore the retrieved context, retrievals that return the wrong chunk from the right document, and a context window that quietly overflows and silently drops evidence.
+
+RAG is not a solved problem you plug in — it is a pipeline you engineer. This post is a practical guide to building one that actually holds up in production.
+
+---
+
+## Table of Contents
+
+1. [What RAG is (and isn't)](#what-rag-is-and-isnt)
+2. [The anatomy of a RAG pipeline](#the-anatomy-of-a-rag-pipeline)
+3. [Common pitfalls and how to avoid them](#common-pitfalls-and-how-to-avoid-them)
+4. [Advanced techniques that move the needle](#advanced-techniques-that-move-the-needle)
+5. [Evaluation strategies](#evaluation-strategies)
+6. [Architecture decision guide](#architecture-decision-guide)
+
+---
+
+## What RAG Is (and Isn't)
+
+Retrieval-Augmented Generation is a pattern: retrieve relevant documents from an external store, inject them into the LLM's context, then generate a grounded response. That's it.
+
+What it is not: a magic accuracy layer you bolt onto any model. RAG amplifies the quality of your retrieval. Garbage in, garbage out — just faster and with a citation.
+
+The value proposition is real though. As covered in [Why RAG beats fine-tuning for most use cases](/blog/why-rag-beats-finetuning), RAG gives you up-to-date, maintainable knowledge without retraining — which is why it has become the default architecture for production knowledge bases, support bots, and document Q&A systems.
+
+---
+
+## The Anatomy of a RAG Pipeline
+
+A production RAG pipeline has five moving parts. Each one has failure modes.
+
+### 1. Chunking
+
+Chunking converts raw documents into indexable units. Get this wrong and every downstream step suffers — retrieval returns the wrong neighborhood, the LLM sees truncated context, and semantic coherence collapses.
+
+**Naive fixed-size chunking is a trap.** Splitting every 512 tokens without regard for structure severs sentences, splits tables, and buries headings in the wrong chunk.
+
+Better strategies:
+
+- **Recursive character splitting** — respects paragraph, sentence, and word boundaries in priority order.
+- **Semantic chunking** — uses embedding similarity to detect topic shifts and split there instead of at an arbitrary token count.
+- **Hierarchical (parent-child) chunking** — index small chunks for precision retrieval, but return the surrounding parent chunk as context to the LLM.
+
+```python
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+
+splitter = RecursiveCharacterTextSplitter(
+    chunk_size=512,
+    chunk_overlap=128,           # ~25% overlap preserves cross-boundary context
+    separators=["\n\n", "\n", ". ", " ", ""]
+)
+
+chunks = splitter.split_documents(docs)
+```
+
+> **Pro tip:** Add document-level metadata to every chunk at index time — source URL, section title, creation date. You will need it for filtering and attribution later.
+
+### 2. Embedding
+
+Each chunk gets converted into a dense vector that encodes its semantic meaning. Similarity search happens in this vector space.
+
+Model choices matter. OpenAI's `text-embedding-3-large`, Cohere's `embed-v3`, and open-source models like `bge-large-en-v1.5` or `nomic-embed-text` all have different strengths. The key variables:
+
+- **Dimensionality** — higher dimensions generally capture more nuance, but increase storage and query latency.
+- **Domain alignment** — a general-purpose embedding model may underperform on legal, medical, or code corpora. Evaluate on your actual data before committing.
+- **Context window** — some embedding models max out at 512 tokens. Long chunks get silently truncated.
+
+```python
+from openai import OpenAI
+
+client = OpenAI()
+
+def embed(texts: list[str]) -> list[list[float]]:
+    response = client.embeddings.create(
+        model="text-embedding-3-large",
+        input=texts,
+        dimensions=1024   # smaller than max (3072) — good balance of quality vs. cost
+    )
+    return [r.embedding for r in response.data]
+```
+
+### 3. Vector Store
+
+The vector store holds your embeddings and serves approximate nearest-neighbor (ANN) queries. Common options:
+
+- **Pinecone** — Managed, low-ops, production scale
+- **Weaviate** — Hybrid search built-in, self-hostable
+- **Qdrant** — High-performance, self-hostable, rich filtering
+- **pgvector** — Already on Postgres? Start here
+- **ChromaDB** — Local dev and prototyping
+
+For most production workloads: **Qdrant or Weaviate** if you self-host, **Pinecone** if you want zero infra overhead.
+
+### 4. Retrieval
+
+The retrieval step takes the user query, embeds it, and fetches the top-k most similar chunks. This is where most RAG systems silently fail.
+
+Top-k is not a fixed constant. 3 is too few for multi-part questions. 20 is too many for a 4k context window. The right value depends on your chunk size, context window budget, and query complexity — and it should be tunable at runtime.
+
+### 5. Generation
+
+The LLM receives the query plus retrieved context and generates the final answer. Key decisions here:
+
+- **System prompt design** — be explicit: "Answer only from the provided context. If the context does not contain the answer, say so."
+- **Context ordering** — models tend to weight the beginning and end of context more than the middle ("lost in the middle" problem). Put your highest-confidence chunks first and last.
+- **Citation enforcement** — instruct the model to cite the source document name or chunk ID. This surfaces retrieval errors immediately during eval.
+
+---
+
+## Common Pitfalls and How to Avoid Them
+
+### Bad Chunking Strategies
+
+The most common failure: chunks that cut across the very information the user is asking about. A table split in half, a code block severed at line 3, a numbered list where only items 1–4 land in the chunk.
+
+Fix: inspect your chunks visually before indexing. Build a small script that prints 20 random chunks. If they look broken to you, they look broken to the retriever.
+
+### Poor Retrieval Quality
+
+High cosine similarity does not mean high relevance. Two chunks can be semantically close in embedding space while one is completely off-topic in context.
+
+Common causes:
+- Query is too vague — the embedding model can not distinguish what the user actually wants.
+- Chunks are too long — the embedding averages over too much content, diluting the signal.
+- Mismatch between embedding model training distribution and your corpus.
+
+### Context Window Mismanagement
+
+LLMs have hard token limits. If your retrieval returns 20 chunks of 512 tokens each, that is 10,240 tokens of context before the prompt, system message, or answer. You will either hit the limit silently (truncation) or throw an error.
+
+Track token counts explicitly at runtime:
+
+```python
+import tiktoken
+
+enc = tiktoken.encoding_for_model("gpt-4o")
+
+def count_tokens(text: str) -> int:
+    return len(enc.encode(text))
+
+def build_context(chunks: list[str], max_tokens: int = 6000) -> str:
+    context_parts = []
+    used = 0
+    for chunk in chunks:
+        n = count_tokens(chunk)
+        if used + n > max_tokens:
+            break
+        context_parts.append(chunk)
+        used += n
+    return "\n\n---\n\n".join(context_parts)
+```
+
+### Hallucinations Despite Retrieval
+
+RAG reduces hallucinations; it does not eliminate them. The model can still confabulate details not present in the retrieved context, especially if:
+
+- The retrieved chunks are only loosely relevant.
+- The system prompt does not explicitly constrain generation to the context.
+- The model is large and confident enough to override retrieved evidence.
+
+Mitigation: add a faithfulness check post-generation (more on this in the evaluation section), and consider adding an explicit "no-answer" path when retrieval confidence is low.
+
+---
+
+## Advanced Techniques That Move the Needle
+
+These are the techniques that separate a demo from a production system.
+
+### Hybrid Search
+
+Pure vector search misses exact keyword matches. Hybrid search combines dense retrieval (semantic) with sparse retrieval (BM25 / TF-IDF) and blends the scores — typically via Reciprocal Rank Fusion (RRF).
+
+```python
+# Qdrant hybrid search example
+from qdrant_client import QdrantClient
+from qdrant_client.models import SparseVector
+
+results = client.query_points(
+    collection_name="my_collection",
+    prefetch=[
+        {"query": dense_vector, "using": "dense", "limit": 20},
+        {"query": SparseVector(indices=sparse_indices, values=sparse_values),
+         "using": "sparse", "limit": 20},
+    ],
+    query={"fusion": "rrf"},
+    limit=10,
+)
+```
+
+Hybrid search reliably outperforms either approach alone, especially for product names, codes, and proper nouns that embedding models tend to blur together.
+
+### Re-ranking
+
+Retrieve a large candidate set (top-20 or top-50), then run a cross-encoder re-ranker over the candidates to re-score them. Cross-encoders are slower than bi-encoders but far more accurate because they see the query and document together.
+
+```python
+from sentence_transformers import CrossEncoder
+
+reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+
+def rerank(query: str, candidates: list[str], top_k: int = 5) -> list[str]:
+    pairs = [(query, c) for c in candidates]
+    scores = reranker.predict(pairs)
+    ranked = sorted(zip(scores, candidates), reverse=True)
+    return [doc for _, doc in ranked[:top_k]]
+```
+
+Cohere's Rerank API offers a strong managed alternative if you do not want to host a model.
+
+### HyDE (Hypothetical Document Embeddings)
+
+A clever trick: instead of embedding the user's raw query, ask the LLM to generate a hypothetical document that would answer the query, then embed that hypothetical document. Because it looks like an answer rather than a question, it sits closer in embedding space to your actual answer chunks.
+
+```python
+def hyde_embed(query: str) -> list[float]:
+    hypothetical_doc = llm.complete(
+        f"Write a short paragraph that directly answers this question:\n{query}"
+    )
+    return embed([hypothetical_doc])[0]
+```
+
+HyDE is particularly effective for technical Q&A where queries are terse ("how does X work?") but documents are verbose.
+
+### Query Expansion and Decomposition
+
+Multi-hop questions ("Which customers from the 2023 cohort upgraded to the enterprise plan?") are a single embedding query's nightmare. Decompose them:
+
+```python
+sub_queries = llm.complete(
+    f"Break this question into 2-4 simpler sub-questions:\n{query}"
+)
+# Run retrieval for each sub-query, deduplicate, then generate
+```
+
+Similarly, expanding a short query into 3–5 paraphrases and union-ing the results reduces sensitivity to exact wording.
+
+### Metadata Filtering
+
+Do not retrieve from your entire corpus if you do not have to. Metadata filters (date range, document type, user permission scope, product area) drastically shrink the search space before vector similarity runs, improving both speed and relevance.
+
+```python
+results = vector_store.search(
+    query_vector=embed(query),
+    filter={"source": "support_tickets", "date": {"gte": "2025-01-01"}},
+    top_k=10
+)
+```
+
+### Contextual Compression
+
+Return only the relevant sentences from each retrieved chunk, not the whole chunk. This keeps context tight and reduces the "lost in the middle" effect.
+
+```python
+from langchain.retrievers.document_compressors import LLMChainExtractor
+from langchain.retrievers import ContextualCompressionRetriever
+
+compressor = LLMChainExtractor.from_llm(llm)
+compression_retriever = ContextualCompressionRetriever(
+    base_compressor=compressor,
+    base_retriever=base_retriever
+)
+```
+
+---
+
+## Evaluation Strategies
+
+You cannot improve what you do not measure. Build an eval loop before you optimize anything.
+
+### RAGAS
+
+[RAGAS](https://github.com/explodinggradients/ragas) is the standard open-source framework for RAG evaluation. It measures four dimensions without requiring ground-truth labels for every question:
+
+- **Faithfulness** — Is the answer grounded in the retrieved context?
+- **Answer Relevancy** — Does the answer address the question?
+- **Context Precision** — Are the retrieved chunks actually relevant to the question?
+- **Context Recall** — Did retrieval surface all the evidence needed?
+
+```python
+from ragas import evaluate
+from ragas.metrics import faithfulness, answer_relevancy, context_precision
+
+results = evaluate(
+    dataset=eval_dataset,   # HuggingFace Dataset with question/answer/contexts
+    metrics=[faithfulness, answer_relevancy, context_precision]
+)
+print(results)
+```
+
+### LLM-as-Judge
+
+For qualitative evaluation at scale, use a capable model (GPT-4o, Claude Opus) to score responses on correctness, completeness, and tone. Define a rubric, enforce it via structured output, and aggregate scores.
+
+> **Note:** LLM judges are consistent but not perfectly calibrated. Use them to detect regressions, not to report absolute accuracy numbers to stakeholders.
+
+### Retrieval-Specific Metrics
+
+Separately evaluate retrieval quality before generation quality. If retrieval is broken, there is no point optimizing prompts.
+
+- **Hit rate** — does the correct document appear in the top-k?
+- **MRR (Mean Reciprocal Rank)** — how high does the correct document rank?
+- **NDCG** — weighted ranking quality across the full result set.
+
+Build a labelled retrieval eval set of at least 50–100 queries with known relevant documents. Run it on every significant pipeline change.
+
+---
+
+## Architecture Decision Guide
+
+Use this as a starting checklist when designing or auditing a RAG system.
+
+**Chunking**
+- Chunk strategy respects semantic boundaries (not just token count)
+- Chunk size validated against your embedding model's context limit
+- Parent-child chunking considered for long documents
+- All chunks carry structured metadata
+
+**Retrieval**
+- Hybrid search (dense + sparse) in place for keyword-sensitive queries
+- Re-ranker applied to candidate set before context assembly
+- Metadata filters scoped to reduce search space where possible
+- Top-k is dynamic and validated against available context budget
+
+**Generation**
+- System prompt explicitly restricts generation to retrieved context
+- Token budget enforced before LLM call
+- "I don't know" path present when retrieval confidence is low
+- Citations or source references required in output
+
+**Evaluation**
+- Retrieval eval set (hit rate / MRR) in CI pipeline
+- RAGAS or equivalent faithfulness metric tracked per release
+- LLM-as-judge regression tests on golden question set
+- Latency and cost tracked per query
+
+---
+
+## Key Takeaways
+
+- Chunking quality determines retrieval quality. Fix chunking before touching anything else.
+- Hybrid search (dense + sparse + re-rank) is the current practical ceiling for retrieval quality without fine-tuning an embedding model.
+- HyDE, query expansion, and contextual compression are high-leverage techniques with minimal infrastructure cost.
+- Build your eval loop on day one. You cannot safely optimize a pipeline you cannot measure.
+- Token budget management is operational hygiene, not an optimization — missing it causes silent failures.
+
+RAG done well is not a single model call — it is a data pipeline with a language model at the end. Treat it like one.
+
+---
+
+## Related Posts
+
+- [Why RAG beats fine-tuning for most use cases](/blog/why-rag-beats-finetuning) — The strategic case for RAG over retraining, and when fine-tuning is actually the right call.
+- [Building a production LLM pipeline in 2025](/blog/production-llm-pipeline) — Broader lessons on taking LLM features from demo to production, including chunking, eval loops, and cost control.
+- [Agent Reliability Blueprint: SLOs, Guardrails, and Human Override](/blog/agent-reliability-blueprint) — When your RAG system is embedded in a larger agent, this is the reliability architecture it needs around it.
+
+---
+
+*Have a retrieval technique that made a meaningful difference in your system? Drop it in the comments — I read every one.*
