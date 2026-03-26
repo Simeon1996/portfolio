@@ -1,0 +1,114 @@
+---
+title: "Why Would I Choose Codex?"
+date: 2026-03-26
+excerpt: "OpenAI's Codex CLI brings terminal-native agentic coding with multimodal input and sandboxed execution to developers already living in the OpenAI ecosystem."
+tags: ["Codex", "OpenAI", "AI", "Developer Tools"]
+published: true
+---
+
+If you have been paying attention to the agentic coding space, you already know the landscape is getting crowded fast. Claude Code, Cursor, Aider, GitHub Copilot — every tool is racing to be the one that sits between you and your editor and actually gets things done. OpenAI's answer to that race is Codex CLI: a terminal-native, agentic coding agent that runs tasks in a sandboxed environment and integrates tightly with OpenAI's model ecosystem.
+
+I want to give you an honest answer to the question in this post's title. Not a product pitch. Not a comparison chart with every cell conveniently green. Just a developer's take on when Codex CLI is genuinely the right call — and when it isn't.
+
+## What Codex CLI Actually Is
+
+First, let's be precise about what we're talking about. Codex CLI is not the old Codex model or the Codex API that OpenAI deprecated in 2023. This is a completely different thing: an open-source, terminal-based agentic coding tool, conceptually similar to Claude Code or Aider, that you run from your shell.
+
+You give it a task. It reads your codebase, plans a sequence of steps, writes and edits files, runs shell commands, and iterates — all from the terminal, without you babysitting it through every micro-decision. That's what "agentic" means here: it's not just autocomplete. It's a tool that can take a goal and pursue it across multiple files and steps.
+
+The CLI is open source, which matters for extensibility and for trust. You can inspect exactly what it's doing, fork it, or contribute to it. That transparency is not something every tool in this space can claim.
+
+## The OpenAI Model Ecosystem Advantage
+
+Here is the most straightforward reason to reach for Codex CLI: if you are already deep in the OpenAI ecosystem, it fits like a native tool.
+
+Codex CLI is built to work with OpenAI's model lineup — GPT-4o, o3, o4-mini — and you switch between them with a single flag. That model flexibility is genuinely useful in practice. Fast, cheap iteration on a greenfield feature? Reach for o4-mini and keep costs low. Complex refactor that needs careful reasoning? Switch to o3. The model is a dial you can tune per task, not a fixed parameter baked into the tool.
+
+This matters especially if your team is already managing OpenAI API keys, building with the Assistants API, or running fine-tuned models on OpenAI infrastructure. Adding Codex CLI to that workflow is one new tool, not a new vendor relationship. Your billing is in one place. Your API key management is in one place. Your rate limits and quotas are already understood. That operational simplicity is easy to underestimate until you've had to manage three separate AI vendor accounts across a single project.
+
+For teams that have invested in fine-tuning OpenAI models on their own codebase or domain-specific data, the potential to point Codex CLI at those models is a genuine differentiator. No other tool in this category gives you that path.
+
+## Sandboxed Execution: Safe by Default
+
+One of the things I appreciate most about Codex CLI's design is its approach to execution safety. When Codex runs shell commands or scripts as part of completing a task, it does so in a sandboxed environment — network disabled, Docker-backed, isolated from your broader system.
+
+Why does that matter? Because agentic tools are powerful in proportion to the damage they can do when they get something wrong. A tool that can write files, run builds, and execute scripts can also delete things, make unexpected network calls, or introduce changes that are hard to trace. The sandbox is a circuit breaker. It means you can let the agent run with more autonomy without losing sleep about what it might be doing in the background.
+
+Compare that to a coding assistant that runs commands directly in your shell with your full permissions. There's a reason security-conscious teams prefer sandboxed execution even at the cost of some setup friction. For professional environments where someone is going to ask "is this safe to run on developer machines?", having a documented, Docker-backed sandbox model is a concrete answer.
+
+## Multimodal Input: The Feature That Actually Differentiates
+
+If I had to pick the single capability that makes Codex CLI stand out from the field right now, it's multimodal input.
+
+You can give Codex CLI a screenshot, a design mockup, a wireframe, or a diagram — and use that as part of the input alongside your code and your text instructions. That is not a minor feature. That changes entire categories of work.
+
+Here is a concrete example. You have a Figma mockup of a new component. Instead of manually translating the layout, spacing, colors, and structure into code, you drop the screenshot into your prompt alongside your existing component library files and say "implement this." The agent sees the visual design and your code context simultaneously and generates an implementation that accounts for both.
+
+For UI work, this is transformative. Frontend developers spend a meaningful portion of their time doing exactly this kind of visual-to-code translation. Tools that can close that loop with an image input rather than a lengthy text description of what a design looks like are genuinely faster to work with.
+
+This is also useful beyond UI. Architecture diagrams as input for scaffolding a new service. A photo of a whiteboard diagram to initialize a data model. An annotated screenshot of a bug to give the agent visual context alongside the error log. The multimodal channel is flexible.
+
+Claude Code, Aider, and most other terminal-based agents do not offer this. It is one of the clearest cases where Codex CLI's position inside OpenAI's multimodal infrastructure pays off for the end user.
+
+## When Codex CLI Shines
+
+Let me be specific about the scenarios where I would reach for Codex CLI without hesitation.
+
+**Greenfield projects with a visual design reference.** Starting from scratch with a mockup or wireframe? The combination of multimodal input and agentic file generation makes this one of the fastest ways to get from a design to a working skeleton.
+
+**Fast iteration with cost sensitivity.** If you need to run many agentic loops — exploratory work, prototyping, working through a large backlog of small tasks — the ability to drop down to o4-mini keeps costs manageable. You're not locked into paying for the most expensive model for every task.
+
+**Teams already on OpenAI infrastructure.** If your production stack already calls GPT-4o, your team already has OpenAI API access, and your organization is already comfortable with OpenAI's data handling policies, Codex CLI adds almost no operational overhead.
+
+**Sandboxed environments where safety is a constraint.** Corporate environments, shared developer machines, CI pipelines where you want agentic capabilities without broad shell access — the Docker-backed sandbox is a real answer to those requirements.
+
+**Projects where extensibility matters.** Because it's open source, you can modify Codex CLI's behavior, integrate it into custom tooling, or build it into a CI pipeline in ways that are simply not possible with closed commercial tools.
+
+## Honest Trade-offs
+
+I said this wouldn't be a puff piece, so let's talk about where Codex CLI genuinely falls short.
+
+**Reasoning depth.** For tasks that require deep, multi-step reasoning over complex code — understanding subtle bugs across a large system, maintaining coherent long-horizon plans through a complicated refactor — Claude's reasoning models currently have an edge. This is not a knock on the tool so much as a reflection of where the underlying models are today. It may shift.
+
+**Context window.** Context window sizes vary by model, and for very large codebases, the ability to hold more of your project in context at once matters. Depending on which OpenAI model you're using, you may hit context limits sooner than with alternatives.
+
+**Ecosystem maturity.** Codex CLI is newer to this space than some alternatives. The community, the integrations, the edge-case documentation — these are all still developing. If you need a tool with years of battle-tested usage patterns and a large community of users sharing workflows, Aider has a head start.
+
+**Cost at scale.** If you are running many parallel agentic sessions or working with very long context inputs at the GPT-4o or o3 tier, costs can accumulate. The model flexibility helps, but it's worth modeling your usage patterns before committing.
+
+## Who Should Pick Codex CLI
+
+The clearest profile for a Codex CLI user is a developer or team that:
+
+- Is already building on or with OpenAI's API and wants operational consistency
+- Does meaningful UI work and can benefit from visual/screenshot input
+- Needs sandboxed execution for safety or compliance reasons
+- Values open-source extensibility over polished closed tooling
+- Works in greenfield contexts or fast-iteration cycles where cheaper models are a viable choice
+
+If you are evaluating agentic coding tools from scratch with no existing vendor commitments, the decision is more open. Claude Code has stronger reasoning for complex tasks. Aider has broader community adoption and model flexibility including non-OpenAI models. Cursor offers a richer editor experience if you are not committed to the terminal.
+
+But if the OpenAI ecosystem is your home base, Codex CLI is not a compromise — it's a natural fit.
+
+## The Open-Source Angle
+
+It's worth dwelling on the open-source nature of Codex CLI for a moment, because it has implications beyond just "you can read the code."
+
+Open-source tooling in the agentic coding space means you can audit exactly what commands are being run, how prompts are constructed, and what data leaves your machine. For developers working on sensitive codebases or in regulated industries, that auditability is not a nice-to-have. It's a requirement.
+
+It also means the tool can be extended. You can write custom workflows on top of it, integrate it into your own CLI tooling, or build it into a CI pipeline in ways that are simply not possible with closed tools. The extensibility surface is real and grows as the community builds around it.
+
+## Wrapping Up
+
+Codex CLI is a serious tool for serious workflows. It is not the right choice for everyone, and I'd be skeptical of anyone who told you it was. But for developers already in the OpenAI ecosystem, teams doing visual-to-code work, and shops that need sandboxed execution by default, it competes at the top of the field.
+
+The multimodal input capability alone is worth exploring if you do any frontend or design-adjacent work. The model flexibility across GPT-4o, o3, and o4-mini gives you real cost control. And the open-source foundation means you are not locked into whatever the vendor decides the tool should be.
+
+Try it on a greenfield task. Drop in a screenshot. See how the sandbox feels. The best way to answer "would I choose this?" is to run it on something real.
+
+---
+
+## Related Posts
+
+- [Why Would I Choose Claude Code?](/blog/why-would-i-choose-claude-code) — A look at Anthropic's terminal-native agentic coding tool and when it has the edge.
+- [Why Would I Use an MCP Server?](/blog/why-would-i-use-an-mcp-server) — Understanding the Model Context Protocol and how it extends what agentic tools can do.

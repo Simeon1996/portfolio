@@ -1,0 +1,154 @@
+---
+title: "MLOps Is Just DevOps With More Humility"
+date: 2026-03-26
+excerpt: "MLOps extends DevOps principles into machine learning systems — but ML introduces a new class of silent, world-driven failure modes that demand an entirely new posture of epistemic humility."
+tags: ["MLOps", "DevOps", "AI", "Engineering"]
+published: true
+---
+
+I have been building software long enough to remember when "DevOps" was a job title that made infrastructure engineers roll their eyes. Now it is the default operating model for any serious engineering team. And I have been building ML systems long enough to watch the exact same transition happen with MLOps — the same skepticism, the same slow adoption, and eventually the same "obviously we should have been doing this all along."
+
+Here is my honest take: MLOps is not a reinvention of DevOps. It is DevOps applied to a domain that is fundamentally more unpredictable, more stateful, and more humbling. Most of the principles transfer. But the places where they break down are where things get genuinely interesting — and genuinely dangerous if you are not paying attention.
+
+---
+
+## What DevOps Actually Is
+
+Before we can talk about where ML changes things, we need to be precise about what DevOps actually solved.
+
+The core insight of DevOps is deceptively simple: **reduce the gap between writing code and running it in production**. Everything else — CI/CD, infrastructure as code, automated testing, observability, on-call rotations — is in service of that one idea.
+
+When that gap is wide, you get long release cycles, integration failures at the last possible moment, and a culture where "works on my machine" is an acceptable defense. When that gap is narrow, you get fast feedback, small changes, and a system that the team actually understands because they shipped it yesterday, not six months ago.
+
+The specific tools that close this gap are familiar:
+
+- **CI/CD pipelines** that run tests and deploy on every code change
+- **Infrastructure as code** so environments are reproducible and version-controlled
+- **Automated testing** that catches regressions before humans do
+- **Observability** — logs, metrics, traces — so you know when production is unhappy
+- **Feedback loops** that route production signals back to the development process
+
+These are good ideas. They work. MLOps inherits all of them.
+
+---
+
+## Where DevOps Maps Directly to MLOps
+
+The translation from DevOps to MLOps is surprisingly clean in a lot of areas.
+
+**Version control** in DevOps means versioning code. In MLOps, you version code *and data and models*. Tools like DVC treat datasets the way Git treats source files — storing pointers to immutable snapshots rather than the data itself. A model trained on version `v2.4.1` of your training set is reproducible in the same way that a binary built from commit `a3f9c12` is reproducible. This should be non-negotiable on any serious ML team.
+
+**CI/CD pipelines** still run on code commits, but they now also run on data. A new batch of labeled data lands in your feature store and it triggers a pipeline: data validation, model evaluation, comparison against the current production model, and a promotion decision. The artifact that gets deployed is a model file, not a container image — but the pattern is identical.
+
+**Automated testing** expands its scope. You still run unit tests and integration tests. But you also run data validation checks (are the feature distributions what we expect?), model evaluation checks (does this model beat the baseline on the holdout set?), and behavioral tests (does the model still handle the known edge cases correctly?). These are first-class test citizens, not afterthoughts.
+
+**Infrastructure as code** applies directly. Your training cluster, your serving infrastructure, your feature store, your experiment tracking server — all of it should be defined in Terraform, Pulumi, or your IaC tool of choice. A training run that only works on one engineer's cloud account is a liability.
+
+The overlap is real. If you know DevOps deeply, you are not starting from zero with MLOps. But you are about to encounter a class of problems that DevOps never had to solve.
+
+---
+
+## Where ML Breaks the DevOps Mental Model
+
+Here is the assumption that underpins all of traditional DevOps: **if the code has not changed, the behavior has not changed**.
+
+This is so deeply embedded in software engineering that it is rarely stated explicitly. It is why we trust immutable deployments. It is why a green test suite at 9 AM gives us confidence the system is healthy at 9 PM. It is why "rollback to the last known good version" is a reliable recovery strategy.
+
+In machine learning, this assumption is false. **The world changes, and your model degrades silently.**
+
+This is the fundamental difference, and it reshapes everything downstream.
+
+**Data drift** is when the distribution of your input features shifts away from what the model was trained on. A fraud detection model trained in January may have never seen the transaction patterns that emerge in December. The model does not throw an error. It does not return `null`. It returns a confident-looking probability score that is quietly, systematically wrong. Your error rate dashboard looks fine. Your latency is nominal. The model is failing.
+
+**Concept drift** is subtler and nastier. The relationship between inputs and outputs changes, even if the inputs themselves look the same. What "high risk" means in fraud detection evolves as fraud patterns evolve. A model trained on last year's fraud looks at this year's fraud and sees... normal transactions. The inputs look familiar. The labels it would assign are wrong. No alarm goes off.
+
+**Training/serving skew** is a failure of process rather than time. The features your model was trained on are not exactly the features your serving infrastructure computes at inference time. Maybe the training pipeline used a 30-day rolling average and the serving pipeline uses a 7-day rolling average because someone changed it and did not update both. The model was never wrong in development. It is quietly wrong in production from day one.
+
+**Reproducibility** is a wound that keeps reopening. Same code, same data, same hardware configuration — and you do not always get the same model. Non-determinism in training (GPU floating point, data loading order, random seed handling across distributed training) means that "reproducing" a production model from its training code and data is aspirational, not guaranteed. In traditional software, a deterministic build system is table stakes. In ML, you are grateful when it works and not surprised when it does not.
+
+---
+
+## The New Observability Problem
+
+In a traditional service, "the system is healthy" means: error rates are low, latency is within SLA, and saturation is not critical. These are binary-ish signals. A 500 error is a 500 error.
+
+In an ML system, the output is a probability. Or a ranked list. Or a generated sequence. What does it mean for that output to be "correct"? How do you monitor correctness when the ground truth may not arrive for hours, days, or never?
+
+This forces a new layer of observability that has no parallel in DevOps:
+
+- **Prediction distribution monitoring**: Is the model outputting predictions in roughly the same distribution it always has? A shift in the histogram of output scores is an early warning signal, even before you have ground truth labels.
+- **Feature distribution monitoring**: Are the inputs arriving in the expected ranges and distributions? This catches data pipeline failures and upstream schema changes before they corrupt your predictions.
+- **Model confidence calibration**: A model that was well-calibrated at training time may become overconfident or underconfident as the world drifts. Watching calibration curves over time is a signal DevOps has no concept of.
+- **Data quality metrics**: Null rates, cardinality shifts, referential integrity — these belong in your monitoring dashboard alongside p99 latency.
+
+The honest answer to "what does 'the system is working' mean for an ML system" is: it means the system is behaving consistently with its recent past, inputs look like training-time inputs, and prediction distributions are stable. You are building a system that detects when it is probably wrong, because you cannot always know when it is definitely wrong.
+
+---
+
+## The Experiment Tracking Layer
+
+DevOps has no equivalent to this, and the absence of it in early ML systems caused enormous amounts of pain.
+
+When you train a model, you are not deploying a single artifact — you are exploring a space. You run dozens or hundreds of training experiments with different hyperparameters, architectures, feature sets, and data slices. You need to know, months later, exactly what configuration produced your current production model. You need to compare run 147 against run 203. You need to reproduce the exact environment — Python version, library versions, random seeds, data snapshot — that produced your best checkpoint.
+
+Tools like MLflow, Weights & Biases, and Neptune exist because this problem is real and hard. An experiment tracker is a combination of version control, a database, and an artifact store, purpose-built for the ML training loop.
+
+If you are coming from a DevOps background and you have never used an experiment tracker, the closest analogy is: imagine if your CI system recorded not just pass/fail for each commit, but every intermediate variable in every function call, the full environment state, and the exact binary output — and let you query and compare across thousands of runs. That is what experiment tracking does for training.
+
+---
+
+## Retraining Pipelines as a New Class of CI/CD
+
+In DevOps, CI/CD is triggered by a code commit. In MLOps, it is also triggered by:
+
+- A data quality check failing
+- A drift threshold being crossed (input distribution or output distribution)
+- A scheduled cadence (weekly retraining regardless of drift signals)
+- A feedback loop completing (new labeled data arriving from human reviewers)
+
+The output of this pipeline is not a new container image. It is a new model artifact — a set of weights, a serialized scikit-learn pipeline, a fine-tuned adapter. The deployment step promotes this artifact to serving infrastructure, often behind an A/B test or a shadow deployment that validates the new model against real traffic before it takes over.
+
+This is CI/CD in structure and spirit. The discipline is identical: automated validation, artifact promotion, rollback capability, deployment history. The trigger and the artifact are different.
+
+Building retraining pipelines as a first-class concern from day one — not bolting them on after the first drift incident — is one of the highest-leverage things an ML team can do.
+
+---
+
+## The Humility Part
+
+Here is what DevOps never had to teach you: **you can do everything right and still have a degraded system**.
+
+Your CI passes. Your tests are green. Your infrastructure is immutable and auditable. Your deployment went smoothly. Your model is still quietly wrong because the world changed since you last trained it, and your monitoring caught it three days later instead of three weeks later only because you built good tooling.
+
+That is not a failure of engineering. That is the nature of the domain.
+
+DevOps instilled a kind of confidence that is appropriate for deterministic systems: if you follow the practices, the system behaves predictably. MLOps demands something different — a posture of **epistemic humility** that accepts model degradation as a when, not an if, and builds the entire system around detecting and recovering from it quickly.
+
+This means:
+- Assuming your model is wrong about some portion of your traffic at any given time
+- Designing feedback loops that surface ground truth as fast as possible
+- Building retraining pipelines before you need them, not after your first incident
+- Treating model monitoring as a product concern, not an infrastructure afterthought
+- Writing runbooks for "model performance degraded" the same way you write runbooks for "database is unavailable"
+
+The engineers I have seen struggle most with MLOps are the ones who are very good at DevOps and expect the same level of deterministic control. The engineers who adapt fastest are the ones who treat the model as a component that requires ongoing stewardship, not a binary that works or does not.
+
+---
+
+## Where to Start if You Know DevOps
+
+If you have a DevOps background and are moving into MLOps, here is the highest-leverage starting point:
+
+1. **Version your data like you version your code.** Reach for DVC, Delta Lake, or whatever gives you immutable, addressable snapshots of your training data. Do this before anything else.
+2. **Add model evaluation as a CI step.** Every PR that touches training code or feature logic should trigger a training run (even a small one) and compare the resulting model against a baseline. Automated evaluation gates are your equivalent of unit tests.
+3. **Add prediction monitoring alongside your existing monitoring.** Ship the model, then immediately instrument prediction distributions and feature distributions. You already know how to run dashboards and set alerts — apply that muscle to model outputs.
+4. **Build a retraining pipeline before you need it.** The worst time to build a retraining pipeline is during a drift incident. Build the skeleton — even a manual trigger — while the system is healthy.
+
+The practices are not exotic. The mindset shift is.
+
+---
+
+## Related Posts
+
+- [Building a Production LLM Pipeline in 2025](/blog/production-llm-pipeline) — A ground-up walkthrough of what it actually takes to ship an LLM-backed feature that holds up under production load.
+- [The Agent Reliability Blueprint](/blog/agent-reliability-blueprint) — How to design agentic systems that fail gracefully, recover predictably, and stay observable when things go sideways.
