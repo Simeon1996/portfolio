@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" role="img" aria-labelledby="pr-title pr-desc">
+  <title id="pr-title">AI Productivity Reality: Where Gains Are Actually Showing Up</title>
+  <desc id="pr-desc">Bar chart comparing economy-wide AI productivity impact (~0%) versus software development and customer support (~30%), based on Goldman Sachs 2026 research.</desc>
+  <defs>
+    <linearGradient id="pr-bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="pr-cyan" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="pr-pink" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <linearGradient id="pr-gray" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#2a3f55"/>
+      <stop offset="100%" stop-color="#3a5168"/>
+    </linearGradient>
+    <filter id="pr-glow" x="-5%" y="-30%" width="110%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .pr-title { font: 700 34px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
+      .pr-sub   { font: 500 15px 'Space Mono', monospace; fill: #9bc0d8; }
+      .pr-label { font: 600 15px 'Space Grotesk', sans-serif; fill: #c8e6f8; }
+      .pr-pct   { font: 700 20px 'Space Grotesk', sans-serif; }
+      .pr-note  { font: 500 13px 'Space Mono', monospace; fill: #5a8099; }
+      .pr-axis  { font: 500 12px 'Space Mono', monospace; fill: #4a7090; }
+      .pr-foot  { font: 500 12px 'Space Mono', monospace; fill: #3d6478; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="520" fill="url(#pr-bg)"/>
+
+  <!-- subtle grid -->
+  <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
+    <line x1="0" y1="130" x2="1200" y2="130"/>
+    <line x1="0" y1="250" x2="1200" y2="250"/>
+    <line x1="0" y1="370" x2="1200" y2="370"/>
+    <line x1="540" y1="120" x2="540" y2="430"/>
+    <line x1="770" y1="120" x2="770" y2="430"/>
+    <line x1="1000" y1="120" x2="1000" y2="430"/>
+  </g>
+
+  <!-- header -->
+  <text class="pr-title" x="60" y="64">AI Productivity: Where Gains Are Actually Showing Up</text>
+  <text class="pr-sub"   x="60" y="92">Goldman Sachs 2026 — economy-wide vs. targeted deployments</text>
+
+  <!-- axis baseline -->
+  <line x1="310" y1="430" x2="1060" y2="430" stroke="#2a4a62" stroke-width="1.5"/>
+
+  <!-- x-axis labels -->
+  <text class="pr-axis" x="310" y="450" text-anchor="middle">0%</text>
+  <text class="pr-axis" x="540" y="450" text-anchor="middle">10%</text>
+  <text class="pr-axis" x="770" y="450" text-anchor="middle">20%</text>
+  <text class="pr-axis" x="1000" y="450" text-anchor="middle">30%</text>
+  <line x1="540"  y1="430" x2="540"  y2="436" stroke="#2a4a62" stroke-width="1"/>
+  <line x1="770"  y1="430" x2="770"  y2="436" stroke="#2a4a62" stroke-width="1"/>
+  <line x1="1000" y1="430" x2="1000" y2="436" stroke="#2a4a62" stroke-width="1"/>
+
+  <!-- ROW 1 — Economy-wide -->
+  <text class="pr-label" x="295" y="157" text-anchor="end">Economy-wide</text>
+  <rect x="310" y="136" width="16" height="38" rx="3" fill="url(#pr-gray)"/>
+  <text class="pr-pct"  x="340" y="162" fill="#4a7090">~0%</text>
+  <text class="pr-note" x="340" y="182">"no meaningful relationship" — Goldman Sachs</text>
+
+  <!-- ROW 2 — Software Dev -->
+  <text class="pr-label" x="295" y="277" text-anchor="end">Software Dev</text>
+  <rect x="310" y="256" width="690" height="38" rx="3" fill="url(#pr-cyan)" filter="url(#pr-glow)"/>
+  <text class="pr-pct" x="1016" y="281" fill="#4ecbff">~30%</text>
+
+  <!-- ROW 3 — Customer Support -->
+  <text class="pr-label" x="295" y="397" text-anchor="end">Customer Support</text>
+  <rect x="310" y="376" width="690" height="38" rx="3" fill="url(#pr-pink)" filter="url(#pr-glow)"/>
+  <text class="pr-pct" x="1016" y="401" fill="#ffaac8">~30%</text>
+
+  <!-- footer notes — no overlap, below axis -->
+  <text class="pr-foot" x="60" y="477">Only 1% of S&amp;P 500 companies quantified AI's impact on earnings — Goldman Sachs (Mar 2026)</text>
+  <text class="pr-foot" x="60" y="497">95% of organizations report no measurable AI returns — MIT Media Lab</text>
+</svg>

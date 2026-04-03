@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" role="img" aria-labelledby="title2 desc2">
+  <title id="title2">The $650B Capex Reckoning: AI Spend vs. Measured Returns</title>
+  <desc id="desc2">Three stat blocks showing the gap between AI capital expenditure and measurable business returns in 2026.</desc>
+  <defs>
+    <linearGradient id="bg2" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="cardCyan" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="rgba(78,203,255,0.08)"/>
+      <stop offset="100%" stop-color="rgba(78,203,255,0.02)"/>
+    </linearGradient>
+    <linearGradient id="cardPink" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="rgba(255,106,158,0.10)"/>
+      <stop offset="100%" stop-color="rgba(255,106,158,0.02)"/>
+    </linearGradient>
+    <linearGradient id="cardAmber" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="rgba(255,193,125,0.10)"/>
+      <stop offset="100%" stop-color="rgba(255,193,125,0.02)"/>
+    </linearGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .t2  { font: 700 36px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
+      .s2  { font: 500 16px 'Space Mono', monospace; fill: #9bc0d8; }
+      .big { font: 800 64px 'Space Grotesk', sans-serif; }
+      .lbl { font: 600 16px 'Space Grotesk', sans-serif; fill: #c8e6f8; }
+      .sm  { font: 500 13px 'Space Mono', monospace; fill: #7aaabf; }
+      .src2 { font: 500 12px 'Space Mono', monospace; fill: #3a5a70; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="500" fill="url(#bg2)"/>
+
+  <!-- grid -->
+  <g opacity="0.07">
+    <line x1="0" y1="140" x2="1200" y2="140" stroke="#5fa2d0" stroke-width="1"/>
+    <line x1="0" y1="260" x2="1200" y2="260" stroke="#5fa2d0" stroke-width="1"/>
+    <line x1="0" y1="380" x2="1200" y2="380" stroke="#5fa2d0" stroke-width="1"/>
+    <line x1="400" y1="0" x2="400" y2="500" stroke="#5fa2d0" stroke-width="1"/>
+    <line x1="800" y1="0" x2="800" y2="500" stroke="#5fa2d0" stroke-width="1"/>
+  </g>
+
+  <text class="t2" x="70" y="68">The $650B Capex Reckoning</text>
+  <text class="s2" x="70" y="96">AI spend vs. what companies can actually measure — 2026</text>
+
+  <!-- Card 1 -->
+  <rect x="60" y="140" width="320" height="280" rx="14" fill="url(#cardCyan)" stroke="rgba(78,203,255,0.35)" stroke-width="1.2"/>
+  <text class="big" x="80" y="230" fill="#4ecbff" filter="url(#glow2)">$650B</text>
+  <text class="lbl" x="80" y="268">Annual AI capex spend</text>
+  <text class="sm" x="80" y="298">Hyperscaler infrastructure,</text>
+  <text class="sm" x="80" y="318">GPUs, data centers, R&amp;D.</text>
+  <text class="sm" x="80" y="348">GDP contribution: +0.1–0.2pp</text>
+  <text class="sm" x="80" y="368" fill="#ff6a9e">Nasdaq tumbled on the gap.</text>
+
+  <!-- Card 2 -->
+  <rect x="440" y="140" width="320" height="280" rx="14" fill="url(#cardPink)" stroke="rgba(255,106,158,0.35)" stroke-width="1.2"/>
+  <text class="big" x="460" y="230" fill="#ff6a9e" filter="url(#glow2)">95%</text>
+  <text class="lbl" x="460" y="268">No measurable returns</text>
+  <text class="sm" x="460" y="298">MIT Media Lab: 95% of</text>
+  <text class="sm" x="460" y="318">organizations report no</text>
+  <text class="sm" x="460" y="338">quantifiable AI ROI.</text>
+  <text class="sm" x="460" y="368" fill="#ffc17d">Most see marginal gains.</text>
+
+  <!-- Card 3 -->
+  <rect x="820" y="140" width="320" height="280" rx="14" fill="url(#cardAmber)" stroke="rgba(255,193,125,0.35)" stroke-width="1.2"/>
+  <text class="big" x="840" y="230" fill="#ffc17d" filter="url(#glow2)">1%</text>
+  <text class="lbl" x="840" y="268">Quantified earnings impact</text>
+  <text class="sm" x="840" y="298">Only 1% of S&amp;P 500 firms</text>
+  <text class="sm" x="840" y="318">could quantify AI's effect</text>
+  <text class="sm" x="840" y="338">on earnings. 10% quantified</text>
+  <text class="sm" x="840" y="358">use-case productivity.</text>
+
+  <text class="src2" x="70" y="468">Sources: Goldman Sachs (Mar 2026), MIT Media Lab, FinancialContent (Feb 2026)</text>
+</svg>

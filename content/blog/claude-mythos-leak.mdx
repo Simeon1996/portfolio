@@ -1,0 +1,186 @@
+---
+title: "Two Leaks in Five Days: What Anthropic's Worst Week Tells Us About AI Lab OpSec"
+date: 2026-04-03
+excerpt: "Anthropic spent March privately warning governments about unprecedented AI cybersecurity risks — then accidentally handed the public the most detailed picture yet of what those risks look like. A deep dive into the Mythos leak, the Claude Code source code exposure, and what both mean for developers building on Anthropic's stack."
+tags: ["AI", "Security", "Anthropic", "Claude", "LLM", "Developer Tools"]
+published: true
+---
+
+# Two Leaks in Five Days: What Anthropic's Worst Week Tells Us About AI Lab OpSec
+
+On March 26, a misconfigured content management system handed the internet a draft blog post that Anthropic had never intended to publish. On March 31, a carelessly packaged npm release handed the internet 512,000 lines of the most closely-guarded source code in the AI industry. Two separate incidents, five days apart, at the same lab — the one that positions itself as the most safety-conscious major AI developer in the world.
+
+The timing could not be worse. One of the files exposed in the first leak made clear that Anthropic had been privately warning senior government officials that its newest model makes large-scale cyberattacks dramatically more likely in 2026. The second leak confirmed exactly which models it had been talking about — and revealed how far along the development pipeline they already were.
+
+This post covers both incidents in full: what leaked, what it actually means, and what developers building on Anthropic's platform need to think about right now.
+
+---
+
+## Table of Contents
+
+1. [The timeline](#the-timeline)
+2. [What Mythos actually is](#what-mythos-actually-is)
+3. [The cybersecurity paradox](#the-cybersecurity-paradox)
+4. [The Claude Code leak — technical breakdown](#the-claude-code-leak-technical-breakdown)
+5. [What the source code revealed](#what-the-source-code-revealed)
+6. [What this means for AI lab operational security](#what-this-means-for-ai-lab-operational-security)
+7. [Practical implications if you are building on Anthropic today](#practical-implications-if-you-are-building-on-anthropic-today)
+
+---
+
+## The Timeline
+
+**March 26, 2026.** Fortune discovers that a misconfigured CMS at Anthropic has exposed nearly 3,000 internal files to the public internet. The publication notifies Anthropic, which removes public access promptly. But the damage is done: Fortune has already read the files, and one of them is a draft announcement for a model called Claude Mythos.
+
+**March 27, 2026.** Fortune publishes a second story, this time on the cybersecurity implications of Mythos specifically. The story includes detail about Anthropic's private government briefings. Cybersecurity stocks fall. Bitcoin and software equities slide alongside them.
+
+**March 31, 2026.** Security researcher Chaofan Shou announces that Claude Code's complete unobfuscated source code is available via npm source maps — all 512,000 lines of TypeScript across 1,906 files. The code is mirrored to GitHub within hours and forked more than 41,500 times before Anthropic can respond. Anthropic confirms the root cause was human error in packaging: someone shipped the npm package without stripping the unobfuscated TypeScript source maps.
+
+Same day, a separate supply chain attack: malicious versions of the axios npm package (1.14.1 and 0.30.4) containing a Remote Access Trojan are discovered. Developers who installed Claude Code between 00:21 and 03:29 UTC on March 31 may have pulled the poisoned axios dependency. This is a coincidence, not a coordinated attack, but the timing turns one bad day into an extremely bad day.
+
+That is the sequence. Now let us look at what each event actually exposed.
+
+---
+
+## What Mythos Actually Is
+
+The draft blog post exposed in the CMS leak describes Claude Mythos, internally codenamed Capybara, as "by far the most powerful AI model we've ever developed" and characterizes its capabilities as "a step change." Those phrases are doing a lot of work, so it is worth unpacking what Anthropic actually said.
+
+Mythos sits above Opus in Anthropic's model hierarchy — a new tier, not just a Opus refresh. According to the leaked draft, the model posts dramatically higher scores than any existing model on coding benchmarks, academic reasoning, and cybersecurity-specific evaluations. Anthropic's own internal assessment describes Mythos as "currently far ahead of any other AI model in cyber capabilities."
+
+The compute profile matches the ambition. Mythos is described as extremely compute-intensive, expensive to run, and not yet ready for general release. Anthropic's stated plan, as reported by Fortune, was to expand access gradually via the Claude API, starting with cybersecurity-specific use cases — essentially a controlled release to practitioners who can work productively with a model at this capability level.
+
+As Futurism reported, the model enables agents to "work on their own with wild sophistication and precision to penetrate corporate, government, and municipal systems." That sentence appeared in Anthropic's own internal documentation. They wrote it.
+
+The subsequent Claude Code source code leak confirmed the codebase's internal naming: Capybara is indeed Claude Mythos, identified as a Claude 4.6 variant. Fennec maps to Opus 4.6. Numbat is still in testing. These model codenames, which were previously internal-only, are now public knowledge.
+
+> **Note:** The accuracy of the leaked benchmark claims has not been independently verified — they come from Anthropic's own internal draft, which carries obvious promotional incentive. But "internally codenamed model with exceptional cybersecurity capabilities, planned for controlled rollout" is consistent with what you would expect from a lab at Anthropic's scale and research trajectory.
+
+---
+
+## The Cybersecurity Paradox
+
+This is where the story gets genuinely uncomfortable to write about — because the irony is almost too clean.
+
+According to Axios, Anthropic was privately briefing senior government officials that Mythos makes large-scale cyberattacks "much more likely" in 2026. The Euronews coverage characterizes Mythos as posing "unprecedented cybersecurity risks." Anthropic assessed these risks seriously enough to take them to government — not as a theoretical future concern, but as a current development requiring policy attention now.
+
+Then Anthropic accidentally published the most detailed public description of what those risks look like, in a CMS misconfiguration caught by a Fortune journalist on a routine crawl.
+
+The capability concerns raised in the private government briefings are real and worth taking seriously. A model that can orchestrate autonomous, sophisticated cyberattacks against corporate and government systems is a qualitatively different kind of tool than anything in the current public API. Anthropic's decision to brief governments before releasing it broadly represents a considered judgment that the risks required coordination beyond what any single lab can manage on its own.
+
+That posture is correct. The problem is that the operational security required to maintain that posture apparently did not extend to the CMS serving internal draft content.
+
+There is a broader pattern here worth naming: frontier AI labs are now developing capabilities that they simultaneously believe require government-level risk management and are deploying on cloud infrastructure maintained by the same engineering teams that ship developer tools. The threat surface that matters is not just "who has API access to the model" — it is every system that stores, processes, or describes the model's existence, capabilities, and roadmap.
+
+The Mythos leak did not expose model weights. It exposed capability documentation. In the context of a model Anthropic was privately describing as posing unprecedented cybersecurity risks, capability documentation is not a trivial exposure. Adversaries who want to use AI to plan attacks benefit from knowing exactly what the best available tool can do — even if they do not yet have access to it.
+
+> **Note:** Anthropic's response was fast and transparent: notify, remove access, confirm no customer data or credentials were exposed. That is the right incident response. The issue is not the response — it is that two separate incidents of this type occurred at the same lab in the same week.
+
+---
+
+## The Claude Code Leak — Technical Breakdown
+
+The second incident is more straightforward technically but has longer-term implications for Anthropic's competitive position.
+
+Source maps are a development tool. When you compile TypeScript to JavaScript for distribution, source maps let you trace errors in the compiled output back to the original TypeScript source. They are invaluable during development and debugging. They are not supposed to ship in production npm packages.
+
+Specifically, the standard practice when publishing a TypeScript project to npm is to either exclude source maps entirely from the published package, or to publish only the compiled JavaScript and type declaration files. Anthropic did neither — they included the unobfuscated TypeScript source maps, which gave anyone who installed the package a complete, readable view of the original source code.
+
+As The Register and VentureBeat both reported, the result was 512,000 lines of TypeScript across 1,906 files. This is not a sampling or a partial view. This is the full Claude Code source tree, readable and navigable, available to anyone who had installed the package and knew where to look.
+
+Anthropic confirmed that no customer data or credentials were exposed. The root cause was human error in the packaging pipeline — a missing step in the build configuration that should have stripped or excluded source maps from the distribution artifact.
+
+This kind of error is mundane in isolation. It is the sort of thing that gets caught by a thorough release checklist or an automated CI step that validates package contents before publishing. Most mature software organizations have learned this lesson the hard way at least once. Anthropic, apparently, learned it this week.
+
+The concurrent axios supply chain attack is a separate and unrelated incident, but it deserves mention because of the risk surface it creates in combination. The malicious axios versions (1.14.1 and 0.30.4) contained a RAT — a Remote Access Trojan that would give an attacker persistent access to an infected machine. Claude Code uses axios as a dependency. Developers who installed Claude Code during the affected window (00:21 to 03:29 UTC on March 31) need to assume their development environments may be compromised and respond accordingly: rotate credentials, audit access logs, consider reinstalling from clean state.
+
+---
+
+## What the Source Code Revealed
+
+Beyond the operational embarrassment, the source code exposure is interesting for what it tells us about Claude Code's development trajectory and Anthropic's model roadmap.
+
+The 44 unreleased feature flags are the most immediately interesting detail. These are not speculative plans — they are fully implemented, feature-flagged capabilities that Anthropic has built but not yet shipped. The existence of feature flags for complete, working features suggests a deliberate staged rollout strategy rather than an incomplete development pipeline. Some of these capabilities will presumably ship over the coming months.
+
+The model codename confirmations matter for developers trying to read between the lines of Anthropic's public communications. Capybara is Mythos, a Claude 4.6 variant. Fennec is Opus 4.6. Numbat is in testing. If you have been following the model release cadence and trying to anticipate what comes next in the API, the naming scheme is now on record.
+
+The full source tree also gives the security research community a detailed map of Claude Code's architecture. This is a double-edged outcome. For legitimate security researchers, it accelerates vulnerability discovery and responsible disclosure. For adversaries, it provides a roadmap for finding exploitable behavior in a widely deployed developer tool. Anthropic will need to treat this as an effective zero-day disclosure on its own tooling and accelerate any security hardening that was previously on the roadmap.
+
+> **Pro tip:** If you maintain internal tooling that wraps or extends Claude Code, now is the time to audit whether any of your integrations make assumptions about Claude Code's internal behavior that the source code reveals to be fragile, undocumented, or subject to change.
+
+---
+
+## What This Means for AI Lab Operational Security
+
+Two incidents in five days from the same lab produces a conclusion that is difficult to avoid: operational security at frontier AI labs has not kept pace with the stakes of what those labs are building.
+
+This is not a Anthropic-specific observation — it is a systemic condition. Frontier labs have scaled their research capability and their deployment footprint simultaneously. The result is organizations that are simultaneously:
+
+- Managing models with capabilities that require government-level risk coordination
+- Operating consumer-facing and developer-facing products with all the associated attack surface
+- Running at the pace of a competitive technology market where shipping fast is a survival requirement
+
+The tension between these three things is real and structural. The CMS that exposed Mythos documentation was almost certainly not staffed and maintained with the same security posture as the infrastructure running the model itself. The npm packaging pipeline that exposed Claude Code's source was almost certainly not subject to the same scrutiny as the model training pipeline.
+
+This is how it usually works at fast-moving technology organizations. The security resources go to the most visible attack surface. Internal tooling, content management, build pipelines — these are infrastructure, not product, and infrastructure security is perennially underfunded relative to the risks it carries.
+
+The difference at a frontier AI lab is that the stakes of an infrastructure failure are not the same as the stakes at a typical software company. A leaked source map at a SaaS startup is embarrassing and gives competitors a temporary advantage. A leaked source map at the lab developing Mythos gives the entire world a roadmap for the tooling that interfaces with a model described as posing unprecedented cybersecurity risks.
+
+The labs that will handle this transition well are the ones that treat their internal infrastructure — CMS, build pipelines, developer tooling, documentation systems — as part of the security perimeter, not as overhead. That requires a cultural shift, not just a technical one.
+
+For more on why production AI systems demand a different reliability posture, see the [Agent Reliability Blueprint](/blog/agent-reliability-blueprint) and [Agentic AI: The Next Big Shift](/blog/agentic-ai-next-big-shift).
+
+---
+
+## Practical Implications If You Are Building on Anthropic Today
+
+If your production systems depend on the Anthropic API or Claude Code, here is what this week changes for you.
+
+**On the supply chain attack.** If you or anyone on your team installed Claude Code between 00:21 and 03:29 UTC on March 31, treat your development environment as potentially compromised. Rotate all credentials that were accessible from that machine: API keys, cloud credentials, SSH keys, database passwords. Audit your git history and deployment logs for that window. This is not hypothetical — a confirmed RAT in a transitive dependency during that window is a genuine incident.
+
+**On dependency pinning.** If you are not pinning your npm dependencies to exact versions with a lockfile and verifying checksums, this week is a clear argument for starting. The axios attack succeeded because it was published as a version that fit the `^` or `~` version range that many projects use. Pinning to exact versions and validating against a known-good lockfile is not paranoia — it is standard supply chain hygiene.
+
+**On model roadmap planning.** The codename confirmations are useful signal. Capybara/Mythos as a Claude 4.6 variant above Opus, Fennec as Opus 4.6, Numbat in testing — this gives you a reasonably concrete picture of what the next few model tiers look like. If you are building on the Anthropic API and making architectural decisions about which model tier to target, this is relevant context for your planning horizon.
+
+**On feature flags.** The 44 unreleased features in Claude Code will ship eventually. Some of them may be directly relevant to your use case. Worth keeping a closer eye on the Claude Code changelog than you might have previously.
+
+**On API key security.** Anthropic confirmed no customer data or credentials were exposed in either incident. That is the right answer for both incidents as they actually occurred. It does not mean your API keys are immune to future incidents of a different type. Standard practice: rotate API keys regularly, use the principle of least privilege for which keys have which permissions, and alert on anomalous usage patterns.
+
+**On model capability claims.** The Mythos documentation describes a step-change in cybersecurity capabilities. When Mythos becomes available via the API — which, based on the leaked plan, will happen gradually starting with cybersecurity-focused use cases — take the capability claims seriously when building security-adjacent applications. The relevant question is not just "can this model help me do X" but "what happens when this model is used to do X by someone with adversarial intent, and am I in that blast radius."
+
+> **Pro tip:** Subscribe to Anthropic's security advisories and the npm security feed. Both of these incidents had a window between discovery and public awareness where informed developers could have taken protective action. Being in that window requires paying attention to the right channels.
+
+---
+
+## Key Takeaways
+
+- A misconfigured CMS at Anthropic exposed nearly 3,000 internal files on March 26, including a draft blog post revealing Claude Mythos — a new model tier above Opus described by Anthropic as posing "unprecedented cybersecurity risks."
+- Mythos is internally codenamed Capybara, is a Claude 4.6 variant, and was being privately described to government officials as making large-scale cyberattacks dramatically more likely in 2026 — the same week Anthropic accidentally published that assessment publicly.
+- Five days later, Anthropic shipped an npm package with unobfuscated TypeScript source maps included, exposing 512,000 lines of Claude Code's full source to anyone who installed the package; the code was mirrored to GitHub and forked 41,500+ times.
+- A concurrent but unrelated npm supply chain attack placed a RAT in malicious axios versions; developers who installed Claude Code in the affected UTC window need to treat their environments as compromised and rotate credentials.
+- The source code confirmed internal model codenames — Capybara = Mythos (Claude 4.6), Fennec = Opus 4.6, Numbat in testing — and revealed 44 fully-implemented but unreleased features behind feature flags.
+- The core structural problem is that frontier AI labs are simultaneously managing government-tier security risks and running consumer-grade infrastructure under competitive market pressure — and the operational security posture has not caught up with the stakes.
+- For developers building on Anthropic's platform: pin dependencies, rotate credentials from the affected window, treat the model roadmap confirmations as useful planning signal, and start treating supply chain hygiene as a first-class concern rather than overhead.
+
+---
+
+## Sources
+
+- [Fortune — Anthropic Says Testing Mythos After Data Leak Reveals Its Existence](https://fortune.com/2026/03/26/anthropic-says-testing-mythos-powerful-new-ai-model-after-data-leak-reveals-its-existence-step-change-in-capabilities/)
+- [Fortune — Anthropic Leaked AI Mythos Cybersecurity Risk](https://fortune.com/2026/03/27/anthropic-leaked-ai-mythos-cybersecurity-risk/)
+- [Fortune — Anthropic Source Code Claude Code Data Leak Second Security Lapse](https://fortune.com/2026/03/31/anthropic-source-code-claude-code-data-leak-second-security-lapse-days-after-accidentally-revealing-mythos/)
+- [Futurism — Anthropic Step Change New Model Claude Mythos](https://futurism.com/artificial-intelligence/anthropic-step-change-new-model-claude-mythos)
+- [Euronews — What Is Anthropic's Mythos: The Leaked AI Model That Poses Unprecedented Cybersecurity Risks](https://www.euronews.com/next/2026/03/30/what-is-anthropics-mythos-the-leaked-ai-model-that-poses-unprecedented-cybersecurity-risks)
+- [Axios — Claude Mythos Anthropic Cyberattack AI Agents](https://www.axios.com/2026/03/29/claude-mythos-anthropic-cyberattack-ai-agents)
+- [The Register — Anthropic Claude Code Source Code](https://www.theregister.com/2026/03/31/anthropic_claude_code_source_code/)
+- [VentureBeat — Claude Code's Source Code Appears to Have Leaked](https://venturebeat.com/technology/claude-codes-source-code-appears-to-have-leaked-heres-what-we-know)
+
+---
+
+## Related Posts
+
+- [Why Would I Choose Claude Code?](/blog/why-would-i-choose-claude-code) — A practitioner's evaluation of Claude Code before this week's events — now with extra context about what was sitting in those feature flags.
+- [Agent Reliability Blueprint](/blog/agent-reliability-blueprint) — SLOs, guardrails, and human override patterns for agentic systems — directly relevant to what Mythos-class models will require to deploy responsibly.
+- [Agentic AI: The Next Big Shift](/blog/agentic-ai-next-big-shift) — The architectural context for why a model capable of autonomous, precise cyberattacks represents a qualitatively different risk tier than current agentic systems.
+- [The State of AI Benchmarks in 2026](/blog/ai-benchmarks-2026) — Benchmark methodology and what "dramatically higher scores on cybersecurity benchmarks" actually means and does not mean.
+- [MLOps Is Just DevOps With More Humility](/blog/mlops-is-just-devops-with-more-humility) — Why operational discipline — build pipelines, release checklists, dependency management — is as load-bearing as model quality when you are running AI in production.
