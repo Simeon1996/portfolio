@@ -1,0 +1,476 @@
+---
+title: "Python Cheatsheet: Everything You Need in One Place"
+date: 2026-04-03
+excerpt: "A dense, no-fluff reference covering every Python essential with working code examples — from basic types to decorators, generators, and the standard library."
+tags: ["Python", "Cheatsheet", "Programming", "Reference"]
+published: true
+---
+
+This is a reference, not a tutorial. Find the section you need, grab the pattern, move on.
+
+---
+
+## 1. Variables & Types
+
+Python is dynamically typed. The five primitives you use everywhere: `int`, `float`, `str`, `bool`, and `None`.
+
+```python
+age: int = 30
+price: float = 9.99
+name: str = "Alice"
+active: bool = True
+result = None          # absence of a value
+
+type(age)              # <class 'int'>
+isinstance(age, int)   # True
+```
+
+---
+
+## 2. Strings
+
+F-strings are the modern standard. Slicing is `[start:stop:step]`. Core methods are on the string object itself.
+
+```python
+name = "python"
+
+# f-string with expression
+print(f"Hello, {name.upper()}!")          # Hello, PYTHON!
+
+# slicing
+name[0:3]     # 'pyt'
+name[::-1]    # 'nohtyp' — reversed
+
+# common methods
+"  hello  ".strip()                        # 'hello'
+"a,b,c".split(",")                        # ['a', 'b', 'c']
+"-".join(["a", "b", "c"])                 # 'a-b-c'
+"hello world".replace("world", "Python")  # 'hello Python'
+```
+
+---
+
+## 3. Lists
+
+Ordered, mutable, zero-indexed. CRUD is straightforward; slicing works the same as strings.
+
+```python
+nums = [3, 1, 4, 1, 5]
+
+nums.append(9)          # add to end: [3, 1, 4, 1, 5, 9]
+nums.insert(0, 0)       # insert at index: [0, 3, 1, 4, 1, 5, 9]
+nums.remove(1)          # remove first match: [0, 3, 4, 1, 5, 9]
+nums.pop()              # remove & return last: 9
+nums[1]                 # read by index: 3
+nums[1:3]               # slice: [3, 4]
+sorted(nums)            # returns new sorted list
+nums.sort(reverse=True) # sort in place
+
+# comprehension
+squares = [x ** 2 for x in range(5)]  # [0, 1, 4, 9, 16]
+```
+
+---
+
+## 4. Tuples & Sets
+
+Tuples are immutable sequences. Sets are unordered collections of unique values.
+
+```python
+# tuple — immutable, hashable, good for fixed records
+point = (10, 20)
+x, y = point            # unpacking
+
+# set — unique elements, O(1) membership test
+tags = {"python", "ai", "python"}  # {"python", "ai"}
+tags.add("ml")
+tags.discard("ai")
+"python" in tags        # True
+
+# set operations
+a = {1, 2, 3}
+b = {2, 3, 4}
+a & b   # intersection: {2, 3}
+a | b   # union: {1, 2, 3, 4}
+a - b   # difference: {1}
+```
+
+---
+
+## 5. Dictionaries
+
+Key-value store, ordered by insertion since Python 3.7. Use `.get()` to avoid `KeyError`.
+
+```python
+user = {"name": "Alice", "age": 30}
+
+# CRUD
+user["email"] = "alice@example.com"   # create / update
+user["name"]                          # read: 'Alice'
+user.get("missing", "default")        # safe read: 'default'
+del user["age"]                       # delete
+
+# iteration
+for k, v in user.items():
+    print(f"{k}: {v}")
+
+# dict comprehension
+squares = {x: x ** 2 for x in range(5)}  # {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}
+```
+
+---
+
+## 6. Control Flow
+
+Standard `if/elif/else`. Ternary is a single-line `if` expression.
+
+```python
+score = 85
+
+if score >= 90:
+    grade = "A"
+elif score >= 70:
+    grade = "B"
+else:
+    grade = "C"
+
+# ternary
+label = "pass" if score >= 70 else "fail"
+
+# match statement (Python 3.10+)
+match grade:
+    case "A": print("Excellent")
+    case "B": print("Good")
+    case _:   print("Keep going")
+```
+
+---
+
+## 7. Loops
+
+`for` iterates any iterable. `while` runs until a condition is false. `enumerate` and `zip` are the two helpers you will use constantly.
+
+```python
+fruits = ["apple", "banana", "cherry"]
+
+# enumerate — index + value
+for i, fruit in enumerate(fruits):
+    print(i, fruit)                    # 0 apple, 1 banana, ...
+
+# zip — parallel iteration
+prices = [1.0, 0.5, 2.0]
+for fruit, price in zip(fruits, prices):
+    print(f"{fruit}: ${price}")
+
+# range
+for i in range(0, 10, 2):             # 0, 2, 4, 6, 8
+    pass
+
+# while with break
+n = 10
+while n > 0:
+    n -= 3
+    if n < 0:
+        break
+```
+
+---
+
+## 8. Functions
+
+Positional args, keyword args, defaults, `*args` for variadic positional, `**kwargs` for variadic keyword.
+
+```python
+def greet(name, greeting="Hello"):          # default arg
+    return f"{greeting}, {name}!"
+
+def total(*args):                           # variadic positional
+    return sum(args)
+
+def display(**kwargs):                      # variadic keyword
+    for k, v in kwargs.items():
+        print(f"{k} = {v}")
+
+greet("Alice")                              # 'Hello, Alice!'
+greet("Bob", greeting="Hi")                # 'Hi, Bob!'
+total(1, 2, 3, 4)                          # 10
+display(lang="Python", version=3.12)       # lang = Python ...
+```
+
+---
+
+## 9. Lambda
+
+Anonymous one-expression function. Best for short callbacks; anything with logic should be a named function.
+
+```python
+double = lambda x: x * 2
+double(5)                                   # 10
+
+# common use: sort by key
+pairs = [(1, "b"), (3, "a"), (2, "c")]
+pairs.sort(key=lambda p: p[1])              # sort by second element
+# [(3, 'a'), (1, 'b'), (2, 'c')]
+```
+
+---
+
+## 10. Classes & OOP
+
+`__init__` initializes the instance. Dunder methods let you hook into Python's built-in operators. Inherit by passing the parent class as an argument.
+
+```python
+class Animal:
+    def __init__(self, name: str):
+        self.name = name
+
+    def speak(self) -> str:
+        return "..."
+
+    def __repr__(self) -> str:           # readable representation
+        return f"Animal({self.name!r})"
+
+class Dog(Animal):                       # inheritance
+    def speak(self) -> str:              # override
+        return f"{self.name} says woof"
+
+    def __len__(self):                   # dunder — len(dog)
+        return len(self.name)
+
+d = Dog("Rex")
+d.speak()                                # 'Rex says woof'
+len(d)                                   # 3
+```
+
+---
+
+## 11. Comprehensions & Generator Expressions
+
+List, dict, and set comprehensions are one-liners that replace `for` + `append` patterns. Generator expressions are the lazy equivalent — they do not build the full collection in memory.
+
+```python
+# list comprehension with filter
+evens = [x for x in range(20) if x % 2 == 0]
+
+# dict comprehension
+inv = {v: k for k, v in {"a": 1, "b": 2}.items()}  # {1: 'a', 2: 'b'}
+
+# set comprehension
+unique_lengths = {len(w) for w in ["cat", "dog", "elephant"]}
+
+# generator expression — lazy, memory-efficient
+total = sum(x ** 2 for x in range(1_000_000))  # no list built in memory
+```
+
+---
+
+## 12. Error Handling
+
+`try/except` catches exceptions. `finally` always runs — use it for cleanup. `raise` re-raises or creates new exceptions.
+
+```python
+def parse_int(value):
+    try:
+        return int(value)
+    except ValueError as e:
+        print(f"Bad input: {e}")
+        return None
+    except (TypeError, OverflowError):
+        raise                           # re-raise unexpected errors
+    finally:
+        print("parse attempt complete") # runs regardless
+
+parse_int("abc")   # Bad input: ..., parse attempt complete, returns None
+parse_int("42")    #                   parse attempt complete, returns 42
+```
+
+---
+
+## 13. Context Managers
+
+`with` guarantees setup and teardown — even if an exception is raised. The most common use is file I/O; works for locks, DB connections, and anything implementing `__enter__`/`__exit__`.
+
+```python
+# file — automatically closed after block
+with open("data.txt", "r") as f:
+    contents = f.read()
+
+# multiple contexts in one line (Python 3.10+ preferred syntax)
+with open("src.txt") as src, open("dst.txt", "w") as dst:
+    dst.write(src.read())
+
+# custom context manager via contextlib
+from contextlib import contextmanager
+
+@contextmanager
+def timer():
+    import time
+    start = time.perf_counter()
+    yield
+    print(f"elapsed: {time.perf_counter() - start:.4f}s")
+
+with timer():
+    sum(range(1_000_000))
+```
+
+---
+
+## 14. Decorators
+
+A decorator is a function that wraps another function. The `@` syntax is sugar for `func = decorator(func)`.
+
+```python
+import functools
+
+def log_calls(func):
+    @functools.wraps(func)             # preserves __name__, __doc__
+    def wrapper(*args, **kwargs):
+        print(f"calling {func.__name__}")
+        result = func(*args, **kwargs)
+        print(f"{func.__name__} returned {result}")
+        return result
+    return wrapper
+
+@log_calls
+def add(a, b):
+    return a + b
+
+add(2, 3)
+# calling add
+# add returned 5
+```
+
+---
+
+## 15. Generators
+
+`yield` turns a function into a generator — values are produced one at a time, on demand. Use when the full sequence would be too large to hold in memory.
+
+```python
+def fibonacci():
+    a, b = 0, 1
+    while True:
+        yield a              # pause here, return value, resume on next()
+        a, b = b, a + b
+
+gen = fibonacci()
+[next(gen) for _ in range(8)]  # [0, 1, 1, 2, 3, 5, 8, 13]
+
+# generator pipeline — no intermediate lists
+lines = (line.strip() for line in open("data.txt"))
+non_empty = (line for line in lines if line)
+```
+
+---
+
+## 16. Modules & Imports
+
+Python resolves imports from `sys.path`. Prefer explicit imports over `import *`.
+
+```python
+import os                              # standard: full module
+import os.path as osp                 # alias
+from pathlib import Path              # specific name
+from typing import Optional, List     # multiple names
+
+# conditional import (optional dependency)
+try:
+    import ujson as json
+except ImportError:
+    import json                        # fallback to stdlib
+
+# relative import inside a package
+from .utils import helper             # one level up
+from ..config import settings         # two levels up
+```
+
+---
+
+## 17. File I/O
+
+Always use a context manager. Specify encoding explicitly to avoid platform surprises.
+
+```python
+# write
+with open("output.txt", "w", encoding="utf-8") as f:
+    f.write("line one\n")
+    f.writelines(["line two\n", "line three\n"])
+
+# read all at once
+with open("output.txt", encoding="utf-8") as f:
+    text = f.read()
+
+# read line by line — memory-efficient for large files
+with open("output.txt", encoding="utf-8") as f:
+    for line in f:
+        process(line.rstrip("\n"))
+
+# binary mode
+with open("image.png", "rb") as f:
+    data = f.read()
+```
+
+---
+
+## 18. Type Hints
+
+Type hints are not enforced at runtime but enable static analysis with mypy, pyright, and IDE autocompletion. Use them in all function signatures.
+
+```python
+from typing import Optional, Union
+from collections.abc import Sequence
+
+def process(items: list[int], limit: int = 100) -> list[int]:
+    return [x for x in items if x < limit]
+
+def find(name: str) -> Optional[str]:   # may return None
+    ...
+
+def coerce(val: Union[int, str]) -> str:   # multiple types
+    return str(val)
+
+# Python 3.10+ shorthand
+def find_new(name: str) -> str | None:
+    ...
+```
+
+---
+
+## 19. Useful Standard Library One-Liners
+
+These four modules cover the majority of non-trivial day-to-day Python tasks.
+
+```python
+from collections import Counter, defaultdict, deque
+from itertools import chain, islice, groupby, product
+from pathlib import Path
+from datetime import datetime, timedelta
+
+# collections
+Counter("abracadabra")                          # {'a': 5, 'b': 2, ...}
+defaultdict(list)                               # dict that auto-inits missing keys to []
+deque([1, 2, 3], maxlen=3)                     # O(1) append/pop from both ends
+
+# itertools
+list(chain([1, 2], [3, 4]))                    # [1, 2, 3, 4] — flatten iterables
+list(islice(range(1000), 5))                   # [0, 1, 2, 3, 4] — lazy slice
+list(product("AB", repeat=2))                  # [('A','A'),('A','B'),('B','A'),('B','B')]
+
+# pathlib
+p = Path("data") / "records" / "jan.csv"       # cross-platform path building
+p.suffix                                        # '.csv'
+list(Path(".").glob("**/*.py"))                # all .py files recursively
+
+# datetime
+now = datetime.now()
+yesterday = now - timedelta(days=1)
+datetime.strptime("2026-04-03", "%Y-%m-%d")    # parse string to datetime
+now.strftime("%Y-%m-%d %H:%M")                 # format to string
+```
+
+---
+
+## Related Posts
+
+- [Python Is the Number One Language. Here Is Why That Is Not Going Away.](/blog/python-the-number-one-language) — Why Python dominates and where it still falls short.
+- [The Python Data Science Stack: NumPy, Pandas, Matplotlib, and Scikit-learn](/blog/python-data-science-stack) — The four libraries every data workflow depends on.
