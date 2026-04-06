@@ -1,0 +1,304 @@
+---
+title: "NumPy Cheatsheet: Everything You Need in One Place"
+date: 2026-04-03
+excerpt: "A dense, no-fluff reference for NumPy — array creation, indexing, broadcasting, linear algebra, and performance tips, all with working code examples."
+tags: ["NumPy", "Python", "Cheatsheet", "Data Science", "Reference"]
+published: true
+---
+
+This is a reference, not a tutorial. Find the section you need, grab the pattern, move on.
+
+---
+
+## 1. Creating Arrays
+
+Eight constructors cover virtually every creation pattern you will encounter.
+
+```python
+import numpy as np
+
+np.array([1, 2, 3])                     # from Python list → array([1, 2, 3])
+np.zeros((3, 4))                        # 3×4 float64 zeros
+np.ones((2, 3), dtype=np.int32)         # 2×3 ones, integer
+np.full((2, 2), 7.0)                    # fill with constant: [[7., 7.], [7., 7.]]
+np.eye(3)                               # 3×3 identity matrix
+np.arange(0, 10, 2)                     # [0 2 4 6 8] — like range(), returns array
+np.linspace(0, 1, 5)                    # [0. 0.25 0.5 0.75 1.] — evenly spaced
+np.random.randn(3, 3)                   # 3×3 standard-normal random
+np.random.randint(0, 100, size=(4,))    # 4 random ints in [0, 100)
+```
+
+---
+
+## 2. Array Attributes
+
+These five properties are the first thing to check when debugging shape mismatches.
+
+```python
+a = np.zeros((3, 4), dtype=np.float32)
+
+a.shape      # (3, 4)        — tuple of dimension sizes
+a.dtype      # float32       — element type
+a.ndim       # 2             — number of dimensions
+a.size       # 12            — total element count (product of shape)
+a.itemsize   # 4             — bytes per element (float32 = 4, float64 = 8)
+```
+
+---
+
+## 3. Reshaping & Transposing
+
+`reshape` and `ravel` return views when possible — modifying them modifies the original.
+
+```python
+a = np.arange(12)                  # [0 1 2 ... 11]
+
+a.reshape(3, 4)                    # 3×4, same data
+a.reshape(3, -1)                   # -1 infers the missing dim → (3, 4)
+a.ravel()                          # 1-D view (copy only if needed)
+a.flatten()                        # 1-D copy — always safe to mutate
+a.reshape(3, 4).T                  # transpose → shape (4, 3)
+
+# insert a new axis (useful for broadcasting)
+a.reshape(3, 4)[:, np.newaxis, :]  # shape (3, 1, 4)
+```
+
+---
+
+## 4. Indexing & Slicing
+
+Basic slicing returns a view. Boolean and fancy indexing always return copies.
+
+```python
+a = np.arange(24).reshape(4, 6)
+
+# basic — [row_start:row_stop, col_start:col_stop]
+a[1, 3]          # single element
+a[0:2, 1:4]      # rows 0-1, cols 1-3
+a[:, -1]         # last column of every row
+
+# boolean mask — select elements matching condition
+a[a > 10]        # 1-D array of values > 10
+
+# fancy — index with arrays of integers
+rows = np.array([0, 2])
+cols = np.array([1, 4])
+a[rows, cols]    # [a[0,1], a[2,4]] — shape (2,)
+```
+
+---
+
+## 5. Math Operations
+
+All standard operators work element-wise. No loops required.
+
+```python
+a = np.array([1.0, 4.0, 9.0, 16.0])
+b = np.array([2.0, 2.0, 3.0,  4.0])
+
+a + b            # [3. 6. 12. 20.]
+a - b            # [-1. 2. 6. 12.]
+a * b            # [2. 8. 27. 64.]
+a / b            # [0.5 2. 3. 4.]
+a ** 2           # [1. 16. 81. 256.]
+np.sqrt(a)       # [1. 2. 3. 4.]
+np.abs(-a)       # [1. 4. 9. 16.]
+np.log(a)        # natural log element-wise
+np.exp(a)        # e^x element-wise
+```
+
+---
+
+## 6. Aggregations
+
+Every aggregation accepts an `axis` argument: `axis=0` collapses rows, `axis=1` collapses columns.
+
+```python
+a = np.array([[1, 2, 3],
+              [4, 5, 6]])
+
+a.sum()              # 21             — scalar, all elements
+a.sum(axis=0)        # [5 7 9]        — sum down rows (per column)
+a.sum(axis=1)        # [6 15]         — sum across cols (per row)
+a.mean(), a.std()    # 3.5, ~1.71
+a.min(), a.max()     # 1, 6
+a.argmin()           # 0  — flat index of minimum
+a.argmax(axis=1)     # [2 2] — col index of max in each row
+```
+
+---
+
+## 7. Broadcasting
+
+NumPy stretches dimensions of size 1 to match a larger dimension — without copying data. The rule: align shapes from the right; each pair of dims must be equal, or one of them must be 1.
+
+```python
+a = np.ones((3, 4))       # shape (3, 4)
+b = np.array([1, 2, 3, 4]) # shape    (4,)  → broadcast to (3, 4)
+
+a + b
+# [[2. 3. 4. 5.],
+#  [2. 3. 4. 5.],
+#  [2. 3. 4. 5.]]
+
+# column broadcast: reshape b to (3, 1)
+c = np.array([[10], [20], [30]])  # shape (3, 1) → broadcast to (3, 4)
+a + c
+# [[11. 11. 11. 11.],
+#  [21. 21. 21. 21.],
+#  [31. 31. 31. 31.]]
+```
+
+---
+
+## 8. Comparison & Boolean Masks
+
+Comparisons produce boolean arrays. Use `np.where` for conditional selection.
+
+```python
+a = np.array([3, 7, 1, 9, 4, 6])
+
+a > 5                          # [False  True False  True False  True]
+a == 7                         # [False  True False False False False]
+
+np.any(a > 8)                  # True  — at least one element > 8
+np.all(a > 0)                  # True  — all elements > 0
+
+# np.where(condition, if_true, if_false)
+np.where(a > 5, a, 0)          # [0 7 0 9 0 6] — zero out values ≤ 5
+np.where(a % 2 == 0, "even", "odd")  # per-element string labels
+```
+
+---
+
+## 9. Linear Algebra
+
+Use `@` for matrix multiplication in all new code — it is cleaner than `np.dot` and works on N-D arrays correctly.
+
+```python
+A = np.array([[1, 2], [3, 4]], dtype=float)
+B = np.array([[5, 6], [7, 8]], dtype=float)
+
+A @ B                    # matrix multiply: [[19. 22.], [43. 50.]]
+np.dot(A, B)             # identical to A @ B for 2-D
+np.linalg.inv(A)         # inverse: [[-2. 1.], [1.5 -0.5]]
+np.linalg.det(A)         # determinant: -2.0
+vals, vecs = np.linalg.eig(A)   # eigenvalues and eigenvectors
+x = np.linalg.solve(A, np.array([1, 2]))  # solve Ax = b
+```
+
+---
+
+## 10. Stacking & Splitting
+
+`hstack`/`vstack` are shortcuts; `concatenate` is more explicit and handles arbitrary axes.
+
+```python
+a = np.array([[1, 2], [3, 4]])
+b = np.array([[5, 6], [7, 8]])
+
+np.hstack([a, b])           # (2, 4) — columns side by side
+np.vstack([a, b])           # (4, 2) — rows stacked
+np.concatenate([a, b], axis=1)  # same as hstack
+
+# splitting
+np.split(np.arange(9), 3)           # [array([0,1,2]), array([3,4,5]), ...]
+np.hsplit(np.arange(8).reshape(2,4), 2)  # 2 (2,2) arrays along columns
+np.vsplit(np.arange(8).reshape(4,2), 2)  # 2 (2,2) arrays along rows
+```
+
+---
+
+## 11. Sorting & Searching
+
+`sort` and `argsort` operate in-place or return a copy depending on how you call them.
+
+```python
+a = np.array([3, 1, 4, 1, 5, 9, 2, 6])
+
+np.sort(a)                  # [1 1 2 3 4 5 6 9] — returns copy
+a.sort()                    # in-place sort
+np.argsort(a)               # indices that would sort a
+np.searchsorted(a, 4)       # index where 4 would be inserted (a must be sorted)
+np.unique(a)                # sorted unique values
+np.unique(a, return_counts=True)  # (values, counts)
+```
+
+---
+
+## 12. Set Operations
+
+All set functions operate on 1-D arrays and return sorted, unique results.
+
+```python
+x = np.array([1, 2, 3, 4, 5])
+y = np.array([3, 4, 5, 6, 7])
+
+np.intersect1d(x, y)        # [3 4 5]
+np.union1d(x, y)            # [1 2 3 4 5 6 7]
+np.setdiff1d(x, y)          # [1 2]  — in x but not in y
+np.in1d(x, y)               # [F F T T T] — membership mask, same length as x
+```
+
+---
+
+## 13. File I/O
+
+`.npy` is the fastest round-trip. `.npz` bundles multiple arrays. `savetxt`/`loadtxt` handle human-readable CSV.
+
+```python
+a = np.arange(12).reshape(3, 4)
+
+# binary — preserves dtype and shape exactly
+np.save("data.npy", a)
+b = np.load("data.npy")        # restores array as-is
+
+# multiple arrays in one file
+np.savez("bundle.npz", arr1=a, arr2=a * 2)
+bundle = np.load("bundle.npz")
+bundle["arr1"]                 # retrieve by name
+
+# text (CSV-friendly)
+np.savetxt("data.csv", a, delimiter=",", fmt="%d")
+c = np.loadtxt("data.csv", delimiter=",", dtype=int)
+
+# genfromtxt — handles missing values
+d = np.genfromtxt("data.csv", delimiter=",", filling_values=0)
+```
+
+---
+
+## 14. Performance Tips
+
+The single biggest win is eliminating Python loops entirely. Everything else is secondary.
+
+```python
+import numpy as np
+
+# vectorized beats loop by 100x+
+arr = np.random.rand(1_000_000)
+result = np.sqrt(arr)              # fast — single C call
+# vs: [math.sqrt(x) for x in arr] — slow — Python loop
+
+# views vs copies — views share memory, copies own it
+a = np.arange(10)
+view = a[2:6]       # slice → VIEW; changing view changes a
+copy = a[2:6].copy()  # explicit copy — safe to mutate independently
+view[0] = 99        # a[2] is now 99
+
+# dtype choice — float32 halves memory vs float64
+a32 = np.zeros((1000, 1000), dtype=np.float32)  # 4 MB
+a64 = np.zeros((1000, 1000), dtype=np.float64)  # 8 MB
+
+# np.vectorize is NOT fast — it is still a Python loop with overhead
+# use it only for readability on non-performance-critical paths
+```
+
+> **Gotcha:** Integer overflow is silent. `np.array([200], dtype=np.int8) + 100` wraps to `-44` without raising an error. Use `dtype=np.int32` or larger when values may exceed the type's range.
+
+---
+
+## Related Posts
+
+- [The Python Data Science Stack: NumPy, Pandas, Matplotlib, and Scikit-learn](/blog/python-data-science-stack) — How NumPy fits into the broader data science ecosystem.
+- [Python Cheatsheet: Everything You Need in One Place](/blog/python-cheatsheet) — The Python fundamentals that underpin everything NumPy does.
