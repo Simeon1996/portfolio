@@ -1,0 +1,349 @@
+---
+title: "Pandas Cheatsheet: Everything You Need in One Place"
+date: 2026-04-03
+excerpt: "A dense, no-fluff reference for Pandas — DataFrames, filtering, groupby, merging, reshaping, and performance tips, all with working code examples."
+tags: ["Pandas", "Python", "Cheatsheet", "Data Science", "Reference"]
+published: true
+---
+
+This is a reference, not a tutorial. Find the section you need, grab the pattern, move on.
+
+---
+
+## 1. Creating DataFrames & Series
+
+A DataFrame is a dict of equal-length arrays; a Series is a single labeled column.
+
+```python
+import pandas as pd
+import numpy as np
+
+# from dict — keys become column names
+df = pd.DataFrame({"a": [1, 2, 3], "b": [4.0, 5.0, 6.0]})
+
+# from list of dicts — each dict is a row
+df = pd.DataFrame([{"x": 1, "y": 2}, {"x": 3, "y": 4}])
+
+# from NumPy array
+df = pd.DataFrame(np.arange(12).reshape(3, 4), columns=list("ABCD"))
+
+# Series from list or dict
+s = pd.Series([10, 20, 30], index=["a", "b", "c"])
+
+# reading files
+df = pd.read_csv("data.csv")                           # CSV
+df = pd.read_json("data.json")                         # JSON
+df = pd.read_excel("data.xlsx", sheet_name="Sheet1")  # Excel
+```
+
+---
+
+## 2. Inspecting Data
+
+These are the first calls to make on any new DataFrame.
+
+```python
+df.head(5)          # first 5 rows (default)
+df.tail(3)          # last 3 rows
+df.info()           # column names, non-null counts, dtypes, memory
+df.describe()       # count/mean/std/min/percentiles for numeric cols
+df.shape            # (rows, cols) — tuple
+df.dtypes           # dtype of every column
+df["col"].value_counts()          # frequency table for one column
+df["col"].value_counts(normalize=True)  # relative frequencies (proportions)
+```
+
+---
+
+## 3. Selecting Data
+
+`[]` for columns, `loc` for label-based, `iloc` for position-based.
+
+```python
+df["col"]                       # Series — single column
+df[["col1", "col2"]]            # DataFrame — multiple columns
+
+df.loc[2, "col"]                # row label 2, column "col"
+df.loc[0:3, "a":"c"]            # inclusive on both ends with loc
+df.iloc[0, 1]                   # row 0, col 1 by position
+df.iloc[1:4, 0:3]               # rows 1-3, cols 0-2 by position
+
+df.at[5, "col"]                 # fast scalar read by label
+df.iat[5, 2]                    # fast scalar read by position
+```
+
+---
+
+## 4. Filtering Rows
+
+Boolean masks are the workhorse; `query` is cleaner for complex conditions.
+
+```python
+df[df["age"] > 30]                          # single condition
+df[(df["age"] > 30) & (df["city"] == "NY")] # AND — each condition in ()
+df[(df["age"] < 18) | (df["age"] > 65)]     # OR
+
+df.query("age > 30 and city == 'NY'")        # same as above, more readable
+
+df[df["status"].isin(["active", "pending"])] # value is in a set
+df[df["score"].between(70, 90)]              # inclusive range filter
+```
+
+---
+
+## 5. Adding & Dropping Columns
+
+Prefer `assign` for chaining; `insert` for position control; `drop` for removal.
+
+```python
+# assign — returns new DataFrame, safe for chaining
+df = df.assign(bmi=df["weight"] / df["height"] ** 2)
+
+# insert — place column at specific position
+df.insert(2, "full_name", df["first"] + " " + df["last"])
+
+# rename columns
+df = df.rename(columns={"old_name": "new_name", "a": "b"})
+
+# drop columns or rows
+df = df.drop(columns=["col1", "col2"])
+df = df.drop(index=[0, 3])            # drop rows by label
+```
+
+---
+
+## 6. Handling Missing Data
+
+`isna` finds nulls; `dropna` removes them; `fillna` and `interpolate` replace them.
+
+```python
+df.isna()                         # boolean DataFrame — True where NaN
+df.isna().sum()                   # null count per column
+df.dropna()                       # drop rows with any NaN
+df.dropna(subset=["col1", "col2"]) # only drop if these cols are NaN
+df.dropna(how="all")              # only drop rows where ALL values are NaN
+
+df.fillna(0)                      # replace NaN with scalar
+df.fillna({"col1": 0, "col2": "unknown"})  # per-column fill values
+df["col"].fillna(method="ffill")  # forward-fill from previous value
+df["col"].interpolate()           # linear interpolation between values
+```
+
+---
+
+## 7. Data Types & Casting
+
+Wrong dtypes waste memory and break math — fix them early.
+
+```python
+df["col"].astype(int)             # cast to Python int
+df["col"].astype("float32")       # cast to NumPy float32 — saves memory
+
+pd.to_numeric(df["col"], errors="coerce")   # NaN for unparseable values
+pd.to_datetime(df["date"], format="%Y-%m-%d")  # parse date strings
+
+# Categorical — reduces memory when cardinality is low
+df["status"] = df["status"].astype("category")
+df["status"].cat.categories        # Index of unique category values
+```
+
+---
+
+## 8. Sorting
+
+`sort_values` on data; `sort_index` on the index label; `nlargest`/`nsmallest` for top-N.
+
+```python
+df.sort_values("score", ascending=False)           # single column, desc
+df.sort_values(["city", "score"], ascending=[True, False])  # multi-column
+
+df.sort_index()                                    # sort by row index
+df.sort_index(axis=1)                              # sort columns alphabetically
+
+df.nlargest(5, "revenue")   # top 5 rows by "revenue"
+df.nsmallest(3, "latency")  # bottom 3 rows by "latency"
+```
+
+---
+
+## 9. GroupBy & Aggregation
+
+`groupby` splits the DataFrame; `agg` applies one or more functions per group.
+
+```python
+df.groupby("category")["sales"].sum()   # sum sales per category
+
+# multiple aggregations on one column
+df.groupby("dept")["salary"].agg(["mean", "min", "max"])
+
+# named aggregations — clear output column names
+df.groupby("dept").agg(
+    avg_salary=("salary", "mean"),
+    headcount=("id", "count"),
+    max_tenure=("tenure", "max"),
+)
+
+# transform — returns same-index result (useful for adding group stats back)
+df["dept_avg"] = df.groupby("dept")["salary"].transform("mean")
+```
+
+---
+
+## 10. Merging & Joining
+
+`merge` is SQL-style on columns; `join` is index-on-index; `concat` stacks.
+
+```python
+# merge — like SQL JOIN on columns
+pd.merge(df1, df2, on="id", how="inner")       # inner join
+pd.merge(df1, df2, on="id", how="left")        # left join — keep all of df1
+pd.merge(df1, df2, left_on="id", right_on="user_id", how="outer")
+
+# join — index-on-index by default
+df1.join(df2, how="left", lsuffix="_left", rsuffix="_right")
+
+# concat — stack rows or columns
+pd.concat([df1, df2], ignore_index=True)       # stack rows, reset index
+pd.concat([df1, df2], axis=1)                  # stack columns side by side
+```
+
+---
+
+## 11. Reshaping
+
+`pivot_table` aggregates; `melt` goes wide-to-long; `stack`/`unstack` rotate multi-index.
+
+```python
+# pivot_table — like Excel pivot; aggfunc defaults to "mean"
+pd.pivot_table(df, values="sales", index="region",
+               columns="product", aggfunc="sum", fill_value=0)
+
+# melt — wide to long (unpivot)
+pd.melt(df, id_vars=["id", "name"], value_vars=["q1", "q2", "q3"],
+        var_name="quarter", value_name="revenue")
+
+# stack / unstack — rotate innermost column level to/from row index
+df.stack()                   # columns → innermost row index level
+df.unstack()                 # innermost row index → columns
+
+# crosstab — frequency table of two categorical variables
+pd.crosstab(df["gender"], df["department"])
+```
+
+---
+
+## 12. String Operations
+
+The `str` accessor vectorizes string methods — no apply loop needed.
+
+```python
+s = df["name"]
+
+s.str.lower()                        # lowercase
+s.str.upper()                        # uppercase
+s.str.strip()                        # trim leading/trailing whitespace
+s.str.contains("foo", na=False)      # boolean mask — True where "foo" found
+s.str.replace("old", "new", regex=False)  # literal replace
+s.str.split(",", expand=True)        # split into separate columns
+s.str.extract(r"(\d{4})")            # capture first 4-digit group → Series
+s.str.len()                          # length of each string
+```
+
+---
+
+## 13. DateTime Operations
+
+The `dt` accessor exposes datetime components; `resample` handles time-series aggregation.
+
+```python
+df["date"] = pd.to_datetime(df["date"])
+
+df["date"].dt.year                   # integer year
+df["date"].dt.month                  # integer month
+df["date"].dt.day_name()             # "Monday", "Tuesday", ...
+df["date"].dt.to_period("M")         # convert to Period (month granularity)
+
+# date_range — generate a DatetimeIndex
+idx = pd.date_range("2024-01-01", periods=12, freq="ME")
+
+# resample — like groupby but for time series
+df.set_index("date").resample("ME")["revenue"].sum()  # monthly totals
+```
+
+---
+
+## 14. Apply & Map
+
+Use built-in aggregations first — `apply` is flexible but slower than vectorized ops.
+
+```python
+# apply along rows or columns
+df["total"] = df[["a", "b", "c"]].apply(sum, axis=1)   # row-wise sum
+df.apply(lambda col: col.max() - col.min(), axis=0)     # range per column
+
+# map — element-wise transform on a Series (replaces applymap in Pandas 2.1+)
+df["grade"] = df["score"].map({90: "A", 80: "B", 70: "C"})
+df["score"].map(lambda x: round(x, 1))                  # function form
+
+# DataFrame.map (Pandas 2.1+, replaces applymap)
+df.map(lambda x: x * 2 if pd.notna(x) else x)
+
+# pipe — chain whole-DataFrame transforms cleanly
+df.pipe(normalize).pipe(add_features).pipe(drop_outliers)
+```
+
+---
+
+## 15. Window Functions
+
+`rolling` uses a fixed window; `expanding` grows from the start; `ewm` weights recent values more.
+
+```python
+s = df["price"]
+
+s.rolling(window=7).mean()           # 7-period moving average
+s.rolling(window=7).std()            # rolling standard deviation
+s.rolling(window=7, min_periods=1).mean()  # allow partial windows at edges
+
+s.expanding().mean()                 # cumulative mean from start
+s.expanding().max()                  # running maximum
+
+s.ewm(span=10, adjust=False).mean()  # exponentially weighted moving average
+```
+
+---
+
+## 16. Performance Tips
+
+The most common Pandas pitfalls and how to avoid them.
+
+```python
+import pandas as pd
+
+# SettingWithCopyWarning — always assign back to avoid ambiguous chaining
+subset = df[df["age"] > 30].copy()   # .copy() makes it independent
+subset["score"] = 0                   # safe — no warning
+
+# inplace=True does NOT speed things up and makes chaining impossible
+# prefer: df = df.drop(columns=["x"])
+# avoid:  df.drop(columns=["x"], inplace=True)
+
+# query() can be faster on large frames (uses numexpr under the hood)
+df.query("a > 100 and b < 50")       # faster than boolean mask at scale
+
+# categorical dtype — massive memory savings for low-cardinality columns
+df["status"] = df["status"].astype("category")  # "active"/"inactive" → ints
+
+# chunking — process large CSVs without loading into RAM
+for chunk in pd.read_csv("big.csv", chunksize=100_000):
+    process(chunk)                    # each chunk is a regular DataFrame
+```
+
+> **Gotcha:** `inplace=True` is not always truly in-place at the C level — it can still copy internally. Always reassign (`df = df.operation()`) for clarity and chain compatibility.
+
+---
+
+## Related Posts
+
+- [NumPy Cheatsheet: Everything You Need in One Place](/blog/numpy-cheatsheet) — The array foundation Pandas is built on.
+- [The Python Data Science Stack: NumPy, Pandas, Matplotlib, and Scikit-learn](/blog/python-data-science-stack) — How Pandas fits into the broader data science ecosystem.
