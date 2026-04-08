@@ -1,0 +1,389 @@
+---
+title: "Scikit-learn Cheatsheet: Everything You Need in One Place"
+date: 2026-04-03
+excerpt: "A dense, no-fluff reference for Scikit-learn — the estimator API, pipelines, classification, regression, clustering, evaluation, and tuning, all with working code examples."
+tags: ["Scikit-learn", "Machine Learning", "Python", "Cheatsheet", "Reference"]
+published: true
+---
+
+This is a reference, not a tutorial. Find the section you need, grab the pattern, move on.
+
+---
+
+## 1. The Estimator API
+
+Every Scikit-learn object follows the same interface: `fit` learns from data, `predict` applies it, `transform` converts it, and `score` measures it.
+
+```python
+from sklearn.linear_model import LogisticRegression
+
+model = LogisticRegression()
+model.fit(X_train, y_train)       # learn parameters from training data
+model.predict(X_test)             # predicted class labels
+model.predict_proba(X_test)       # class probabilities (classifiers only)
+model.score(X_test, y_test)       # mean accuracy for classifiers, R² for regressors
+
+# transformers use transform instead of predict
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+scaler.fit(X_train)               # compute mean/std from train data only
+scaler.transform(X_test)          # apply learned stats to test data
+scaler.fit_transform(X_train)     # shortcut: fit + transform in one call
+```
+
+---
+
+## 2. Train/Test Split
+
+Always split before any preprocessing to avoid data leakage.
+
+```python
+from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y,
+    test_size=0.2,        # 20% held out for test
+    random_state=42,      # reproducible split
+    stratify=y,           # preserve class proportions — use for imbalanced data
+)
+```
+
+> **Gotcha:** `stratify=y` is critical for classification with imbalanced classes. Without it, your test set may contain very few minority-class examples.
+
+---
+
+## 3. Preprocessing
+
+`fit` only on training data. Fitting on the full dataset before splitting leaks test statistics into training.
+
+```python
+from sklearn.preprocessing import (
+    StandardScaler,       # zero mean, unit variance: (x - mean) / std
+    MinMaxScaler,         # scale to [0, 1]: (x - min) / (max - min)
+    LabelEncoder,         # encode target labels: ["cat","dog"] → [0, 1]
+    OneHotEncoder,        # sparse one-hot columns, handles unknown categories
+    OrdinalEncoder,       # encode ordered categoricals as integers
+)
+
+# numeric features
+StandardScaler().fit_transform(X_train)
+MinMaxScaler(feature_range=(0, 1)).fit_transform(X_train)
+
+# categorical target
+le = LabelEncoder()
+y_encoded = le.fit_transform(["cat", "dog", "cat"])  # [0, 1, 0]
+
+# categorical features
+ohe = OneHotEncoder(handle_unknown="ignore", sparse_output=False)
+ohe.fit_transform(X_cat_train)   # returns dense array
+
+oe = OrdinalEncoder(categories=[["low", "medium", "high"]])
+oe.fit_transform(X_ordinal_train)
+```
+
+---
+
+## 4. Imputation
+
+Always fit imputers on training data only, then transform both train and test.
+
+```python
+from sklearn.impute import SimpleImputer, KNNImputer
+import numpy as np
+
+# SimpleImputer — fast, single-pass
+imp = SimpleImputer(strategy="mean")      # strategy: "mean","median","most_frequent","constant"
+X_train_imp = imp.fit_transform(X_train)
+X_test_imp  = imp.transform(X_test)
+
+# KNNImputer — uses nearest neighbours; better for correlated features, slower
+knn_imp = KNNImputer(n_neighbors=5)
+X_train_knn = knn_imp.fit_transform(X_train)
+X_test_knn  = knn_imp.transform(X_test)
+```
+
+---
+
+## 5. Pipeline
+
+`Pipeline` chains transformers and a final estimator; `fit`/`predict` propagate through every step, eliminating manual leakage risk.
+
+```python
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+
+pipe = make_pipeline(
+    StandardScaler(),         # step 1: scale features
+    LogisticRegression(),     # step 2: classify
+)
+
+pipe.fit(X_train, y_train)    # scaler.fit_transform → model.fit, all on train
+pipe.predict(X_test)          # scaler.transform → model.predict, no leakage
+pipe.score(X_test, y_test)    # end-to-end accuracy
+
+# access a named step
+pipe.named_steps["logisticregression"].coef_
+```
+
+> **Gotcha:** If you scale outside the pipeline, then cross-validate inside it, you have already leaked test fold statistics into training. Wrap everything in a Pipeline.
+
+---
+
+## 6. Classification Models
+
+```python
+from sklearn.linear_model    import LogisticRegression
+from sklearn.ensemble        import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.svm             import SVC
+from sklearn.neighbors       import KNeighborsClassifier
+
+LogisticRegression(C=1.0, max_iter=1000)          # fast baseline; C = 1/regularisation
+RandomForestClassifier(n_estimators=100,
+                       random_state=42)            # low variance, feature importances
+SVC(kernel="rbf", C=1.0, probability=True)        # strong on small/medium data; slow to fit
+KNeighborsClassifier(n_neighbors=5)               # no training phase; slow at predict time
+GradientBoostingClassifier(n_estimators=200,
+                            learning_rate=0.05,
+                            max_depth=4)           # often top accuracy; slower to train
+```
+
+---
+
+## 7. Regression Models
+
+```python
+from sklearn.linear_model import (
+    LinearRegression,     # OLS — no regularisation, fast
+    Ridge,                # L2 penalty — shrinks coefficients, handles multicollinearity
+    Lasso,                # L1 penalty — drives irrelevant coefficients to zero
+    ElasticNet,           # L1 + L2 combined — best of both when features are correlated
+)
+from sklearn.ensemble import RandomForestRegressor
+
+LinearRegression()
+Ridge(alpha=1.0)                          # alpha controls regularisation strength
+Lasso(alpha=0.1)                          # smaller alpha → less sparsity
+ElasticNet(alpha=0.1, l1_ratio=0.5)       # l1_ratio=1 → Lasso, l1_ratio=0 → Ridge
+RandomForestRegressor(n_estimators=100, random_state=42)
+```
+
+---
+
+## 8. Clustering
+
+Clustering has no `predict` on new data for some methods; `fit_predict` returns cluster labels for the training set.
+
+```python
+from sklearn.cluster import KMeans, DBSCAN, AgglomerativeClustering
+
+# KMeans — requires k upfront; sensitive to scale; use StandardScaler first
+km = KMeans(n_clusters=3, random_state=42, n_init="auto")
+labels = km.fit_predict(X)           # cluster index per sample
+km.cluster_centers_                  # centroid coordinates
+
+# DBSCAN — finds arbitrarily-shaped clusters; no k needed; -1 = noise/outlier
+db = DBSCAN(eps=0.5, min_samples=5)
+labels = db.fit_predict(X)           # -1 marks outliers
+
+# AgglomerativeClustering — hierarchical; useful when cluster count is unclear
+agg = AgglomerativeClustering(n_clusters=3, linkage="ward")
+labels = agg.fit_predict(X)
+```
+
+---
+
+## 9. Dimensionality Reduction
+
+Fit only on training data; transform both train and test with the learned projection.
+
+```python
+from sklearn.decomposition import PCA, TruncatedSVD
+from sklearn.manifold import TSNE
+
+# PCA — linear; good for dense matrices; n_components as int or variance ratio
+pca = PCA(n_components=0.95)          # keep enough components for 95% variance
+X_reduced = pca.fit_transform(X_train)
+pca.explained_variance_ratio_         # variance explained per component
+
+# TruncatedSVD — like PCA but works on sparse matrices (e.g. TF-IDF)
+svd = TruncatedSVD(n_components=50)
+X_svd = svd.fit_transform(X_sparse)
+
+# TSNE — non-linear; 2D/3D visualisation only; NOT for preprocessing pipelines
+tsne = TSNE(n_components=2, perplexity=30, random_state=42)
+X_2d = tsne.fit_transform(X)          # no .transform() — refit every time
+```
+
+---
+
+## 10. Model Evaluation — Classification
+
+```python
+from sklearn.metrics import (
+    accuracy_score,
+    classification_report,
+    confusion_matrix,
+    roc_auc_score,
+)
+
+y_pred      = model.predict(X_test)
+y_pred_prob = model.predict_proba(X_test)[:, 1]   # positive class probability
+
+accuracy_score(y_test, y_pred)                     # overall fraction correct
+print(classification_report(y_test, y_pred))       # precision/recall/F1 per class
+confusion_matrix(y_test, y_pred)                   # [[TN FP], [FN TP]]
+roc_auc_score(y_test, y_pred_prob)                 # AUC-ROC; use multi_class="ovr" for multiclass
+```
+
+> **Gotcha:** Accuracy is misleading on imbalanced datasets — a model that predicts the majority class for everything can score 95%+ while being useless. Check precision, recall, and AUC.
+
+---
+
+## 11. Model Evaluation — Regression
+
+```python
+from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
+import numpy as np
+
+y_pred = model.predict(X_test)
+
+r2_score(y_test, y_pred)                         # 1.0 is perfect; can be negative
+mean_squared_error(y_test, y_pred)               # MSE — penalises large errors heavily
+np.sqrt(mean_squared_error(y_test, y_pred))      # RMSE — same units as target
+mean_absolute_error(y_test, y_pred)              # MAE — more robust to outliers than MSE
+```
+
+---
+
+## 12. Cross-Validation
+
+Cross-validation gives a less noisy estimate of generalisation error than a single train/test split.
+
+```python
+from sklearn.model_selection import cross_val_score, StratifiedKFold, cross_validate
+
+# simple k-fold cross-validation
+scores = cross_val_score(model, X, y, cv=5, scoring="accuracy")
+print(f"Mean: {scores.mean():.3f}  Std: {scores.std():.3f}")
+
+# StratifiedKFold — preserves class balance in each fold
+skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+scores = cross_val_score(model, X, y, cv=skf, scoring="roc_auc")
+
+# cross_validate — multiple metrics at once + fit/score timings
+results = cross_validate(model, X, y, cv=5,
+                          scoring=["accuracy", "f1_weighted"],
+                          return_train_score=True)
+results["test_accuracy"]     # array of 5 test scores
+```
+
+---
+
+## 13. Hyperparameter Tuning
+
+Wrap the full pipeline (including preprocessing) in the search to avoid leakage.
+
+```python
+from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
+
+param_grid = {
+    "logisticregression__C": [0.01, 0.1, 1, 10],
+    "logisticregression__penalty": ["l1", "l2"],
+}
+
+# GridSearchCV — exhaustive; scales as product of param counts
+gs = GridSearchCV(pipe, param_grid, cv=5, scoring="roc_auc", n_jobs=-1)
+gs.fit(X_train, y_train)
+gs.best_params_    # {"logisticregression__C": 1, "logisticregression__penalty": "l2"}
+gs.best_score_     # mean CV score of best parameter combination
+
+# RandomizedSearchCV — samples n_iter combinations; faster for large grids
+from scipy.stats import loguniform
+rs = RandomizedSearchCV(pipe, {"logisticregression__C": loguniform(1e-3, 1e3)},
+                         n_iter=50, cv=5, random_state=42, n_jobs=-1)
+rs.fit(X_train, y_train)
+```
+
+---
+
+## 14. Feature Selection
+
+Select features before or within a pipeline to reduce dimensionality and overfitting.
+
+```python
+from sklearn.feature_selection import SelectKBest, f_classif, RFE
+from sklearn.ensemble import RandomForestClassifier
+
+# SelectKBest — select top k features by statistical score
+selector = SelectKBest(score_func=f_classif, k=10)
+X_selected = selector.fit_transform(X_train, y_train)
+selector.get_support(indices=True)     # indices of selected features
+
+# RFE — recursive feature elimination; wraps any estimator with coef_ or feature_importances_
+rfe = RFE(estimator=LogisticRegression(), n_features_to_select=10)
+rfe.fit(X_train, y_train)
+rfe.support_                           # boolean mask of selected features
+
+# feature_importances_ — built into tree-based models
+rf = RandomForestClassifier(n_estimators=100).fit(X_train, y_train)
+rf.feature_importances_                # importance score per feature, sums to 1.0
+```
+
+---
+
+## 15. ColumnTransformer
+
+Apply different preprocessing steps to different column subsets, then horizontally concatenate the results.
+
+```python
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.pipeline import make_pipeline
+from sklearn.linear_model import LogisticRegression
+
+numeric_cols     = ["age", "income", "score"]
+categorical_cols = ["city", "status"]
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ("num", StandardScaler(),                         numeric_cols),
+        ("cat", OneHotEncoder(handle_unknown="ignore"),   categorical_cols),
+    ],
+    remainder="drop",     # drop any columns not listed above
+)
+
+pipe = make_pipeline(preprocessor, LogisticRegression())
+pipe.fit(X_train, y_train)    # ColumnTransformer handles both column types cleanly
+pipe.predict(X_test)
+```
+
+---
+
+## 16. Saving & Loading Models
+
+`joblib` is the standard for Scikit-learn objects — it handles large NumPy arrays efficiently.
+
+```python
+import joblib
+
+# save — persists the entire fitted pipeline or model
+joblib.dump(pipe, "model.joblib")
+
+# load — restores the object exactly as it was when saved
+loaded_pipe = joblib.load("model.joblib")
+loaded_pipe.predict(X_test)    # ready to use immediately
+
+# version warning: always save the sklearn version alongside the model
+import sklearn
+print(sklearn.__version__)     # log this; mismatched versions can break loading
+```
+
+> **Gotcha:** A `joblib`-serialised model encodes the Scikit-learn version it was trained with. Upgrading Scikit-learn can make old model files unloadable. Pin your dependency versions in production.
+
+---
+
+## Related Posts
+
+- [Essential Machine Learning Models: A Practical Cheat Sheet](/blog/essential-ml-models-cheat-sheet) — When to reach for each model and honest tradeoffs.
+- [The Python Data Science Stack: NumPy, Pandas, Matplotlib, and Scikit-learn](/blog/python-data-science-stack) — How Scikit-learn fits into the broader data science ecosystem.
