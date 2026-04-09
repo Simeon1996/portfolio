@@ -1,0 +1,140 @@
+---
+title: "Essential Machine Learning Models: A Practical Cheat Sheet"
+date: 2026-04-03
+excerpt: "The models that cover 90% of real ML problems — what each one does, when to reach for it, and enough code to get started immediately."
+tags: ["Machine Learning", "Scikit-learn", "Python", "Data Science", "Models"]
+published: true
+---
+
+Most ML problems do not require exotic architectures. They require knowing which model to reach for and why. This is that reference.
+
+---
+
+## Linear Regression & Logistic Regression
+
+**Linear regression** predicts a continuous value by fitting a weighted sum of input features. **Logistic regression** does the same thing, but wraps the output in a sigmoid to produce a probability — making it a classifier despite the name.
+
+```python
+from sklearn.linear_model import LinearRegression, LogisticRegression
+
+reg = LinearRegression().fit(X_train, y_train)
+clf = LogisticRegression().fit(X_train, y_train)
+print(reg.predict(X_test), clf.predict_proba(X_test))
+```
+
+**Use when:** you want a fast baseline, interpretability matters, or the relationship between features and target is roughly linear. Logistic regression is often embarrassingly competitive on tabular data — try it before anything else.
+
+---
+
+## Decision Tree & Random Forest
+
+A **decision tree** splits the feature space into regions using threshold rules, creating a human-readable flowchart of decisions. A **random forest** trains hundreds of trees on random subsets of data and features, then averages their predictions — which kills variance and makes them much harder to overfit.
+
+```python
+from sklearn.ensemble import RandomForestClassifier
+
+clf = RandomForestClassifier(n_estimators=100, random_state=42)
+clf.fit(X_train, y_train)
+print(clf.feature_importances_)
+```
+
+**Use when:** you have tabular data with nonlinear relationships, you need feature importance scores, or you want good out-of-the-box performance with minimal tuning. A random forest is the second baseline to try after logistic regression.
+
+---
+
+## Support Vector Machine (SVM)
+
+SVM finds the hyperplane that maximizes the margin between classes. With the kernel trick, it can separate data that is not linearly separable by implicitly mapping it into a higher-dimensional space — without computing those dimensions explicitly.
+
+```python
+from sklearn.svm import SVC
+
+clf = SVC(kernel="rbf", C=1.0, probability=True)
+clf.fit(X_train, y_train)
+print(clf.predict(X_test))
+```
+
+**Use when:** your dataset is small-to-medium (SVMs scale poorly past ~100k samples), high-dimensional (text classification, gene expression), and you need a sharp, well-calibrated decision boundary. Avoid it on large datasets unless you use `LinearSVC`.
+
+---
+
+## K-Means Clustering
+
+K-Means is unsupervised — there are no labels. It partitions data into *k* clusters by iteratively assigning each point to the nearest centroid and recomputing centroids until stable.
+
+```python
+from sklearn.cluster import KMeans
+
+km = KMeans(n_clusters=5, random_state=42, n_init="auto")
+km.fit(X)
+print(km.labels_)
+```
+
+**Use when:** you want to discover natural groupings without labeled data — customer segmentation, anomaly detection as a preprocessing step, or reducing a large dataset into representative buckets. Always try a few values of *k* and use the elbow method or silhouette score to pick one.
+
+---
+
+## K-Nearest Neighbors (KNN)
+
+KNN makes no assumptions about the data distribution. To classify a new point, it finds the *k* most similar training examples by distance and takes a majority vote.
+
+```python
+from sklearn.neighbors import KNeighborsClassifier
+
+clf = KNeighborsClassifier(n_neighbors=5)
+clf.fit(X_train, y_train)
+print(clf.predict(X_test))
+```
+
+**Use when:** your dataset is small (prediction time scales with training set size), the local structure of the data matters, or you want a simple non-parametric baseline. KNN degrades fast in high dimensions — normalize your features and keep dimensionality in check.
+
+---
+
+## Gradient Boosting (XGBoost / sklearn)
+
+Gradient boosting builds an ensemble sequentially: each new tree is trained to correct the residual errors of all the trees before it. XGBoost is the battle-tested implementation that wins most structured-data competitions.
+
+```python
+from xgboost import XGBClassifier
+
+clf = XGBClassifier(n_estimators=200, learning_rate=0.1, max_depth=5)
+clf.fit(X_train, y_train, eval_set=[(X_test, y_test)], verbose=False)
+print(clf.predict(X_test))
+```
+
+If you do not have XGBoost installed, `sklearn.ensemble.GradientBoostingClassifier` or the faster `HistGradientBoostingClassifier` cover the same ground.
+
+**Use when:** you are working on tabular data and care about performance. Gradient boosting is the default serious choice for structured data — it handles missing values, mixed feature types, and irregular distributions without much preprocessing. Expect it to beat random forests on most problems if you tune it.
+
+---
+
+## Neural Network (MLP)
+
+A multilayer perceptron stacks layers of neurons with nonlinear activations, letting it learn arbitrary mappings from input to output. Sklearn's `MLPClassifier` covers simple cases; PyTorch or JAX is the right tool once you need custom architectures, GPU training, or anything beyond standard feedforward nets.
+
+```python
+from sklearn.neural_network import MLPClassifier
+
+clf = MLPClassifier(hidden_layer_sizes=(128, 64), max_iter=300, random_state=42)
+clf.fit(X_train, y_train)
+print(clf.predict(X_test))
+```
+
+**Use when:** you have enough data that the model can generalize (rule of thumb: thousands of samples per class minimum), the other models have plateaued, or your input is images, sequences, or text — domains where deep architectures have a structural advantage. For anything beyond `MLPClassifier`, reach for PyTorch directly.
+
+---
+
+## Key Takeaways
+
+- **Start simple.** Logistic regression and random forest are the baselines. Beat them before adding complexity.
+- **Gradient boosting wins on tabular data.** If you have structured rows and columns, XGBoost or LightGBM should be your go-to before any neural net.
+- **SVMs and KNN are niche but sharp.** They shine in specific regimes — high-dimensional text, small datasets, local-structure problems — and they are worth knowing.
+- **Neural nets need data and compute.** `MLPClassifier` is convenient for quick experiments; PyTorch is where real deep learning lives.
+- **K-Means is your first unsupervised tool.** It is not sophisticated, but it is fast, interpretable, and useful more often than people expect.
+
+---
+
+## Related Posts
+
+- [The Python Data Science Stack: NumPy, Pandas, Matplotlib, and Scikit-learn](/blog/python-data-science-stack) — The four libraries every ML workflow depends on.
+- [PyTorch Essentials: What You Actually Need to Know](/blog/pytorch-essentials) — When you outgrow sklearn and need real deep learning.
