@@ -1,0 +1,94 @@
+---
+title: "PyTorch Essentials: What You Actually Need to Know"
+date: 2026-04-03
+excerpt: "PyTorch is the dominant framework for deep learning research and production alike. Here is what matters, what to watch out for, and enough working code to get oriented fast."
+tags: ["PyTorch", "Deep Learning", "Python", "Machine Learning"]
+published: true
+---
+
+If you are working in machine learning in 2026 and you have not written PyTorch, you have been avoiding it — because it is everywhere. Research papers ship PyTorch code. Hugging Face models are PyTorch-native. Most production inference pipelines you will inherit were trained in it. It is not the only framework, but it is the default.
+
+This post is not a full tutorial. It is the orientation I wish I had had: what PyTorch actually is, which three concepts do 80% of the work, and where the real friction lies.
+
+## What PyTorch Is
+
+PyTorch is an open-source deep learning framework developed at Meta and now maintained by the Linux Foundation. At its core it is two things: a tensor computation library with GPU acceleration, and an automatic differentiation engine. Everything else — neural network layers, optimizers, data loaders — is built on top of those two primitives.
+
+The reason it won the framework wars against TensorFlow (at least in research, and increasingly in production) is the dynamic computation graph. TensorFlow 1.x required you to define a static graph before running it. PyTorch builds the graph at runtime as you execute operations. That made debugging feel like normal Python debugging, not archaeology.
+
+## The Three Things That Actually Matter
+
+**Tensors** are the foundational data structure — n-dimensional arrays that can live on CPU or GPU. If you know NumPy, the API will feel familiar. The key difference is `.to("cuda")`: one line moves your data to the GPU.
+
+```python
+import torch
+
+x = torch.tensor([[1.0, 2.0], [3.0, 4.0]])
+x = x.to("cuda")  # move to GPU if available
+print(x.shape)    # torch.Size([2, 2])
+```
+
+**Autograd** is PyTorch's automatic differentiation engine. When you set `requires_grad=True` on a tensor, PyTorch tracks every operation on it and can compute gradients via `.backward()`. This is the mechanism that makes training neural networks possible without hand-computing derivatives.
+
+```python
+x = torch.tensor(3.0, requires_grad=True)
+y = x ** 2 + 2 * x + 1  # y = (x+1)^2
+
+y.backward()             # compute dy/dx
+print(x.grad)            # tensor(8.) — correct: dy/dx at x=3 is 2x+2 = 8
+```
+
+**`nn.Module`** is the base class for every neural network component in PyTorch. You subclass it, define your layers in `__init__`, and implement `forward()`. PyTorch handles parameter tracking, device movement, and gradient flow automatically.
+
+```python
+import torch.nn as nn
+
+class TwoLayerNet(nn.Module):
+    def __init__(self, input_dim, hidden_dim, output_dim):
+        super().__init__()
+        self.fc1 = nn.Linear(input_dim, hidden_dim)
+        self.fc2 = nn.Linear(hidden_dim, output_dim)
+
+    def forward(self, x):
+        x = torch.relu(self.fc1(x))
+        return self.fc2(x)
+
+model = TwoLayerNet(784, 256, 10)
+output = model(torch.randn(32, 784))  # batch of 32 inputs
+print(output.shape)  # torch.Size([32, 10])
+```
+
+Those three concepts — tensors, autograd, `nn.Module` — are what you need to read and understand 90% of the PyTorch code you will encounter in the wild.
+
+## Honest Pros and Cons
+
+PyTorch earns its position, but it is not without real costs.
+
+**What it does well:**
+
+- Pythonic, debuggable, no graph compilation surprises in eager mode
+- Massive ecosystem: Hugging Face, Lightning, torchvision, torchaudio all speak native PyTorch
+- First-class GPU support; CUDA integration is seamless compared to rolling your own
+- Strong research adoption means tutorials, papers, and example code are abundant
+
+**Where it hurts:**
+
+- **Deployment friction.** Serving a PyTorch model in production is not trivial. `torch.jit.script` and `torch.export` exist but have edge cases and limitations. TorchServe works but is not as polished as TensorFlow Serving. You will spend real engineering time on this.
+- **Memory management is manual.** CUDA out-of-memory errors are a rite of passage. You manage batch sizes, gradient accumulation, and mixed precision yourself. There is no garbage collector watching your GPU.
+- **`torch.compile` is still maturing.** Introduced in PyTorch 2.0, `torch.compile` delivers meaningful speedups but adds compilation overhead, breaks on some model architectures, and produces errors that are harder to debug than eager-mode errors. Worth using, but not frictionless.
+- **The training loop is boilerplate-heavy.** Writing a correct training loop (loss, `.backward()`, `.step()`, `.zero_grad()`, eval mode toggling, gradient clipping) is repetitive. PyTorch Lightning and Hugging Face `Trainer` exist to abstract this, but they add their own layers of complexity.
+
+> **Pro tip:** Use `torch.no_grad()` context manager during inference and evaluation. It disables autograd tracking, which reduces memory usage and speeds up forward passes meaningfully — easy win that is easy to forget.
+
+## Key Takeaways
+
+- PyTorch is dominant because it is Pythonic, debuggable, and carries the weight of the entire research ecosystem behind it.
+- Tensors, autograd, and `nn.Module` are the primitives. Learn those deeply before reaching for abstractions.
+- The real costs are at the deployment and production boundary — plan for them, do not discover them.
+
+---
+
+## Related Posts
+
+- [Python Is the Number One Language. Here Is Why That Is Not Going Away.](/blog/python-the-number-one-language) — Why Python's dominance in AI and ML is structural, not accidental, and what the real limitations are.
+- [MLOps Is Just DevOps with More Humility](/blog/mlops-is-just-devops-with-more-humility) — How DevOps principles map — and where they break down — when applied to machine learning systems in production.
