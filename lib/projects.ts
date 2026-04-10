@@ -168,7 +168,6 @@ export const PROJECT_DETAILS: Record<string, ProjectDetail> = {
   },
   botversehub: {
     title: 'BotverseHub',
-    preview: 'https://botversehub.com',
     description:
       'A unified platform for managing, training, and interacting with AI bots. Users can spin up bots with custom personas, equip them with selectable tool sets (web search, code execution, file access, APIs), and chat with them in real time. Includes a bot registry, per-bot memory and context management, tool permission controls, conversation history, and an analytics dashboard tracking usage and performance across the entire bot fleet.',
     stack: ['Angular', 'TypeScript', 'Python', 'FastAPI', 'LangChain'],
