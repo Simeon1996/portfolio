@@ -813,7 +813,7 @@ export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }
           >
           <div style={{ display: 'grid', gridTemplateColumns: isPhone ? '1fr' : '1fr 1fr', gap: 1, background: C.border }}>
           {PROJECTS.map(p => {
-            const isActiveRow = isCompact || hoveredRow === p.slug
+            const isActiveRow = hoveredRow === p.slug
             return (
               <motion.div key={p.slug}
                 style={{ position: 'relative', overflow: 'hidden', background: isActiveRow ? 'rgba(var(--cyan-rgb),.015)' : C.bg, transition: 'border-color .3s,background .3s' }}
