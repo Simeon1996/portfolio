@@ -89,8 +89,17 @@ const EXPERIENCE = [
 
 const PROJECTS = [
   {
-    slug: 'rag',
+    slug: 'cheatsheet',
     index: '01',
+    title: 'Cheatsheet — Reference Manager for Developers',
+    desc: 'Developer-focused cheatsheet and command reference manager. Organize CLI commands, code snippets, and one-liners into searchable, categorized collections. Private workspace for your personal library and a public explore page for curated community cheatsheets. Syntax-highlighted across Bash, Python, SQL, YAML, HCL, and more — copyable with one click.',
+    github: null,
+    project: '/projects/cheatsheet',
+    stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Prisma', 'PostgreSQL'],
+  },
+  {
+    slug: 'rag',
+    index: '02',
     title: 'GPT Document Intelligence',
     desc: 'Upload entire PDF libraries and query them with natural language. Built on LangChain, OpenAI embeddings, and Pinecone. Features hybrid BM25 + dense retrieval, citation tracking, and a streaming chat UI. Handles 10k-page corpora with sub-200ms retrieval.',
     github: 'https://github.com',
@@ -99,7 +108,7 @@ const PROJECTS = [
   },
   {
     slug: 'agent',
-    index: '02',
+    index: '03',
     title: 'Autonomous Incident Commander',
     desc: 'A multi-agent SRE command center that detects incidents, builds causal graphs from telemetry, executes guarded runbooks, and drafts postmortems automatically. Reduced mean time to resolution by 63% in staging chaos drills while keeping human approval in the loop for every high-risk action.',
     github: null,
@@ -108,7 +117,7 @@ const PROJECTS = [
   },
   {
     slug: 'devops',
-    index: '03',
+    index: '04',
     title: 'FinOps Autopilot',
     desc: 'An AI platform for cloud cost optimization that forecasts spend, detects anomalies in real time, opens infrastructure right-sizing pull requests, and recommends commitment plans. It combines retrieval over IaC history with policy constraints to avoid unsafe savings recommendations.',
     github: null,
@@ -117,7 +126,7 @@ const PROJECTS = [
   },
   {
     slug: 'saas',
-    index: '04',
+    index: '05',
     title: 'Voice Revenue Copilot',
     desc: 'A real-time assistant for sales teams that transcribes calls live, surfaces objection-handling playbooks, scores deal health, and syncs structured notes into CRM automatically. The system supports multilingual conversations with latency under 400ms for in-call recommendations.',
     github: null,
@@ -126,7 +135,7 @@ const PROJECTS = [
   },
   {
     slug: 'resume',
-    index: '05',
+    index: '06',
     title: 'Talent Intelligence Graph',
     desc: 'A recruiting intelligence system that converts resumes, portfolios, and job descriptions into a living skills graph. It generates explainable candidate-role matches, interview briefs, and market trend analytics while preserving strict data governance and access controls.',
     github: null,
@@ -135,7 +144,7 @@ const PROJECTS = [
   },
   {
     slug: 'style',
-    index: '06',
+    index: '07',
     title: 'Generative Brand Studio',
     desc: 'A multimodal creative suite that turns a brand brief into on-brand hero visuals, landing page variants, tokenized design systems, and accessibility reports in minutes. It blends diffusion models, retrieval over brand guidelines, and deterministic export pipelines for production handoff.',
     github: 'https://github.com',
@@ -144,7 +153,7 @@ const PROJECTS = [
   },
   {
     slug: 'email-rag',
-    index: '07',
+    index: '08',
     title: 'High-Traffic Email RAG Engine',
     desc: 'Production RAG pipeline ingesting millions of emails and attachments (PDF, DOCX, XLSX) daily. Hybrid retrieval combines BM25 sparse search via OpenSearch with dense vector search via Qdrant, fused through Reciprocal Rank Fusion. Includes chunking with overlap, per-tenant index isolation, async ingestion queues (Celery/Redis), deduplication, embedding caching, query rewriting, re-ranking with a cross-encoder, and streaming LLM responses — sustaining 10k+ queries/day with p99 latency under 300ms.',
     github: null,
@@ -153,7 +162,7 @@ const PROJECTS = [
   },
   {
     slug: 'langchain-platform',
-    index: '08',
+    index: '09',
     title: 'LangChain AI Application Platform',
     desc: 'A production multi-tenant platform built on LangChain\'s full stack — LCEL pipelines, ConversationalRetrievalChain, custom tool-calling agents (AgentExecutor), memory backends (ConversationSummaryBufferMemory), and structured output parsers. Integrates LangSmith for tracing and eval, LangServe for one-command API deployment, and LangGraph for stateful multi-step agent workflows. Supports hot-swappable LLM providers, retrieval over 50M+ documents, and per-user session persistence.',
     github: null,
@@ -162,7 +171,7 @@ const PROJECTS = [
   },
   {
     slug: 'mcp-platform',
-    index: '09',
+    index: '10',
     title: 'Claude MCP Integration Platform',
     desc: 'Built a suite of production Model Context Protocol (MCP) servers that give Claude structured, permissioned access to internal tools — databases, REST APIs, file systems, and ticketing systems. Implemented custom resource, tool, and prompt primitives with strict input validation, OAuth-scoped auth, and full audit logging. Enabled non-technical teams to interact with live business data through natural language with zero prompt injection surface.',
     github: null,
@@ -171,7 +180,7 @@ const PROJECTS = [
   },
   {
     slug: 'android-freelance',
-    index: '10',
+    index: '11',
     title: 'Freelance Android Development',
     desc: 'Delivered 15+ Android apps for clients across retail, health, and logistics — all built with Jetpack Compose for fully declarative UIs. Stack includes Hilt for DI, Room for local persistence, Retrofit + OkHttp for networking, Coil for image loading, DataStore for preferences, WorkManager for background tasks, and Navigation Compose for deep-linked multi-screen flows. Applied MVVM with StateFlow, coroutines, and clean architecture across every engagement.',
     github: null,
@@ -180,7 +189,7 @@ const PROJECTS = [
   },
   {
     slug: 'quizforge',
-    index: '11',
+    index: '12',
     title: 'QuizzYourself — AI Quiz Platform',
     desc: 'Describe a topic and QuizForge generates a full quiz in seconds using LLMs — questions, multiple-choice options, correct answers, and explanations all crafted automatically. Users run quizzes and receive detailed result breakdowns: per-question accuracy, wrong-answer analysis, and knowledge gap insights. Quizzes can be published publicly, kept private, or shared via invite link with specific individuals.',
     github: 'https://github.com',
@@ -189,7 +198,7 @@ const PROJECTS = [
   },
   {
     slug: 'cookingintelligence',
-    index: '13',
+    index: '14',
     title: 'CookingIntelligence',
     desc: 'Describe a dish, dietary preference, or available ingredients and CookingIntelligence generates a complete recipe in seconds using LLMs — ingredients, quantities, steps, and tips included. Recipes can be cooked interactively step-by-step with timers, substitution suggestions, and contextual guidance at each stage. Like QuizzYourself, recipes can be published publicly, kept private, or shared with specific people via invite link.',
     github: 'https://github.com',
@@ -198,7 +207,7 @@ const PROJECTS = [
   },
   {
     slug: 'botversehub',
-    index: '15',
+    index: '16',
     title: 'BotverseHub',
     desc: 'A unified platform for managing, training, and interacting with AI bots. Users can spin up bots with custom personas, equip them with selectable tool sets (web search, code execution, file access, APIs), and chat with them in real time. Includes a bot registry, per-bot memory and context management, tool permission controls, conversation history, and an analytics dashboard tracking usage and performance across the entire bot fleet.',
     github: 'https://github.com',
@@ -206,8 +215,17 @@ const PROJECTS = [
     stack: ['React', 'TypeScript', 'Python', 'FastAPI', 'WebSocket'],
   },
   {
+    slug: 'ai-detector',
+    index: '17',
+    title: 'AI Content Detector',
+    desc: 'A SaaS platform that detects AI-generated text with 97.4% accuracy across ChatGPT, Claude, Gemini, LLaMA, and more. Paste any text to get a verdict in under 800ms, a sentence-level heatmap highlighting which passages are AI-written, and per-model attribution scores. Includes a REST API with SDKs, batch upload, team workspaces, and a full analytics dashboard.',
+    github: 'https://github.com',
+    project: '/projects/ai-detector',
+    stack: ['Next.js', 'TypeScript', 'Python', 'FastAPI', 'PostgreSQL'],
+  },
+  {
     slug: 'freelance',
-    index: '16',
+    index: '18',
     title: 'Freelance Web Development',
     desc: 'Delivered 20+ custom websites and client platforms across industries — from e-commerce storefronts and booking systems to internal dashboards and REST APIs. Built with React, Angular, Python (Django/FastAPI), Java (Spring Boot), and vanilla JavaScript. Each engagement covered full-cycle delivery: scoping, architecture, implementation, and handoff.',
     github: null,

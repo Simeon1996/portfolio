@@ -9,6 +9,19 @@ export interface ProjectDetail {
 }
 
 export const PROJECT_DETAILS: Record<string, ProjectDetail> = {
+  cheatsheet: {
+    title: 'Cheatsheet — Reference Manager for Developers',
+    description: 'Developer-focused cheatsheet and command reference manager. It lets you organize CLI commands, code snippets, and one-liners into searchable, categorized collections. You get a private workspace to build your personal library (grouped by tool like AWS, Docker, K8s, etc.) and a public explore page for curated community cheatsheets. Commands are syntax-highlighted across multiple languages (Bash, Python, SQL, YAML, HCL, etc.) and copyable with one click.',
+    stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Prisma', 'PostgreSQL'],
+    preview: 'https://referential-sheet.com',
+    images: [
+      { src: '/projects/cheatsheet/1.svg', caption: 'Landing Page' },
+      { src: '/projects/cheatsheet/2.svg', caption: 'Categories Page' },
+      { src: '/projects/cheatsheet/3.svg', caption: 'Snippets in a specific category along all commands' },
+      { src: '/projects/cheatsheet/4.svg', caption: 'Login screen' },
+      { src: '/projects/cheatsheet/5.svg', caption: 'Personal workspace with its own categories' },
+    ],
+  },
   rag: {
     title: 'GPT Document Intelligence',
     description:
@@ -183,6 +196,18 @@ export const PROJECT_DETAILS: Record<string, ProjectDetail> = {
       { src: '/projects/botversehub/9.svg', caption: '' },
       { src: '/projects/botversehub/10.svg', caption: '' },
       { src: '/projects/botversehub/11.svg', caption: '' },
+    ],
+  },
+  'ai-detector': {
+    title: 'AI Content Detector',
+    description:
+      'A SaaS platform that detects AI-generated text with 97.4% accuracy across ChatGPT, Claude, Gemini, LLaMA, and more. Paste any text to get a verdict in under 800ms, a sentence-level heatmap highlighting which passages are AI-written, and per-model attribution scores. Built for educators, publishers, and content teams — includes a REST API with SDKs, batch upload, team workspaces, and a full analytics dashboard tracking detection history and trends.',
+    stack: ['Next.js', 'TypeScript', 'Python', 'FastAPI', 'PostgreSQL'],
+    images: [
+      { src: '/projects/ai-detector/1.svg', caption: 'Landing page with live stats' },
+      { src: '/projects/ai-detector/2.svg', caption: 'Text analyzer — paste and configure' },
+      { src: '/projects/ai-detector/3.svg', caption: 'Detection results with sentence heatmap' },
+      { src: '/projects/ai-detector/4.svg', caption: 'Analytics dashboard and check history' }
     ],
   },
   freelance: {
