@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Screen: Text Analyzer — paste and analyze view -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d0f1a"/>
+      <stop offset="100%" style="stop-color:#111827"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="sidebar" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0a0c16"/>
+      <stop offset="100%" style="stop-color:#0d0f1a"/>
+    </linearGradient>
+    <linearGradient id="inputBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#161929"/>
+      <stop offset="100%" style="stop-color:#131522"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1440" height="900" fill="url(#bg)"/>
+
+  <!-- Sidebar -->
+  <rect x="0" y="0" width="220" height="900" fill="url(#sidebar)"/>
+  <line x1="220" y1="0" x2="220" y2="900" stroke="#1e2235" stroke-width="1"/>
+
+  <!-- Sidebar logo -->
+  <rect x="20" y="18" width="28" height="28" rx="6" fill="url(#accent)"/>
+  <text x="34" y="37" font-family="monospace" font-size="14" font-weight="bold" fill="white" text-anchor="middle">A</text>
+  <text x="60" y="37" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="14" font-weight="700" fill="white">DetectAI</text>
+  <line x1="12" y1="64" x2="208" y2="64" stroke="#1e2235" stroke-width="1"/>
+
+  <!-- Sidebar nav items -->
+  <!-- Active item: Analyzer -->
+  <rect x="8" y="78" width="204" height="38" rx="6" fill="#6366f1" fill-opacity="0.12"/>
+  <rect x="8" y="78" width="3" height="38" rx="1.5" fill="#6366f1"/>
+  <text x="44" y="102" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#a5b4fc">📝  Text Analyzer</text>
+
+  <text x="44" y="142" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#475569">📊  Results History</text>
+  <text x="44" y="182" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#475569">📁  Batch Upload</text>
+  <text x="44" y="222" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#475569">🔗  API Keys</text>
+  <text x="44" y="262" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#475569">⚙️  Settings</text>
+
+  <line x1="12" y1="290" x2="208" y2="290" stroke="#1e2235" stroke-width="1"/>
+
+  <!-- Plan info -->
+  <text x="16" y="316" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" fill="#374151">CURRENT PLAN</text>
+  <rect x="16" y="326" width="188" height="52" rx="8" fill="#1e2235"/>
+  <text x="28" y="346" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="600" fill="white">Pro Plan</text>
+  <rect x="28" y="354" width="100" height="4" rx="2" fill="#374151"/>
+  <rect x="28" y="354" width="62" height="4" rx="2" fill="#6366f1"/>
+  <text x="28" y="374" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" fill="#475569">6,210 / 10,000 checks used</text>
+
+  <!-- User avatar at bottom -->
+  <circle cx="26" cy="858" r="14" fill="#6366f1" fill-opacity="0.2"/>
+  <text x="26" y="863" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#a5b4fc" text-anchor="middle">JS</text>
+  <text x="50" y="854" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="600" fill="white">Jane Smith</text>
+  <text x="50" y="870" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" fill="#475569">jane@acme.com</text>
+
+  <!-- Main content area -->
+  <!-- Top bar -->
+  <rect x="220" y="0" width="1220" height="60" fill="#0d0f1a"/>
+  <line x1="220" y1="60" x2="1440" y2="60" stroke="#1e2235" stroke-width="1"/>
+  <text x="248" y="36" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="18" font-weight="700" fill="white">Text Analyzer</text>
+  <text x="248" y="54" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#475569">Paste any text to detect AI-generated content</text>
+
+  <!-- Analyze button in header -->
+  <rect x="1296" y="14" width="120" height="34" rx="6" fill="url(#accent)"/>
+  <text x="1356" y="36" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="600" fill="white" text-anchor="middle">Analyze →</text>
+
+  <!-- Mode tabs -->
+  <rect x="248" y="82" width="100" height="30" rx="6" fill="#6366f1" fill-opacity="0.15" stroke="#6366f1" stroke-width="1" stroke-opacity="0.4"/>
+  <text x="298" y="102" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#a5b4fc" text-anchor="middle">Paste Text</text>
+  <rect x="358" y="82" width="100" height="30" rx="6" fill="none"/>
+  <text x="408" y="102" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#475569" text-anchor="middle">Upload File</text>
+  <rect x="468" y="82" width="100" height="30" rx="6" fill="none"/>
+  <text x="518" y="102" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#475569" text-anchor="middle">From URL</text>
+
+  <!-- Main 2-col layout -->
+  <!-- Left: text input -->
+  <rect x="248" y="132" width="720" height="560" rx="12" fill="url(#inputBg)" stroke="#1e2235" stroke-width="1"/>
+
+  <!-- Textarea label + char count -->
+  <text x="272" y="160" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="600" fill="#475569">INPUT TEXT</text>
+  <text x="942" y="160" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#374151" text-anchor="end">1,247 / 10,000 words</text>
+
+  <!-- Simulated text content (lines of placeholder text) -->
+  <g font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13.5" fill="#94a3b8">
+    <text x="272" y="188">In recent years, the rapid advancement of artificial intelligence has transformed</text>
+    <text x="272" y="208">numerous industries, from healthcare and finance to education and creative arts.</text>
+    <text x="272" y="228">Machine learning models, particularly large language models, have demonstrated</text>
+    <text x="272" y="248">remarkable capabilities in generating coherent and contextually appropriate text,</text>
+    <text x="272" y="268">raising both opportunities and concerns about the authenticity of digital content.</text>
+    <text x="272" y="296">The ability to distinguish between human-written and AI-generated text has become</text>
+    <text x="272" y="316">increasingly important for educators seeking to maintain academic integrity, as well</text>
+    <text x="272" y="336">as for publishers and content platforms striving to deliver genuine human perspectives.</text>
+    <text x="272" y="356">Various detection approaches have been proposed, ranging from statistical analysis</text>
+    <text x="272" y="376">of token probabilities to more sophisticated ensemble methods that examine writing</text>
+    <text x="272" y="396">style, sentence structure, and semantic coherence across multiple dimensions.</text>
+    <text x="272" y="424">These tools, however, face the ongoing challenge of keeping pace with rapidly</text>
+    <text x="272" y="444">evolving generative models that continuously improve in mimicking human writing</text>
+    <text x="272" y="464">patterns, making the detection task a dynamic and technically demanding problem</text>
+    <text x="272" y="484">that requires constant adaptation and retraining of detection systems.</text>
+  </g>
+
+  <!-- Blinking cursor -->
+  <rect x="272" y="500" width="2" height="16" fill="#6366f1" opacity="0.9"/>
+
+  <!-- Toolbar at bottom of textarea -->
+  <line x1="248" y1="640" x2="968" y2="640" stroke="#1e2235" stroke-width="1"/>
+  <rect x="268" y="654" width="80" height="24" rx="4" fill="#1e2235"/>
+  <text x="308" y="670" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" fill="#64748b" text-anchor="middle">🗑 Clear</text>
+  <rect x="360" y="654" width="100" height="24" rx="4" fill="#1e2235"/>
+  <text x="410" y="670" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" fill="#64748b" text-anchor="middle">📋 Paste</text>
+  <rect x="472" y="654" width="120" height="24" rx="4" fill="#1e2235"/>
+  <text x="532" y="670" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" fill="#64748b" text-anchor="middle">📄 Sample text</text>
+
+  <!-- Right panel: options + quick info -->
+  <rect x="988" y="132" width="420" height="232" rx="12" fill="#161929" stroke="#1e2235" stroke-width="1"/>
+  <text x="1016" y="162" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="white">Detection Options</text>
+
+  <!-- Option rows -->
+  <text x="1016" y="196" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#94a3b8">Detection Mode</text>
+  <rect x="1240" y="180" width="148" height="30" rx="6" fill="#1e2235" stroke="#2d3748" stroke-width="1"/>
+  <text x="1360" y="200" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#94a3b8" text-anchor="end">Standard ▾</text>
+
+  <text x="1016" y="236" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#94a3b8">Language</text>
+  <rect x="1240" y="220" width="148" height="30" rx="6" fill="#1e2235" stroke="#2d3748" stroke-width="1"/>
+  <text x="1360" y="240" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#94a3b8" text-anchor="end">Auto-detect ▾</text>
+
+  <text x="1016" y="276" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#94a3b8">Highlight granularity</text>
+  <rect x="1240" y="260" width="148" height="30" rx="6" fill="#1e2235" stroke="#2d3748" stroke-width="1"/>
+  <text x="1360" y="280" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#94a3b8" text-anchor="end">Sentence ▾</text>
+
+  <!-- Toggle rows -->
+  <text x="1016" y="318" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#94a3b8">Show confidence scores</text>
+  <rect x="1360" y="305" width="36" height="20" rx="10" fill="#6366f1"/>
+  <circle cx="1386" cy="315" r="8" fill="white"/>
+
+  <text x="1016" y="350" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#94a3b8">Save to history</text>
+  <rect x="1360" y="337" width="36" height="20" rx="10" fill="#6366f1"/>
+  <circle cx="1386" cy="347" r="8" fill="white"/>
+
+  <!-- Model support card -->
+  <rect x="988" y="380" width="420" height="200" rx="12" fill="#161929" stroke="#1e2235" stroke-width="1"/>
+  <text x="1016" y="410" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="white">Supported Models</text>
+
+  <!-- Model chips -->
+  <rect x="1016" y="424" width="90" height="24" rx="12" fill="#6366f1" fill-opacity="0.15" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="1061" y="440" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" fill="#a5b4fc" text-anchor="middle">ChatGPT</text>
+  <rect x="1116" y="424" width="72" height="24" rx="12" fill="#6366f1" fill-opacity="0.15" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="1152" y="440" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" fill="#a5b4fc" text-anchor="middle">Claude</text>
+  <rect x="1198" y="424" width="80" height="24" rx="12" fill="#6366f1" fill-opacity="0.15" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="1238" y="440" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" fill="#a5b4fc" text-anchor="middle">Gemini</text>
+  <rect x="1288" y="424" width="88" height="24" rx="12" fill="#6366f1" fill-opacity="0.15" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="1332" y="440" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" fill="#a5b4fc" text-anchor="middle">LLaMA 3</text>
+  <rect x="1016" y="458" width="88" height="24" rx="12" fill="#6366f1" fill-opacity="0.15" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="1060" y="474" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" fill="#a5b4fc" text-anchor="middle">Mistral</text>
+  <rect x="1114" y="458" width="80" height="24" rx="12" fill="#6366f1" fill-opacity="0.15" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="1154" y="474" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" fill="#a5b4fc" text-anchor="middle">Grok</text>
+  <rect x="1204" y="458" width="96" height="24" rx="12" fill="#6366f1" fill-opacity="0.15" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="1252" y="474" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" fill="#a5b4fc" text-anchor="middle">Command R</text>
+  <rect x="1310" y="458" width="70" height="24" rx="12" fill="#6366f1" fill-opacity="0.15" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="1345" y="474" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" fill="#a5b4fc" text-anchor="middle">GPT-4o</text>
+
+  <text x="1016" y="510" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#374151">Model database updated weekly · Last updated Apr 14</text>
+
+  <!-- Tip box -->
+  <rect x="988" y="596" width="420" height="96" rx="12" fill="#161929" stroke="#1e2235" stroke-width="1"/>
+  <rect x="988" y="596" width="3" height="96" rx="1.5" fill="#6366f1"/>
+  <text x="1016" y="622" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="700" fill="#a5b4fc">💡 Tip</text>
+  <text x="1016" y="642" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#64748b">For best accuracy, provide at least 200 words.</text>
+  <text x="1016" y="660" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#64748b">Short paragraphs may return lower confidence scores</text>
+  <text x="1016" y="678" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#64748b">due to limited signal for the detection model.</text>
+</svg>

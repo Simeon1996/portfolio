@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Screen: API Developer Console -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d0f1a"/>
+      <stop offset="100%" style="stop-color:#111827"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="termBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#090b13"/>
+      <stop offset="100%" style="stop-color:#0b0d18"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1440" height="900" fill="url(#bg)"/>
+
+  <!-- Sidebar -->
+  <rect x="0" y="0" width="220" height="900" fill="#0a0c16"/>
+  <line x1="220" y1="0" x2="220" y2="900" stroke="#1e2235" stroke-width="1"/>
+  <rect x="20" y="18" width="28" height="28" rx="6" fill="url(#accent)"/>
+  <text x="34" y="37" font-family="monospace" font-size="14" font-weight="bold" fill="white" text-anchor="middle">A</text>
+  <text x="60" y="37" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="14" font-weight="700" fill="white">DetectAI</text>
+  <line x1="12" y1="64" x2="208" y2="64" stroke="#1e2235" stroke-width="1"/>
+  <text x="44" y="102" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#475569">📝  Text Analyzer</text>
+  <text x="44" y="142" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#475569">📊  Results History</text>
+  <text x="44" y="182" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#475569">📁  Batch Upload</text>
+  <rect x="8" y="198" width="204" height="38" rx="6" fill="#6366f1" fill-opacity="0.12"/>
+  <rect x="8" y="198" width="3" height="38" rx="1.5" fill="#6366f1"/>
+  <text x="44" y="222" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#a5b4fc">🔗  API Keys</text>
+  <text x="44" y="262" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#475569">⚙️  Settings</text>
+  <circle cx="26" cy="858" r="14" fill="#6366f1" fill-opacity="0.2"/>
+  <text x="26" y="863" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#a5b4fc" text-anchor="middle">JS</text>
+  <text x="50" y="854" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="600" fill="white">Jane Smith</text>
+  <text x="50" y="870" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" fill="#475569">jane@acme.com</text>
+
+  <!-- Top bar -->
+  <rect x="220" y="0" width="1220" height="60" fill="#0d0f1a"/>
+  <line x1="220" y1="60" x2="1440" y2="60" stroke="#1e2235" stroke-width="1"/>
+  <text x="248" y="36" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="18" font-weight="700" fill="white">API Keys &amp; Developer Console</text>
+  <text x="248" y="54" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#475569">Manage credentials and test API calls directly</text>
+  <rect x="1296" y="14" width="120" height="34" rx="6" fill="url(#accent)"/>
+  <text x="1356" y="36" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="600" fill="white" text-anchor="middle">+ New Key</text>
+
+  <!-- ===== API KEYS TABLE ===== -->
+  <rect x="248" y="80" width="1164" height="198" rx="12" fill="#161929" stroke="#1e2235" stroke-width="1"/>
+  <text x="272" y="108" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="white">API Keys</text>
+
+  <!-- Table header -->
+  <rect x="248" y="118" width="1164" height="32" fill="#0d0f1a"/>
+  <line x1="248" y1="118" x2="1412" y2="118" stroke="#1e2235" stroke-width="1"/>
+  <line x1="248" y1="150" x2="1412" y2="150" stroke="#1e2235" stroke-width="1"/>
+  <text x="272" y="139" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="600" fill="#475569">NAME</text>
+  <text x="480" y="139" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="600" fill="#475569">KEY</text>
+  <text x="840" y="139" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="600" fill="#475569">CREATED</text>
+  <text x="980" y="139" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="600" fill="#475569">LAST USED</text>
+  <text x="1130" y="139" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="600" fill="#475569">STATUS</text>
+  <text x="1300" y="139" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="600" fill="#475569">ACTIONS</text>
+
+  <!-- Row 1 -->
+  <line x1="248" y1="192" x2="1412" y2="192" stroke="#1e2235" stroke-width="1"/>
+  <text x="272" y="171" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="white">Production</text>
+  <text x="480" y="171" font-family="monospace" font-size="12" fill="#64748b">dai_live_sk_7f3a...c91e</text>
+  <text x="840" y="171" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#64748b">Feb 10, 2026</text>
+  <text x="980" y="171" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#64748b">2 min ago</text>
+  <rect x="1126" y="158" width="56" height="20" rx="10" fill="#10b981" fill-opacity="0.15"/>
+  <text x="1154" y="172" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" fill="#10b981" text-anchor="middle">Active</text>
+  <text x="1300" y="171" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#6366f1">Copy  Revoke</text>
+
+  <!-- Row 2 -->
+  <text x="272" y="211" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="white">Staging</text>
+  <text x="480" y="211" font-family="monospace" font-size="12" fill="#64748b">dai_test_sk_2b8c...a44f</text>
+  <text x="840" y="211" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#64748b">Mar 5, 2026</text>
+  <text x="980" y="211" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#64748b">Apr 12, 2026</text>
+  <rect x="1126" y="198" width="56" height="20" rx="10" fill="#10b981" fill-opacity="0.15"/>
+  <text x="1154" y="212" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" fill="#10b981" text-anchor="middle">Active</text>
+  <text x="1300" y="211" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#6366f1">Copy  Revoke</text>
+
+  <!-- Row 3 (revoked) -->
+  <text x="272" y="251" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#374151">Old Dev Key</text>
+  <text x="480" y="251" font-family="monospace" font-size="12" fill="#374151">dai_test_sk_9d1e...b72a</text>
+  <text x="840" y="251" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#374151">Jan 3, 2026</text>
+  <text x="980" y="251" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#374151">Jan 28, 2026</text>
+  <rect x="1126" y="238" width="64" height="20" rx="10" fill="#374151" fill-opacity="0.3"/>
+  <text x="1158" y="252" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" fill="#475569" text-anchor="middle">Revoked</text>
+  <text x="1300" y="251" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#374151">Delete</text>
+
+  <!-- ===== TWO COLUMN: playground + code snippet ===== -->
+
+  <!-- Left: Live API Playground -->
+  <rect x="248" y="298" width="560" height="480" rx="12" fill="#161929" stroke="#1e2235" stroke-width="1"/>
+  <text x="272" y="326" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="white">API Playground</text>
+  <text x="272" y="344" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" fill="#475569">Test a live request against your key</text>
+
+  <!-- Endpoint selector -->
+  <text x="272" y="372" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="600" fill="#475569">ENDPOINT</text>
+  <rect x="272" y="380" width="512" height="34" rx="6" fill="#0d0f1a" stroke="#2d3748" stroke-width="1"/>
+  <rect x="272" y="380" width="60" height="34" rx="6" fill="#6366f1" fill-opacity="0.2"/>
+  <text x="302" y="402" font-family="monospace" font-size="12" fill="#a5b4fc" text-anchor="middle">POST</text>
+  <text x="350" y="402" font-family="monospace" font-size="12" fill="#64748b">/v1/detect</text>
+
+  <!-- Request body -->
+  <text x="272" y="434" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="600" fill="#475569">REQUEST BODY</text>
+  <rect x="272" y="442" width="512" height="140" rx="6" fill="url(#termBg)" stroke="#2d3748" stroke-width="1"/>
+  <g font-family="monospace" font-size="12">
+    <text x="288" y="462" fill="#475569">{</text>
+    <text x="304" y="480" fill="#94a3b8">  "<tspan fill="#fcd34d">text</tspan>":</text>
+    <text x="304" y="498" fill="#94a3b8">    "<tspan fill="#86efac">In recent years, the rapid</tspan></text>
+    <text x="304" y="516" fill="#86efac">     advancement of AI has...</tspan></text>
+    <text x="304" y="534" fill="#94a3b8">  "<tspan fill="#fcd34d">options</tspan>": {"<tspan fill="#fcd34d">granularity</tspan>": "<tspan fill="#86efac">sentence</tspan>"},</text>
+    <text x="304" y="552" fill="#94a3b8">  "<tspan fill="#fcd34d">version</tspan>": "<tspan fill="#86efac">2.1</tspan>"</text>
+    <text x="288" y="570" fill="#475569">}</text>
+  </g>
+
+  <!-- Run button -->
+  <rect x="272" y="598" width="512" height="38" rx="6" fill="url(#accent)"/>
+  <text x="528" y="622" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="white" text-anchor="middle">▶  Run Request</text>
+
+  <!-- Response preview -->
+  <text x="272" y="656" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="600" fill="#475569">RESPONSE  <tspan fill="#10b981">200 OK · 612ms</tspan></text>
+  <rect x="272" y="664" width="512" height="100" rx="6" fill="url(#termBg)" stroke="#2d3748" stroke-width="1"/>
+  <g font-family="monospace" font-size="11.5">
+    <text x="288" y="684" fill="#475569">{</text>
+    <text x="304" y="700" fill="#94a3b8">  "<tspan fill="#fcd34d">verdict</tspan>": "<tspan fill="#fca5a5">AI_GENERATED</tspan>",</text>
+    <text x="304" y="716" fill="#94a3b8">  "<tspan fill="#fcd34d">confidence</tspan>": <tspan fill="#a5b4fc">0.94</tspan>,</text>
+    <text x="304" y="732" fill="#94a3b8">  "<tspan fill="#fcd34d">model</tspan>": "<tspan fill="#86efac">GPT-4o</tspan>",  ...</text>
+    <text x="288" y="748" fill="#475569">}</text>
+  </g>
+
+  <!-- Right: Code snippets panel -->
+  <rect x="824" y="298" width="588" height="480" rx="12" fill="#161929" stroke="#1e2235" stroke-width="1"/>
+  <text x="848" y="326" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="white">SDK Quickstart</text>
+
+  <!-- Language tabs -->
+  <rect x="848" y="336" width="72" height="26" rx="5" fill="#6366f1" fill-opacity="0.2" stroke="#6366f1" stroke-width="1" stroke-opacity="0.4"/>
+  <text x="884" y="353" font-family="monospace" font-size="11" fill="#a5b4fc" text-anchor="middle">Python</text>
+  <rect x="928" y="336" width="80" height="26" rx="5" fill="none"/>
+  <text x="968" y="353" font-family="monospace" font-size="11" fill="#475569" text-anchor="middle">Node.js</text>
+  <rect x="1016" y="336" width="52" height="26" rx="5" fill="none"/>
+  <text x="1042" y="353" font-family="monospace" font-size="11" fill="#475569" text-anchor="middle">cURL</text>
+  <rect x="1076" y="336" width="48" height="26" rx="5" fill="none"/>
+  <text x="1100" y="353" font-family="monospace" font-size="11" fill="#475569" text-anchor="middle">Go</text>
+
+  <!-- Code block -->
+  <rect x="848" y="370" width="540" height="378" rx="8" fill="url(#termBg)" stroke="#2d3748" stroke-width="1"/>
+
+  <!-- Copy button -->
+  <rect x="1332" y="378" width="48" height="22" rx="4" fill="#1e2235"/>
+  <text x="1356" y="393" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Copy</text>
+
+  <g font-family="monospace" font-size="12.5" fill="#94a3b8">
+    <text x="864" y="400"><tspan fill="#a5b4fc">import</tspan> detectai</text>
+    <text x="864" y="422"/>
+    <text x="864" y="440"><tspan fill="#475569"># Initialize the client</tspan></text>
+    <text x="864" y="460">client = detectai.<tspan fill="#fcd34d">Client</tspan>(</text>
+    <text x="864" y="480">    api_key=<tspan fill="#86efac">"dai_live_sk_7f3a...c91e"</tspan></text>
+    <text x="864" y="500">)</text>
+    <text x="864" y="522"/>
+    <text x="864" y="540"><tspan fill="#475569"># Analyze text</tspan></text>
+    <text x="864" y="560">result = client.<tspan fill="#fcd34d">detect</tspan>(</text>
+    <text x="864" y="580">    text=<tspan fill="#86efac">"In recent years, the rapid..."</tspan>,</text>
+    <text x="864" y="600">    options={</text>
+    <text x="864" y="620">        <tspan fill="#86efac">"granularity"</tspan>: <tspan fill="#86efac">"sentence"</tspan>,</text>
+    <text x="864" y="640">        <tspan fill="#86efac">"version"</tspan>: <tspan fill="#86efac">"2.1"</tspan></text>
+    <text x="864" y="660">    }</text>
+    <text x="864" y="680">)</text>
+    <text x="864" y="702"/>
+    <text x="864" y="720"><tspan fill="#a5b4fc">print</tspan>(result.verdict)     <tspan fill="#475569"># AI_GENERATED</tspan></text>
+    <text x="864" y="740"><tspan fill="#a5b4fc">print</tspan>(result.confidence)  <tspan fill="#475569"># 0.94</tspan></text>
+  </g>
+
+  <!-- Install command strip -->
+  <rect x="248" y="798" width="1164" height="50" rx="10" fill="#090b13" stroke="#1e2235" stroke-width="1"/>
+  <text x="272" y="826" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#475569">Install:</text>
+  <rect x="326" y="810" width="300" height="26" rx="5" fill="#161929"/>
+  <text x="340" y="828" font-family="monospace" font-size="12" fill="#86efac">pip install detectai</text>
+  <rect x="642" y="810" width="320" height="26" rx="5" fill="#161929"/>
+  <text x="656" y="828" font-family="monospace" font-size="12" fill="#86efac">npm install @detectai/sdk</text>
+  <text x="1050" y="826" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#374151">Docs: docs.detectai.io</text>
+  <text x="1260" y="826" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#6366f1">View full reference →</text>
+</svg>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900">
+  <defs>
+    <linearGradient id="heroBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d0f1a"/>
+      <stop offset="100%" style="stop-color:#111827"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e2235"/>
+      <stop offset="100%" style="stop-color:#161929"/>
+    </linearGradient>
+    <linearGradient id="glowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:0.15"/>
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:0.05"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="20" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <radialGradient id="bgGlow" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:0.08"/>
+      <stop offset="100%" style="stop-color:#0d0f1a;stop-opacity:0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1440" height="900" fill="url(#heroBg)"/>
+  <rect width="1440" height="900" fill="url(#bgGlow)"/>
+
+  <!-- Subtle grid pattern -->
+  <g opacity="0.04">
+    <line x1="0" y1="60" x2="1440" y2="60" stroke="#6366f1" stroke-width="1"/>
+    <line x1="0" y1="120" x2="1440" y2="120" stroke="#6366f1" stroke-width="1"/>
+    <line x1="0" y1="180" x2="1440" y2="180" stroke="#6366f1" stroke-width="1"/>
+    <line x1="0" y1="240" x2="1440" y2="240" stroke="#6366f1" stroke-width="1"/>
+    <line x1="0" y1="300" x2="1440" y2="300" stroke="#6366f1" stroke-width="1"/>
+    <line x1="0" y1="360" x2="1440" y2="360" stroke="#6366f1" stroke-width="1"/>
+    <line x1="0" y1="420" x2="1440" y2="420" stroke="#6366f1" stroke-width="1"/>
+    <line x1="0" y1="480" x2="1440" y2="480" stroke="#6366f1" stroke-width="1"/>
+    <line x1="0" y1="540" x2="1440" y2="540" stroke="#6366f1" stroke-width="1"/>
+    <line x1="0" y1="600" x2="1440" y2="600" stroke="#6366f1" stroke-width="1"/>
+    <line x1="0" y1="660" x2="1440" y2="660" stroke="#6366f1" stroke-width="1"/>
+    <line x1="0" y1="720" x2="1440" y2="720" stroke="#6366f1" stroke-width="1"/>
+    <line x1="0" y1="780" x2="1440" y2="780" stroke="#6366f1" stroke-width="1"/>
+    <line x1="0" y1="840" x2="1440" y2="840" stroke="#6366f1" stroke-width="1"/>
+    <line x1="60" y1="0" x2="60" y2="900" stroke="#6366f1" stroke-width="1"/>
+    <line x1="180" y1="0" x2="180" y2="900" stroke="#6366f1" stroke-width="1"/>
+    <line x1="300" y1="0" x2="300" y2="900" stroke="#6366f1" stroke-width="1"/>
+    <line x1="420" y1="0" x2="420" y2="900" stroke="#6366f1" stroke-width="1"/>
+    <line x1="540" y1="0" x2="540" y2="900" stroke="#6366f1" stroke-width="1"/>
+    <line x1="660" y1="0" x2="660" y2="900" stroke="#6366f1" stroke-width="1"/>
+    <line x1="780" y1="0" x2="780" y2="900" stroke="#6366f1" stroke-width="1"/>
+    <line x1="900" y1="0" x2="900" y2="900" stroke="#6366f1" stroke-width="1"/>
+    <line x1="1020" y1="0" x2="1020" y2="900" stroke="#6366f1" stroke-width="1"/>
+    <line x1="1140" y1="0" x2="1140" y2="900" stroke="#6366f1" stroke-width="1"/>
+    <line x1="1260" y1="0" x2="1260" y2="900" stroke="#6366f1" stroke-width="1"/>
+    <line x1="1380" y1="0" x2="1380" y2="900" stroke="#6366f1" stroke-width="1"/>
+  </g>
+
+  <!-- Navbar -->
+  <rect x="0" y="0" width="1440" height="64" fill="#0d0f1a" opacity="0.95"/>
+  <line x1="0" y1="64" x2="1440" y2="64" stroke="#1e2235" stroke-width="1"/>
+
+  <!-- Logo -->
+  <rect x="40" y="18" width="28" height="28" rx="6" fill="url(#accentGrad)"/>
+  <text x="54" y="37" font-family="monospace" font-size="14" font-weight="bold" fill="white" text-anchor="middle">A</text>
+  <text x="80" y="37" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="15" font-weight="700" fill="white">DetectAI</text>
+
+  <!-- Nav links -->
+  <text x="220" y="37" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="14" fill="#94a3b8">Features</text>
+  <text x="310" y="37" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="14" fill="#94a3b8">API</text>
+  <text x="370" y="37" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="14" fill="#94a3b8">Pricing</text>
+  <text x="440" y="37" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="14" fill="#94a3b8">Docs</text>
+
+  <!-- CTA buttons in nav -->
+  <rect x="1240" y="17" width="80" height="32" rx="6" fill="none" stroke="#374151" stroke-width="1"/>
+  <text x="1280" y="37" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#94a3b8" text-anchor="middle">Log in</text>
+  <rect x="1336" y="17" width="88" height="32" rx="6" fill="url(#accentGrad)"/>
+  <text x="1380" y="37" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="600" fill="white" text-anchor="middle">Get Started</text>
+
+  <!-- Hero badge -->
+  <rect x="620" y="108" width="200" height="26" rx="13" fill="#1e2235" stroke="#6366f1" stroke-width="1" stroke-opacity="0.4"/>
+  <circle cx="635" cy="121" r="5" fill="#6366f1"/>
+  <text x="720" y="126" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#a5b4fc" text-anchor="middle">v2.0 — Now with GPT-4o detection</text>
+
+  <!-- Hero headline -->
+  <text x="720" y="210" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="56" font-weight="800" fill="white" text-anchor="middle">Detect AI-Generated</text>
+  <text x="720" y="275" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="56" font-weight="800" fill="url(#accentGrad)" text-anchor="middle">Text in Seconds</text>
+
+  <!-- Sub-headline -->
+  <text x="720" y="330" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="18" fill="#64748b" text-anchor="middle">Instantly identify content generated by ChatGPT, Claude, Gemini, and more.</text>
+  <text x="720" y="355" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="18" fill="#64748b" text-anchor="middle">Built for educators, publishers, and content teams.</text>
+
+  <!-- CTA buttons -->
+  <rect x="544" y="390" width="176" height="48" rx="8" fill="url(#accentGrad)"/>
+  <text x="632" y="420" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="15" font-weight="600" fill="white" text-anchor="middle">Try it free →</text>
+  <rect x="736" y="390" width="176" height="48" rx="8" fill="none" stroke="#374151" stroke-width="1.5"/>
+  <text x="824" y="420" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="15" fill="#94a3b8" text-anchor="middle">View API Docs</text>
+
+  <!-- Social proof -->
+  <text x="720" y="470" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#475569" text-anchor="middle">Trusted by 12,000+ educators and 400+ companies</text>
+  <!-- Star row -->
+  <text x="615" y="492" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="14" fill="#f59e0b">★★★★★</text>
+  <text x="720" y="492" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#475569" text-anchor="middle">4.9 / 5 average rating</text>
+
+  <!-- Feature cards row -->
+  <rect x="80" y="540" width="380" height="130" rx="12" fill="url(#cardGrad)" stroke="#1e2235" stroke-width="1"/>
+  <!-- Card 1 icon -->
+  <rect x="104" y="564" width="36" height="36" rx="8" fill="#6366f1" fill-opacity="0.15"/>
+  <text x="122" y="588" font-family="monospace" font-size="18" fill="#6366f1" text-anchor="middle">⚡</text>
+  <text x="160" y="578" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="15" font-weight="700" fill="white">Sub-second Analysis</text>
+  <text x="104" y="610" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#64748b">Processes up to 10,000 words in</text>
+  <text x="104" y="628" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#64748b">under 800ms with 97.4% accuracy.</text>
+  <text x="104" y="654" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#6366f1">Learn more →</text>
+
+  <rect x="530" y="540" width="380" height="130" rx="12" fill="url(#cardGrad)" stroke="#1e2235" stroke-width="1"/>
+  <rect x="554" y="564" width="36" height="36" rx="8" fill="#8b5cf6" fill-opacity="0.15"/>
+  <text x="572" y="588" font-family="monospace" font-size="18" fill="#8b5cf6" text-anchor="middle">🔍</text>
+  <text x="610" y="578" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="15" font-weight="700" fill="white">Sentence-Level Highlights</text>
+  <text x="554" y="610" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#64748b">Visual heatmap pinpoints exactly</text>
+  <text x="554" y="628" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#64748b">which sentences are AI-generated.</text>
+  <text x="554" y="654" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#8b5cf6">Learn more →</text>
+
+  <rect x="980" y="540" width="380" height="130" rx="12" fill="url(#cardGrad)" stroke="#1e2235" stroke-width="1"/>
+  <rect x="1004" y="564" width="36" height="36" rx="8" fill="#06b6d4" fill-opacity="0.15"/>
+  <text x="1022" y="588" font-family="monospace" font-size="18" fill="#06b6d4" text-anchor="middle">🔗</text>
+  <text x="1060" y="578" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="15" font-weight="700" fill="white">REST API + Webhooks</text>
+  <text x="1004" y="610" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#64748b">Integrate into any platform with</text>
+  <text x="1004" y="628" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#64748b">a single API key. SDKs available.</text>
+  <text x="1004" y="654" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" fill="#06b6d4">Learn more →</text>
+
+  <!-- Bottom stats bar -->
+  <rect x="0" y="790" width="1440" height="110" fill="#0d0f1a"/>
+  <line x1="0" y1="790" x2="1440" y2="790" stroke="#1e2235" stroke-width="1"/>
+
+  <text x="240" y="838" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="32" font-weight="800" fill="white" text-anchor="middle">97.4%</text>
+  <text x="240" y="862" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#475569" text-anchor="middle">Detection Accuracy</text>
+
+  <line x1="480" y1="810" x2="480" y2="870" stroke="#1e2235" stroke-width="1"/>
+  <text x="600" y="838" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="32" font-weight="800" fill="white" text-anchor="middle">8</text>
+  <text x="600" y="862" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#475569" text-anchor="middle">AI Models Supported</text>
+
+  <line x1="760" y1="810" x2="760" y2="870" stroke="#1e2235" stroke-width="1"/>
+  <text x="900" y="838" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="32" font-weight="800" fill="white" text-anchor="middle">2.4B+</text>
+  <text x="900" y="862" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#475569" text-anchor="middle">Sentences Analyzed</text>
+
+  <line x1="1060" y1="810" x2="1060" y2="870" stroke="#1e2235" stroke-width="1"/>
+  <text x="1200" y="838" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="32" font-weight="800" fill="white" text-anchor="middle">&#60;800ms</text>
+  <text x="1200" y="862" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" fill="#475569" text-anchor="middle">Avg. Response Time</text>
+</svg>
