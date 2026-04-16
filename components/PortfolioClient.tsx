@@ -533,7 +533,7 @@ export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }
               transition={{ delay: 1.45, duration: 0.8 }}
               style={{ display: 'grid', gridTemplateColumns: isPhone ? '1fr' : 'repeat(3,minmax(0,1fr))', gap: 8, marginTop: 24, maxWidth: isPhone ? 260 : '100%' }}
             >
-              {[['100+', 'PROJECTS'],['12+', 'YEARS'],['100+', 'CLIENTS']].map(([n,l]) => (
+              {[['70+', 'PROJECTS'],['12+', 'YEARS'],['50+', 'CLIENTS']].map(([n,l]) => (
                 <div key={l} style={{ padding: isPhone ? '14px 16px' : '18px 20px', border: `1px solid ${C.border}`, transition: 'border-color .2s,background .2s' }}
                   onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(var(--cyan-rgb),.3)'; (e.currentTarget as HTMLDivElement).style.background = 'rgba(var(--cyan-rgb),.03)' }}
                   onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = C.border; (e.currentTarget as HTMLDivElement).style.background = 'transparent' }}>
@@ -548,7 +548,7 @@ export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }
         {!isCompact && (
           <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1.4, duration: 0.8 }}
             style={{ position: 'absolute', right: horizontalPad, top: '50%', transform: 'translateY(-50%)', display: 'flex', flexDirection: 'column' }}>
-            {[['100+', 'PROJECTS'],['12+', 'YEARS'],['100+', 'CLIENTS']].map(([n,l]) => (
+            {[['70+', 'PROJECTS'],['12+', 'YEARS'],['50+', 'CLIENTS']].map(([n,l]) => (
               <div key={l} style={{ padding: '24px 28px', border: `1px solid ${C.border}`, marginBottom: -1, transition: 'border-color .2s,background .2s' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(var(--cyan-rgb),.3)'; (e.currentTarget as HTMLDivElement).style.background = 'rgba(var(--cyan-rgb),.03)' }}
                 onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = C.border; (e.currentTarget as HTMLDivElement).style.background = 'transparent' }}>
