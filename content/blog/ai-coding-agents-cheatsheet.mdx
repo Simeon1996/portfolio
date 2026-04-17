@@ -1,0 +1,1514 @@
+---
+title: "AI Coding Agents Cheatsheet: The Complete Reference"
+date: 2026-04-10
+excerpt: "Every pattern you need for building AI coding agents — ReAct loops, tool schemas, system prompts, multi-agent patterns, sandboxing, evals, and streaming — in one copy-paste-ready reference."
+tags: ["AI", "Agents", "Cheatsheet", "LLM", "Engineering", "Reference", "Claude API", "Python"]
+published: true
+---
+
+This is a reference, not a tutorial. If you want the conceptual foundation — what agentic AI is, why it keeps failing in production, and when to use it — start with [Your AI Agent Just Got Fired](/blog/agentic-ai-why-it-gets-fired) and [From Prompt Engineer to Agent Architect](/blog/prompt-engineer-to-agent-architect). For the security threat model — prompt injection, tool abuse, trust boundaries — see [The Real Cost of AI Agents: Security, Prompt Injection, and Trust](/blog/ai-agents-security-prompt-injection). For agent reliability — SLOs, guardrails, human override — see [Agent Reliability Blueprint](/blog/agent-reliability-blueprint).
+
+This page is the one you keep open in a second tab while building.
+
+---
+
+## Table of Contents
+
+1. [Quick-Reference Card](#quick-reference-card)
+2. [The Agent Loop (ReAct Pattern)](#the-agent-loop-react-pattern)
+3. [Tool Patterns for Coding Agents](#tool-patterns-for-coding-agents)
+4. [System Prompt Patterns](#system-prompt-patterns)
+5. [Multi-Agent Patterns](#multi-agent-patterns)
+6. [Memory Patterns](#memory-patterns)
+7. [Code Execution Sandbox Patterns](#code-execution-sandbox-patterns)
+8. [Eval Harness for Coding Agents](#eval-harness-for-coding-agents)
+9. [Streaming Responses](#streaming-responses)
+10. [Common Gotchas](#common-gotchas)
+
+---
+
+## Quick-Reference Card
+
+| Concept | What it is | When to use it |
+|---|---|---|
+| **ReAct loop** | Think → Act → Observe cycle. The model reasons, calls a tool, reads the result, reasons again. | Every coding agent. This is the fundamental pattern. |
+| **Tool use** | Structured function calls the model emits. The host executes them and returns results. | Whenever the agent needs to interact with the world: file I/O, shell, search, tests. |
+| **In-context memory** | The `messages[]` array. Everything the model has seen this session. | Short sessions. Context window is the hard limit — typically 100K–200K tokens. |
+| **External memory** | Files, vector stores, or databases read/written by tools. | Long sessions, large codebases, cross-session state. |
+| **Multi-agent** | Multiple model instances collaborating: orchestrator-worker, critic-actor, parallel fan-out. | Complex tasks that benefit from specialization, parallelism, or independent verification. |
+| **Code execution sandbox** | Isolated environment (Docker, gVisor) where the agent runs generated code safely. | Any agent that generates and executes code. Non-negotiable in production. |
+| **Eval harness** | Automated framework that measures agent task completion. Pass@k is the standard metric. | Before deploying. Agent quality degrades non-obviously — evals catch regressions. |
+
+> **Rule of thumb:** if the agent can read a file and write a file and run a shell command, it can do most coding tasks. Start with those three tools. Add more only when a concrete task demands it.
+
+---
+
+## The Agent Loop (ReAct Pattern)
+
+The ReAct (Reasoning + Acting) pattern is the backbone of every coding agent. The model thinks about what to do, emits a tool call, receives the result, thinks again, and repeats until the task is done or the iteration limit is hit.
+
+**Pseudocode:**
+
+```
+task → messages[]
+loop:
+    response = model(messages)
+    if response.stop_reason == "end_turn":
+        return response.text
+    if response.stop_reason == "tool_use":
+        for each tool_call in response:
+            result = execute(tool_call)
+        messages.append(tool_results)
+    if iteration > max_iterations:
+        return "Max iterations reached"
+```
+
+**Full working skeleton — Anthropic Python SDK, `claude-sonnet-4-6`:**
+
+```python
+# agent.py — full working ReAct loop using the Anthropic Python SDK
+import anthropic
+
+client = anthropic.Anthropic()
+
+tools = [
+    {
+        "name": "bash",
+        "description": "Execute a shell command and return stdout+stderr.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "command": {"type": "string", "description": "Shell command to run"}
+            },
+            "required": ["command"]
+        }
+    },
+    {
+        "name": "read_file",
+        "description": "Read the contents of a file at the given path.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "path": {"type": "string", "description": "Absolute or relative file path"}
+            },
+            "required": ["path"]
+        }
+    },
+    {
+        "name": "write_file",
+        "description": "Write content to a file, overwriting if it exists.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "path": {"type": "string"},
+                "content": {"type": "string"}
+            },
+            "required": ["path", "content"]
+        }
+    }
+]
+
+def execute_tool(name: str, inputs: dict) -> str:
+    """Dispatch tool calls to real implementations."""
+    import subprocess, os
+    if name == "bash":
+        result = subprocess.run(
+            inputs["command"], shell=True, capture_output=True, text=True, timeout=30
+        )
+        return result.stdout + result.stderr
+    elif name == "read_file":
+        with open(inputs["path"]) as f:
+            return f.read()
+    elif name == "write_file":
+        with open(inputs["path"], "w") as f:
+            f.write(inputs["content"])
+        return f"Written: {inputs['path']}"
+    return f"Unknown tool: {name}"
+
+def run_agent(task: str, max_iterations: int = 10) -> str:
+    messages = [{"role": "user", "content": task}]
+
+    for iteration in range(max_iterations):
+        response = client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=4096,
+            tools=tools,
+            messages=messages,
+        )
+
+        # Append the full assistant response (preserves tool_use blocks)
+        messages.append({"role": "assistant", "content": response.content})
+
+        if response.stop_reason == "end_turn":
+            for block in response.content:
+                if hasattr(block, "text"):
+                    return block.text
+            return ""
+
+        if response.stop_reason == "tool_use":
+            tool_results = []
+            for block in response.content:
+                if block.type == "tool_use":
+                    output = execute_tool(block.name, block.input)
+                    tool_results.append({
+                        "type": "tool_result",
+                        "tool_use_id": block.id,
+                        "content": output,
+                    })
+            messages.append({"role": "user", "content": tool_results})
+
+    return "Max iterations reached."
+
+if __name__ == "__main__":
+    result = run_agent(
+        "Write a Python function that checks if a number is prime, "
+        "save it to prime.py, then run it with python prime.py to verify it works."
+    )
+    print(result)
+```
+
+**Key points:**
+
+- `response.content` is a list. It can contain both `TextBlock` and `ToolUseBlock` items in a single response. You must append the full list to `messages`, not just the text.
+- Each `tool_result` must reference the correct `tool_use_id`. Mismatched IDs cause API errors.
+- `stop_reason == "tool_use"` means the model wants to call tools. `stop_reason == "end_turn"` means it is done.
+- Always cap iterations. Infinite loops are the most common failure mode in agent development.
+
+> **Rule of thumb:** keep `max_iterations` low during development (5–8). Bump it only when you have evidence that longer chains are completing correctly, not spiraling.
+
+---
+
+## Tool Patterns for Coding Agents
+
+The standard coding agent tool set. Each entry includes the JSON schema (what the model sees) and the Python implementation (what your code runs).
+
+### `bash` — execute shell commands
+
+**Schema:**
+
+```json
+{
+    "name": "bash",
+    "description": "Execute a shell command in the working directory. Returns combined stdout and stderr. Use for: running tests, installing packages, checking git status, listing files, compiling code.",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "command": {
+                "type": "string",
+                "description": "The shell command to execute. Use pipes and redirects as needed."
+            }
+        },
+        "required": ["command"]
+    }
+}
+```
+
+**Implementation:**
+
+```python
+import subprocess
+
+def bash(command: str, timeout: int = 30, cwd: str = None) -> str:
+    result = subprocess.run(
+        command,
+        shell=True,
+        capture_output=True,
+        text=True,
+        timeout=timeout,
+        cwd=cwd,
+    )
+    output = result.stdout + result.stderr
+    # Truncate to avoid flooding context window
+    if len(output) > 8000:
+        output = output[:4000] + "\n... (truncated) ...\n" + output[-4000:]
+    return output or "(no output)"
+```
+
+### `read_file` — read file contents
+
+**Schema:**
+
+```json
+{
+    "name": "read_file",
+    "description": "Read the full contents of a file. Returns the file text. Use for reading source code, configs, logs, or any text file.",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "path": {
+                "type": "string",
+                "description": "Path to the file, relative to the working directory or absolute."
+            }
+        },
+        "required": ["path"]
+    }
+}
+```
+
+**Implementation:**
+
+```python
+def read_file(path: str, max_chars: int = 20000) -> str:
+    try:
+        with open(path, "r", encoding="utf-8", errors="replace") as f:
+            content = f.read(max_chars)
+        if len(content) == max_chars:
+            content += f"\n... (file truncated at {max_chars} chars) ..."
+        return content
+    except FileNotFoundError:
+        return f"Error: file not found: {path}"
+    except PermissionError:
+        return f"Error: permission denied: {path}"
+```
+
+### `write_file` — write or overwrite a file
+
+**Schema:**
+
+```json
+{
+    "name": "write_file",
+    "description": "Write content to a file, creating it if it does not exist or overwriting if it does. Use for creating new source files, updating configs, or saving generated code.",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "path": {
+                "type": "string",
+                "description": "Destination file path."
+            },
+            "content": {
+                "type": "string",
+                "description": "Full content to write. This replaces the entire file."
+            }
+        },
+        "required": ["path", "content"]
+    }
+}
+```
+
+**Implementation:**
+
+```python
+import os
+
+def write_file(path: str, content: str) -> str:
+    os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(content)
+    return f"Written {len(content)} chars to {path}"
+```
+
+### `list_dir` — list directory contents
+
+**Schema:**
+
+```json
+{
+    "name": "list_dir",
+    "description": "List files and directories at the given path. Returns a structured listing with file types and sizes. Use before read_file to understand repo structure.",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "path": {
+                "type": "string",
+                "description": "Directory to list. Defaults to '.' if omitted.",
+                "default": "."
+            },
+            "depth": {
+                "type": "integer",
+                "description": "How many levels deep to list (1 = immediate children only).",
+                "default": 1
+            }
+        },
+        "required": []
+    }
+}
+```
+
+**Implementation:**
+
+```python
+import os
+
+def list_dir(path: str = ".", depth: int = 1) -> str:
+    lines = []
+
+    def _walk(current_path: str, current_depth: int, prefix: str = ""):
+        if current_depth > depth:
+            return
+        try:
+            entries = sorted(os.scandir(current_path), key=lambda e: (not e.is_dir(), e.name))
+        except PermissionError:
+            lines.append(f"{prefix}[permission denied]")
+            return
+        for entry in entries:
+            if entry.name.startswith(".") and current_depth > 1:
+                continue  # skip hidden files in subdirs
+            kind = "dir" if entry.is_dir() else "file"
+            size = "" if entry.is_dir() else f" ({entry.stat().st_size:,} bytes)"
+            lines.append(f"{prefix}{entry.name}  [{kind}]{size}")
+            if entry.is_dir():
+                _walk(entry.path, current_depth + 1, prefix + "  ")
+
+    _walk(path, 1)
+    return "\n".join(lines) or "(empty directory)"
+```
+
+### `search_code` — grep / ripgrep wrapper
+
+**Schema:**
+
+```json
+{
+    "name": "search_code",
+    "description": "Search for a pattern across files in the repository using ripgrep. Returns matching lines with file paths and line numbers. Use to find function definitions, usages, imports, or error messages.",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "pattern": {
+                "type": "string",
+                "description": "Regex or literal string to search for."
+            },
+            "path": {
+                "type": "string",
+                "description": "Directory or file to search in. Defaults to '.'.",
+                "default": "."
+            },
+            "file_glob": {
+                "type": "string",
+                "description": "Optional glob to restrict file types, e.g. '*.py' or '*.{ts,tsx}'."
+            },
+            "case_sensitive": {
+                "type": "boolean",
+                "description": "Whether the search is case-sensitive. Defaults to false.",
+                "default": false
+            }
+        },
+        "required": ["pattern"]
+    }
+}
+```
+
+**Implementation:**
+
+```python
+import subprocess, shutil
+
+def search_code(
+    pattern: str,
+    path: str = ".",
+    file_glob: str = None,
+    case_sensitive: bool = False,
+    max_results: int = 50,
+) -> str:
+    cmd = ["rg" if shutil.which("rg") else "grep", "-n"]
+    if not case_sensitive:
+        cmd.append("-i")
+    if file_glob and shutil.which("rg"):
+        cmd.extend(["--glob", file_glob])
+    cmd.extend([pattern, path])
+
+    result = subprocess.run(cmd, capture_output=True, text=True, timeout=15)
+    lines = result.stdout.splitlines()
+    if len(lines) > max_results:
+        lines = lines[:max_results]
+        lines.append(f"... ({len(result.stdout.splitlines()) - max_results} more results truncated)")
+    return "\n".join(lines) if lines else "No matches found."
+```
+
+### `run_tests` — run the project's test suite
+
+**Schema:**
+
+```json
+{
+    "name": "run_tests",
+    "description": "Run the project test suite and return results. Automatically detects pytest, jest, cargo test, or go test based on project structure. Specify a filter to run a subset of tests.",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "filter": {
+                "type": "string",
+                "description": "Optional test name filter or file path. Passed as-is to the test runner."
+            },
+            "timeout": {
+                "type": "integer",
+                "description": "Max seconds to wait for the test run. Defaults to 60.",
+                "default": 60
+            }
+        },
+        "required": []
+    }
+}
+```
+
+**Implementation:**
+
+```python
+import subprocess, os, shutil
+
+def run_tests(filter: str = None, timeout: int = 60) -> str:
+    # Detect test runner
+    if os.path.exists("pytest.ini") or os.path.exists("pyproject.toml") or shutil.which("pytest"):
+        cmd = ["pytest", "-v", "--tb=short"]
+        if filter:
+            cmd.append(filter)
+    elif os.path.exists("package.json"):
+        cmd = ["npm", "test", "--", "--passWithNoTests"]
+        if filter:
+            cmd.extend(["--testNamePattern", filter])
+    elif os.path.exists("Cargo.toml"):
+        cmd = ["cargo", "test"]
+        if filter:
+            cmd.append(filter)
+    elif os.path.exists("go.mod"):
+        cmd = ["go", "test", "./..."]
+        if filter:
+            cmd.extend(["-run", filter])
+    else:
+        return "Could not detect test runner. Run tests manually."
+
+    result = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
+    output = result.stdout + result.stderr
+    if len(output) > 10000:
+        output = output[-10000:]  # keep the tail — that's where failures are
+    return output
+```
+
+### `apply_patch` — apply a unified diff
+
+**Schema:**
+
+```json
+{
+    "name": "apply_patch",
+    "description": "Apply a unified diff (patch) to files in the working directory. Use when making targeted edits to existing files is cleaner than rewriting the entire file.",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "patch": {
+                "type": "string",
+                "description": "A valid unified diff string (output of 'diff -u' or 'git diff')."
+            }
+        },
+        "required": ["patch"]
+    }
+}
+```
+
+**Implementation:**
+
+```python
+import subprocess, tempfile, os
+
+def apply_patch(patch: str) -> str:
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".patch", delete=False) as f:
+        f.write(patch)
+        patch_path = f.name
+    try:
+        result = subprocess.run(
+            ["patch", "-p1", "--input", patch_path],
+            capture_output=True, text=True, timeout=15
+        )
+        return result.stdout + result.stderr
+    finally:
+        os.unlink(patch_path)
+```
+
+---
+
+## System Prompt Patterns
+
+Copy-paste system prompts for four common agent roles. Adjust the tool list in your API call to match the role.
+
+### General coding agent
+
+```
+You are an autonomous coding agent. You have access to bash, read_file, write_file, list_dir, search_code, and run_tests.
+
+Working directory: {working_directory}
+Language / stack: {language_and_stack}
+
+Rules:
+- Before writing any code, read the relevant existing files to understand conventions.
+- Run tests after every change. Do not declare success unless tests pass.
+- Prefer small, targeted edits over full file rewrites.
+- When a command fails, read the error carefully before retrying. Do not retry the same command twice.
+- If you are uncertain about the task, ask one clarifying question before proceeding.
+- Never delete files unless explicitly instructed.
+```
+
+### Code review agent (read-only)
+
+```
+You are a code review agent. You have access to read_file, list_dir, search_code, and bash (read-only commands only: git log, git diff, cat, grep, find).
+
+You do NOT have write access. Do not attempt to modify files.
+
+Your job:
+1. Read the changed files.
+2. Identify bugs, security issues, performance problems, and style violations.
+3. Suggest specific fixes with line references.
+4. Rate each issue: critical / major / minor.
+5. Output a structured review with one section per file.
+
+Prioritize correctness and security over style.
+```
+
+### Test writer agent
+
+```
+You are a test-writing agent. You have access to read_file, write_file, list_dir, search_code, and run_tests.
+
+Your job:
+1. Read the source file specified in the task.
+2. Identify all public functions and methods.
+3. Write tests for each function covering: happy path, edge cases, and error conditions.
+4. Save tests to the appropriate test file (follow the existing naming convention).
+5. Run the tests. Fix any failures. Do not stop until all tests pass.
+
+Use the same test framework already present in the project. Do not introduce new dependencies.
+```
+
+### Debugging agent
+
+```
+You are a debugging agent. You have access to bash, read_file, write_file, search_code, and run_tests.
+
+You have been given a failing test or a bug report. Your job:
+1. Run the failing test and read the full error output.
+2. Search the codebase to understand the code path involved.
+3. Form a hypothesis about the root cause. State it explicitly before making any changes.
+4. Make the minimal change that fixes the root cause. Do not fix symptoms.
+5. Run the tests again. If they pass, verify no other tests regressed.
+6. Explain the root cause and the fix in plain language.
+
+Do not guess. Do not make changes without evidence. One hypothesis at a time.
+```
+
+---
+
+## Multi-Agent Patterns
+
+### Pattern 1 — Orchestrator-Worker
+
+One orchestrator agent plans the work and delegates subtasks to specialized worker agents. Workers operate independently and return results to the orchestrator.
+
+**When to use:** large tasks that can be decomposed cleanly (e.g., "add feature X" decomposes into: implement backend, write tests, update docs).
+
+```python
+# orchestrator_worker.py
+import anthropic
+
+client = anthropic.Anthropic()
+
+ORCHESTRATOR_SYSTEM = """
+You are an orchestrator agent. You receive a high-level task and break it into
+subtasks. For each subtask, you emit a tool call to `delegate_task` with the
+subtask description and the worker type (coder, tester, reviewer).
+
+After all subtasks complete, synthesize the results and produce a final summary.
+"""
+
+WORKER_SYSTEM = {
+    "coder": "You are a coding agent. Implement the task described. Return the code and file paths changed.",
+    "tester": "You are a test-writing agent. Write tests for the described functionality. Return the test code.",
+    "reviewer": "You are a code reviewer. Review the provided code. Return a structured list of issues.",
+}
+
+orchestrator_tools = [
+    {
+        "name": "delegate_task",
+        "description": "Delegate a subtask to a specialized worker agent.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "worker_type": {
+                    "type": "string",
+                    "enum": ["coder", "tester", "reviewer"],
+                    "description": "The type of worker to use."
+                },
+                "task": {
+                    "type": "string",
+                    "description": "Full description of the subtask for the worker."
+                },
+                "context": {
+                    "type": "string",
+                    "description": "Any relevant context the worker needs (code, file paths, prior results)."
+                }
+            },
+            "required": ["worker_type", "task"]
+        }
+    }
+]
+
+def run_worker(worker_type: str, task: str, context: str = "") -> str:
+    """Spin up a worker agent for a single subtask."""
+    system = WORKER_SYSTEM[worker_type]
+    user_message = task
+    if context:
+        user_message += f"\n\nContext:\n{context}"
+
+    response = client.messages.create(
+        model="claude-sonnet-4-6",
+        max_tokens=4096,
+        system=system,
+        messages=[{"role": "user", "content": user_message}],
+    )
+    return response.content[0].text
+
+def run_orchestrator(task: str, max_iterations: int = 10) -> str:
+    messages = [{"role": "user", "content": task}]
+    worker_results: list[str] = []
+
+    for _ in range(max_iterations):
+        response = client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=4096,
+            system=ORCHESTRATOR_SYSTEM,
+            tools=orchestrator_tools,
+            messages=messages,
+        )
+
+        messages.append({"role": "assistant", "content": response.content})
+
+        if response.stop_reason == "end_turn":
+            for block in response.content:
+                if hasattr(block, "text"):
+                    return block.text
+            return "\n\n".join(worker_results)
+
+        if response.stop_reason == "tool_use":
+            tool_results = []
+            for block in response.content:
+                if block.type == "tool_use" and block.name == "delegate_task":
+                    inp = block.input
+                    result = run_worker(
+                        inp["worker_type"],
+                        inp["task"],
+                        inp.get("context", ""),
+                    )
+                    worker_results.append(f"[{inp['worker_type']}]: {result}")
+                    tool_results.append({
+                        "type": "tool_result",
+                        "tool_use_id": block.id,
+                        "content": result,
+                    })
+            messages.append({"role": "user", "content": tool_results})
+
+    return "Max iterations reached."
+
+if __name__ == "__main__":
+    result = run_orchestrator(
+        "Add a user authentication module to this Flask app. "
+        "It should support login, logout, and session management."
+    )
+    print(result)
+```
+
+### Pattern 2 — Critic-Actor
+
+The Actor generates code. The Critic reviews it and either approves or rejects with specific feedback. The Actor revises and resubmits. Repeat until approved or max rounds hit.
+
+**When to use:** high-stakes code generation where a single-pass review is not enough. The Critic catches things the Actor rationalizes away.
+
+```python
+# critic_actor.py
+import anthropic
+
+client = anthropic.Anthropic()
+
+ACTOR_SYSTEM = """
+You are a coding agent. Generate clean, correct, well-tested code.
+When you receive critique, address every point specifically and resubmit the full revised code.
+"""
+
+CRITIC_SYSTEM = """
+You are a strict code reviewer. Review the submitted code and respond with EXACTLY one of:
+
+APPROVED
+(if the code is correct, handles edge cases, and follows good practices)
+
+REJECTED
+<specific issue 1>
+<specific issue 2>
+...
+(if there are correctness bugs, security issues, missing error handling, or obvious omissions)
+
+Be specific. No vague feedback. If you reject, every issue must be actionable.
+"""
+
+def run_critic_actor(task: str, max_rounds: int = 5) -> str:
+    # Actor generates first version
+    actor_response = client.messages.create(
+        model="claude-sonnet-4-6",
+        max_tokens=4096,
+        system=ACTOR_SYSTEM,
+        messages=[{"role": "user", "content": task}],
+    )
+    code = actor_response.content[0].text
+
+    for round_num in range(max_rounds):
+        # Critic reviews
+        critic_response = client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=1024,
+            system=CRITIC_SYSTEM,
+            messages=[{"role": "user", "content": f"Review this code:\n\n{code}"}],
+        )
+        verdict = critic_response.content[0].text.strip()
+
+        if verdict.startswith("APPROVED"):
+            print(f"Approved after {round_num + 1} round(s).")
+            return code
+
+        # Actor revises based on critique
+        print(f"Round {round_num + 1} rejected. Revising...")
+        actor_response = client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=4096,
+            system=ACTOR_SYSTEM,
+            messages=[
+                {"role": "user", "content": task},
+                {"role": "assistant", "content": code},
+                {"role": "user", "content": f"Critique:\n{verdict}\n\nRevise and resubmit the full corrected code."},
+            ],
+        )
+        code = actor_response.content[0].text
+
+    print(f"Max rounds ({max_rounds}) reached without approval.")
+    return code
+
+if __name__ == "__main__":
+    result = run_critic_actor(
+        "Write a Python function that safely parses a JSON string, "
+        "handling all error cases and returning a typed result."
+    )
+    print(result)
+```
+
+### Pattern 3 — Parallel Subagents
+
+Fan out independent subtasks to multiple agents running concurrently. Merge results when all are done.
+
+**When to use:** tasks that decompose into independent chunks with no ordering dependency (e.g., write tests for 5 different modules simultaneously).
+
+```python
+# parallel_agents.py
+import anthropic
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from typing import Callable
+
+client = anthropic.Anthropic()
+
+def run_subagent(task: str, system: str = "") -> str:
+    """Run a single subagent for one subtask."""
+    kwargs = {
+        "model": "claude-sonnet-4-6",
+        "max_tokens": 4096,
+        "messages": [{"role": "user", "content": task}],
+    }
+    if system:
+        kwargs["system"] = system
+    response = client.messages.create(**kwargs)
+    return response.content[0].text
+
+def run_parallel_agents(
+    subtasks: list[str],
+    system: str = "",
+    max_workers: int = 5,
+) -> list[str]:
+    """
+    Run subtasks concurrently. Returns results in the same order as input.
+    max_workers: cap concurrent API calls to avoid rate limits.
+    """
+    results = [None] * len(subtasks)
+
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        future_to_index = {
+            executor.submit(run_subagent, task, system): i
+            for i, task in enumerate(subtasks)
+        }
+        for future in as_completed(future_to_index):
+            idx = future_to_index[future]
+            try:
+                results[idx] = future.result()
+            except Exception as exc:
+                results[idx] = f"Error: {exc}"
+
+    return results
+
+def merge_results(results: list[str], merge_prompt: str) -> str:
+    """Use a final agent call to synthesize parallel results into one output."""
+    combined = "\n\n---\n\n".join(
+        f"[Result {i+1}]:\n{r}" for i, r in enumerate(results)
+    )
+    response = client.messages.create(
+        model="claude-sonnet-4-6",
+        max_tokens=4096,
+        messages=[{"role": "user", "content": f"{merge_prompt}\n\n{combined}"}],
+    )
+    return response.content[0].text
+
+if __name__ == "__main__":
+    modules = ["auth.py", "payments.py", "notifications.py", "reports.py"]
+    subtasks = [
+        f"Write unit tests for the module `{m}`. Focus on edge cases and error handling. Return only the test code."
+        for m in modules
+    ]
+
+    print(f"Spinning up {len(subtasks)} parallel agents...")
+    results = run_parallel_agents(subtasks, max_workers=4)
+
+    summary = merge_results(
+        results,
+        "Summarize the test coverage added across all modules. List any coverage gaps."
+    )
+    print(summary)
+```
+
+> **Rate limits matter.** The Anthropic API has per-minute token limits. With parallel agents you can hit them fast. Set `max_workers` conservatively — 3–5 is usually safe. Add exponential backoff for production.
+
+---
+
+## Memory Patterns
+
+### Memory type reference
+
+| Pattern | Storage | Scope | When to use |
+|---|---|---|---|
+| **In-context** | `messages[]` array | Current session only | Short sessions. Recent context only. Lost on session end. |
+| **File-backed** | `AGENT_MEMORY.md` / `.md` files | Persistent across sessions | Project conventions, architecture notes, past decisions. |
+| **Vector store** | Pinecone, pgvector, Chroma | Large corpus | Large codebases, semantic retrieval, "find code similar to X." |
+| **Structured DB** | SQLite, Postgres | Persistent, queryable | Agent task queue, checkpoints, structured state, audit log. |
+
+### File-backed memory — full pattern
+
+Read the memory file at the start of every run. Append new learnings at the end. The file accumulates institutional knowledge across sessions.
+
+```python
+# memory.py — file-backed agent memory
+import anthropic
+from pathlib import Path
+from datetime import datetime
+
+client = anthropic.Anthropic()
+
+MEMORY_FILE = "AGENT_MEMORY.md"
+
+def load_memory() -> str:
+    """Read the memory file. Returns empty string if it does not exist."""
+    p = Path(MEMORY_FILE)
+    return p.read_text(encoding="utf-8") if p.exists() else ""
+
+def save_memory(new_learnings: str) -> None:
+    """Append new learnings to the memory file with a timestamp."""
+    p = Path(MEMORY_FILE)
+    timestamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
+    entry = f"\n\n## {timestamp}\n{new_learnings.strip()}"
+    with open(p, "a", encoding="utf-8") as f:
+        f.write(entry)
+
+def extract_learnings(task: str, result: str) -> str:
+    """Ask the model to extract reusable learnings from this session."""
+    response = client.messages.create(
+        model="claude-sonnet-4-6",
+        max_tokens=512,
+        messages=[{
+            "role": "user",
+            "content": (
+                f"Task: {task}\n\nResult: {result}\n\n"
+                "Extract 1–3 reusable learnings from this session that would help "
+                "future agents working on the same codebase. Be specific and terse. "
+                "If there are no non-obvious learnings, respond with: NONE"
+            )
+        }]
+    )
+    return response.content[0].text.strip()
+
+def run_agent_with_memory(task: str) -> str:
+    memory = load_memory()
+
+    system = "You are an autonomous coding agent."
+    if memory:
+        system += f"\n\n## Project Memory (from previous sessions)\n\n{memory}"
+
+    # Run the agent (simplified — wire in full ReAct loop for production)
+    response = client.messages.create(
+        model="claude-sonnet-4-6",
+        max_tokens=4096,
+        system=system,
+        messages=[{"role": "user", "content": task}],
+    )
+    result = response.content[0].text
+
+    # Extract and persist learnings
+    learnings = extract_learnings(task, result)
+    if learnings != "NONE":
+        save_memory(learnings)
+        print(f"Memory updated: {learnings[:80]}...")
+
+    return result
+
+if __name__ == "__main__":
+    result = run_agent_with_memory(
+        "Refactor the database connection logic in db.py to use connection pooling."
+    )
+    print(result)
+```
+
+**Sample `AGENT_MEMORY.md` after a few sessions:**
+
+```markdown
+# Agent Memory
+
+## 2026-04-08 14:22 UTC
+Tests are run with `pytest -v --tb=short`. The test suite requires the
+`TEST_DATABASE_URL` environment variable to be set. Use the local SQLite
+database at `sqlite:///test.db` during development.
+
+## 2026-04-09 09:11 UTC
+The `payments` module uses a custom `Money` type (src/types/money.py).
+Always import from there — do not use raw float for currency values.
+The project has a linter rule that catches this but it only runs on CI.
+
+## 2026-04-10 16:45 UTC
+`src/api/auth.py` line 87 has a known issue with token refresh on
+concurrent requests. Any changes to the auth module should include a
+test for concurrent token refresh. See issue #441 in the tracker.
+```
+
+### Vector store memory — retrieval pattern
+
+```python
+# vector_memory.py — semantic retrieval from a large codebase
+# Requires: pip install chromadb anthropic
+
+import anthropic
+import chromadb
+from chromadb.utils import embedding_functions
+
+client = anthropic.Anthropic()
+
+# Initialize Chroma with a local persistent store
+chroma_client = chromadb.PersistentClient(path="./.agent_vector_store")
+ef = embedding_functions.DefaultEmbeddingFunction()
+collection = chroma_client.get_or_create_collection(
+    name="codebase",
+    embedding_function=ef,
+)
+
+def index_file(path: str) -> None:
+    """Index a source file into the vector store."""
+    with open(path, "r", encoding="utf-8") as f:
+        content = f.read()
+    # Chunk into ~500-char segments
+    chunks = [content[i:i+500] for i in range(0, len(content), 400)]
+    collection.upsert(
+        documents=chunks,
+        ids=[f"{path}::{i}" for i in range(len(chunks))],
+        metadatas=[{"path": path, "chunk": i} for i in range(len(chunks))],
+    )
+
+def retrieve_context(query: str, n_results: int = 5) -> str:
+    """Retrieve the most semantically relevant code chunks for a query."""
+    results = collection.query(query_texts=[query], n_results=n_results)
+    parts = []
+    for doc, meta in zip(results["documents"][0], results["metadatas"][0]):
+        parts.append(f"# {meta['path']} (chunk {meta['chunk']})\n{doc}")
+    return "\n\n---\n\n".join(parts)
+
+def run_agent_with_vector_memory(task: str) -> str:
+    context = retrieve_context(task)
+    response = client.messages.create(
+        model="claude-sonnet-4-6",
+        max_tokens=4096,
+        system="You are an autonomous coding agent.",
+        messages=[{
+            "role": "user",
+            "content": f"Task: {task}\n\nRelevant codebase context:\n\n{context}"
+        }],
+    )
+    return response.content[0].text
+```
+
+---
+
+## Code Execution Sandbox Patterns
+
+Never execute agent-generated code directly on the host. Always isolate it.
+
+### Docker sandbox — the standard pattern
+
+```python
+# sandbox.py — execute Python code in an isolated Docker container
+import subprocess, tempfile, os
+
+def run_in_sandbox(code: str, timeout: int = 10) -> dict:
+    """
+    Execute Python code in an isolated Docker container.
+    Returns stdout, stderr, and exit_code.
+
+    Requirements: Docker must be installed and running on the host.
+    Image: python:3.12-slim (pulls automatically on first run).
+    """
+    with tempfile.NamedTemporaryFile(suffix=".py", mode="w", delete=False) as f:
+        f.write(code)
+        script_path = f.name
+
+    try:
+        result = subprocess.run(
+            [
+                "docker", "run", "--rm",
+                "--network", "none",           # no outbound network access
+                "--memory", "128m",            # cap memory at 128 MB
+                "--memory-swap", "128m",       # disable swap
+                "--cpus", "0.5",               # cap at half a CPU
+                "--read-only",                 # read-only root filesystem
+                "--tmpfs", "/tmp:size=50m",    # writable /tmp only
+                "--pids-limit", "64",          # cap process count
+                "-v", f"{script_path}:/code/script.py:ro",
+                "python:3.12-slim",
+                "python", "/code/script.py"
+            ],
+            capture_output=True,
+            text=True,
+            timeout=timeout + 5,  # extra time for container startup
+        )
+        return {
+            "stdout": result.stdout,
+            "stderr": result.stderr,
+            "exit_code": result.returncode,
+        }
+    except subprocess.TimeoutExpired:
+        return {"stdout": "", "stderr": "Execution timed out.", "exit_code": -1}
+    except FileNotFoundError:
+        return {"stdout": "", "stderr": "Docker not found. Install Docker to use the sandbox.", "exit_code": -2}
+    finally:
+        os.unlink(script_path)
+
+
+# Example usage
+if __name__ == "__main__":
+    code = """
+def is_prime(n):
+    if n < 2:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+print([n for n in range(2, 30) if is_prime(n)])
+"""
+    result = run_in_sandbox(code, timeout=10)
+    print("stdout:", result["stdout"])
+    print("stderr:", result["stderr"])
+    print("exit_code:", result["exit_code"])
+```
+
+**Security flags explained:**
+
+| Flag | What it blocks |
+|---|---|
+| `--network none` | All outbound network access. The agent cannot exfiltrate data or download payloads. |
+| `--memory 128m --memory-swap 128m` | Memory bomb attacks. Swap is disabled to prevent the container from balloon-filling disk. |
+| `--cpus 0.5` | CPU starvation attacks. One agent cannot monopolize the host. |
+| `--read-only` | Writing to the container filesystem. Only `/tmp` (via `--tmpfs`) is writable. |
+| `--pids-limit 64` | Fork bomb attacks. Limits the total process count inside the container. |
+| `--rm` | Ensures the container is deleted after exit. No leftover state. |
+
+### Wrapping the sandbox as an agent tool
+
+```python
+def bash_sandboxed(code: str, language: str = "python", timeout: int = 10) -> str:
+    """
+    Agent-facing wrapper. Runs code in the Docker sandbox and returns
+    a formatted string the model can read.
+    """
+    result = run_in_sandbox(code, timeout=timeout)
+    parts = []
+    if result["stdout"]:
+        parts.append(f"stdout:\n{result['stdout'].strip()}")
+    if result["stderr"]:
+        parts.append(f"stderr:\n{result['stderr'].strip()}")
+    parts.append(f"exit_code: {result['exit_code']}")
+    return "\n".join(parts)
+```
+
+> **Do not skip the sandbox** even for "trusted" generated code. The agent can be manipulated into generating code that exfiltrates environment variables, reads SSH keys, or spawns persistent background processes. The sandbox is not optional — it is the trust boundary.
+
+---
+
+## Eval Harness for Coding Agents
+
+Evals are how you know your agent actually works. "It looked good in the demo" is not a quality signal.
+
+### Task file format (JSONL)
+
+Each line is one task. `prompt` is the instruction to the agent. `test` is executable Python that asserts correctness.
+
+```jsonl
+{"id": "fizzbuzz", "prompt": "Write a function fizzbuzz(n) that returns FizzBuzz output for 1..n as a list of strings.", "test": "assert fizzbuzz(15)[-1] == 'FizzBuzz'\nassert fizzbuzz(3) == ['1', '2', 'Fizz']\nassert fizzbuzz(5)[-1] == 'Buzz'"}
+{"id": "palindrome", "prompt": "Write is_palindrome(s) that returns True if s is a palindrome, ignoring case and non-alphanumeric characters.", "test": "assert is_palindrome('A man a plan a canal Panama')\nassert not is_palindrome('hello')\nassert is_palindrome('Was it a car or a cat I saw')"}
+{"id": "binary_search", "prompt": "Write binary_search(arr, target) that returns the index of target in sorted arr, or -1 if not found.", "test": "assert binary_search([1,3,5,7,9], 5) == 2\nassert binary_search([1,3,5,7,9], 6) == -1\nassert binary_search([], 1) == -1"}
+{"id": "flatten", "prompt": "Write flatten(lst) that recursively flattens a nested list of arbitrary depth into a flat list.", "test": "assert flatten([1,[2,[3,[4]],5]]) == [1,2,3,4,5]\nassert flatten([]) == []\nassert flatten([1,2,3]) == [1,2,3]"}
+```
+
+### Pass@k eval runner
+
+Pass@k measures the probability that at least one of `k` independent attempts at a task produces a passing solution. It is the standard metric for coding agent evaluation.
+
+```python
+# eval_runner.py
+import json, subprocess, sys
+from pathlib import Path
+from typing import Callable
+
+def run_eval(
+    tasks_file: str,
+    agent_fn: Callable[[str], str],
+    k: int = 3,
+    timeout: int = 10,
+) -> dict:
+    """
+    Run pass@k evaluation over a JSONL task file.
+
+    tasks_file: JSONL, each line: {"id": str, "prompt": str, "test": str}
+    agent_fn:   callable(prompt: str) -> str  (returns generated code as a string)
+    k:          number of attempts per task
+    timeout:    seconds per code execution attempt
+
+    Returns:
+        {
+            "tasks": [{"id": ..., "passes": ..., "k": ..., "pass_at_k": ...}, ...],
+            "pass_at_k_overall": float
+        }
+    """
+    tasks = [
+        json.loads(line)
+        for line in Path(tasks_file).read_text().splitlines()
+        if line.strip()
+    ]
+    results = []
+
+    for task in tasks:
+        passes = 0
+        for attempt in range(k):
+            code = agent_fn(task["prompt"])
+            full_code = code + "\n\n" + task["test"]
+            try:
+                result = subprocess.run(
+                    [sys.executable, "-c", full_code],
+                    capture_output=True,
+                    text=True,
+                    timeout=timeout,
+                )
+                if result.returncode == 0:
+                    passes += 1
+            except subprocess.TimeoutExpired:
+                pass  # count as failure
+        results.append({
+            "id": task["id"],
+            "passes": passes,
+            "k": k,
+            "pass_at_k": passes / k,
+        })
+        print(f"  {task['id']}: {passes}/{k} passes")
+
+    overall = sum(r["pass_at_k"] for r in results) / len(results) if results else 0.0
+    return {"tasks": results, "pass_at_k_overall": overall}
+
+
+# Minimal agent_fn for testing the harness
+def simple_agent(prompt: str) -> str:
+    import anthropic
+    client = anthropic.Anthropic()
+    response = client.messages.create(
+        model="claude-sonnet-4-6",
+        max_tokens=2048,
+        messages=[{
+            "role": "user",
+            "content": (
+                f"{prompt}\n\n"
+                "Return only the Python function definition, no explanation, no markdown fences."
+            )
+        }],
+    )
+    return response.content[0].text
+
+
+if __name__ == "__main__":
+    print("Running eval...")
+    report = run_eval("tasks.jsonl", simple_agent, k=3)
+    print(f"\nOverall pass@3: {report['pass_at_k_overall']:.1%}")
+    for r in report["tasks"]:
+        status = "PASS" if r["pass_at_k"] == 1.0 else ("PARTIAL" if r["pass_at_k"] > 0 else "FAIL")
+        print(f"  [{status}] {r['id']}: {r['passes']}/{r['k']}")
+```
+
+### Running the eval
+
+```bash
+# Install dependencies
+pip install anthropic
+
+# Create a tasks file
+cat > tasks.jsonl << 'EOF'
+{"id": "fizzbuzz", "prompt": "Write a function fizzbuzz(n) that returns FizzBuzz output for 1..n as a list of strings.", "test": "assert fizzbuzz(15)[-1] == 'FizzBuzz'\nassert fizzbuzz(3) == ['1', '2', 'Fizz']"}
+{"id": "palindrome", "prompt": "Write is_palindrome(s) that returns True if s is a palindrome, ignoring case and non-alphanumeric characters.", "test": "assert is_palindrome('A man a plan a canal Panama')\nassert not is_palindrome('hello')"}
+EOF
+
+# Run the eval
+python eval_runner.py
+```
+
+> **What pass@k tells you:** pass@1 is real-world performance (one shot). pass@3 and pass@5 indicate potential — if the model can solve it sometimes, better prompting or more iterations may close the gap. Consistent pass@1 < 0.5 on your task distribution means the agent is not ready for production on those tasks.
+
+---
+
+## Streaming Responses
+
+Streaming lets users see the agent's output as it is generated instead of waiting for the full response. Critical for long-running coding tasks.
+
+### Basic streaming
+
+```python
+# streaming.py
+import anthropic
+
+client = anthropic.Anthropic()
+
+def run_agent_streaming(task: str) -> None:
+    """Stream output to stdout as it is generated."""
+    with client.messages.stream(
+        model="claude-sonnet-4-6",
+        max_tokens=4096,
+        messages=[{"role": "user", "content": task}],
+    ) as stream:
+        for text in stream.text_stream:
+            print(text, end="", flush=True)
+    print()  # newline after stream ends
+```
+
+### Streaming with tool use — full ReAct loop
+
+Streaming and tool use interact carefully. The stream delivers events, including `tool_use` blocks. You must accumulate them, then dispatch, then continue.
+
+```python
+# streaming_agent.py
+import anthropic
+import subprocess
+
+client = anthropic.Anthropic()
+
+tools = [
+    {
+        "name": "bash",
+        "description": "Execute a shell command.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "command": {"type": "string"}
+            },
+            "required": ["command"]
+        }
+    }
+]
+
+def execute_tool(name: str, inputs: dict) -> str:
+    if name == "bash":
+        result = subprocess.run(
+            inputs["command"], shell=True, capture_output=True, text=True, timeout=30
+        )
+        return result.stdout + result.stderr
+    return f"Unknown tool: {name}"
+
+def run_agent_with_streaming(task: str, max_iterations: int = 10) -> None:
+    messages = [{"role": "user", "content": task}]
+
+    for iteration in range(max_iterations):
+        print(f"\n[iteration {iteration + 1}] ", end="", flush=True)
+
+        # Use stream context manager
+        with client.messages.stream(
+            model="claude-sonnet-4-6",
+            max_tokens=4096,
+            tools=tools,
+            messages=messages,
+        ) as stream:
+            # Stream text as it arrives
+            for text in stream.text_stream:
+                print(text, end="", flush=True)
+
+            # Get the final message after streaming completes
+            final_message = stream.get_final_message()
+
+        messages.append({"role": "assistant", "content": final_message.content})
+
+        if final_message.stop_reason == "end_turn":
+            print()  # final newline
+            return
+
+        if final_message.stop_reason == "tool_use":
+            tool_results = []
+            for block in final_message.content:
+                if block.type == "tool_use":
+                    print(f"\n[tool: {block.name}({block.input})]", flush=True)
+                    output = execute_tool(block.name, block.input)
+                    print(f"[result: {output[:200]}]", flush=True)
+                    tool_results.append({
+                        "type": "tool_result",
+                        "tool_use_id": block.id,
+                        "content": output,
+                    })
+            messages.append({"role": "user", "content": tool_results})
+
+    print("\nMax iterations reached.")
+
+
+if __name__ == "__main__":
+    run_agent_with_streaming("List the Python files in the current directory and summarize what each one does.")
+```
+
+### Streaming to a web client (Server-Sent Events)
+
+```python
+# streaming_sse.py — FastAPI endpoint that streams agent output to a browser
+# pip install fastapi uvicorn anthropic
+
+from fastapi import FastAPI
+from fastapi.responses import StreamingResponse
+import anthropic
+
+app = FastAPI()
+client = anthropic.Anthropic()
+
+async def agent_stream(task: str):
+    """Generator that yields SSE-formatted chunks."""
+    with client.messages.stream(
+        model="claude-sonnet-4-6",
+        max_tokens=4096,
+        messages=[{"role": "user", "content": task}],
+    ) as stream:
+        for text in stream.text_stream:
+            # SSE format: data: <payload>\n\n
+            yield f"data: {text}\n\n"
+    yield "data: [DONE]\n\n"
+
+@app.get("/agent/stream")
+async def stream_agent(task: str):
+    return StreamingResponse(
+        agent_stream(task),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "X-Accel-Buffering": "no",  # disable nginx buffering
+        },
+    )
+
+# Run: uvicorn streaming_sse:app --reload
+# Fetch: curl "http://localhost:8000/agent/stream?task=Write+a+hello+world+in+Go"
+```
+
+---
+
+## Common Gotchas
+
+**1. Context window exhaustion on large codebases.**
+Agents that naively read entire repositories hit the context limit fast. A 100-file Python project can easily exceed 200K tokens. Use `list_dir` to navigate, `search_code` to find relevant files, and `read_file` only on files that matter for the current task. Never pass the whole repo into context up front.
+
+**2. Tool call loops — the agent retries the same failing command.**
+If `bash("pytest tests/")` returns a failure and the agent calls `bash("pytest tests/")` again with the same command and same flags, it will loop forever. Add iteration tracking and a loop-detection heuristic: if the last N tool calls have identical inputs, interrupt and prompt the agent to try a different approach. The `max_iterations` cap is your last resort — not your primary defense.
+
+```python
+# Simple loop detection
+from collections import Counter
+
+def detect_loop(messages: list[dict], window: int = 4) -> bool:
+    """Return True if the last `window` tool calls are all identical."""
+    recent_calls = []
+    for msg in reversed(messages):
+        if msg["role"] == "user" and isinstance(msg["content"], list):
+            for item in msg["content"]:
+                if item.get("type") == "tool_result":
+                    recent_calls.append(item.get("tool_use_id", ""))
+        if len(recent_calls) >= window:
+            break
+    # All same tool_use_id would mean we're stuck — check content instead
+    tool_inputs = []
+    for msg in messages[-window * 2:]:
+        if msg["role"] == "assistant" and isinstance(msg["content"], list):
+            for block in msg["content"]:
+                if hasattr(block, "type") and block.type == "tool_use":
+                    tool_inputs.append((block.name, str(block.input)))
+    if len(tool_inputs) >= window:
+        counts = Counter(tool_inputs[-window:])
+        if counts.most_common(1)[0][1] >= window:
+            return True
+    return False
+```
+
+**3. Sandbox escape via subprocess in "sandboxed" code.**
+Even with a Docker sandbox, agent-generated code can try to read environment variables, write to `/tmp`, spawn processes, or make network calls (if `--network none` is missing). Always use all five flags: `--network none`, `--memory`, `--read-only`, `--tmpfs`, `--pids-limit`. Missing any one of them opens an attack surface.
+
+**4. Stale file reads — the agent reads, plans, then another tool modifies the file.**
+If the agent reads `auth.py`, then calls `bash("git pull")`, then writes to `auth.py`, the write is based on stale content. Reads should happen immediately before writes, not at the start of a planning phase. For multi-step edits, re-read the file before each write.
+
+**5. Ambiguous task boundaries — "fix the bug" with no definition of done.**
+An agent with no success criterion will write code that compiles, declare success, and stop. Always include a verifiable definition of done: a test that must pass, a specific output that must match, or an explicit checklist. The agent will optimize for whatever signal it has — make that signal match your actual goal.
+
+**6. Accumulated hallucination in long chains.**
+Each iteration builds on prior tool outputs. If iteration 2 misreads a file and draws a wrong conclusion, iterations 3–10 inherit that error and amplify it. Add explicit checkpoint prompts: "Before proceeding, state your current understanding of the problem and verify it against the actual file contents." Insert these every 3–5 iterations on complex tasks.
+
+**7. Missing `tool_use_id` matching causes silent API errors.**
+Every `tool_result` in the `messages` array must reference the exact `tool_use_id` from the corresponding `tool_use` block. If you drop any tool call or mismatch IDs — even for a tool you don't want to run — the API returns a validation error. Process all tool calls in a response, even if some are no-ops.
+
+```python
+# Correct: process every tool_use block, even unwanted ones
+tool_results = []
+for block in response.content:
+    if block.type == "tool_use":
+        if block.name in ALLOWED_TOOLS:
+            output = execute_tool(block.name, block.input)
+        else:
+            output = f"Tool '{block.name}' is not permitted in this context."
+        tool_results.append({
+            "type": "tool_result",
+            "tool_use_id": block.id,  # must match exactly
+            "content": output,
+        })
+```
+
+**8. Streaming + tool use requires `get_final_message()`, not the stream text.**
+When using `client.messages.stream()` with tools enabled, `stream.text_stream` only yields text blocks. Tool use blocks arrive as structured events, not text. After streaming completes, call `stream.get_final_message()` to get the complete response including all tool use blocks. Reading only `text_stream` will silently drop all tool calls.
+
+---
+
+![AI coding agent architecture — orchestrator, tools, sandbox, memory, and eval harness in one diagram.](/images/blog/ai-coding-agents-cheatsheet.png)
+*AI coding agent architecture at a glance. The model sits at the center of a ReAct loop, dispatching tool calls (bash, file I/O, search, tests) through a tool executor. Agent-generated code runs in an isolated Docker sandbox. Memory flows in from file-backed and vector stores. Multi-agent patterns (orchestrator-worker, critic-actor, parallel fan-out) coordinate multiple model instances. The eval harness measures pass@k against a JSONL task suite.*
+
+---
+
+## Key Takeaways
+
+- **The ReAct loop is the foundation.** Think → Act → Observe. Every coding agent is this loop with a tool set attached. Get the loop right before adding complexity.
+- **Tool descriptions are your prompt.** The model decides which tool to call based entirely on the `description` field in each tool schema. Vague descriptions produce vague tool calls. Write them like a senior engineer wrote the docstring.
+- **Sandbox is not optional.** Any agent that generates and executes code must run that code in isolation. `--network none --read-only --memory 128m --pids-limit 64` is the minimum viable sandbox. One missing flag is one open attack surface.
+- **Evals before deployment.** Pass@k on a representative task suite is the only reliable signal of agent quality. "It worked on my examples" is not an eval. Build the harness before you build the agent — it will change how you write prompts.
+- **Multi-agent adds coordination cost.** Orchestrator-worker is powerful but complex. Start with a single agent. Add multi-agent only when the task genuinely requires parallelism or independent review — not because it seems more sophisticated.
+- **Memory decays without maintenance.** File-backed memory accumulates stale entries. Vector stores drift as the codebase changes. Schedule periodic memory audits. An agent trusting wrong memory is worse than an agent with no memory.
+
+---
+
+## Related Posts
+
+- [Claude Code Cheatsheet: The Complete Reference](/blog/claude-code-cheatsheet) — Every CLI flag, CLAUDE.md pattern, hook, and permission mode for Claude Code.
+- [MCP Cheatsheet: The Complete Reference for Building MCP Servers](/blog/mcp-cheatsheet) — Tool schemas, resource patterns, transport types, and config snippets for MCP.
+- [Your AI Agent Just Got Fired: Why Agentic AI Still Can't Handle Real Business](/blog/agentic-ai-why-it-gets-fired) — Why agents fail in production and what to do about it.
+- [The Real Cost of AI Agents: Security, Prompt Injection, and Trust](/blog/ai-agents-security-prompt-injection) — Security threat model for coding agents: prompt injection, tool abuse, trust boundaries.
+- [Agent Reliability Blueprint: SLOs, Guardrails, and Human Override](/blog/agent-reliability-blueprint) — Production hardening: SLOs, fallbacks, circuit breakers, human-in-the-loop design.
+
+---
+
+*Hit a gotcha not on this list? Drop it in the comments.*
