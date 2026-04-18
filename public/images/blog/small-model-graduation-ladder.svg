@@ -1,69 +1,96 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 700" role="img" aria-labelledby="smgl-title smgl-desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" role="img" aria-labelledby="smgl-title smgl-desc">
   <title id="smgl-title">Small Model Graduation Ladder</title>
-  <desc id="smgl-desc">Four-rung ladder from Gemma 2B at bottom to GPT-5/Claude Opus at top — only climb when eval forces you.</desc>
+  <desc id="smgl-desc">Four stacked rungs from tiny local models up to frontier models, climb only when evaluation forces you.</desc>
   <defs>
-    <linearGradient id="smgl-bg" x1="0" x2="1" y1="0" y2="1">
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
       <stop offset="0%" stop-color="#0a1625"/>
       <stop offset="100%" stop-color="#1a2f45"/>
     </linearGradient>
+    <linearGradient id="cyanLine" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="ok" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#4ef2a5"/>
+      <stop offset="100%" stop-color="#78ffe2"/>
+    </linearGradient>
+    <linearGradient id="warn" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#ff7cae"/>
+      <stop offset="100%" stop-color="#ffd178"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
     <style>
-      .smgl-title { font: 700 32px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
-      .smgl-sub   { font: 500 13px 'Space Mono', monospace; fill: #9bc0d8; }
-      .smgl-rung  { font: 700 17px 'Space Grotesk', sans-serif; fill: #dbf4ff; }
-      .smgl-desc  { font: 500 12px 'Space Mono', monospace; fill: #7ab0cc; }
-      .smgl-note  { font: 600 11px 'Space Mono', monospace; fill: #ff9ec0; letter-spacing: 1px; }
-      .smgl-arrow { font: 700 14px 'Space Mono', monospace; fill: #ffc17d; }
+      .title { font: 700 40px 'Space Grotesk', sans-serif; fill: #e9f6ff; }
+      .sub { font: 500 17px 'Space Mono', monospace; fill: #9dc1d8; }
+      .stepTitle { font: 700 22px 'Space Grotesk', sans-serif; fill: #e3f5ff; }
+      .stepText { font: 500 14px 'Space Mono', monospace; fill: #9bc4dd; }
+      .noteText { font: 500 13px 'Space Mono', monospace; fill: #9bc4dd; }
+      .okText { font: 700 12px 'Space Mono', monospace; fill: #6affc7; letter-spacing: 1.4px; }
     </style>
   </defs>
-  <rect width="800" height="700" fill="url(#smgl-bg)"/>
+
+  <rect width="1400" height="820" fill="url(#bg)"/>
+
   <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
-    <line x1="0" y1="175" x2="800" y2="175"/><line x1="0" y1="350" x2="800" y2="350"/>
-    <line x1="0" y1="525" x2="800" y2="525"/><line x1="200" y1="0" x2="200" y2="700"/>
-    <line x1="600" y1="0" x2="600" y2="700"/>
+    <path d="M0 160 H1400"/>
+    <path d="M0 280 H1400"/>
+    <path d="M0 400 H1400"/>
+    <path d="M0 520 H1400"/>
+    <path d="M0 640 H1400"/>
+    <path d="M0 740 H1400"/>
+    <path d="M200 0 V820"/>
+    <path d="M500 0 V820"/>
+    <path d="M800 0 V820"/>
+    <path d="M1100 0 V820"/>
   </g>
 
-  <text class="smgl-title" x="50" y="60">Small Model Graduation Ladder</text>
-  <text class="smgl-sub" x="50" y="88">Start small. Climb only when your eval forces you to.</text>
+  <g opacity="0.14">
+    <circle cx="220" cy="150" r="180" fill="#2f4f74"/>
+    <circle cx="1180" cy="700" r="220" fill="#2c4f6b"/>
+  </g>
 
-  <!-- Ladder rails -->
-  <line x1="120" y1="130" x2="120" y2="620" stroke="rgba(78,203,255,0.3)" stroke-width="3"/>
-  <line x1="560" y1="130" x2="560" y2="620" stroke="rgba(78,203,255,0.3)" stroke-width="3"/>
+  <text class="title" x="80" y="88">Small Model Graduation Ladder</text>
+  <text class="sub" x="80" y="118">Start tiny, cheap and local · climb only when an eval forces you up</text>
 
-  <!-- Rung 4 (top): GPT-5 / Claude Opus -->
-  <rect x="120" y="130" width="440" height="100" rx="10" fill="rgba(80,14,80,0.8)" stroke="rgba(255,106,158,0.6)" stroke-width="2"/>
-  <text class="smgl-rung" x="340" y="170" text-anchor="middle" fill="#ffaac8">GPT-5 / Claude Opus</text>
-  <text class="smgl-desc" x="340" y="194" text-anchor="middle">last resort — justify the cost</text>
-  <text class="smgl-desc" x="340" y="214" text-anchor="middle">broad reasoning, complex multi-step tasks</text>
+  <rect x="80" y="200" width="1100" height="120" rx="14" fill="rgba(49, 24, 40, 0.72)" stroke="rgba(255, 142, 180, 0.55)" stroke-width="1.4"/>
+  <text class="stepTitle" x="106" y="242">GPT-5 / Claude Opus</text>
+  <text class="stepText" x="106" y="272">Frontier reasoning · last resort</text>
+  <text class="stepText" x="106" y="296">Reach for this only after smaller rungs fail an honest eval</text>
+  <text x="1160" y="242" text-anchor="end" style="font: 700 13px 'Space Mono', monospace; fill: #ffb4ce; letter-spacing: 1.4px;">COST: HIGH</text>
+  <text x="1160" y="270" text-anchor="end" class="noteText">$$$ per token</text>
+  <text x="1160" y="292" text-anchor="end" class="noteText">hosted only</text>
 
-  <!-- Rung 3: Llama 3 70B / DeepSeek-R1 -->
-  <rect x="120" y="270" width="440" height="100" rx="10" fill="rgba(14,40,80,0.8)" stroke="rgba(78,203,255,0.55)" stroke-width="2"/>
-  <text class="smgl-rung" x="340" y="310" text-anchor="middle">Llama 3 70B / DeepSeek-R1</text>
-  <text class="smgl-desc" x="340" y="334" text-anchor="middle">graduate when mid-tier fails eval</text>
-  <text class="smgl-desc" x="340" y="354" text-anchor="middle">strong reasoning, lower cost per token</text>
+  <rect x="80" y="345" width="1100" height="110" rx="14" fill="rgba(48, 38, 18, 0.78)" stroke="rgba(255, 209, 120, 0.55)" stroke-width="1.3"/>
+  <text class="stepTitle" x="106" y="385">Llama 3 70B / DeepSeek-R1</text>
+  <text class="stepText" x="106" y="414">Open-weight heavyweights · multi-GPU inference</text>
+  <text class="stepText" x="106" y="436">Good when you need reasoning but not the absolute ceiling</text>
+  <text x="1160" y="385" text-anchor="end" style="font: 700 13px 'Space Mono', monospace; fill: #ffd178; letter-spacing: 1.4px;">COST: MED-HIGH</text>
+  <text x="1160" y="412" text-anchor="end" class="noteText">self-host feasible</text>
 
-  <!-- Rung 2: Mistral 7B / Llama 3 8B -->
-  <rect x="120" y="410" width="440" height="100" rx="10" fill="rgba(14,30,60,0.8)" stroke="rgba(78,203,255,0.45)" stroke-width="2"/>
-  <text class="smgl-rung" x="340" y="450" text-anchor="middle">Mistral 7B / Llama 3 8B</text>
-  <text class="smgl-desc" x="340" y="474" text-anchor="middle">graduate when small model fails eval</text>
-  <text class="smgl-desc" x="340" y="494" text-anchor="middle">solid general tasks, runs locally</text>
+  <rect x="80" y="480" width="1100" height="110" rx="14" fill="rgba(14, 34, 48, 0.85)" stroke="rgba(126, 230, 240, 0.55)" stroke-width="1.3"/>
+  <text class="stepTitle" x="106" y="520">Mistral 7B / Llama 3 8B</text>
+  <text class="stepText" x="106" y="549">Fine-tunable, runs on a single consumer GPU</text>
+  <text class="stepText" x="106" y="571">Often matches frontier on a narrow task after tuning</text>
+  <text x="1160" y="520" text-anchor="end" style="font: 700 13px 'Space Mono', monospace; fill: #7df5f2; letter-spacing: 1.4px;">COST: LOW</text>
+  <text x="1160" y="547" text-anchor="end" class="noteText">single GPU · fine-tune</text>
 
-  <!-- Rung 1 (bottom): Gemma 2B / Phi-3 Mini -->
-  <rect x="120" y="550" width="440" height="90" rx="10" fill="rgba(14,30,47,0.9)" stroke="rgba(125,245,242,0.5)" stroke-width="2"/>
-  <text class="smgl-rung" x="340" y="588" text-anchor="middle" fill="#7df5f2">Gemma 2B / Phi-3 Mini</text>
-  <text class="smgl-desc" x="340" y="612" text-anchor="middle">default start — cheap, fast, edge-deployable</text>
+  <rect x="80" y="615" width="1100" height="110" rx="14" fill="rgba(18, 44, 34, 0.78)" stroke="rgba(110, 255, 180, 0.55)" stroke-width="1.3"/>
+  <text class="stepTitle" x="106" y="655">Gemma 2B / Phi-3 Mini</text>
+  <text class="stepText" x="106" y="684">Default starting point · runs on CPU or phone</text>
+  <text class="stepText" x="106" y="706">Prove the workflow first, measure, then think about scaling</text>
+  <text x="1160" y="655" text-anchor="end" class="okText">COST: MINIMAL</text>
+  <text x="1160" y="682" text-anchor="end" class="noteText">CPU-friendly · default</text>
 
-  <!-- Right-side arrow label -->
-  <text class="smgl-arrow" x="620" y="200" text-anchor="middle">only</text>
-  <text class="smgl-arrow" x="620" y="220" text-anchor="middle">climb</text>
-  <text class="smgl-arrow" x="620" y="240" text-anchor="middle">when</text>
-  <text class="smgl-arrow" x="620" y="260" text-anchor="middle">eval</text>
-  <text class="smgl-arrow" x="620" y="280" text-anchor="middle">forces</text>
-  <text class="smgl-arrow" x="620" y="300" text-anchor="middle">you</text>
-  <!-- Arrow pointing upward -->
-  <path d="M 620 450 L 620 340" fill="none" stroke="#ffc17d" stroke-width="2.5" stroke-linecap="round"/>
-  <polygon points="614,342 620,330 626,342" fill="#ffc17d"/>
-  <text class="smgl-note" x="620" y="480" text-anchor="middle">EVAL-DRIVEN</text>
-  <text class="smgl-note" x="620" y="500" text-anchor="middle">GRADUATION</text>
+  <g transform="translate(1260,200)">
+    <path d="M 0 520 V 0" fill="none" stroke="rgba(126,230,240,0.55)" stroke-width="2" stroke-dasharray="6 6"/>
+    <text x="12" y="520" style="font: 700 14px 'Space Mono', monospace; fill: #bfe2ff; letter-spacing: 1.2px;" transform="rotate(-90 12 520)">only climb when eval forces you ↑</text>
+  </g>
 
-  <text class="smgl-sub" x="50" y="668">Premature scale-up is just wasted spend. Let your eval be the judge.</text>
+  <text class="sub" x="80" y="780">Rule: pick the smallest model that passes your eval · upgrade only on measured failure, not vibes.</text>
 </svg>

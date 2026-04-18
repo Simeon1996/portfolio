@@ -1,78 +1,110 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" role="img" aria-labelledby="tms-title tms-desc">
-  <title id="tms-title">Terraform MCP Agent Stack</title>
-  <desc id="tms-desc">Three-layer stack: Terraform defines infra, MCP Server exposes infra as tools, AI Agent reasons over infra.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" role="img" aria-labelledby="tms-title tms-desc">
+  <title id="tms-title">Terraform plus MCP plus AI Agent Stack</title>
+  <desc id="tms-desc">Three stacked layers Terraform MCP Server AI Agent with a human approval gate on the right.</desc>
   <defs>
-    <linearGradient id="tms-bg" x1="0" x2="1" y1="0" y2="1">
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
       <stop offset="0%" stop-color="#0a1625"/>
       <stop offset="100%" stop-color="#1a2f45"/>
     </linearGradient>
-    <linearGradient id="tms-gray" x1="0" x2="1" y1="0" y2="0">
-      <stop offset="0%" stop-color="#3a4a58"/>
-      <stop offset="100%" stop-color="#4a5a68"/>
+    <linearGradient id="cyanLine" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
     </linearGradient>
-    <linearGradient id="tms-blue" x1="0" x2="1" y1="0" y2="0">
-      <stop offset="0%" stop-color="#1e6aa0"/>
-      <stop offset="100%" stop-color="#2e8ac0"/>
+    <linearGradient id="ok" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#4ef2a5"/>
+      <stop offset="100%" stop-color="#78ffe2"/>
     </linearGradient>
-    <linearGradient id="tms-purple" x1="0" x2="1" y1="0" y2="0">
-      <stop offset="0%" stop-color="#6b3db0"/>
-      <stop offset="100%" stop-color="#8b5dd0"/>
+    <linearGradient id="warn" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#ff7cae"/>
+      <stop offset="100%" stop-color="#ffd178"/>
     </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
     <style>
-      .tms-title { font: 700 34px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
-      .tms-sub   { font: 500 14px 'Space Mono', monospace; fill: #9bc0d8; }
-      .tms-layer { font: 700 22px 'Space Grotesk', sans-serif; }
-      .tms-desc  { font: 500 14px 'Space Mono', monospace; fill: #c0d8e8; }
-      .tms-tag   { font: 600 11px 'Space Mono', monospace; letter-spacing: 1.5px; }
-      .tms-note  { font: 500 13px 'Space Mono', monospace; fill: #ff9090; }
+      .title { font: 700 40px 'Space Grotesk', sans-serif; fill: #e9f6ff; }
+      .sub { font: 500 17px 'Space Mono', monospace; fill: #9dc1d8; }
+      .stepTitle { font: 700 22px 'Space Grotesk', sans-serif; fill: #e3f5ff; }
+      .stepText { font: 500 14px 'Space Mono', monospace; fill: #9bc4dd; }
+      .warnText { font: 700 12px 'Space Mono', monospace; fill: #ffb4ce; letter-spacing: 1.4px; }
+      .okText { font: 700 12px 'Space Mono', monospace; fill: #6affc7; letter-spacing: 1.4px; }
     </style>
   </defs>
-  <rect width="900" height="620" fill="url(#tms-bg)"/>
+
+  <rect width="1400" height="820" fill="url(#bg)"/>
+
   <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
-    <line x1="0" y1="150" x2="900" y2="150"/><line x1="0" y1="300" x2="900" y2="300"/>
-    <line x1="0" y1="450" x2="900" y2="450"/><line x1="225" y1="0" x2="225" y2="620"/>
-    <line x1="675" y1="0" x2="675" y2="620"/>
-  </g>
-  <text class="tms-title" x="60" y="60">Terraform + MCP + AI Agent Stack</text>
-  <text class="tms-sub" x="60" y="88">Three-layer architecture for AI-driven infrastructure management</text>
-
-  <!-- Layer 1: Terraform (bottom) -->
-  <rect x="80" y="460" width="580" height="100" rx="12" fill="url(#tms-gray)" opacity="0.9"/>
-  <text class="tms-layer" x="160" y="517" fill="#c8d8e4">Terraform</text>
-  <text class="tms-desc" x="320" y="503">defines infrastructure</text>
-  <text class="tms-desc" x="320" y="525">HCL configs, state, providers</text>
-  <text class="tms-tag" x="100" y="548" fill="#aac0d0">LAYER 1 — INFRASTRUCTURE DEFINITION</text>
-
-  <!-- Layer 2: MCP Server (middle) -->
-  <rect x="80" y="320" width="580" height="100" rx="12" fill="url(#tms-blue)" opacity="0.9"/>
-  <text class="tms-layer" x="160" y="375" fill="#d8f0ff">MCP Server</text>
-  <text class="tms-desc" x="320" y="363">exposes infra as tools</text>
-  <text class="tms-desc" x="320" y="385">plan/apply/destroy as MCP endpoints</text>
-  <text class="tms-tag" x="100" y="408" fill="#7bd0ff">LAYER 2 — TOOL SURFACE</text>
-
-  <!-- Layer 3: AI Agent (top) -->
-  <rect x="80" y="170" width="580" height="110" rx="12" fill="url(#tms-purple)" opacity="0.9"/>
-  <text class="tms-layer" x="160" y="228" fill="#e8d8ff">AI Agent</text>
-  <text class="tms-desc" x="320" y="216">reasons over infra</text>
-  <text class="tms-desc" x="320" y="238">plans changes, calls MCP tools</text>
-  <text class="tms-desc" x="320" y="258">generates PRs, explains diffs</text>
-  <text class="tms-tag" x="100" y="278" fill="#c09df0">LAYER 3 — REASONING</text>
-
-  <!-- Dotted human approval line -->
-  <line x1="680" y1="145" x2="680" y2="570" stroke="#ff9090" stroke-width="2" stroke-dasharray="8,5"/>
-  <text class="tms-note" x="690" y="200">Human</text>
-  <text class="tms-note" x="690" y="220">approval</text>
-  <text class="tms-note" x="690" y="240">required</text>
-  <!-- read / modify markers -->
-  <text style="font:600 11px 'Space Mono',monospace;fill:#ffbbbb;" x="695" y="290">modify / apply</text>
-  <line x1="680" y1="300" x2="750" y2="300" stroke="#ff9090" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
-  <text style="font:600 11px 'Space Mono',monospace;fill:#aaccdd;" x="695" y="420">read / report</text>
-
-  <!-- Vertical arrows between layers -->
-  <g fill="none" stroke="#7df5f2" stroke-width="2.5" stroke-linecap="round">
-    <path d="M370 320 L370 280"/><polygon points="364,282 370,270 376,282" fill="#7df5f2"/>
-    <path d="M370 460 L370 420"/><polygon points="364,422 370,410 376,422" fill="#7df5f2"/>
+    <path d="M0 160 H1400"/>
+    <path d="M0 280 H1400"/>
+    <path d="M0 400 H1400"/>
+    <path d="M0 520 H1400"/>
+    <path d="M0 640 H1400"/>
+    <path d="M0 740 H1400"/>
+    <path d="M200 0 V820"/>
+    <path d="M500 0 V820"/>
+    <path d="M800 0 V820"/>
+    <path d="M1100 0 V820"/>
   </g>
 
-  <text class="tms-sub" x="60" y="590">Agent reads before acting — modify/apply paths require human sign-off.</text>
+  <g opacity="0.14">
+    <circle cx="220" cy="150" r="180" fill="#2f4f74"/>
+    <circle cx="1180" cy="700" r="220" fill="#2c4f6b"/>
+  </g>
+
+  <text class="title" x="80" y="88">Terraform + MCP + AI Agent Stack</text>
+  <text class="sub" x="80" y="118">Three-layer stack · human approval is the safety valve for any destructive write</text>
+
+  <rect x="80" y="530" width="1080" height="130" rx="14" fill="rgba(40, 48, 62, 0.82)" stroke="rgba(170, 185, 200, 0.5)" stroke-width="1.2"/>
+  <text class="stepTitle" x="110" y="570">Terraform</text>
+  <text class="stepText" x="110" y="598">Declarative IaC engine · plan, apply, destroy, state</text>
+  <text class="stepText" x="110" y="620">Provider plugins reach AWS, GCP, Azure, Kubernetes and more</text>
+  <rect x="110" y="634" width="140" height="22" rx="11" fill="rgba(170,185,200,0.2)" stroke="rgba(170,185,200,0.4)"/>
+  <text x="126" y="650" style="font: 700 11px 'Space Mono', monospace; fill: #dfe6ef; letter-spacing: 1.2px;">EXECUTION LAYER</text>
+
+  <rect x="80" y="370" width="1080" height="130" rx="14" fill="rgba(20, 52, 88, 0.82)" stroke="rgba(126, 200, 240, 0.55)" stroke-width="1.2"/>
+  <text class="stepTitle" x="110" y="410">MCP Server</text>
+  <text class="stepText" x="110" y="438">Exposes terraform plan / apply / state as typed tool calls</text>
+  <text class="stepText" x="110" y="460">Enforces scopes, redaction, and structured error contracts</text>
+  <rect x="110" y="474" width="160" height="22" rx="11" fill="rgba(90,160,220,0.22)" stroke="rgba(126,200,240,0.55)"/>
+  <text x="126" y="490" style="font: 700 11px 'Space Mono', monospace; fill: #bfe2ff; letter-spacing: 1.2px;">INTEGRATION LAYER</text>
+
+  <rect x="80" y="210" width="1080" height="130" rx="14" fill="rgba(36, 22, 60, 0.82)" stroke="rgba(178, 146, 240, 0.55)" stroke-width="1.2"/>
+  <text class="stepTitle" x="110" y="250">AI Agent</text>
+  <text class="stepText" x="110" y="278">Reasons over tickets, diffs, and state to propose changes</text>
+  <text class="stepText" x="110" y="300">Calls MCP tools · reads reports freely, gates writes on humans</text>
+  <rect x="110" y="314" width="140" height="22" rx="11" fill="rgba(168,139,240,0.22)" stroke="rgba(178,146,240,0.55)"/>
+  <text x="126" y="330" style="font: 700 11px 'Space Mono', monospace; fill: #dfd0ff; letter-spacing: 1.2px;">REASONING LAYER</text>
+
+  <g fill="none" stroke-linecap="round" stroke-width="3" filter="url(#glow)">
+    <path d="M620 340 V370" stroke="url(#cyanLine)"/>
+    <path d="M620 500 V530" stroke="url(#cyanLine)"/>
+  </g>
+  <g fill="#96ffe5">
+    <circle cx="620" cy="340" r="4"/>
+    <circle cx="620" cy="370" r="4"/>
+    <circle cx="620" cy="500" r="4"/>
+    <circle cx="620" cy="530" r="4"/>
+  </g>
+
+  <g fill="none" stroke-width="2.5" stroke-dasharray="8 6" stroke="rgba(255, 142, 180, 0.8)">
+    <path d="M1220 210 V660"/>
+  </g>
+
+  <text x="1240" y="240" style="font: 700 15px 'Space Grotesk', sans-serif; fill: #ffd1e0;">Human approval</text>
+  <text x="1240" y="262" style="font: 700 15px 'Space Grotesk', sans-serif; fill: #ffd1e0;">required</text>
+
+  <g fill="none" stroke-width="2" stroke="rgba(255, 142, 180, 0.9)">
+    <path d="M1210 435 H1230"/>
+  </g>
+  <text x="1240" y="370" style="font: 700 13px 'Space Mono', monospace; fill: #ffb4ce; letter-spacing: 1.2px;">MODIFY / APPLY</text>
+  <text x="1240" y="392" style="font: 500 12px 'Space Mono', monospace; fill: #ffb4ce;">gated · blocks here</text>
+
+  <text x="1240" y="486" style="font: 700 13px 'Space Mono', monospace; fill: #8cffce; letter-spacing: 1.2px;">READ / REPORT</text>
+  <text x="1240" y="508" style="font: 500 12px 'Space Mono', monospace; fill: #8cffce;">autonomous · passes</text>
+
+  <text class="sub" x="80" y="760">Read flows freely; writes stop at the dashed line until a reviewer acknowledges the plan.</text>
 </svg>

@@ -1,115 +1,126 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" role="img" aria-labelledby="lccs-title lccs-desc">
-  <title id="lccs-title">LangChain Cheatsheet</title>
-  <desc id="lccs-desc">LangChain component map — prompts, LLMs, LCEL chains, memory, retrievers, and agents.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" role="img" aria-labelledby="lccs-title lccs-desc">
+  <title id="lccs-title">LangChain Component Map</title>
+  <desc id="lccs-desc">Six component cards covering prompts llms output parsers memory retrievers and agents with LCEL pipe banner.</desc>
   <defs>
-    <linearGradient id="lccs-bg" x1="0" x2="1" y1="0" y2="1">
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
       <stop offset="0%" stop-color="#0a1625"/>
       <stop offset="100%" stop-color="#1a2f45"/>
     </linearGradient>
-    <linearGradient id="lccs-cyan" x1="0" x2="1" y1="0" y2="0">
+    <linearGradient id="cyanLine" x1="0" x2="1" y1="0" y2="0">
       <stop offset="0%" stop-color="#4ecbff"/>
       <stop offset="100%" stop-color="#7df5f2"/>
     </linearGradient>
-    <linearGradient id="lccs-pink" x1="0" x2="1" y1="0" y2="0">
-      <stop offset="0%" stop-color="#ff6a9e"/>
-      <stop offset="100%" stop-color="#ffc17d"/>
+    <linearGradient id="ok" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#4ef2a5"/>
+      <stop offset="100%" stop-color="#78ffe2"/>
     </linearGradient>
-    <filter id="lccs-glow" x="-15%" y="-15%" width="130%" height="130%">
-      <feGaussianBlur stdDeviation="4" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
     </filter>
     <style>
-      .lccs-title { font: 700 34px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
-      .lccs-sub   { font: 500 14px 'Space Mono', monospace; fill: #9bc0d8; }
-      .lccs-node  { font: 700 16px 'Space Grotesk', sans-serif; fill: #dbf4ff; }
-      .lccs-small { font: 500 11px 'Space Mono', monospace; fill: #7ab0cc; }
-      .lccs-tag   { font: 600 11px 'Space Mono', monospace; letter-spacing: 1.5px; }
-      .lccs-pipe  { font: 700 20px 'Space Mono', monospace; fill: #7df5f2; }
+      .title { font: 700 40px 'Space Grotesk', sans-serif; fill: #e9f6ff; }
+      .sub { font: 500 17px 'Space Mono', monospace; fill: #9dc1d8; }
+      .stepTitle { font: 700 20px 'Space Grotesk', sans-serif; fill: #e3f5ff; }
+      .stepText { font: 500 13px 'Space Mono', monospace; fill: #9bc4dd; }
+      .tagText { font: 700 11px 'Space Mono', monospace; fill: #7df5f2; letter-spacing: 1.4px; }
+      .okText { font: 700 12px 'Space Mono', monospace; fill: #6affc7; letter-spacing: 1.4px; }
+      .card { fill: rgba(14, 29, 46, 0.82); stroke: rgba(120, 179, 216, 0.44); stroke-width: 1.2; rx: 14; }
+      .lcel { font: 700 22px 'Space Mono', monospace; fill: #e9f6ff; letter-spacing: 2px; }
     </style>
   </defs>
-  <rect width="1200" height="640" fill="url(#lccs-bg)"/>
+
+  <rect width="1400" height="820" fill="url(#bg)"/>
+
   <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
-    <line x1="0" y1="160" x2="1200" y2="160"/><line x1="0" y1="320" x2="1200" y2="320"/>
-    <line x1="0" y1="480" x2="1200" y2="480"/><line x1="200" y1="0" x2="200" y2="640"/>
-    <line x1="600" y1="0" x2="600" y2="640"/><line x1="1000" y1="0" x2="1000" y2="640"/>
+    <path d="M0 160 H1400"/>
+    <path d="M0 280 H1400"/>
+    <path d="M0 400 H1400"/>
+    <path d="M0 520 H1400"/>
+    <path d="M0 640 H1400"/>
+    <path d="M0 740 H1400"/>
+    <path d="M200 0 V820"/>
+    <path d="M500 0 V820"/>
+    <path d="M800 0 V820"/>
+    <path d="M1100 0 V820"/>
   </g>
 
-  <text class="lccs-title" x="50" y="62">LangChain Component Map</text>
-  <text class="lccs-sub" x="50" y="90">Six building blocks — compose with LCEL pipe operator</text>
+  <g opacity="0.14">
+    <circle cx="220" cy="150" r="180" fill="#2f4f74"/>
+    <circle cx="1180" cy="700" r="220" fill="#2c4f6b"/>
+  </g>
 
-  <!-- LCEL chain visualization (top) -->
-  <text class="lccs-tag" x="600" y="140" text-anchor="middle" fill="#4ecbff">LCEL CHAIN — prompt | llm | output_parser</text>
+  <text class="title" x="80" y="88">LangChain Component Map</text>
+  <text class="sub" x="80" y="118">Six components, one pipe operator · LCEL composes them into chains</text>
 
-  <!-- Component 1: Prompts -->
-  <rect x="50" y="175" width="190" height="130" rx="10" fill="rgba(14,30,47,0.85)" stroke="rgba(78,203,255,0.5)" stroke-width="1.5"/>
-  <text class="lccs-tag" x="145" y="200" text-anchor="middle" fill="#4ecbff">PROMPTS</text>
-  <text class="lccs-node" x="145" y="228" text-anchor="middle">PromptTemplate</text>
-  <text class="lccs-small" x="145" y="252" text-anchor="middle">ChatPromptTemplate</text>
-  <text class="lccs-small" x="145" y="272" text-anchor="middle">FewShotPrompt</text>
-  <text class="lccs-small" x="145" y="292" text-anchor="middle">MessagesPlaceholder</text>
+  <rect x="80" y="150" width="1240" height="60" rx="14" fill="rgba(14, 34, 48, 0.88)" stroke="rgba(126, 230, 240, 0.7)" stroke-width="1.4" filter="url(#glow)"/>
+  <text class="lcel" x="700" y="190" text-anchor="middle">prompt | llm | output_parser</text>
 
-  <!-- Pipe -->
-  <text class="lccs-pipe" x="248" y="248" text-anchor="middle">|</text>
+  <rect class="card" x="80" y="260" width="400" height="220"/>
+  <rect x="100" y="278" width="90" height="22" rx="11" fill="rgba(126,230,240,0.18)" stroke="rgba(126,230,240,0.5)"/>
+  <text x="108" y="294" class="tagText">I/O</text>
+  <text class="stepTitle" x="100" y="340">Prompts</text>
+  <text class="stepText" x="100" y="370">· ChatPromptTemplate for roles</text>
+  <text class="stepText" x="100" y="392">· PromptTemplate with variables</text>
+  <text class="stepText" x="100" y="414">· Few-shot helpers, partial fills</text>
+  <text class="stepText" x="100" y="444">Inputs go in, formatted messages come out</text>
 
-  <!-- Component 2: LLMs -->
-  <rect x="260" y="175" width="190" height="130" rx="10" fill="rgba(14,30,47,0.85)" stroke="rgba(78,203,255,0.5)" stroke-width="1.5"/>
-  <text class="lccs-tag" x="355" y="200" text-anchor="middle" fill="#4ecbff">LLMs</text>
-  <text class="lccs-node" x="355" y="228" text-anchor="middle">ChatOpenAI</text>
-  <text class="lccs-small" x="355" y="252" text-anchor="middle">ChatAnthropic</text>
-  <text class="lccs-small" x="355" y="272" text-anchor="middle">ChatOllama</text>
-  <text class="lccs-small" x="355" y="292" text-anchor="middle">streaming / async</text>
+  <rect class="card" x="500" y="260" width="400" height="220"/>
+  <rect x="520" y="278" width="90" height="22" rx="11" fill="rgba(126,230,240,0.18)" stroke="rgba(126,230,240,0.5)"/>
+  <text x="528" y="294" class="tagText">MODEL</text>
+  <text class="stepTitle" x="520" y="340">LLMs</text>
+  <text class="stepText" x="520" y="370">· ChatOpenAI, ChatAnthropic, etc.</text>
+  <text class="stepText" x="520" y="392">· Streaming, structured output, tools</text>
+  <text class="stepText" x="520" y="414">· Provider-agnostic interface</text>
+  <text class="stepText" x="520" y="444">Runnable that takes messages, returns AIMessage</text>
 
-  <!-- Pipe -->
-  <text class="lccs-pipe" x="458" y="248" text-anchor="middle">|</text>
+  <rect class="card" x="920" y="260" width="400" height="220"/>
+  <rect x="940" y="278" width="120" height="22" rx="11" fill="rgba(126,230,240,0.18)" stroke="rgba(126,230,240,0.5)"/>
+  <text x="948" y="294" class="tagText">I/O</text>
+  <text class="stepTitle" x="940" y="340">Output Parsers</text>
+  <text class="stepText" x="940" y="370">· StrOutputParser, JsonOutputParser</text>
+  <text class="stepText" x="940" y="392">· PydanticOutputParser for typed data</text>
+  <text class="stepText" x="940" y="414">· Retries on malformed output</text>
+  <text class="stepText" x="940" y="444">Turns raw model output into usable types</text>
 
-  <!-- Component 3: Output Parsers -->
-  <rect x="470" y="175" width="200" height="130" rx="10" fill="rgba(14,30,47,0.85)" stroke="rgba(78,203,255,0.5)" stroke-width="1.5"/>
-  <text class="lccs-tag" x="570" y="200" text-anchor="middle" fill="#4ecbff">OUTPUT PARSERS</text>
-  <text class="lccs-node" x="570" y="228" text-anchor="middle">StrOutputParser</text>
-  <text class="lccs-small" x="570" y="252" text-anchor="middle">JsonOutputParser</text>
-  <text class="lccs-small" x="570" y="272" text-anchor="middle">PydanticOutputParser</text>
-  <text class="lccs-small" x="570" y="292" text-anchor="middle">structured output</text>
+  <rect class="card" x="80" y="520" width="400" height="220"/>
+  <rect x="100" y="538" width="110" height="22" rx="11" fill="rgba(126,230,240,0.18)" stroke="rgba(126,230,240,0.5)"/>
+  <text x="108" y="554" class="tagText">STATE</text>
+  <text class="stepTitle" x="100" y="600">Memory</text>
+  <text class="stepText" x="100" y="630">· ConversationBufferMemory</text>
+  <text class="stepText" x="100" y="652">· Summary + windowed variants</text>
+  <text class="stepText" x="100" y="674">· Pluggable backends (Redis, SQL)</text>
+  <text class="stepText" x="100" y="704">Threads context across calls in a session</text>
 
-  <!-- Component 4: Memory -->
-  <rect x="700" y="175" width="190" height="130" rx="10" fill="rgba(14,30,47,0.85)" stroke="rgba(255,106,158,0.45)" stroke-width="1.5"/>
-  <text class="lccs-tag" x="795" y="200" text-anchor="middle" fill="#ff9ec0">MEMORY</text>
-  <text class="lccs-node" x="795" y="228" text-anchor="middle" fill="#ffaac8">ConversationBuffer</text>
-  <text class="lccs-small" x="795" y="252" text-anchor="middle">SummaryMemory</text>
-  <text class="lccs-small" x="795" y="272" text-anchor="middle">VectorStoreMemory</text>
-  <text class="lccs-small" x="795" y="292" text-anchor="middle">Windows + Tokens</text>
+  <rect class="card" x="500" y="520" width="400" height="220"/>
+  <rect x="520" y="538" width="140" height="22" rx="11" fill="rgba(126,230,240,0.18)" stroke="rgba(126,230,240,0.5)"/>
+  <text x="528" y="554" class="tagText">CONTEXT</text>
+  <text class="stepTitle" x="520" y="600">Retrievers</text>
+  <text class="stepText" x="520" y="630">· Vector stores: Chroma, FAISS, PGVector</text>
+  <text class="stepText" x="520" y="652">· BM25, hybrid, multi-query</text>
+  <text class="stepText" x="520" y="674">· Rerankers for precision</text>
+  <text class="stepText" x="520" y="704">Fetches relevant context for RAG chains</text>
 
-  <!-- Component 5: Retrievers -->
-  <rect x="910" y="175" width="240" height="130" rx="10" fill="rgba(14,30,47,0.85)" stroke="rgba(255,106,158,0.45)" stroke-width="1.5"/>
-  <text class="lccs-tag" x="1030" y="200" text-anchor="middle" fill="#ff9ec0">RETRIEVERS</text>
-  <text class="lccs-node" x="1030" y="228" text-anchor="middle" fill="#ffaac8">VectorStore</text>
-  <text class="lccs-small" x="1030" y="252" text-anchor="middle">MultiQueryRetriever</text>
-  <text class="lccs-small" x="1030" y="272" text-anchor="middle">ContextualCompression</text>
-  <text class="lccs-small" x="1030" y="292" text-anchor="middle">Parent Document</text>
+  <rect class="card" x="920" y="520" width="400" height="220"/>
+  <rect x="940" y="538" width="110" height="22" rx="11" fill="rgba(126,230,240,0.18)" stroke="rgba(126,230,240,0.5)"/>
+  <text x="948" y="554" class="tagText">EXEC</text>
+  <text class="stepTitle" x="940" y="600">Agents</text>
+  <text class="stepText" x="940" y="630">· Tool-calling loop with planner</text>
+  <text class="stepText" x="940" y="652">· ReAct, OpenAI tools, LangGraph</text>
+  <text class="stepText" x="940" y="674">· Custom tools via @tool decorator</text>
+  <text class="stepText" x="940" y="704">Wraps LLM + tools + control flow</text>
 
-  <!-- Bottom row: Agents -->
-  <rect x="50" y="370" width="380" height="150" rx="10" fill="rgba(14,30,47,0.85)" stroke="rgba(125,245,242,0.5)" stroke-width="2" filter="url(#lccs-glow)"/>
-  <text class="lccs-tag" x="240" y="398" text-anchor="middle" fill="#7df5f2">AGENTS</text>
-  <text class="lccs-node" x="240" y="428" text-anchor="middle" fill="#7df5f2">AgentExecutor</text>
-  <text class="lccs-small" x="240" y="453" text-anchor="middle">Tool calling loop</text>
-  <text class="lccs-small" x="240" y="473" text-anchor="middle">OpenAI Functions / ReAct / ToolAgent</text>
-  <text class="lccs-small" x="240" y="493" text-anchor="middle">stop_sequence + max_iterations</text>
+  <g fill="none" stroke-width="2" stroke-dasharray="6 6" stroke="rgba(126, 230, 240, 0.5)">
+    <path d="M480 370 H500"/>
+    <path d="M900 370 H920"/>
+  </g>
+  <g fill="none" stroke-width="2" stroke-dasharray="6 6" stroke="rgba(178, 146, 240, 0.55)">
+    <path d="M480 630 H500"/>
+    <path d="M900 630 H920"/>
+  </g>
 
-  <!-- Tools component -->
-  <rect x="470" y="370" width="300" height="150" rx="10" fill="rgba(14,30,47,0.85)" stroke="rgba(78,203,255,0.45)" stroke-width="1.5"/>
-  <text class="lccs-tag" x="620" y="398" text-anchor="middle" fill="#4ecbff">TOOLS</text>
-  <text class="lccs-node" x="620" y="428" text-anchor="middle">@tool decorator</text>
-  <text class="lccs-small" x="620" y="453" text-anchor="middle">DuckDuckGoSearch</text>
-  <text class="lccs-small" x="620" y="473" text-anchor="middle">PythonREPLTool</text>
-  <text class="lccs-small" x="620" y="493" text-anchor="middle">custom functions → StructuredTool</text>
-
-  <!-- Chains / Runnables -->
-  <rect x="800" y="370" width="350" height="150" rx="10" fill="rgba(14,30,47,0.85)" stroke="rgba(78,203,255,0.45)" stroke-width="1.5"/>
-  <text class="lccs-tag" x="975" y="398" text-anchor="middle" fill="#4ecbff">LCEL RUNNABLES</text>
-  <text class="lccs-node" x="975" y="428" text-anchor="middle">RunnablePassthrough</text>
-  <text class="lccs-small" x="975" y="453" text-anchor="middle">RunnableParallel — fan-out</text>
-  <text class="lccs-small" x="975" y="473" text-anchor="middle">RunnableLambda — any function</text>
-  <text class="lccs-small" x="975" y="493" text-anchor="middle">chain.batch() / chain.stream()</text>
-
-  <text class="lccs-sub" x="50" y="580">All LCEL runnables share the same .invoke() / .stream() / .batch() interface.</text>
-  <text class="lccs-sub" x="50" y="602">Compose with | — prompt | llm | parser is a valid chain.</text>
+  <text class="sub" x="80" y="790">Think in Runnables · every component is a small unit that composes with | into a chain.</text>
 </svg>

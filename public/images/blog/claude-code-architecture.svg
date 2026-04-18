@@ -1,85 +1,114 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 620" role="img" aria-labelledby="cca-title cca-desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" role="img" aria-labelledby="cca-title cca-desc">
   <title id="cca-title">Claude Code Architecture</title>
-  <desc id="cca-desc">The REPL at center, with arrows to slash commands, CLAUDE.md, hooks pipeline, MCP servers, and the shell prefix.</desc>
+  <desc id="cca-desc">REPL at the center with slash commands CLAUDE.md hooks MCP servers and shell prefix around it.</desc>
   <defs>
-    <linearGradient id="cca-bg" x1="0" x2="1" y1="0" y2="1">
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
       <stop offset="0%" stop-color="#0a1625"/>
       <stop offset="100%" stop-color="#1a2f45"/>
     </linearGradient>
-    <linearGradient id="cca-cyan" x1="0" x2="1" y1="0" y2="0">
+    <linearGradient id="cyanLine" x1="0" x2="1" y1="0" y2="0">
       <stop offset="0%" stop-color="#4ecbff"/>
       <stop offset="100%" stop-color="#7df5f2"/>
     </linearGradient>
-    <linearGradient id="cca-pink" x1="0" x2="1" y1="0" y2="0">
-      <stop offset="0%" stop-color="#ff6a9e"/>
-      <stop offset="100%" stop-color="#ffc17d"/>
+    <linearGradient id="ok" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#4ef2a5"/>
+      <stop offset="100%" stop-color="#78ffe2"/>
     </linearGradient>
-    <filter id="cca-glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="5" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
     </filter>
     <style>
-      .cca-title { font: 700 34px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
-      .cca-sub   { font: 500 14px 'Space Mono', monospace; fill: #9bc0d8; }
-      .cca-node  { font: 700 17px 'Space Grotesk', sans-serif; fill: #dbf4ff; }
-      .cca-small { font: 500 12px 'Space Mono', monospace; fill: #7ab0cc; }
-      .cca-tag   { font: 600 11px 'Space Mono', monospace; letter-spacing: 1.5px; }
+      .title { font: 700 40px 'Space Grotesk', sans-serif; fill: #e9f6ff; }
+      .sub { font: 500 17px 'Space Mono', monospace; fill: #9dc1d8; }
+      .stepTitle { font: 700 17px 'Space Grotesk', sans-serif; fill: #e3f5ff; }
+      .stepText { font: 500 13px 'Space Mono', monospace; fill: #9bc4dd; }
+      .okText { font: 700 12px 'Space Mono', monospace; fill: #6affc7; letter-spacing: 1.4px; }
+      .card { fill: rgba(14, 29, 46, 0.82); stroke: rgba(120, 179, 216, 0.44); stroke-width: 1.2; rx: 14; }
+      .cardCenter { fill: rgba(14, 34, 48, 0.88); stroke: rgba(126, 230, 240, 0.8); stroke-width: 1.8; rx: 14; }
     </style>
   </defs>
-  <rect width="1100" height="620" fill="url(#cca-bg)"/>
+
+  <rect width="1400" height="820" fill="url(#bg)"/>
+
   <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
-    <line x1="0" y1="155" x2="1100" y2="155"/><line x1="0" y1="310" x2="1100" y2="310"/>
-    <line x1="0" y1="465" x2="1100" y2="465"/><line x1="275" y1="0" x2="275" y2="620"/>
-    <line x1="550" y1="0" x2="550" y2="620"/><line x1="825" y1="0" x2="825" y2="620"/>
+    <path d="M0 160 H1400"/>
+    <path d="M0 280 H1400"/>
+    <path d="M0 400 H1400"/>
+    <path d="M0 520 H1400"/>
+    <path d="M0 640 H1400"/>
+    <path d="M0 740 H1400"/>
+    <path d="M200 0 V820"/>
+    <path d="M500 0 V820"/>
+    <path d="M800 0 V820"/>
+    <path d="M1100 0 V820"/>
   </g>
 
-  <text class="cca-title" x="50" y="62">Claude Code Architecture</text>
-  <text class="cca-sub" x="50" y="90">REPL at center — five surfaces extending outward</text>
-
-  <!-- Center: REPL -->
-  <rect x="390" y="230" width="240" height="140" rx="14" fill="rgba(10,22,40,0.95)" stroke="rgba(125,245,242,0.8)" stroke-width="2.5" filter="url(#cca-glow)"/>
-  <text class="cca-node" x="510" y="285" text-anchor="middle" fill="#7df5f2">REPL</text>
-  <text class="cca-small" x="510" y="310" text-anchor="middle">interactive loop</text>
-  <text class="cca-small" x="510" y="330" text-anchor="middle">conversation + tools</text>
-  <text class="cca-small" x="510" y="350" text-anchor="middle">context accumulation</text>
-
-  <!-- Slash Commands (top left) -->
-  <rect x="60" y="130" width="220" height="100" rx="10" fill="rgba(14,30,47,0.85)" stroke="rgba(78,203,255,0.5)" stroke-width="1.5"/>
-  <text class="cca-node" x="170" y="167">/commands</text>
-  <text class="cca-small" x="170" y="190">/compact, /clear, /help</text>
-  <text class="cca-small" x="170" y="210">/memory, custom skills</text>
-
-  <!-- CLAUDE.md (top right) -->
-  <rect x="740" y="130" width="240" height="100" rx="10" fill="rgba(14,30,47,0.85)" stroke="rgba(78,203,255,0.5)" stroke-width="1.5"/>
-  <text class="cca-node" x="860" y="167">CLAUDE.md</text>
-  <text class="cca-small" x="860" y="190">project instructions</text>
-  <text class="cca-small" x="860" y="210">loaded at session start</text>
-
-  <!-- Hooks Pipeline (left) -->
-  <rect x="60" y="350" width="220" height="120" rx="10" fill="rgba(14,30,47,0.85)" stroke="rgba(255,106,158,0.45)" stroke-width="1.5"/>
-  <text class="cca-node" x="170" y="388" fill="#ffaac8">Hooks</text>
-  <text class="cca-small" x="170" y="412">pre/post tool events</text>
-  <text class="cca-small" x="170" y="432">shell scripts triggered</text>
-  <text class="cca-small" x="170" y="452">settings.json config</text>
-
-  <!-- MCP Servers (right) -->
-  <rect x="740" y="350" width="240" height="120" rx="10" fill="rgba(14,30,47,0.85)" stroke="rgba(255,106,158,0.45)" stroke-width="1.5"/>
-  <text class="cca-node" x="860" y="388" fill="#ffaac8">MCP Servers</text>
-  <text class="cca-small" x="860" y="412">external tool providers</text>
-  <text class="cca-small" x="860" y="432">databases, APIs, files</text>
-  <text class="cca-small" x="860" y="452">hot-loaded at startup</text>
-
-  <!-- Shell Prefix (bottom center) -->
-  <rect x="340" y="510" width="300" height="80" rx="10" fill="rgba(14,30,47,0.85)" stroke="rgba(125,245,242,0.4)" stroke-width="1.5"/>
-  <text class="cca-node" x="490" y="548" text-anchor="middle">! Shell Prefix</text>
-  <text class="cca-small" x="490" y="570" text-anchor="middle">run commands in-session</text>
-
-  <!-- Arrows from REPL to each component -->
-  <g fill="none" stroke="url(#cca-cyan)" stroke-width="2" stroke-linecap="round">
-    <path d="M420 255 L280 230"/><path d="M600 255 L760 230"/>
-    <path d="M420 360 L280 390"/><path d="M600 360 L760 390"/>
-    <path d="M490 370 L490 510"/>
+  <g opacity="0.14">
+    <circle cx="220" cy="150" r="180" fill="#2f4f74"/>
+    <circle cx="1180" cy="700" r="220" fill="#2c4f6b"/>
   </g>
 
-  <text class="cca-sub" x="50" y="590">All surfaces feed back into the same REPL loop — context persists across them.</text>
+  <text class="title" x="80" y="88">Claude Code Architecture</text>
+  <text class="sub" x="80" y="118">A minimalist REPL surrounded by extension points · every knob is explicit and inspectable</text>
+
+  <rect class="card" x="100" y="200" width="300" height="120"/>
+  <text class="stepTitle" x="124" y="242">Slash Commands</text>
+  <text class="stepText" x="124" y="270">/plan, /review, custom</text>
+  <text class="stepText" x="124" y="290">skills under .claude/</text>
+
+  <rect class="card" x="1000" y="200" width="300" height="120"/>
+  <text class="stepTitle" x="1024" y="242">CLAUDE.md</text>
+  <text class="stepText" x="1024" y="270">Project + user instructions</text>
+  <text class="stepText" x="1024" y="290">auto-loaded into context</text>
+
+  <rect class="card" x="60" y="400" width="280" height="120"/>
+  <text class="stepTitle" x="84" y="442">Hooks</text>
+  <text class="stepText" x="84" y="470">Pre/post-tool interceptors</text>
+  <text class="stepText" x="84" y="490">configured in settings.json</text>
+
+  <rect class="card" x="1060" y="400" width="280" height="120"/>
+  <text class="stepTitle" x="1084" y="442">MCP Servers</text>
+  <text class="stepText" x="1084" y="470">External typed tools</text>
+  <text class="stepText" x="1084" y="490">added per-project or globally</text>
+
+  <rect class="card" x="540" y="620" width="320" height="120"/>
+  <text class="stepTitle" x="564" y="662">! Shell Prefix</text>
+  <text class="stepText" x="564" y="690">Run bash inline and feed</text>
+  <text class="stepText" x="564" y="710">its output back into the model</text>
+
+  <rect class="cardCenter" x="540" y="360" width="320" height="200" filter="url(#glow)"/>
+  <text class="stepTitle" x="566" y="410" style="font: 700 28px 'Space Grotesk', sans-serif; fill: #e9f6ff;">REPL</text>
+  <text class="stepText" x="566" y="444">Read - Eval - Print - Loop</text>
+  <text class="stepText" x="566" y="466">Turn-based tool calls,</text>
+  <text class="stepText" x="566" y="486">streaming output,</text>
+  <text class="stepText" x="566" y="506">transcript-driven memory</text>
+  <rect x="566" y="520" width="170" height="26" rx="13" fill="rgba(60, 170, 130, 0.22)" stroke="rgba(110, 255, 210, 0.6)"/>
+  <text x="584" y="538" class="okText">AGENT LOOP CORE</text>
+
+  <g fill="none" stroke-linecap="round" stroke-width="3" filter="url(#glow)">
+    <path d="M400 260 H470 V400 H540" stroke="url(#cyanLine)"/>
+    <path d="M1000 260 H930 V400 H860" stroke="url(#cyanLine)"/>
+    <path d="M340 460 H540" stroke="url(#cyanLine)"/>
+    <path d="M1060 460 H860" stroke="url(#cyanLine)"/>
+    <path d="M700 620 V560" stroke="url(#ok)"/>
+  </g>
+
+  <g fill="#96ffe5">
+    <circle cx="400" cy="260" r="4"/>
+    <circle cx="540" cy="400" r="4"/>
+    <circle cx="1000" cy="260" r="4"/>
+    <circle cx="860" cy="400" r="4"/>
+    <circle cx="340" cy="460" r="4"/>
+    <circle cx="540" cy="460" r="4"/>
+    <circle cx="1060" cy="460" r="4"/>
+    <circle cx="860" cy="460" r="4"/>
+    <circle cx="700" cy="620" r="4"/>
+    <circle cx="700" cy="560" r="4"/>
+  </g>
+
+  <text class="sub" x="80" y="790">No hidden state · every extension point is a file you can read, edit, and version-control.</text>
 </svg>

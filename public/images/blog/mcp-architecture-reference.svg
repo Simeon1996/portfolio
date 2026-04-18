@@ -1,98 +1,146 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" role="img" aria-labelledby="mcp-arch-title mcp-arch-desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" role="img" aria-labelledby="mcp-arch-title mcp-arch-desc">
   <title id="mcp-arch-title">MCP Architecture Reference</title>
-  <desc id="mcp-arch-desc">MCP architecture at a glance — one diagram, everything in it.</desc>
+  <desc id="mcp-arch-desc">Host with LLM and MCP client connecting via MCP protocol to an MCP server exposing tools resources and prompts over backing systems.</desc>
   <defs>
-    <linearGradient id="mcp-bg" x1="0" x2="1" y1="0" y2="1">
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
       <stop offset="0%" stop-color="#0a1625"/>
       <stop offset="100%" stop-color="#1a2f45"/>
     </linearGradient>
-    <linearGradient id="mcp-cyan" x1="0" x2="1" y1="0" y2="0">
+    <linearGradient id="cyanLine" x1="0" x2="1" y1="0" y2="0">
       <stop offset="0%" stop-color="#4ecbff"/>
       <stop offset="100%" stop-color="#7df5f2"/>
     </linearGradient>
-    <linearGradient id="mcp-pink" x1="0" x2="1" y1="0" y2="0">
-      <stop offset="0%" stop-color="#ff6a9e"/>
-      <stop offset="100%" stop-color="#ffc17d"/>
+    <linearGradient id="ok" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#4ef2a5"/>
+      <stop offset="100%" stop-color="#78ffe2"/>
     </linearGradient>
-    <filter id="mcp-glow" x="-15%" y="-15%" width="130%" height="130%">
-      <feGaussianBlur stdDeviation="4" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
     </filter>
     <style>
-      .mcp-title { font: 700 34px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
-      .mcp-sub   { font: 500 14px 'Space Mono', monospace; fill: #9bc0d8; }
-      .mcp-node  { font: 700 17px 'Space Grotesk', sans-serif; fill: #dbf4ff; }
-      .mcp-small { font: 500 12px 'Space Mono', monospace; fill: #7ab0cc; }
-      .mcp-tag   { font: 600 11px 'Space Mono', monospace; letter-spacing: 1.5px; }
-      .mcp-arrow { font: 600 11px 'Space Mono', monospace; fill: #4ecbff; }
+      .title { font: 700 40px 'Space Grotesk', sans-serif; fill: #e9f6ff; }
+      .sub { font: 500 17px 'Space Mono', monospace; fill: #9dc1d8; }
+      .stepTitle { font: 700 17px 'Space Grotesk', sans-serif; fill: #e3f5ff; }
+      .stepText { font: 500 13px 'Space Mono', monospace; fill: #9bc4dd; }
+      .colLabel { font: 700 14px 'Space Mono', monospace; fill: #aad4ee; letter-spacing: 1.6px; }
+      .okText { font: 700 12px 'Space Mono', monospace; fill: #6affc7; letter-spacing: 1.4px; }
+      .card { fill: rgba(14, 29, 46, 0.82); stroke: rgba(120, 179, 216, 0.44); stroke-width: 1.2; rx: 14; }
+      .cardCenter { fill: rgba(14, 34, 48, 0.88); stroke: rgba(126, 230, 240, 0.7); stroke-width: 1.6; rx: 14; }
     </style>
   </defs>
-  <rect width="1200" height="640" fill="url(#mcp-bg)"/>
+
+  <rect width="1400" height="820" fill="url(#bg)"/>
+
   <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
-    <line x1="0" y1="160" x2="1200" y2="160"/><line x1="0" y1="320" x2="1200" y2="320"/>
-    <line x1="0" y1="480" x2="1200" y2="480"/><line x1="300" y1="0" x2="300" y2="640"/>
-    <line x1="600" y1="0" x2="600" y2="640"/><line x1="900" y1="0" x2="900" y2="640"/>
+    <path d="M0 160 H1400"/>
+    <path d="M0 280 H1400"/>
+    <path d="M0 400 H1400"/>
+    <path d="M0 520 H1400"/>
+    <path d="M0 640 H1400"/>
+    <path d="M0 740 H1400"/>
+    <path d="M200 0 V820"/>
+    <path d="M500 0 V820"/>
+    <path d="M800 0 V820"/>
+    <path d="M1100 0 V820"/>
   </g>
 
-  <text class="mcp-title" x="50" y="64">MCP Architecture Reference</text>
-  <text class="mcp-sub" x="50" y="94">Host → Client → Server → Resources / Tools / Prompts</text>
-
-  <!-- Host Application -->
-  <rect x="50" y="140" width="260" height="360" rx="12" fill="rgba(14,30,47,0.7)" stroke="rgba(78,203,255,0.35)" stroke-width="1.5"/>
-  <text class="mcp-tag" x="180" y="170" text-anchor="middle" fill="#4ecbff">HOST APPLICATION</text>
-  <rect x="80" y="190" width="200" height="70" rx="8" fill="rgba(10,22,40,0.9)" stroke="rgba(78,203,255,0.5)" stroke-width="1.5"/>
-  <text class="mcp-node" x="180" y="222" text-anchor="middle">LLM / Model</text>
-  <text class="mcp-small" x="180" y="244" text-anchor="middle">reasoning engine</text>
-  <rect x="80" y="290" width="200" height="70" rx="8" fill="rgba(10,22,40,0.9)" stroke="rgba(78,203,255,0.4)" stroke-width="1.5"/>
-  <text class="mcp-node" x="180" y="322" text-anchor="middle">MCP Client</text>
-  <text class="mcp-small" x="180" y="344" text-anchor="middle">protocol handler</text>
-  <rect x="80" y="390" width="200" height="70" rx="8" fill="rgba(10,22,40,0.9)" stroke="rgba(78,203,255,0.4)" stroke-width="1.5"/>
-  <text class="mcp-node" x="180" y="422" text-anchor="middle">Sampling Loop</text>
-  <text class="mcp-small" x="180" y="444" text-anchor="middle">tool calls + context</text>
-
-  <!-- MCP Protocol channel -->
-  <rect x="360" y="270" width="180" height="100" rx="10" fill="rgba(10,20,40,0.9)" stroke="rgba(125,245,242,0.6)" stroke-width="2" filter="url(#mcp-glow)"/>
-  <text class="mcp-node" x="450" y="308" text-anchor="middle" fill="#7df5f2">MCP</text>
-  <text class="mcp-node" x="450" y="332" text-anchor="middle" fill="#7df5f2">Protocol</text>
-  <text class="mcp-tag" x="450" y="358" text-anchor="middle" fill="#4ecbff">JSON-RPC 2.0</text>
-
-  <!-- MCP Server -->
-  <rect x="600" y="140" width="260" height="360" rx="12" fill="rgba(14,30,47,0.7)" stroke="rgba(255,106,158,0.35)" stroke-width="1.5"/>
-  <text class="mcp-tag" x="730" y="170" text-anchor="middle" fill="#ff9ec0">MCP SERVER</text>
-  <rect x="630" y="190" width="200" height="70" rx="8" fill="rgba(14,10,30,0.9)" stroke="rgba(255,106,158,0.5)" stroke-width="1.5"/>
-  <text class="mcp-node" x="730" y="222" text-anchor="middle" fill="#ffaac8">Tools</text>
-  <text class="mcp-small" x="730" y="244" text-anchor="middle">callable functions</text>
-  <rect x="630" y="290" width="200" height="70" rx="8" fill="rgba(14,10,30,0.9)" stroke="rgba(255,106,158,0.4)" stroke-width="1.5"/>
-  <text class="mcp-node" x="730" y="322" text-anchor="middle" fill="#ffaac8">Resources</text>
-  <text class="mcp-small" x="730" y="344" text-anchor="middle">file / URI content</text>
-  <rect x="630" y="390" width="200" height="70" rx="8" fill="rgba(14,10,30,0.9)" stroke="rgba(255,106,158,0.4)" stroke-width="1.5"/>
-  <text class="mcp-node" x="730" y="422" text-anchor="middle" fill="#ffaac8">Prompts</text>
-  <text class="mcp-small" x="730" y="444" text-anchor="middle">reusable templates</text>
-
-  <!-- External systems -->
-  <rect x="930" y="160" width="220" height="80" rx="8" fill="rgba(14,30,47,0.8)" stroke="rgba(109,181,222,0.4)" stroke-width="1.5"/>
-  <text class="mcp-node" x="1040" y="197" text-anchor="middle">Databases</text>
-  <text class="mcp-small" x="1040" y="220" text-anchor="middle">SQL / NoSQL</text>
-  <rect x="930" y="280" width="220" height="80" rx="8" fill="rgba(14,30,47,0.8)" stroke="rgba(109,181,222,0.4)" stroke-width="1.5"/>
-  <text class="mcp-node" x="1040" y="317" text-anchor="middle">APIs &amp; Services</text>
-  <text class="mcp-small" x="1040" y="340" text-anchor="middle">REST / GraphQL</text>
-  <rect x="930" y="400" width="220" height="80" rx="8" fill="rgba(14,30,47,0.8)" stroke="rgba(109,181,222,0.4)" stroke-width="1.5"/>
-  <text class="mcp-node" x="1040" y="437" text-anchor="middle">File Systems</text>
-  <text class="mcp-small" x="1040" y="460" text-anchor="middle">local / cloud storage</text>
-
-  <!-- Arrows: Client → Protocol → Server -->
-  <g fill="none" stroke="url(#mcp-cyan)" stroke-width="2.5" stroke-linecap="round">
-    <path d="M280 325 H360"/><polygon points="358,320 368,325 358,330" fill="#7df5f2"/>
-    <path d="M540 325 H600"/><polygon points="598,320 608,325 598,330" fill="#7df5f2"/>
-    <path d="M830 225 H930"/><path d="M830 320 H930"/><path d="M830 440 H930"/>
+  <g opacity="0.14">
+    <circle cx="220" cy="150" r="180" fill="#2f4f74"/>
+    <circle cx="1180" cy="700" r="220" fill="#2c4f6b"/>
   </g>
 
-  <!-- Bidirectional label -->
-  <text class="mcp-arrow" x="450" y="252" text-anchor="middle">⟵ capabilities</text>
-  <text class="mcp-arrow" x="450" y="390" text-anchor="middle">requests ⟶</text>
+  <text class="title" x="80" y="88">MCP Architecture Reference</text>
+  <text class="sub" x="80" y="118">Host talks to server through a small JSON-RPC protocol · server fronts real systems</text>
 
-  <!-- Sampling permission note -->
-  <rect x="50" y="530" width="1110" height="60" rx="8" fill="rgba(10,18,35,0.7)" stroke="rgba(78,203,255,0.2)" stroke-width="1"/>
-  <text class="mcp-small" x="605" y="558" text-anchor="middle">Sampling: server can request LLM completions via host — human approval required for sensitive operations</text>
-  <text class="mcp-small" x="605" y="578" text-anchor="middle">Roots: client exposes file system boundaries — servers respect declared access scope</text>
+  <text class="colLabel" x="100" y="180">HOST</text>
+  <text class="colLabel" x="560" y="180">PROTOCOL</text>
+  <text class="colLabel" x="860" y="180">MCP SERVER</text>
+  <text class="colLabel" x="1230" y="180">BACKING SYSTEMS</text>
+
+  <rect class="card" x="80" y="220" width="300" height="130"/>
+  <text class="stepTitle" x="108" y="262">LLM / Model</text>
+  <text class="stepText" x="108" y="290">Reasons, plans, chooses tools</text>
+  <text class="stepText" x="108" y="310">Claude, GPT, Llama, etc.</text>
+
+  <rect class="card" x="80" y="390" width="300" height="130"/>
+  <text class="stepTitle" x="108" y="432">MCP Client</text>
+  <text class="stepText" x="108" y="460">Marshals tool calls, tracks</text>
+  <text class="stepText" x="108" y="480">sessions, handles streaming</text>
+
+  <rect class="cardCenter" x="460" y="300" width="300" height="180" filter="url(#glow)"/>
+  <text class="stepTitle" x="486" y="344" style="font: 700 24px 'Space Grotesk', sans-serif; fill: #e9f6ff;">MCP Protocol</text>
+  <text class="stepText" x="486" y="374">JSON-RPC 2.0</text>
+  <text class="stepText" x="486" y="396">Typed tool schemas,</text>
+  <text class="stepText" x="486" y="416">resources, prompts, events</text>
+  <rect x="486" y="432" width="150" height="28" rx="14" fill="rgba(60, 170, 130, 0.22)" stroke="rgba(110, 255, 210, 0.6)"/>
+  <text x="504" y="451" class="okText">STABLE CONTRACT</text>
+
+  <rect class="card" x="840" y="220" width="290" height="130"/>
+  <text class="stepTitle" x="868" y="262">Tools</text>
+  <text class="stepText" x="868" y="290">Callable functions with</text>
+  <text class="stepText" x="868" y="310">JSON schema for args</text>
+
+  <rect class="card" x="840" y="370" width="290" height="130"/>
+  <text class="stepTitle" x="868" y="412">Resources</text>
+  <text class="stepText" x="868" y="440">Addressable data blobs,</text>
+  <text class="stepText" x="868" y="460">docs, records</text>
+
+  <rect class="card" x="840" y="520" width="290" height="130"/>
+  <text class="stepTitle" x="868" y="562">Prompts</text>
+  <text class="stepText" x="868" y="590">Reusable prompt templates</text>
+  <text class="stepText" x="868" y="610">exposed to the host</text>
+
+  <rect class="card" x="1200" y="220" width="170" height="130"/>
+  <text class="stepTitle" x="1222" y="262">Databases</text>
+  <text class="stepText" x="1222" y="290">SQL, vector,</text>
+  <text class="stepText" x="1222" y="310">key-value</text>
+
+  <rect class="card" x="1200" y="370" width="170" height="130"/>
+  <text class="stepTitle" x="1222" y="412">APIs</text>
+  <text class="stepText" x="1222" y="440">REST, gRPC,</text>
+  <text class="stepText" x="1222" y="460">webhooks</text>
+
+  <rect class="card" x="1200" y="520" width="170" height="130"/>
+  <text class="stepTitle" x="1222" y="562">File Systems</text>
+  <text class="stepText" x="1222" y="590">Local, S3,</text>
+  <text class="stepText" x="1222" y="610">artefact stores</text>
+
+  <g fill="none" stroke-linecap="round" stroke-width="3" filter="url(#glow)">
+    <path d="M380 285 V390" stroke="url(#cyanLine)"/>
+    <path d="M380 455 H460" stroke="url(#cyanLine)"/>
+    <path d="M380 285 H420 V390" stroke="url(#cyanLine)"/>
+    <path d="M760 360 H840 V285" stroke="url(#ok)"/>
+    <path d="M760 390 H840" stroke="url(#ok)"/>
+    <path d="M760 420 H840 V435" stroke="url(#ok)"/>
+    <path d="M760 450 H840 V585" stroke="url(#ok)"/>
+    <path d="M1130 285 H1200" stroke="url(#ok)"/>
+    <path d="M1130 435 H1200" stroke="url(#ok)"/>
+    <path d="M1130 585 H1200" stroke="url(#ok)"/>
+  </g>
+
+  <g fill="#96ffe5">
+    <circle cx="380" cy="285" r="4"/>
+    <circle cx="380" cy="390" r="4"/>
+    <circle cx="380" cy="455" r="4"/>
+    <circle cx="460" cy="455" r="4"/>
+    <circle cx="760" cy="360" r="4"/>
+    <circle cx="760" cy="390" r="4"/>
+    <circle cx="760" cy="420" r="4"/>
+    <circle cx="760" cy="450" r="4"/>
+    <circle cx="840" cy="285" r="4"/>
+    <circle cx="840" cy="435" r="4"/>
+    <circle cx="840" cy="585" r="4"/>
+    <circle cx="1130" cy="285" r="4"/>
+    <circle cx="1200" cy="285" r="4"/>
+    <circle cx="1130" cy="435" r="4"/>
+    <circle cx="1200" cy="435" r="4"/>
+    <circle cx="1130" cy="585" r="4"/>
+    <circle cx="1200" cy="585" r="4"/>
+  </g>
+
+  <text class="sub" x="80" y="780">Host ↔ MCP server is one boundary · the server is where integration and security live.</text>
 </svg>

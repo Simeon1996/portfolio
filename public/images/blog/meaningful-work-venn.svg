@@ -1,59 +1,81 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 540" role="img" aria-labelledby="mwv-title mwv-desc">
-  <title id="mwv-title">Meaningful Work Venn Diagram</title>
-  <desc id="mwv-desc">Two overlapping circles: Work I was paid to do and Work that felt meaningful. The overlap Zone is being encroached on by AI.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" role="img" aria-labelledby="mwv-title mwv-desc">
+  <title id="mwv-title">The Zone AI Is Eating</title>
+  <desc id="mwv-desc">Two overlapping circles showing paid work and meaningful work with an AI encroachment over the overlap.</desc>
   <defs>
-    <linearGradient id="mwv-bg" x1="0" x2="1" y1="0" y2="1">
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
       <stop offset="0%" stop-color="#0a1625"/>
       <stop offset="100%" stop-color="#1a2f45"/>
     </linearGradient>
+    <linearGradient id="cyanLine" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <clipPath id="leftCircle">
+      <circle cx="310" cy="300" r="160"/>
+    </clipPath>
     <style>
-      .mwv-title  { font: 700 32px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
-      .mwv-sub    { font: 500 13px 'Space Mono', monospace; fill: #9bc0d8; }
-      .mwv-circle { font: 600 16px 'Space Grotesk', sans-serif; }
-      .mwv-zone   { font: 700 20px 'Space Grotesk', sans-serif; fill: #7df5f2; }
-      .mwv-ai     { font: 700 18px 'Space Grotesk', sans-serif; fill: #ff7070; }
-      .mwv-note   { font: 500 13px 'Space Mono', monospace; fill: #7ab0cc; }
+      .title { font: 700 36px 'Space Grotesk', sans-serif; fill: #e9f6ff; }
+      .sub { font: 500 16px 'Space Mono', monospace; fill: #9dc1d8; }
+      .lbl { font: 700 18px 'Space Grotesk', sans-serif; fill: #e3f5ff; }
+      .lblText { font: 500 13px 'Space Mono', monospace; fill: #9bc4dd; }
+      .zoneLbl { font: 700 22px 'Space Grotesk', sans-serif; fill: #e9f6ff; }
+      .aiLbl { font: 700 22px 'Space Grotesk', sans-serif; fill: #ffd1d1; }
     </style>
   </defs>
-  <rect width="900" height="540" fill="url(#mwv-bg)"/>
+
+  <rect width="1000" height="700" fill="url(#bg)"/>
+
   <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
-    <line x1="0" y1="135" x2="900" y2="135"/><line x1="0" y1="270" x2="900" y2="270"/>
-    <line x1="0" y1="405" x2="900" y2="405"/><line x1="450" y1="0" x2="450" y2="540"/>
+    <path d="M0 150 H1000"/>
+    <path d="M0 300 H1000"/>
+    <path d="M0 450 H1000"/>
+    <path d="M0 600 H1000"/>
+    <path d="M200 0 V700"/>
+    <path d="M500 0 V700"/>
+    <path d="M800 0 V700"/>
   </g>
 
-  <text class="mwv-title" x="50" y="60">The Zone AI Is Eating</text>
-  <text class="mwv-sub" x="50" y="88">Where paid work met meaningful work — and what's changing</text>
+  <g opacity="0.14">
+    <circle cx="150" cy="120" r="150" fill="#2f4f74"/>
+    <circle cx="850" cy="620" r="180" fill="#2c4f6b"/>
+  </g>
 
-  <!-- Left circle: Paid work -->
-  <circle cx="310" cy="290" r="160" fill="rgba(30,80,120,0.25)" stroke="rgba(78,203,255,0.5)" stroke-width="2"/>
+  <text class="title" x="60" y="80">The Zone AI Is Eating</text>
+  <text class="sub" x="60" y="108">The overlap between paid work and meaningful work is shrinking faster than either circle</text>
 
-  <!-- Right circle: Meaningful work -->
-  <circle cx="520" cy="290" r="160" fill="rgba(80,30,120,0.25)" stroke="rgba(155,107,255,0.5)" stroke-width="2"/>
+  <circle cx="310" cy="300" r="160" fill="rgba(78, 203, 255, 0.12)" stroke="rgba(126, 230, 240, 0.7)" stroke-width="2" filter="url(#glow)"/>
+  <circle cx="510" cy="300" r="160" fill="rgba(168, 139, 240, 0.12)" stroke="rgba(178, 146, 240, 0.7)" stroke-width="2" filter="url(#glow)"/>
 
-  <!-- Overlap zone highlight -->
-  <clipPath id="clip-left"><circle cx="310" cy="290" r="160"/></clipPath>
-  <circle cx="520" cy="290" r="160" fill="rgba(125,245,242,0.12)" clip-path="url(#clip-left)" stroke="none"/>
+  <g clip-path="url(#leftCircle)">
+    <circle cx="510" cy="300" r="160" fill="rgba(110, 255, 210, 0.22)"/>
+  </g>
 
-  <!-- AI encroachment shape from right -->
-  <path d="M 560 200 Q 760 250 760 290 Q 760 330 560 380 Q 650 340 640 290 Q 630 240 560 200 Z" fill="rgba(180,30,30,0.35)" stroke="rgba(255,80,80,0.6)" stroke-width="2"/>
+  <g clip-path="url(#leftCircle)">
+    <circle cx="570" cy="300" r="110" fill="rgba(255, 106, 141, 0.45)"/>
+  </g>
+  <circle cx="570" cy="300" r="110" fill="rgba(255, 106, 141, 0.35)" clip-path="url(#leftCircle)"/>
 
-  <!-- Labels -->
-  <text class="mwv-circle" x="200" y="260" text-anchor="middle" fill="#7dc8f0">Work I was</text>
-  <text class="mwv-circle" x="200" y="282" text-anchor="middle" fill="#7dc8f0">paid to do</text>
+  <text class="lbl" x="160" y="240">Work I was paid to do</text>
+  <text class="lblText" x="160" y="262">commits, tickets, reviews</text>
 
-  <text class="mwv-circle" x="630" y="260" text-anchor="middle" fill="#b08af0">Work that</text>
-  <text class="mwv-circle" x="630" y="282" text-anchor="middle" fill="#b08af0">felt meaningful</text>
+  <text class="lbl" x="555" y="240">Work that felt meaningful</text>
+  <text class="lblText" x="555" y="262">craft, learning, hard problems</text>
 
-  <!-- The Zone label in overlap -->
-  <text class="mwv-zone" x="415" y="285" text-anchor="middle">The Zone</text>
+  <text class="zoneLbl" x="410" y="305" text-anchor="middle">The Zone</text>
+  <text class="lblText" x="410" y="326" text-anchor="middle">paid + meaningful</text>
 
-  <!-- AI label -->
-  <text class="mwv-ai" x="720" y="285" text-anchor="middle">AI</text>
-  <text style="font:500 12px 'Space Mono',monospace;fill:#ff9090;" x="720" y="305" text-anchor="middle">→</text>
+  <text class="aiLbl" x="600" y="305" text-anchor="middle">AI →</text>
+  <text class="lblText" x="600" y="326" text-anchor="middle" style="fill:#ffb4ce;">encroaching</text>
 
-  <!-- Arrows showing AI direction -->
-  <path d="M 700 285 L 620 285" fill="none" stroke="#ff7070" stroke-width="2.5" stroke-dasharray="5,3"/>
-  <polygon points="622,280 612,285 622,290" fill="#ff7070"/>
-
-  <text class="mwv-sub" x="50" y="500">The overlap was the good part. AI is optimizing exactly that column.</text>
+  <rect x="60" y="560" width="880" height="100" rx="14" fill="rgba(14, 29, 46, 0.82)" stroke="rgba(120, 179, 216, 0.44)" stroke-width="1.2"/>
+  <text class="lbl" x="86" y="598">What AI eats first</text>
+  <text class="lblText" x="86" y="622">The overlap · easy-to-specify, mid-difficulty, legible work that both paid well</text>
+  <text class="lblText" x="86" y="642">and felt like craft. What remains gets polarised: pure toil or pure exploration.</text>
 </svg>

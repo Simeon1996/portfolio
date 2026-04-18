@@ -1,89 +1,137 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" role="img" aria-labelledby="tf-title tf-desc">
-  <title id="tf-title">Terraform Workflow Diagram</title>
-  <desc id="tf-desc">Write, init, plan, apply, destroy cycle with state backend and provider registry.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" role="img" aria-labelledby="tf-title tf-desc">
+  <title id="tf-title">Terraform Workflow Cheatsheet</title>
+  <desc id="tf-desc">Five workflow steps write init plan apply destroy with state backend and provider registry underpinning the flow.</desc>
   <defs>
-    <linearGradient id="tf-bg" x1="0" x2="1" y1="0" y2="1">
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
       <stop offset="0%" stop-color="#0a1625"/>
       <stop offset="100%" stop-color="#1a2f45"/>
     </linearGradient>
-    <linearGradient id="tf-cyan" x1="0" x2="1" y1="0" y2="0">
+    <linearGradient id="cyanLine" x1="0" x2="1" y1="0" y2="0">
       <stop offset="0%" stop-color="#4ecbff"/>
       <stop offset="100%" stop-color="#7df5f2"/>
     </linearGradient>
-    <linearGradient id="tf-purple" x1="0" x2="1" y1="0" y2="0">
-      <stop offset="0%" stop-color="#9b6bff"/>
-      <stop offset="100%" stop-color="#c17df5"/>
+    <linearGradient id="ok" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#4ef2a5"/>
+      <stop offset="100%" stop-color="#78ffe2"/>
     </linearGradient>
-    <filter id="tf-glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="4" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    <linearGradient id="warn" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#ff7cae"/>
+      <stop offset="100%" stop-color="#ffd178"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
     </filter>
     <style>
-      .tf-title { font: 700 36px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
-      .tf-sub   { font: 500 15px 'Space Mono', monospace; fill: #9bc0d8; }
-      .tf-node  { font: 700 17px 'Space Grotesk', sans-serif; fill: #dbf4ff; }
-      .tf-desc  { font: 500 12px 'Space Mono', monospace; fill: #7ab0cc; }
-      .tf-label { font: 600 12px 'Space Mono', monospace; fill: #4ecbff; letter-spacing: 1px; }
-      .tf-side  { font: 600 13px 'Space Mono', monospace; fill: #9bc0d8; }
+      .title { font: 700 40px 'Space Grotesk', sans-serif; fill: #e9f6ff; }
+      .sub { font: 500 17px 'Space Mono', monospace; fill: #9dc1d8; }
+      .stepTitle { font: 700 17px 'Space Grotesk', sans-serif; fill: #e3f5ff; }
+      .stepText { font: 500 13px 'Space Mono', monospace; fill: #9bc4dd; }
+      .okText { font: 700 12px 'Space Mono', monospace; fill: #6affc7; letter-spacing: 1.4px; }
+      .card { fill: rgba(14, 29, 46, 0.82); stroke: rgba(120, 179, 216, 0.44); stroke-width: 1.2; rx: 14; }
+      .cardPurple { fill: rgba(26, 19, 46, 0.82); stroke: rgba(168, 139, 240, 0.5); stroke-width: 1.2; rx: 14; }
+      .cardCyan { fill: rgba(14, 34, 48, 0.85); stroke: rgba(126, 230, 240, 0.55); stroke-width: 1.2; rx: 14; }
     </style>
   </defs>
-  <rect width="1200" height="600" fill="url(#tf-bg)"/>
-  <g opacity="0.08" stroke="#5fa2d0" stroke-width="1">
-    <line x1="0" y1="150" x2="1200" y2="150"/><line x1="0" y1="300" x2="1200" y2="300"/>
-    <line x1="0" y1="450" x2="1200" y2="450"/><line x1="200" y1="0" x2="200" y2="600"/>
-    <line x1="400" y1="0" x2="400" y2="600"/><line x1="600" y1="0" x2="600" y2="600"/>
-    <line x1="800" y1="0" x2="800" y2="600"/><line x1="1000" y1="0" x2="1000" y2="600"/>
+
+  <rect width="1400" height="820" fill="url(#bg)"/>
+
+  <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
+    <path d="M0 160 H1400"/>
+    <path d="M0 280 H1400"/>
+    <path d="M0 400 H1400"/>
+    <path d="M0 520 H1400"/>
+    <path d="M0 640 H1400"/>
+    <path d="M0 740 H1400"/>
+    <path d="M200 0 V820"/>
+    <path d="M500 0 V820"/>
+    <path d="M800 0 V820"/>
+    <path d="M1100 0 V820"/>
   </g>
-  <text class="tf-title" x="60" y="62">Terraform Workflow</text>
-  <text class="tf-sub" x="60" y="92">Five-stage lifecycle — from code to infrastructure to cleanup</text>
-  <!-- Cycle nodes -->
-  <!-- Write -->
-  <rect x="60" y="160" width="160" height="90" rx="10" fill="rgba(14,30,47,0.8)" stroke="rgba(109,181,222,0.5)" stroke-width="1.5"/>
-  <text class="tf-node" x="140" y="200" text-anchor="middle">Write</text>
-  <text class="tf-desc" x="140" y="222" text-anchor="middle">.tf config files</text>
-  <!-- Init -->
-  <rect x="280" y="160" width="160" height="90" rx="10" fill="rgba(14,30,47,0.8)" stroke="rgba(109,181,222,0.5)" stroke-width="1.5"/>
-  <text class="tf-node" x="360" y="200" text-anchor="middle">Init</text>
-  <text class="tf-desc" x="360" y="222" text-anchor="middle">download providers</text>
-  <!-- Plan -->
-  <rect x="500" y="160" width="160" height="90" rx="10" fill="rgba(14,30,47,0.8)" stroke="rgba(78,203,255,0.6)" stroke-width="1.5"/>
-  <text class="tf-node" x="580" y="200" text-anchor="middle">Plan</text>
-  <text class="tf-desc" x="580" y="222" text-anchor="middle">diff vs state</text>
-  <!-- Apply -->
-  <rect x="720" y="160" width="160" height="90" rx="10" fill="rgba(14,47,30,0.8)" stroke="rgba(78,255,150,0.5)" stroke-width="1.5"/>
-  <text class="tf-node" x="800" y="195" text-anchor="middle" fill="#7dffb0">Apply</text>
-  <text class="tf-desc" x="800" y="217" text-anchor="middle">provision infra</text>
-  <text class="tf-desc" x="800" y="235" text-anchor="middle">update state</text>
-  <!-- Destroy -->
-  <rect x="940" y="160" width="160" height="90" rx="10" fill="rgba(47,14,14,0.8)" stroke="rgba(255,100,100,0.5)" stroke-width="1.5"/>
-  <text class="tf-node" x="1020" y="200" text-anchor="middle" fill="#ff9090">Destroy</text>
-  <text class="tf-desc" x="1020" y="222" text-anchor="middle">tear down infra</text>
-  <!-- Arrows between nodes -->
-  <g fill="none" stroke="url(#tf-cyan)" stroke-width="2.5" stroke-linecap="round" filter="url(#tf-glow)">
-    <path d="M220 205 H280"/><polygon points="278,200 288,205 278,210" fill="#7df5f2"/>
-    <path d="M440 205 H500"/><polygon points="498,200 508,205 498,210" fill="#7df5f2"/>
-    <path d="M660 205 H720"/><polygon points="718,200 728,205 718,210" fill="#7df5f2"/>
-    <path d="M880 205 H940"/><polygon points="938,200 948,205 938,210" fill="#7df5f2"/>
+
+  <g opacity="0.14">
+    <circle cx="220" cy="150" r="180" fill="#2f4f74"/>
+    <circle cx="1180" cy="700" r="220" fill="#2c4f6b"/>
   </g>
-  <!-- State Backend box -->
-  <rect x="280" y="340" width="280" height="100" rx="10" fill="rgba(20,20,60,0.8)" stroke="rgba(155,107,255,0.6)" stroke-width="1.5"/>
-  <text class="tf-node" x="420" y="378" text-anchor="middle" fill="#c17df5">State Backend</text>
-  <text class="tf-desc" x="420" y="402" text-anchor="middle">S3 / GCS / Terraform Cloud</text>
-  <text class="tf-desc" x="420" y="422" text-anchor="middle">locking + versioning</text>
-  <!-- Provider Registry box -->
-  <rect x="640" y="340" width="280" height="100" rx="10" fill="rgba(14,30,47,0.8)" stroke="rgba(78,203,255,0.5)" stroke-width="1.5"/>
-  <text class="tf-node" x="780" y="378" text-anchor="middle">Provider Registry</text>
-  <text class="tf-desc" x="780" y="402" text-anchor="middle">registry.terraform.io</text>
-  <text class="tf-desc" x="780" y="422" text-anchor="middle">AWS / GCP / Azure plugins</text>
-  <!-- Connectors to state and providers -->
-  <g fill="none" stroke-dasharray="6,4" stroke-width="1.8" opacity="0.6">
-    <path d="M580 250 L420 340" stroke="#9b6bff"/>
-    <path d="M800 250 L780 340" stroke="#4ecbff"/>
-    <path d="M360 250 L420 340" stroke="#9b6bff"/>
+
+  <text class="title" x="80" y="88">Terraform Workflow</text>
+  <text class="sub" x="80" y="118">write → init → plan → apply → destroy · state + providers underpin every run</text>
+
+  <g>
+    <rect class="card" x="60" y="250" width="230" height="140"/>
+    <text class="stepTitle" x="84" y="292">1. Write</text>
+    <text class="stepText" x="84" y="318">.tf files declare</text>
+    <text class="stepText" x="84" y="338">desired resources</text>
+    <text class="stepText" x="84" y="362">HCL, modules, vars</text>
+
+    <rect class="card" x="320" y="250" width="230" height="140"/>
+    <text class="stepTitle" x="344" y="292">2. Init</text>
+    <text class="stepText" x="344" y="318">Download providers,</text>
+    <text class="stepText" x="344" y="338">initialise backend,</text>
+    <text class="stepText" x="344" y="362">lock dependencies</text>
+
+    <rect class="card" x="580" y="250" width="230" height="140"/>
+    <text class="stepTitle" x="604" y="292">3. Plan</text>
+    <text class="stepText" x="604" y="318">Dry-run diff of</text>
+    <text class="stepText" x="604" y="338">desired vs actual,</text>
+    <text class="stepText" x="604" y="362">reviewable output</text>
+
+    <rect class="card" x="840" y="250" width="230" height="140"/>
+    <text class="stepTitle" x="864" y="292">4. Apply</text>
+    <text class="stepText" x="864" y="318">Execute plan,</text>
+    <text class="stepText" x="864" y="338">write state,</text>
+    <text class="stepText" x="864" y="362">produce outputs</text>
+
+    <rect class="card" x="1100" y="250" width="230" height="140"/>
+    <text class="stepTitle" x="1124" y="292">5. Destroy</text>
+    <text class="stepText" x="1124" y="318">Reverse plan,</text>
+    <text class="stepText" x="1124" y="338">tear down all</text>
+    <text class="stepText" x="1124" y="362">managed resources</text>
   </g>
-  <!-- Labels -->
-  <text class="tf-label" x="420" y="490">reads / writes state</text>
-  <text class="tf-label" x="700" y="490">downloads on terraform init</text>
-  <!-- Footer -->
-  <text class="tf-sub" x="60" y="558">terraform init → terraform plan → terraform apply → terraform destroy</text>
+
+  <g fill="none" stroke-linecap="round" stroke-width="3" filter="url(#glow)">
+    <path d="M290 320 H320" stroke="url(#cyanLine)"/>
+    <path d="M550 320 H580" stroke="url(#cyanLine)"/>
+    <path d="M810 320 H840" stroke="url(#cyanLine)"/>
+    <path d="M1070 320 H1100" stroke="url(#warn)"/>
+  </g>
+
+  <g fill="#96ffe5">
+    <circle cx="290" cy="320" r="4"/>
+    <circle cx="320" cy="320" r="4"/>
+    <circle cx="550" cy="320" r="4"/>
+    <circle cx="580" cy="320" r="4"/>
+    <circle cx="810" cy="320" r="4"/>
+    <circle cx="840" cy="320" r="4"/>
+    <circle cx="1070" cy="320" r="4"/>
+    <circle cx="1100" cy="320" r="4"/>
+  </g>
+
+  <g fill="none" stroke-width="2" stroke-dasharray="6 6" stroke="rgba(168, 139, 240, 0.6)">
+    <path d="M435 390 V520"/>
+  </g>
+  <g fill="none" stroke-width="2" stroke-dasharray="6 6" stroke="rgba(126, 230, 240, 0.6)">
+    <path d="M955 390 V520"/>
+  </g>
+
+  <rect class="cardPurple" x="260" y="520" width="350" height="160"/>
+  <text class="stepTitle" x="286" y="562">State Backend</text>
+  <text class="stepText" x="286" y="590">Remote state (S3, GCS, Terraform</text>
+  <text class="stepText" x="286" y="610">Cloud) with locking via DynamoDB</text>
+  <text class="stepText" x="286" y="630">Source of truth between runs</text>
+  <rect x="286" y="644" width="150" height="24" rx="12" fill="rgba(168,139,240,0.2)" stroke="rgba(168,139,240,0.5)"/>
+  <text x="302" y="661" style="font: 700 11px 'Space Mono', monospace; fill: #d7c6ff; letter-spacing: 1.2px;">STATEFUL CORE</text>
+
+  <rect class="cardCyan" x="790" y="520" width="350" height="160"/>
+  <text class="stepTitle" x="816" y="562">Provider Registry</text>
+  <text class="stepText" x="816" y="590">AWS, Azure, GCP, Kubernetes,</text>
+  <text class="stepText" x="816" y="610">HTTP, local · pinned versions</text>
+  <text class="stepText" x="816" y="630">Init downloads and caches these</text>
+  <rect x="816" y="644" width="130" height="24" rx="12" fill="rgba(60,170,130,0.2)" stroke="rgba(110,255,210,0.5)"/>
+  <text x="832" y="661" class="okText">PLUGIN LAYER</text>
+
+  <text class="sub" x="80" y="760">Idempotent pipeline: plan first, apply with review, destroy to close the loop. Never edit state by hand.</text>
 </svg>

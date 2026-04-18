@@ -1,76 +1,92 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" role="img" aria-labelledby="abpg-title abpg-desc">
-  <title id="abpg-title">AI Bubble Pressure Gauge Comparison</title>
-  <desc id="abpg-desc">Two pressure gauges: Dot-com 2000 needle in the red danger zone labeled POP vs AI 2026 needle in the yellow moderate zone labeled LEAK.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" role="img" aria-labelledby="abpg-title abpg-desc">
+  <title id="abpg-title">Bubble Pressure: Then vs Now</title>
+  <desc id="abpg-desc">Two gauges comparing the dot-com pop with the current AI leak.</desc>
   <defs>
-    <linearGradient id="abpg-bg" x1="0" x2="1" y1="0" y2="1">
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
       <stop offset="0%" stop-color="#0a1625"/>
       <stop offset="100%" stop-color="#1a2f45"/>
     </linearGradient>
+    <linearGradient id="cyanLine" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
     <style>
-      .abpg-title { font: 700 32px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
-      .abpg-sub   { font: 500 13px 'Space Mono', monospace; fill: #9bc0d8; }
-      .abpg-label { font: 700 18px 'Space Grotesk', sans-serif; }
-      .abpg-zone  { font: 600 13px 'Space Mono', monospace; letter-spacing: 1px; }
-      .abpg-big   { font: 700 28px 'Space Grotesk', sans-serif; }
-      .abpg-caption { font: 500 13px 'Space Mono', monospace; fill: #7ab0cc; }
+      .title { font: 700 40px 'Space Grotesk', sans-serif; fill: #e9f6ff; }
+      .sub { font: 500 17px 'Space Mono', monospace; fill: #9dc1d8; }
+      .stepTitle { font: 700 22px 'Space Grotesk', sans-serif; fill: #e3f5ff; }
+      .stepText { font: 500 13px 'Space Mono', monospace; fill: #9bc4dd; }
+      .cardWarn { fill: rgba(49, 24, 40, 0.72); stroke: rgba(255, 142, 180, 0.5); stroke-width: 1.2; rx: 14; }
+      .cardAmber { fill: rgba(48, 38, 18, 0.78); stroke: rgba(255, 209, 120, 0.55); stroke-width: 1.2; rx: 14; }
+      .bigRed { font: 700 110px 'Space Grotesk', sans-serif; fill: #ff6a8d; letter-spacing: 2px; }
+      .bigAmber { font: 700 110px 'Space Grotesk', sans-serif; fill: #ffc96a; letter-spacing: 2px; }
     </style>
   </defs>
-  <rect width="900" height="560" fill="url(#abpg-bg)"/>
+
+  <rect width="1400" height="820" fill="url(#bg)"/>
+
   <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
-    <line x1="0" y1="140" x2="900" y2="140"/><line x1="0" y1="280" x2="900" y2="280"/>
-    <line x1="0" y1="420" x2="900" y2="420"/><line x1="450" y1="0" x2="450" y2="560"/>
+    <path d="M0 160 H1400"/>
+    <path d="M0 280 H1400"/>
+    <path d="M0 400 H1400"/>
+    <path d="M0 520 H1400"/>
+    <path d="M0 640 H1400"/>
+    <path d="M0 740 H1400"/>
+    <path d="M200 0 V820"/>
+    <path d="M500 0 V820"/>
+    <path d="M800 0 V820"/>
+    <path d="M1100 0 V820"/>
   </g>
 
-  <text class="abpg-title" x="50" y="60">Bubble Pressure: Then vs Now</text>
-  <text class="abpg-sub" x="50" y="88">Dot-com 2000 vs AI 2026 — different readings on the same instrument</text>
+  <g opacity="0.14">
+    <circle cx="220" cy="150" r="180" fill="#2f4f74"/>
+    <circle cx="1180" cy="700" r="220" fill="#2c4f6b"/>
+  </g>
 
-  <!-- LEFT GAUGE: Dot-com 2000 -->
-  <!-- Gauge arc background -->
-  <path d="M 120 360 A 180 180 0 0 1 480 360" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="40"/>
-  <!-- Red zone (270° to 360° = right side) -->
-  <path d="M 120 360 A 180 180 0 0 1 245 196" fill="none" stroke="rgba(255,80,80,0.3)" stroke-width="40"/>
-  <!-- Yellow zone -->
-  <path d="M 245 196 A 180 180 0 0 1 355 158" fill="none" stroke="rgba(255,200,60,0.3)" stroke-width="40"/>
-  <!-- Green zone -->
-  <path d="M 355 158 A 180 180 0 0 1 480 360" fill="none" stroke="rgba(60,200,100,0.3)" stroke-width="40"/>
+  <text class="title" x="80" y="88">Bubble Pressure: Then vs Now</text>
+  <text class="sub" x="80" y="118">Same arc, different pressure · revenue changes what happens when speculation fades</text>
 
-  <!-- Zone labels -->
-  <text class="abpg-zone" x="128" y="415" fill="#ff6060">DANGER</text>
-  <text class="abpg-zone" x="246" y="192" fill="#ffc840" text-anchor="middle">WARN</text>
-  <text class="abpg-zone" x="430" y="415" text-anchor="end" fill="#60cc80">SAFE</text>
+  <g transform="translate(80,150)" fill="none" stroke-width="18" stroke-linecap="round">
+    <path d="M 140 200 A 100 100 0 0 1 190 113" stroke="#ff6a8d" filter="url(#glow)"/>
+    <path d="M 190 113 A 100 100 0 0 1 290 113" stroke="#ffc96a" filter="url(#glow)"/>
+    <path d="M 290 113 A 100 100 0 0 1 340 200" stroke="#6affc7" filter="url(#glow)"/>
+    <path d="M 240 200 L 153 158" stroke="#ff6a8d" stroke-width="5" filter="url(#glow)"/>
+    <circle cx="240" cy="200" r="8" fill="#ffb4ce" stroke="none"/>
+    <text x="130" y="240" style="font: 700 13px 'Space Mono', monospace; fill: #ffb4ce; letter-spacing: 1.6px;">PRESSURE: EXTREME</text>
+  </g>
 
-  <!-- Needle pointing to red zone (left) -->
-  <line x1="300" y1="360" x2="165" y2="245" stroke="#ff4040" stroke-width="4" stroke-linecap="round"/>
-  <circle cx="300" cy="360" r="10" fill="#2a3a50" stroke="#ff4040" stroke-width="2"/>
+  <rect class="cardWarn" x="80" y="420" width="540" height="300"/>
+  <text class="bigRed" x="230" y="530">POP</text>
+  <text class="stepTitle" x="110" y="570">Dot-com 2000</text>
+  <text class="stepText" x="110" y="600">NASDAQ −78% peak-to-trough</text>
+  <text class="stepText" x="110" y="624">Pure speculation, no revenue</text>
+  <text class="stepText" x="110" y="648">Pets.com, Webvan, eToys: zero moat</text>
+  <text class="stepText" x="110" y="680">IPOs outran their fundamentals by</text>
+  <text class="stepText" x="110" y="700">an order of magnitude</text>
 
-  <!-- POP label -->
-  <text class="abpg-big" x="160" y="230" fill="#ff4040">POP</text>
+  <g transform="translate(520,150)" fill="none" stroke-width="18" stroke-linecap="round">
+    <path d="M 580 200 A 100 100 0 0 1 630 113" stroke="#ff6a8d" filter="url(#glow)"/>
+    <path d="M 630 113 A 100 100 0 0 1 730 113" stroke="#ffc96a" filter="url(#glow)"/>
+    <path d="M 730 113 A 100 100 0 0 1 780 200" stroke="#6affc7" filter="url(#glow)"/>
+    <path d="M 680 200 L 680 100" stroke="#ffc96a" stroke-width="5" filter="url(#glow)"/>
+    <circle cx="680" cy="200" r="8" fill="#ffd178" stroke="none"/>
+    <text x="570" y="240" style="font: 700 13px 'Space Mono', monospace; fill: #ffd178; letter-spacing: 1.6px;">PRESSURE: WARN</text>
+  </g>
 
-  <!-- Gauge title -->
-  <text class="abpg-label" x="300" y="420" text-anchor="middle" fill="#ffaaaa">Dot-com 2000</text>
-  <text class="abpg-caption" x="300" y="445" text-anchor="middle">NASDAQ −78% peak to trough</text>
-  <text class="abpg-caption" x="300" y="465" text-anchor="middle">pure speculation, no revenue</text>
+  <rect class="cardAmber" x="780" y="420" width="540" height="300"/>
+  <text class="bigAmber" x="915" y="530">LEAK</text>
+  <text class="stepTitle" x="810" y="570">AI 2026</text>
+  <text class="stepText" x="810" y="600">Real revenue exists</text>
+  <text class="stepText" x="810" y="624">Valuation multiples stretched</text>
+  <text class="stepText" x="810" y="648">Some unit economics still unproven</text>
+  <text class="stepText" x="810" y="680">More likely a multi-year compression</text>
+  <text class="stepText" x="810" y="700">than a sudden deflation</text>
 
-  <!-- RIGHT GAUGE: AI 2026 -->
-  <path d="M 420 360 A 180 180 0 0 1 780 360" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="40"/>
-  <path d="M 420 360 A 180 180 0 0 1 545 196" fill="none" stroke="rgba(255,80,80,0.3)" stroke-width="40"/>
-  <path d="M 545 196 A 180 180 0 0 1 655 158" fill="none" stroke="rgba(255,200,60,0.3)" stroke-width="40"/>
-  <path d="M 655 158 A 180 180 0 0 1 780 360" fill="none" stroke="rgba(60,200,100,0.3)" stroke-width="40"/>
-
-  <text class="abpg-zone" x="428" y="415" fill="#ff6060">DANGER</text>
-  <text class="abpg-zone" x="546" y="192" fill="#ffc840" text-anchor="middle">WARN</text>
-  <text class="abpg-zone" x="830" y="415" text-anchor="end" fill="#60cc80">SAFE</text>
-
-  <!-- Needle pointing to yellow/moderate zone -->
-  <line x1="600" y1="360" x2="593" y2="180" stroke="#ffc840" stroke-width="4" stroke-linecap="round"/>
-  <circle cx="600" cy="360" r="10" fill="#2a3a50" stroke="#ffc840" stroke-width="2"/>
-
-  <!-- LEAK label -->
-  <text class="abpg-big" x="575" y="170" fill="#ffc840" text-anchor="middle">LEAK</text>
-
-  <text class="abpg-label" x="600" y="420" text-anchor="middle" fill="#ffd880">AI 2026</text>
-  <text class="abpg-caption" x="600" y="445" text-anchor="middle">real revenue, real products</text>
-  <text class="abpg-caption" x="600" y="465" text-anchor="middle">valuation multiples still stretched</text>
-
-  <text class="abpg-sub" x="50" y="528">Same instrument. Different pressure. Different outcome.</text>
+  <text class="sub" x="80" y="790">Speculation without revenue pops · speculation riding on revenue leaks pressure slowly.</text>
 </svg>

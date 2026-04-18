@@ -1,87 +1,125 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 540" role="img" aria-labelledby="mrp-title mrp-desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" role="img" aria-labelledby="mrp-title mrp-desc">
   <title id="mrp-title">Multimodal Receipt Pipeline</title>
-  <desc id="mrp-desc">Three modalities feeding into one unified context for receipt processing.</desc>
+  <desc id="mrp-desc">Three inputs feed a multimodal LLM which emits three structured outputs.</desc>
   <defs>
-    <linearGradient id="mrp-bg" x1="0" x2="1" y1="0" y2="1">
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
       <stop offset="0%" stop-color="#0a1625"/>
       <stop offset="100%" stop-color="#1a2f45"/>
     </linearGradient>
-    <linearGradient id="mrp-cyan" x1="0" x2="1" y1="0" y2="0">
+    <linearGradient id="cyanLine" x1="0" x2="1" y1="0" y2="0">
       <stop offset="0%" stop-color="#4ecbff"/>
       <stop offset="100%" stop-color="#7df5f2"/>
     </linearGradient>
-    <filter id="mrp-glow" x="-15%" y="-15%" width="130%" height="130%">
-      <feGaussianBlur stdDeviation="4" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    <linearGradient id="ok" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#4ef2a5"/>
+      <stop offset="100%" stop-color="#78ffe2"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
     </filter>
     <style>
-      .mrp-title { font: 700 32px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
-      .mrp-sub   { font: 500 13px 'Space Mono', monospace; fill: #9bc0d8; }
-      .mrp-node  { font: 700 16px 'Space Grotesk', sans-serif; fill: #dbf4ff; }
-      .mrp-small { font: 500 12px 'Space Mono', monospace; fill: #7ab0cc; }
-      .mrp-tag   { font: 600 11px 'Space Mono', monospace; letter-spacing: 1.5px; }
+      .title { font: 700 40px 'Space Grotesk', sans-serif; fill: #e9f6ff; }
+      .sub { font: 500 17px 'Space Mono', monospace; fill: #9dc1d8; }
+      .stepTitle { font: 700 17px 'Space Grotesk', sans-serif; fill: #e3f5ff; }
+      .stepText { font: 500 13px 'Space Mono', monospace; fill: #9bc4dd; }
+      .colLabel { font: 700 14px 'Space Mono', monospace; fill: #aad4ee; letter-spacing: 1.6px; }
+      .okText { font: 700 12px 'Space Mono', monospace; fill: #6affc7; letter-spacing: 1.4px; }
+      .card { fill: rgba(14, 29, 46, 0.82); stroke: rgba(120, 179, 216, 0.44); stroke-width: 1.2; rx: 14; }
+      .cardCenter { fill: rgba(14, 34, 48, 0.88); stroke: rgba(126, 230, 240, 0.8); stroke-width: 1.8; rx: 14; }
     </style>
   </defs>
-  <rect width="1100" height="540" fill="url(#mrp-bg)"/>
+
+  <rect width="1400" height="820" fill="url(#bg)"/>
+
   <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
-    <line x1="0" y1="135" x2="1100" y2="135"/><line x1="0" y1="270" x2="1100" y2="270"/>
-    <line x1="0" y1="405" x2="1100" y2="405"/><line x1="275" y1="0" x2="275" y2="540"/>
-    <line x1="550" y1="0" x2="550" y2="540"/><line x1="825" y1="0" x2="825" y2="540"/>
+    <path d="M0 160 H1400"/>
+    <path d="M0 280 H1400"/>
+    <path d="M0 400 H1400"/>
+    <path d="M0 520 H1400"/>
+    <path d="M0 640 H1400"/>
+    <path d="M0 740 H1400"/>
+    <path d="M200 0 V820"/>
+    <path d="M500 0 V820"/>
+    <path d="M800 0 V820"/>
+    <path d="M1100 0 V820"/>
   </g>
 
-  <text class="mrp-title" x="50" y="58">Multimodal Receipt Pipeline</text>
-  <text class="mrp-sub" x="50" y="86">Three modalities, one unified context — vision + text + structured data</text>
-
-  <!-- Modality 1: Image/Vision -->
-  <rect x="50" y="150" width="220" height="160" rx="10" fill="rgba(14,30,47,0.85)" stroke="rgba(78,203,255,0.5)" stroke-width="1.5"/>
-  <text class="mrp-tag" x="160" y="178" text-anchor="middle" fill="#4ecbff">VISION</text>
-  <text class="mrp-node" x="160" y="210" text-anchor="middle">Receipt Image</text>
-  <text class="mrp-small" x="160" y="234" text-anchor="middle">JPEG / PNG scan</text>
-  <text class="mrp-small" x="160" y="254" text-anchor="middle">photo from mobile</text>
-  <text class="mrp-small" x="160" y="274" text-anchor="middle">base64 encoded</text>
-  <text class="mrp-small" x="160" y="294" text-anchor="middle">→ vision model</text>
-
-  <!-- Modality 2: Text/OCR -->
-  <rect x="50" y="340" width="220" height="140" rx="10" fill="rgba(14,30,47,0.85)" stroke="rgba(78,203,255,0.5)" stroke-width="1.5"/>
-  <text class="mrp-tag" x="160" y="368" text-anchor="middle" fill="#4ecbff">TEXT / OCR</text>
-  <text class="mrp-node" x="160" y="400" text-anchor="middle">Extracted Text</text>
-  <text class="mrp-small" x="160" y="424" text-anchor="middle">line items + prices</text>
-  <text class="mrp-small" x="160" y="444" text-anchor="middle">merchant, date, total</text>
-  <text class="mrp-small" x="160" y="464" text-anchor="middle">raw string input</text>
-
-  <!-- Center: Multimodal Context -->
-  <rect x="380" y="190" width="280" height="180" rx="14" fill="rgba(10,22,40,0.95)" stroke="rgba(125,245,242,0.7)" stroke-width="2.5" filter="url(#mrp-glow)"/>
-  <text class="mrp-tag" x="520" y="220" text-anchor="middle" fill="#4ecbff">UNIFIED CONTEXT</text>
-  <text class="mrp-node" x="520" y="255" text-anchor="middle" fill="#7df5f2">Multimodal LLM</text>
-  <text class="mrp-small" x="520" y="280" text-anchor="middle">vision + text + structure</text>
-  <text class="mrp-small" x="520" y="300" text-anchor="middle">cross-modal reasoning</text>
-  <text class="mrp-small" x="520" y="320" text-anchor="middle">single inference call</text>
-  <text class="mrp-small" x="520" y="345" text-anchor="middle">Claude / GPT-4V</text>
-
-  <!-- Right outputs -->
-  <rect x="780" y="150" width="260" height="100" rx="10" fill="rgba(14,30,47,0.85)" stroke="rgba(255,106,158,0.5)" stroke-width="1.5"/>
-  <text class="mrp-node" x="910" y="190" text-anchor="middle" fill="#ffaac8">Structured Output</text>
-  <text class="mrp-small" x="910" y="214" text-anchor="middle">JSON: items, amounts</text>
-  <text class="mrp-small" x="910" y="234" text-anchor="middle">category classification</text>
-
-  <rect x="780" y="290" width="260" height="100" rx="10" fill="rgba(14,30,47,0.85)" stroke="rgba(255,106,158,0.5)" stroke-width="1.5"/>
-  <text class="mrp-node" x="910" y="330" text-anchor="middle" fill="#ffaac8">Expense Report</text>
-  <text class="mrp-small" x="910" y="354" text-anchor="middle">reimbursement ready</text>
-  <text class="mrp-small" x="910" y="374" text-anchor="middle">policy compliance check</text>
-
-  <rect x="780" y="430" width="260" height="70" rx="10" fill="rgba(14,30,47,0.85)" stroke="rgba(255,106,158,0.45)" stroke-width="1.5"/>
-  <text class="mrp-node" x="910" y="462" text-anchor="middle" fill="#ffaac8">Anomaly Flags</text>
-  <text class="mrp-small" x="910" y="482" text-anchor="middle">duplicate detection</text>
-
-  <!-- Arrows -->
-  <g fill="none" stroke="url(#mrp-cyan)" stroke-width="2" stroke-linecap="round">
-    <path d="M270 230 H380"/><path d="M270 385 Q330 385 380 310"/>
-    <path d="M660 230 H780"/><path d="M660 310 H780"/><path d="M660 340 Q720 380 780 465"/>
+  <g opacity="0.14">
+    <circle cx="220" cy="150" r="180" fill="#2f4f74"/>
+    <circle cx="1180" cy="700" r="220" fill="#2c4f6b"/>
   </g>
 
-  <!-- Third modality: Structured data (below image) -->
-  <text class="mrp-tag" x="160" y="508" text-anchor="middle" fill="#4ecbff">+ METADATA</text>
-  <text class="mrp-small" x="160" y="525" text-anchor="middle">user profile, currency, locale</text>
+  <text class="title" x="80" y="88">Multimodal Receipt Pipeline</text>
+  <text class="sub" x="80" y="118">Image + text + metadata in · structured data, report and anomalies out</text>
 
-  <text class="mrp-sub" x="50" y="512">Feed all three modalities in one call — the model correlates across them.</text>
+  <text class="colLabel" x="100" y="180">INPUTS</text>
+  <text class="colLabel" x="1100" y="180">OUTPUTS</text>
+
+  <rect class="card" x="80" y="220" width="300" height="120"/>
+  <text class="stepTitle" x="106" y="262">Receipt Image</text>
+  <text class="stepText" x="106" y="290">Vision branch: layout, logos,</text>
+  <text class="stepText" x="106" y="310">totals, line items</text>
+
+  <rect class="card" x="80" y="380" width="300" height="120"/>
+  <text class="stepTitle" x="106" y="422">OCR / Text</text>
+  <text class="stepText" x="106" y="450">Extracted text fallback,</text>
+  <text class="stepText" x="106" y="470">disambiguates blurry scans</text>
+
+  <rect class="card" x="80" y="540" width="300" height="120"/>
+  <text class="stepTitle" x="106" y="582">User Metadata</text>
+  <text class="stepText" x="106" y="610">Project code, traveller id,</text>
+  <text class="stepText" x="106" y="630">policy tier</text>
+
+  <rect class="cardCenter" x="520" y="340" width="360" height="180" filter="url(#glow)"/>
+  <text class="stepTitle" x="546" y="384" style="font: 700 26px 'Space Grotesk', sans-serif; fill: #e9f6ff;">Multimodal LLM</text>
+  <text class="stepText" x="546" y="416">Joint reasoning over image,</text>
+  <text class="stepText" x="546" y="436">text and metadata</text>
+  <text class="stepText" x="546" y="460">Emits validated, typed output</text>
+  <rect x="546" y="476" width="140" height="26" rx="13" fill="rgba(60, 170, 130, 0.22)" stroke="rgba(110, 255, 210, 0.6)"/>
+  <text x="566" y="494" class="okText">FUSION CORE</text>
+
+  <rect class="card" x="1020" y="220" width="300" height="120"/>
+  <text class="stepTitle" x="1046" y="262">Structured JSON</text>
+  <text class="stepText" x="1046" y="290">Vendor, total, tax, currency,</text>
+  <text class="stepText" x="1046" y="310">line items, category</text>
+
+  <rect class="card" x="1020" y="380" width="300" height="120"/>
+  <text class="stepTitle" x="1046" y="422">Expense Report</text>
+  <text class="stepText" x="1046" y="450">Markdown summary, per-policy</text>
+  <text class="stepText" x="1046" y="470">attribution, submission-ready</text>
+
+  <rect class="card" x="1020" y="540" width="300" height="120"/>
+  <text class="stepTitle" x="1046" y="582">Anomaly Flags</text>
+  <text class="stepText" x="1046" y="610">Duplicate, out-of-policy,</text>
+  <text class="stepText" x="1046" y="630">unusual amount</text>
+
+  <g fill="none" stroke-linecap="round" stroke-width="3" filter="url(#glow)">
+    <path d="M380 280 H450 V400 H520" stroke="url(#cyanLine)"/>
+    <path d="M380 440 H520" stroke="url(#cyanLine)"/>
+    <path d="M380 600 H450 V460 H520" stroke="url(#cyanLine)"/>
+    <path d="M880 400 H950 V280 H1020" stroke="url(#ok)"/>
+    <path d="M880 440 H1020" stroke="url(#ok)"/>
+    <path d="M880 480 H950 V600 H1020" stroke="url(#ok)"/>
+  </g>
+
+  <g fill="#96ffe5">
+    <circle cx="380" cy="280" r="4"/>
+    <circle cx="520" cy="400" r="4"/>
+    <circle cx="380" cy="440" r="4"/>
+    <circle cx="520" cy="440" r="4"/>
+    <circle cx="380" cy="600" r="4"/>
+    <circle cx="520" cy="460" r="4"/>
+    <circle cx="880" cy="400" r="4"/>
+    <circle cx="1020" cy="280" r="4"/>
+    <circle cx="880" cy="440" r="4"/>
+    <circle cx="1020" cy="440" r="4"/>
+    <circle cx="880" cy="480" r="4"/>
+    <circle cx="1020" cy="600" r="4"/>
+  </g>
+
+  <text class="sub" x="80" y="780">Multimodal isn't a buzzword · it's what lets the pipeline keep working when one input is degraded.</text>
 </svg>

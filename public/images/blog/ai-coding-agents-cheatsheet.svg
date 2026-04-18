@@ -1,92 +1,117 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" role="img" aria-labelledby="aca-title aca-desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" role="img" aria-labelledby="aca-title aca-desc">
   <title id="aca-title">AI Coding Agent Architecture</title>
-  <desc id="aca-desc">Orchestrator, tools, sandbox, memory, and eval harness in one diagram.</desc>
+  <desc id="aca-desc">Orchestrator at the centre with tools memory sandbox eval harness and a human IDE interface at the bottom.</desc>
   <defs>
-    <linearGradient id="aca-bg" x1="0" x2="1" y1="0" y2="1">
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
       <stop offset="0%" stop-color="#0a1625"/>
       <stop offset="100%" stop-color="#1a2f45"/>
     </linearGradient>
-    <linearGradient id="aca-cyan" x1="0" x2="1" y1="0" y2="0">
+    <linearGradient id="cyanLine" x1="0" x2="1" y1="0" y2="0">
       <stop offset="0%" stop-color="#4ecbff"/>
       <stop offset="100%" stop-color="#7df5f2"/>
     </linearGradient>
-    <linearGradient id="aca-pink" x1="0" x2="1" y1="0" y2="0">
-      <stop offset="0%" stop-color="#ff6a9e"/>
-      <stop offset="100%" stop-color="#ffc17d"/>
+    <linearGradient id="ok" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#4ef2a5"/>
+      <stop offset="100%" stop-color="#78ffe2"/>
     </linearGradient>
-    <filter id="aca-glow" x="-15%" y="-15%" width="130%" height="130%">
-      <feGaussianBlur stdDeviation="5" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
     </filter>
     <style>
-      .aca-title { font: 700 36px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
-      .aca-sub   { font: 500 14px 'Space Mono', monospace; fill: #9bc0d8; }
-      .aca-node  { font: 700 18px 'Space Grotesk', sans-serif; fill: #dbf4ff; }
-      .aca-small { font: 500 12px 'Space Mono', monospace; fill: #7ab0cc; }
-      .aca-tag   { font: 600 11px 'Space Mono', monospace; letter-spacing: 1.5px; }
+      .title { font: 700 40px 'Space Grotesk', sans-serif; fill: #e9f6ff; }
+      .sub { font: 500 17px 'Space Mono', monospace; fill: #9dc1d8; }
+      .stepTitle { font: 700 17px 'Space Grotesk', sans-serif; fill: #e3f5ff; }
+      .stepText { font: 500 13px 'Space Mono', monospace; fill: #9bc4dd; }
+      .okText { font: 700 12px 'Space Mono', monospace; fill: #6affc7; letter-spacing: 1.4px; }
+      .card { fill: rgba(14, 29, 46, 0.82); stroke: rgba(120, 179, 216, 0.44); stroke-width: 1.2; rx: 14; }
+      .cardCenter { fill: rgba(14, 34, 48, 0.88); stroke: rgba(126, 230, 240, 0.8); stroke-width: 1.8; rx: 14; }
     </style>
   </defs>
-  <rect width="1200" height="680" fill="url(#aca-bg)"/>
+
+  <rect width="1400" height="820" fill="url(#bg)"/>
+
   <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
-    <line x1="0" y1="170" x2="1200" y2="170"/><line x1="0" y1="340" x2="1200" y2="340"/>
-    <line x1="0" y1="510" x2="1200" y2="510"/><line x1="200" y1="0" x2="200" y2="680"/>
-    <line x1="600" y1="0" x2="600" y2="680"/><line x1="1000" y1="0" x2="1000" y2="680"/>
+    <path d="M0 160 H1400"/>
+    <path d="M0 280 H1400"/>
+    <path d="M0 400 H1400"/>
+    <path d="M0 520 H1400"/>
+    <path d="M0 640 H1400"/>
+    <path d="M0 740 H1400"/>
+    <path d="M200 0 V820"/>
+    <path d="M500 0 V820"/>
+    <path d="M800 0 V820"/>
+    <path d="M1100 0 V820"/>
   </g>
 
-  <text class="aca-title" x="50" y="64">AI Coding Agent Architecture</text>
-  <text class="aca-sub" x="50" y="94">Orchestrator at center — tools, sandbox, memory, and evals surrounding it</text>
-
-  <!-- Center: Orchestrator -->
-  <rect x="440" y="240" width="320" height="160" rx="14" fill="rgba(10,22,40,0.95)" stroke="rgba(78,203,255,0.7)" stroke-width="2" filter="url(#aca-glow)"/>
-  <text class="aca-node" x="600" y="300" text-anchor="middle" fill="#7df5f2">Orchestrator</text>
-  <text class="aca-small" x="600" y="326" text-anchor="middle">LLM reasoning loop</text>
-  <text class="aca-small" x="600" y="346" text-anchor="middle">task planning + tool dispatch</text>
-  <text class="aca-small" x="600" y="366" text-anchor="middle">context window management</text>
-  <text class="aca-tag" x="600" y="390" text-anchor="middle" fill="#4ecbff">CORE LOOP</text>
-
-  <!-- Tools (left top) -->
-  <rect x="60" y="150" width="280" height="130" rx="10" fill="rgba(14,30,47,0.85)" stroke="rgba(109,181,222,0.45)" stroke-width="1.5"/>
-  <text class="aca-node" x="200" y="188">Tools</text>
-  <text class="aca-small" x="200" y="212">read / write files</text>
-  <text class="aca-small" x="200" y="232">run shell commands</text>
-  <text class="aca-small" x="200" y="252">search &amp; grep codebase</text>
-  <text class="aca-tag" x="80" y="274" fill="#4ecbff">TOOL SURFACE</text>
-
-  <!-- Sandbox (left bottom) -->
-  <rect x="60" y="360" width="280" height="130" rx="10" fill="rgba(14,30,47,0.85)" stroke="rgba(109,181,222,0.45)" stroke-width="1.5"/>
-  <text class="aca-node" x="200" y="398">Sandbox</text>
-  <text class="aca-small" x="200" y="422">isolated execution env</text>
-  <text class="aca-small" x="200" y="442">code runs safely</text>
-  <text class="aca-small" x="200" y="462">containers / VMs</text>
-  <text class="aca-tag" x="80" y="484" fill="#4ecbff">ISOLATION LAYER</text>
-
-  <!-- Memory (right top) -->
-  <rect x="860" y="150" width="280" height="130" rx="10" fill="rgba(14,30,47,0.85)" stroke="rgba(255,106,158,0.45)" stroke-width="1.5"/>
-  <text class="aca-node" x="1000" y="188" fill="#ffaac8">Memory</text>
-  <text class="aca-small" x="1000" y="212">short-term: context window</text>
-  <text class="aca-small" x="1000" y="232">long-term: vector store</text>
-  <text class="aca-small" x="1000" y="252">episodic: past sessions</text>
-  <text class="aca-tag" x="880" y="274" fill="#ff9ec0">MEMORY LAYER</text>
-
-  <!-- Eval Harness (right bottom) -->
-  <rect x="860" y="360" width="280" height="130" rx="10" fill="rgba(14,30,47,0.85)" stroke="rgba(255,106,158,0.45)" stroke-width="1.5"/>
-  <text class="aca-node" x="1000" y="398" fill="#ffaac8">Eval Harness</text>
-  <text class="aca-small" x="1000" y="422">test suite execution</text>
-  <text class="aca-small" x="1000" y="442">pass / fail signal</text>
-  <text class="aca-small" x="1000" y="462">agent retry loop</text>
-  <text class="aca-tag" x="880" y="484" fill="#ff9ec0">FEEDBACK SIGNAL</text>
-
-  <!-- Bottom: Human / IDE -->
-  <rect x="340" y="520" width="520" height="80" rx="10" fill="rgba(14,30,47,0.85)" stroke="rgba(125,245,242,0.4)" stroke-width="1.5"/>
-  <text class="aca-node" x="600" y="557" text-anchor="middle">Human / IDE Interface</text>
-  <text class="aca-small" x="600" y="579" text-anchor="middle">task description, approval gates, diff review</text>
-
-  <!-- Connecting arrows -->
-  <g fill="none" stroke="url(#aca-cyan)" stroke-width="2" stroke-linecap="round">
-    <path d="M340 295 H440"/><path d="M340 390 H440"/>
-    <path d="M760 295 H860"/><path d="M760 390 H860"/>
-    <path d="M600 400 L600 520"/>
+  <g opacity="0.14">
+    <circle cx="220" cy="150" r="180" fill="#2f4f74"/>
+    <circle cx="1180" cy="700" r="220" fill="#2c4f6b"/>
   </g>
 
-  <text class="aca-sub" x="50" y="640">Agent rewrites, tests, debugs, and iterates — eval harness closes the loop.</text>
+  <text class="title" x="80" y="88">AI Coding Agent Architecture</text>
+  <text class="sub" x="80" y="118">Orchestrator-centric · tools, memory, sandbox and eval harness wrap the model</text>
+
+  <rect class="card" x="100" y="220" width="280" height="130"/>
+  <text class="stepTitle" x="124" y="262">Tools</text>
+  <text class="stepText" x="124" y="290">Read/write FS, run tests,</text>
+  <text class="stepText" x="124" y="310">search code, call APIs</text>
+  <text class="stepText" x="124" y="330">Typed and versioned</text>
+
+  <rect class="card" x="1020" y="220" width="280" height="130"/>
+  <text class="stepTitle" x="1044" y="262">Memory</text>
+  <text class="stepText" x="1044" y="290">Session scratchpad, notes,</text>
+  <text class="stepText" x="1044" y="310">task plans, prior attempts</text>
+  <text class="stepText" x="1044" y="330">Vector + key-value recall</text>
+
+  <rect class="card" x="100" y="460" width="280" height="130"/>
+  <text class="stepTitle" x="124" y="502">Sandbox</text>
+  <text class="stepText" x="124" y="530">Ephemeral VM or container</text>
+  <text class="stepText" x="124" y="550">No prod creds, rate-limited</text>
+  <text class="stepText" x="124" y="570">Crash-isolated execution</text>
+
+  <rect class="card" x="1020" y="460" width="280" height="130"/>
+  <text class="stepTitle" x="1044" y="502">Eval Harness</text>
+  <text class="stepText" x="1044" y="530">Regression + behaviour tests,</text>
+  <text class="stepText" x="1044" y="550">LLM-as-judge scoring,</text>
+  <text class="stepText" x="1044" y="570">trace replay</text>
+
+  <rect class="cardCenter" x="520" y="330" width="360" height="160" filter="url(#glow)"/>
+  <text class="stepTitle" x="546" y="376" style="font: 700 26px 'Space Grotesk', sans-serif; fill: #e9f6ff;">Orchestrator</text>
+  <text class="stepText" x="546" y="408">Plans tasks, selects tools,</text>
+  <text class="stepText" x="546" y="428">retries on failure,</text>
+  <text class="stepText" x="546" y="448">emits traces for review</text>
+  <rect x="546" y="460" width="160" height="24" rx="12" fill="rgba(60, 170, 130, 0.22)" stroke="rgba(110, 255, 210, 0.6)"/>
+  <text x="568" y="477" class="okText">AGENT LOOP CORE</text>
+
+  <rect class="card" x="380" y="630" width="640" height="120"/>
+  <text class="stepTitle" x="406" y="672">Human / IDE Interface</text>
+  <text class="stepText" x="406" y="700">Chat panel, diff view, approve/reject actions, step replay</text>
+  <text class="stepText" x="406" y="722">Authoritative feedback channel for correcting the loop</text>
+
+  <g fill="none" stroke-linecap="round" stroke-width="3" filter="url(#glow)">
+    <path d="M380 285 H450 V395 H520" stroke="url(#cyanLine)"/>
+    <path d="M1020 285 H950 V395 H880" stroke="url(#cyanLine)"/>
+    <path d="M380 525 H450 V425 H520" stroke="url(#cyanLine)"/>
+    <path d="M1020 525 H950 V425 H880" stroke="url(#cyanLine)"/>
+    <path d="M700 490 V630" stroke="url(#ok)"/>
+  </g>
+
+  <g fill="#96ffe5">
+    <circle cx="380" cy="285" r="4"/>
+    <circle cx="520" cy="395" r="4"/>
+    <circle cx="1020" cy="285" r="4"/>
+    <circle cx="880" cy="395" r="4"/>
+    <circle cx="380" cy="525" r="4"/>
+    <circle cx="520" cy="425" r="4"/>
+    <circle cx="1020" cy="525" r="4"/>
+    <circle cx="880" cy="425" r="4"/>
+    <circle cx="700" cy="490" r="4"/>
+    <circle cx="700" cy="630" r="4"/>
+  </g>
+
+  <text class="sub" x="80" y="790">A coding agent is the loop around the model · the model is not the agent.</text>
 </svg>
