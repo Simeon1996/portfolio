@@ -98,7 +98,7 @@ export default function PostPage({ params }: Props) {
             options={{
               mdxOptions: {
                 remarkPlugins: [remarkGfm as any],
-                rehypePlugins: [rehypeHighlight as any, rehypeSlug as any],
+                rehypePlugins: [[rehypeHighlight, { ignoreMissing: true }] as any, rehypeSlug as any],
               }
             }}
           />
