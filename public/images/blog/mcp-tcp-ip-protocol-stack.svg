@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 580" role="img" aria-labelledby="mcp-tcpip-title mcp-tcpip-desc">
+  <title id="mcp-tcpip-title">MCP as the TCP/IP of AI Agents</title>
+  <desc id="mcp-tcpip-desc">Layered protocol stack: TCP/IP → HTTP → Web Apps mirrored by MCP → Agent Protocol → AI Agents.</desc>
+  <defs>
+    <linearGradient id="mt-bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="mt-cyan" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="mt-pink" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <filter id="mt-glow" x="-10%" y="-30%" width="120%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .mt-title { font: 700 34px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
+      .mt-sub   { font: 500 14px 'Space Mono', monospace; fill: #9bc0d8; }
+      .mt-head  { font: 700 16px 'Space Grotesk', sans-serif; fill: #9bc0d8; letter-spacing: 1px; }
+      .mt-layer { font: 700 20px 'Space Grotesk', sans-serif; fill: #dbf4ff; }
+      .mt-desc  { font: 500 12px 'Space Mono', monospace; fill: #7ab0cc; }
+      .mt-eq    { font: 700 28px 'Space Grotesk', sans-serif; fill: #4ecbff; }
+    </style>
+  </defs>
+  <rect width="1000" height="580" fill="url(#mt-bg)"/>
+  <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
+    <line x1="0" y1="140" x2="1000" y2="140"/><line x1="0" y1="280" x2="1000" y2="280"/>
+    <line x1="0" y1="420" x2="1000" y2="420"/><line x1="500" y1="0" x2="500" y2="580"/>
+  </g>
+
+  <text class="mt-title" x="50" y="60">MCP as the TCP/IP of AI Agents</text>
+  <text class="mt-sub" x="50" y="88">The same layered abstraction pattern that built the web — now for agents</text>
+
+  <!-- Column headers -->
+  <text class="mt-head" x="170" y="132" text-anchor="middle">THE WEB STACK</text>
+  <text class="mt-head" x="780" y="132" text-anchor="middle">THE AGENT STACK</text>
+  <text class="mt-eq" x="500" y="340" text-anchor="middle">≡</text>
+
+  <!-- Web stack layers -->
+  <!-- TCP/IP -->
+  <rect x="60" y="160" width="260" height="90" rx="10" fill="rgba(14,30,47,0.9)" stroke="rgba(78,203,255,0.4)" stroke-width="1.5"/>
+  <text class="mt-layer" x="190" y="198" text-anchor="middle">TCP / IP</text>
+  <text class="mt-desc" x="190" y="220" text-anchor="middle">reliable transport</text>
+  <text class="mt-desc" x="190" y="238" text-anchor="middle">packet routing</text>
+  <!-- HTTP -->
+  <rect x="60" y="280" width="260" height="90" rx="10" fill="rgba(14,30,47,0.9)" stroke="rgba(78,203,255,0.5)" stroke-width="1.5"/>
+  <text class="mt-layer" x="190" y="318" text-anchor="middle">HTTP</text>
+  <text class="mt-desc" x="190" y="340" text-anchor="middle">request / response</text>
+  <text class="mt-desc" x="190" y="358" text-anchor="middle">resource addressing</text>
+  <!-- Web Apps -->
+  <rect x="60" y="400" width="260" height="90" rx="10" fill="rgba(14,30,47,0.9)" stroke="rgba(125,245,242,0.6)" stroke-width="1.5" filter="url(#mt-glow)"/>
+  <text class="mt-layer" x="190" y="438" text-anchor="middle" fill="#7df5f2">Web Apps</text>
+  <text class="mt-desc" x="190" y="460" text-anchor="middle">services, products</text>
+  <text class="mt-desc" x="190" y="478" text-anchor="middle">user interfaces</text>
+
+  <!-- Agent stack layers -->
+  <!-- MCP -->
+  <rect x="680" y="160" width="260" height="90" rx="10" fill="rgba(14,30,47,0.9)" stroke="rgba(255,106,158,0.4)" stroke-width="1.5"/>
+  <text class="mt-layer" x="810" y="198" text-anchor="middle" fill="#ffaac8">MCP</text>
+  <text class="mt-desc" x="810" y="220" text-anchor="middle">tool / resource protocol</text>
+  <text class="mt-desc" x="810" y="238" text-anchor="middle">structured context sharing</text>
+  <!-- Agent Protocol -->
+  <rect x="680" y="280" width="260" height="90" rx="10" fill="rgba(14,30,47,0.9)" stroke="rgba(255,106,158,0.5)" stroke-width="1.5"/>
+  <text class="mt-layer" x="810" y="318" text-anchor="middle" fill="#ffaac8">Agent Protocol</text>
+  <text class="mt-desc" x="810" y="340" text-anchor="middle">task / subtask routing</text>
+  <text class="mt-desc" x="810" y="358" text-anchor="middle">multi-agent coordination</text>
+  <!-- AI Agents -->
+  <rect x="680" y="400" width="260" height="90" rx="10" fill="rgba(14,30,47,0.9)" stroke="rgba(255,193,125,0.6)" stroke-width="1.5" filter="url(#mt-glow)"/>
+  <text class="mt-layer" x="810" y="438" text-anchor="middle" fill="#ffc17d">AI Agents</text>
+  <text class="mt-desc" x="810" y="460" text-anchor="middle">autonomous task execution</text>
+  <text class="mt-desc" x="810" y="478" text-anchor="middle">tool-using LLM systems</text>
+
+  <!-- Vertical arrows (both stacks) -->
+  <g fill="none" stroke="rgba(78,203,255,0.5)" stroke-width="1.5" stroke-dasharray="5,3">
+    <path d="M190 250 L190 280"/>
+    <path d="M190 370 L190 400"/>
+    <path d="M810 250 L810 280"/>
+    <path d="M810 370 L810 400"/>
+  </g>
+
+  <!-- Horizontal connectors -->
+  <line x1="320" y1="205" x2="680" y2="205" stroke="#4ecbff" stroke-width="1" stroke-dasharray="8,4" opacity="0.4"/>
+  <line x1="320" y1="325" x2="680" y2="325" stroke="#4ecbff" stroke-width="1" stroke-dasharray="8,4" opacity="0.4"/>
+  <line x1="320" y1="445" x2="680" y2="445" stroke="#4ecbff" stroke-width="1" stroke-dasharray="8,4" opacity="0.4"/>
+
+  <text class="mt-sub" x="50" y="548">MCP gives agents the same composable plumbing HTTP gave web services.</text>
+</svg>

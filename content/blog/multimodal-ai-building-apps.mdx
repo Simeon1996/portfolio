@@ -1,0 +1,177 @@
+---
+title: "Multimodal AI Is Finally Real: Building Apps That See, Hear, and Act"
+date: 2026-04-10
+excerpt: "A receipt hits your system. An LLM reads the image, a voice memo patches a line item, and a tool call pushes the result to QuickBooks — without a handoff between any of them. Here is how to build it."
+tags: ["AI", "Multimodal", "LLM", "Engineering", "Vision", "Audio"]
+published: true
+---
+
+# Multimodal AI Is Finally Real: Building Apps That See, Hear, and Act
+
+Here is the shape of the problem.
+
+A finance team processes 200 vendor invoices a week. Half of them arrive as JPEGs or scanned PDFs. A quarter of those have line items a human needs to correct after the fact — usually via a quick voice note left for the bookkeeper. Then someone manually keys the corrected data into QuickBooks.
+
+Three steps. Three different systems. Three places to drop data on the floor.
+
+The old approach treats vision, voice, and action as separate pipelines: OCR the image, transcribe the audio, write glue code to reconcile them. What I want to show is that this is the wrong model. When you hand all three modalities to the same context, the seam disappears.
+
+---
+
+## Step 1: The App Sees the Receipt
+
+I start with a single API call. The receipt image is base64-encoded and passed alongside a structured output schema. The model extracts vendor, date, total, and line items in one shot — no OCR pre-processing, no regex parsing.
+
+```python
+import anthropic, base64, json
+from pathlib import Path
+
+client = anthropic.Anthropic()
+
+def extract_receipt(image_path: str) -> dict:
+    image_data = base64.standard_b64encode(
+        Path(image_path).read_bytes()
+    ).decode("utf-8")
+
+    response = client.messages.create(
+        model="claude-opus-4-5",
+        max_tokens=1024,
+        messages=[{
+            "role": "user",
+            "content": [
+                {
+                    "type": "image",
+                    "source": {"type": "base64", "media_type": "image/jpeg", "data": image_data},
+                },
+                {
+                    "type": "text",
+                    "text": (
+                        "Extract this receipt as JSON with keys: "
+                        "vendor (str), date (ISO 8601), total_usd (float), "
+                        "line_items (list of {description, qty, unit_price_usd}). "
+                        "Return only valid JSON, no prose."
+                    ),
+                },
+            ],
+        }],
+    )
+
+    return json.loads(response.content[0].text)
+```
+
+The output is a clean Python dict. No intermediate steps, no brittle regex, no separate OCR service to maintain. The model handles handwritten totals, rotated images, and mixed currency symbols with the same call.
+
+---
+
+![Multimodal receipt pipeline — three modalities, one context](/images/blog/multimodal-receipt-pipeline.svg)
+*Three modalities, one context. The seam is gone.*
+
+> The diagram above shows a single continuous band: [Receipt Image] flows into a Vision Model producing Structured JSON, which flows into an Audio Model that applies voice-memo patches, producing Patched JSON, which flows into a Tool Call that writes to the Accounting API. No handoffs. No separate state stores.
+
+---
+
+## Step 2: The App Hears the Correction
+
+The bookkeeper leaves a voice memo: "Line item three should be 4 units, not 2. And the vendor name is Acme Supply Co., not Acme."
+
+I pass the extracted JSON from step 1 directly into the same model alongside the audio. The model patches in place — it does not re-extract from scratch, and I do not need a separate transcription step followed by another LLM call to apply the correction.
+
+```python
+def apply_voice_correction(receipt: dict, audio_path: str) -> dict:
+    audio_data = base64.standard_b64encode(
+        Path(audio_path).read_bytes()
+    ).decode("utf-8")
+
+    response = client.messages.create(
+        model="claude-opus-4-5",
+        max_tokens=1024,
+        messages=[{
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": f"Current receipt data:\n{json.dumps(receipt, indent=2)}\n\n"
+                            "The audio below contains corrections. Apply them and return "
+                            "the updated receipt as valid JSON only.",
+                },
+                {
+                    "type": "document",
+                    "source": {"type": "base64", "media_type": "audio/mp4", "data": audio_data},
+                },
+            ],
+        }],
+    )
+
+    return json.loads(response.content[0].text)
+```
+
+The key is that `receipt` — the output of step 1 — is already in the prompt context. The model sees both the visual extraction result and the audio correction at once. It resolves conflicts, applies partial updates, and returns a single clean object.
+
+---
+
+## Step 3: The App Acts
+
+The patched receipt goes to QuickBooks via a tool call. I define the tool schema once; the model decides when it has enough confidence to call it.
+
+```python
+tools = [{
+    "name": "create_bill",
+    "description": "Create a vendor bill in QuickBooks from structured receipt data.",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "vendor": {"type": "string"},
+            "date": {"type": "string"},
+            "total_usd": {"type": "number"},
+            "line_items": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "description": {"type": "string"},
+                        "qty": {"type": "number"},
+                        "unit_price_usd": {"type": "number"},
+                    },
+                },
+            },
+        },
+        "required": ["vendor", "date", "total_usd", "line_items"],
+    },
+}]
+```
+
+I pass `patched_receipt` and this tool definition in one more call. If something is missing — an ambiguous vendor name, a line item the model is uncertain about — it surfaces that rather than silently filling gaps.
+
+---
+
+## The Actual Point
+
+None of these three steps required a handoff to a separate system. Vision, audio, and tool use share a single context window. That is not an implementation detail — it is the thing that makes this pattern work at all.
+
+In the old pipeline, the OCR output goes into a database. The voice transcription goes through a second NLP model. The reconciliation logic lives in application code that neither model can see. Every one of those transitions is a place where data loses fidelity and bugs hide.
+
+The multimodal model is not doing three things. It is doing one thing — reasoning over inputs that happen to be in different formats — and that collapses the accidental complexity that three separate systems would introduce.
+
+> **The honest scope:** This pattern is production-ready for well-structured, predictable document types. Receipts, invoices, purchase orders. If your documents are deeply irregular or the audio corrections are high-variance, add a human-in-the-loop checkpoint before the tool call. See [Building a Production LLM Pipeline](/blog/production-llm-pipeline) for checkpoint patterns.
+
+---
+
+## Key Takeaways
+
+- Native multimodal models process image, audio, and context in one call — no OCR service, no separate ASR step
+- Passing prior extraction results directly into the audio correction prompt is what eliminates the handoff; the model sees everything at once
+- Tool call schemas serve as the contract between the LLM and your downstream system — define them tightly and let the model decide when it has enough signal to execute
+- This pattern fails gracefully: if any modality returns uncertain output, add a confirmation step rather than silently propagating errors
+
+---
+
+## Related Posts
+
+- [Multimodal AI Models: The Gap Is Closing Fast](/blog/multimodal-models-the-gap-is-closing)
+- [Agentic AI: The Next Big Shift](/blog/agentic-ai-the-next-shift)
+- [Building a Production LLM Pipeline](/blog/production-llm-pipeline)
+- [Agent Reliability Blueprint: SLOs, Guardrails, and Human Override](/blog/agent-reliability-blueprint)
+
+---
+
+*Built something on top of this pattern? Drop the architecture in the comments — especially if you have hit edge cases with audio quality or multi-page invoice images.*

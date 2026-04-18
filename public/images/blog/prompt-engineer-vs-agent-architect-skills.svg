@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 680" role="img" aria-labelledby="peas-title peas-desc">
+  <title id="peas-title">Prompt Engineer vs Agent Architect Skills Radar</title>
+  <desc id="peas-desc">Skill radar comparing 2024 Prompt Engineer vs 2026 Agent Architect — two overlapping polygons with minimal overlap.</desc>
+  <defs>
+    <linearGradient id="peas-bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <style>
+      .peas-title { font: 700 32px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
+      .peas-sub   { font: 500 13px 'Space Mono', monospace; fill: #9bc0d8; }
+      .peas-axis  { font: 600 12px 'Space Grotesk', sans-serif; fill: #9bc0d8; }
+      .peas-small { font: 500 11px 'Space Mono', monospace; fill: #7ab0cc; }
+      .peas-leg   { font: 600 14px 'Space Grotesk', sans-serif; }
+    </style>
+  </defs>
+  <rect width="1000" height="680" fill="url(#peas-bg)"/>
+  <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
+    <line x1="0" y1="170" x2="1000" y2="170"/><line x1="0" y1="340" x2="1000" y2="340"/>
+    <line x1="0" y1="510" x2="1000" y2="510"/><line x1="500" y1="0" x2="500" y2="680"/>
+  </g>
+
+  <text class="peas-title" x="50" y="58">Prompt Engineer → Agent Architect</text>
+  <text class="peas-sub" x="50" y="86">Skill shift from 2024 to 2026 — two different jobs, small overlap</text>
+
+  <!-- Radar center -->
+  <!-- 8 axes, center at (500, 370), radius 200 -->
+  <!-- Axes: 0=top, then clockwise -->
+  <!-- Skills (8 total, 45° apart):
+    0° (top): Prompt Craft
+    45°: Few-shot Design
+    90° (right): Output Formatting
+    135°: Model Selection
+    180° (bottom): Eval Architecture
+    225°: Observability
+    270° (left): State Management
+    315°: Failure Mode Design / Tool Surface Design
+  -->
+
+  <!-- Grid circles -->
+  <g fill="none" stroke="rgba(78,203,255,0.15)" stroke-width="1">
+    <circle cx="500" cy="370" r="50"/>
+    <circle cx="500" cy="370" r="100"/>
+    <circle cx="500" cy="370" r="150"/>
+    <circle cx="500" cy="370" r="200"/>
+  </g>
+
+  <!-- Axis lines -->
+  <g stroke="rgba(78,203,255,0.2)" stroke-width="1">
+    <line x1="500" y1="170" x2="500" y2="570"/><!-- vertical -->
+    <line x1="300" y1="370" x2="700" y2="370"/><!-- horizontal -->
+    <line x1="359" y1="229" x2="641" y2="511"/><!-- diag1 -->
+    <line x1="641" y1="229" x2="359" y2="511"/><!-- diag2 -->
+  </g>
+
+  <!-- Axis labels -->
+  <text class="peas-axis" x="500" y="158" text-anchor="middle">Prompt Craft</text>
+  <text class="peas-axis" x="660" y="222" text-anchor="start">Few-shot Design</text>
+  <text class="peas-axis" x="718" y="375" text-anchor="start">Output Formatting</text>
+  <text class="peas-axis" x="650" y="525" text-anchor="start">Model Selection</text>
+  <text class="peas-axis" x="500" y="590" text-anchor="middle">Eval Architecture</text>
+  <text class="peas-axis" x="200" y="525" text-anchor="end">Observability</text>
+  <text class="peas-axis" x="190" y="375" text-anchor="end">State Management</text>
+  <text class="peas-axis" x="200" y="222" text-anchor="end">Failure Mode Design</text>
+
+  <!-- 2024 Prompt Engineer polygon (strong on top-right cluster) -->
+  <!-- Prompt Craft: 190, Few-shot: 180, Output Formatting: 160, Model Selection: 140, Eval: 40, Observability: 30, State: 30, Failure: 40 -->
+  <!-- Angles: 0°=-90°, 45°=-45°, 90°=0°, 135°=45°, 180°=90°, 225°=135°, 270°=180°, 315°=225° in SVG coords -->
+  <!-- x = cx + r*cos(angle-90°), y = cy + r*sin(angle-90°) -->
+  <!-- 0°: (500, 370-190)=(500,180) -->
+  <!-- 45°: 180*(0.707,-0.707) → (500+127, 370-127)=(627,243) -->
+  <!-- 90°: (500+160, 370)=(660,370) -->
+  <!-- 135°: 140*(0.707,0.707) → (500+99, 370+99)=(599,469) -->
+  <!-- 180°: (500, 370+40)=(500,410) -->
+  <!-- 225°: 30*(-0.707,0.707) → (500-21, 370+21)=(479,391) -->
+  <!-- 270°: (500-30, 370)=(470,370) -->
+  <!-- 315°: 40*(-0.707,-0.707) → (500-28, 370-28)=(472,342) -->
+  <polygon
+    points="500,180 627,243 660,370 599,469 500,410 479,391 470,370 472,342"
+    fill="rgba(78,203,255,0.15)"
+    stroke="rgba(78,203,255,0.7)"
+    stroke-width="2.5"
+  />
+
+  <!-- 2026 Agent Architect polygon (strong on bottom-left cluster) -->
+  <!-- Prompt Craft: 80, Few-shot: 60, Output Formatting: 50, Model Selection: 80, Eval: 190, Observability: 185, State: 175, Failure: 180 -->
+  <!-- 0°: (500, 370-80)=(500,290) -->
+  <!-- 45°: 60*(0.707,-0.707) → (500+42, 370-42)=(542,328) -->
+  <!-- 90°: (500+50, 370)=(550,370) -->
+  <!-- 135°: 80*(0.707,0.707) → (500+57, 370+57)=(557,427) -->
+  <!-- 180°: (500, 370+190)=(500,560) -->
+  <!-- 225°: 185*(-0.707,0.707) → (500-131, 370+131)=(369,501) -->
+  <!-- 270°: (500-175, 370)=(325,370) -->
+  <!-- 315°: 180*(-0.707,-0.707) → (500-127, 370-127)=(373,243) -->
+  <polygon
+    points="500,290 542,328 550,370 557,427 500,560 369,501 325,370 373,243"
+    fill="rgba(255,106,158,0.12)"
+    stroke="rgba(255,106,158,0.7)"
+    stroke-width="2.5"
+  />
+
+  <!-- Legend -->
+  <rect x="680" y="120" width="290" height="110" rx="8" fill="rgba(10,22,40,0.85)" stroke="rgba(78,203,255,0.2)" stroke-width="1"/>
+  <line x1="700" y1="155" x2="740" y2="155" stroke="rgba(78,203,255,0.7)" stroke-width="2.5"/>
+  <circle cx="720" cy="155" r="4" fill="rgba(78,203,255,0.7)"/>
+  <text class="peas-leg" x="750" y="160" fill="#7df5f2">Prompt Engineer (2024)</text>
+  <line x1="700" y1="195" x2="740" y2="195" stroke="rgba(255,106,158,0.7)" stroke-width="2.5"/>
+  <circle cx="720" cy="195" r="4" fill="rgba(255,106,158,0.7)"/>
+  <text class="peas-leg" x="750" y="200" fill="#ffaac8">Agent Architect (2026)</text>
+
+  <text class="peas-sub" x="50" y="648">Same job title. Completely different skill surface. Very small overlap.</text>
+</svg>

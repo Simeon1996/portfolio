@@ -1485,7 +1485,7 @@ When using `client.messages.stream()` with tools enabled, `stream.text_stream` o
 
 ---
 
-![AI coding agent architecture — orchestrator, tools, sandbox, memory, and eval harness in one diagram.](/images/blog/ai-coding-agents-cheatsheet.png)
+![AI coding agent architecture — orchestrator, tools, sandbox, memory, and eval harness in one diagram.](/images/blog/ai-coding-agents-cheatsheet.svg)
 *AI coding agent architecture at a glance. The model sits at the center of a ReAct loop, dispatching tool calls (bash, file I/O, search, tests) through a tool executor. Agent-generated code runs in an isolated Docker sandbox. Memory flows in from file-backed and vector stores. Multi-agent patterns (orchestrator-worker, critic-actor, parallel fan-out) coordinate multiple model instances. The eval harness measures pass@k against a JSONL task suite.*
 
 ---

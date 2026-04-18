@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 540" role="img" aria-labelledby="mwv-title mwv-desc">
+  <title id="mwv-title">Meaningful Work Venn Diagram</title>
+  <desc id="mwv-desc">Two overlapping circles: Work I was paid to do and Work that felt meaningful. The overlap Zone is being encroached on by AI.</desc>
+  <defs>
+    <linearGradient id="mwv-bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <style>
+      .mwv-title  { font: 700 32px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
+      .mwv-sub    { font: 500 13px 'Space Mono', monospace; fill: #9bc0d8; }
+      .mwv-circle { font: 600 16px 'Space Grotesk', sans-serif; }
+      .mwv-zone   { font: 700 20px 'Space Grotesk', sans-serif; fill: #7df5f2; }
+      .mwv-ai     { font: 700 18px 'Space Grotesk', sans-serif; fill: #ff7070; }
+      .mwv-note   { font: 500 13px 'Space Mono', monospace; fill: #7ab0cc; }
+    </style>
+  </defs>
+  <rect width="900" height="540" fill="url(#mwv-bg)"/>
+  <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
+    <line x1="0" y1="135" x2="900" y2="135"/><line x1="0" y1="270" x2="900" y2="270"/>
+    <line x1="0" y1="405" x2="900" y2="405"/><line x1="450" y1="0" x2="450" y2="540"/>
+  </g>
+
+  <text class="mwv-title" x="50" y="60">The Zone AI Is Eating</text>
+  <text class="mwv-sub" x="50" y="88">Where paid work met meaningful work — and what's changing</text>
+
+  <!-- Left circle: Paid work -->
+  <circle cx="310" cy="290" r="160" fill="rgba(30,80,120,0.25)" stroke="rgba(78,203,255,0.5)" stroke-width="2"/>
+
+  <!-- Right circle: Meaningful work -->
+  <circle cx="520" cy="290" r="160" fill="rgba(80,30,120,0.25)" stroke="rgba(155,107,255,0.5)" stroke-width="2"/>
+
+  <!-- Overlap zone highlight -->
+  <clipPath id="clip-left"><circle cx="310" cy="290" r="160"/></clipPath>
+  <circle cx="520" cy="290" r="160" fill="rgba(125,245,242,0.12)" clip-path="url(#clip-left)" stroke="none"/>
+
+  <!-- AI encroachment shape from right -->
+  <path d="M 560 200 Q 760 250 760 290 Q 760 330 560 380 Q 650 340 640 290 Q 630 240 560 200 Z" fill="rgba(180,30,30,0.35)" stroke="rgba(255,80,80,0.6)" stroke-width="2"/>
+
+  <!-- Labels -->
+  <text class="mwv-circle" x="200" y="260" text-anchor="middle" fill="#7dc8f0">Work I was</text>
+  <text class="mwv-circle" x="200" y="282" text-anchor="middle" fill="#7dc8f0">paid to do</text>
+
+  <text class="mwv-circle" x="630" y="260" text-anchor="middle" fill="#b08af0">Work that</text>
+  <text class="mwv-circle" x="630" y="282" text-anchor="middle" fill="#b08af0">felt meaningful</text>
+
+  <!-- The Zone label in overlap -->
+  <text class="mwv-zone" x="415" y="285" text-anchor="middle">The Zone</text>
+
+  <!-- AI label -->
+  <text class="mwv-ai" x="720" y="285" text-anchor="middle">AI</text>
+  <text style="font:500 12px 'Space Mono',monospace;fill:#ff9090;" x="720" y="305" text-anchor="middle">→</text>
+
+  <!-- Arrows showing AI direction -->
+  <path d="M 700 285 L 620 285" fill="none" stroke="#ff7070" stroke-width="2.5" stroke-dasharray="5,3"/>
+  <polygon points="622,280 612,285 622,290" fill="#ff7070"/>
+
+  <text class="mwv-sub" x="50" y="500">The overlap was the good part. AI is optimizing exactly that column.</text>
+</svg>

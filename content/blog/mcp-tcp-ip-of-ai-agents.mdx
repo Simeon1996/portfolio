@@ -1,0 +1,106 @@
+---
+title: "MCP Hit 97 Million Installs — Here's Why It's the TCP/IP of AI Agents"
+date: 2026-04-10
+excerpt: "TCP/IP didn't win because it was the best protocol. It won because it became the layer everyone agreed to forget about. That's what MCP is doing — and 97 million installs is the 'debate is over' number."
+tags: ["MCP", "AI", "Agents", "Infrastructure"]
+published: true
+---
+
+# MCP Hit 97 Million Installs — Here's Why It's the TCP/IP of AI Agents
+
+I was skeptical of MCP for longer than I should have been.
+
+My reasoning was defensible: another protocol, another abstraction layer, another thing to learn before the real work starts. The AI tooling space had already littered the ground with half-adopted standards. I figured MCP would get integrated into a few flagship products, collect some GitHub stars, and eventually get superseded by whatever Anthropic or OpenAI shipped next.
+
+Then it hit 97 million installs. And I had to actually think about what I got wrong.
+
+---
+
+## TCP/IP Didn't Win on Merit
+
+Here's the thing people forget about TCP/IP: it was not the best option on the table in the late 1970s. OSI was arguably more rigorous. DECnet had real commercial backing. AppleTalk worked fine within its ecosystem.
+
+TCP/IP won because it became the layer everyone agreed to *stop arguing about*. The moment that happened, all the interesting engineering energy moved up the stack — to HTTP, to application protocols, to the actual products people wanted to build. The protocol layer became load-bearing infrastructure precisely by becoming invisible.
+
+MCP is doing the same thing. Not because it's technically superior to every custom function-calling schema you've rolled yourself, but because it's the layer the industry has agreed to forget about.
+
+![Layered protocol stack diagram: TCP/IP → HTTP → Web Apps mirrored by MCP → Agent Protocol → AI Agents, showing structural analogy between the two stacks](/images/blog/mcp-tcp-ip-protocol-stack.svg)
+
+*Diagram: The structural parallel between TCP/IP's network stack and MCP's agent stack. In both cases, the middle layer is the one that matters least once it's settled.*
+
+---
+
+## The Before/After Is Embarrassing
+
+Before MCP, wiring a tool into an agent looked like this — and every team wrote their own version of it:
+
+```python
+# Before: bespoke function-calling glue, repeated across every integration
+def call_tool(name: str, args: dict) -> str:
+    if name == "search_docs":
+        return search_docs(args["query"], top_k=args.get("top_k", 5))
+    elif name == "run_query":
+        return db.execute(args["sql"])
+    elif name == "send_email":
+        return smtp.send(args["to"], args["subject"], args["body"])
+    else:
+        raise ValueError(f"Unknown tool: {name}")
+
+# Every new tool = new branch. Every new agent = rewrite this function.
+```
+
+With an MCP server, the same surface looks like this:
+
+```python
+# After: MCP server — write it once, any compliant agent picks it up
+from mcp.server import MCPServer, tool
+
+server = MCPServer("my-tools")
+
+@server.tool()
+def search_docs(query: str, top_k: int = 5) -> str:
+    """Search internal documentation."""
+    return docs_index.query(query, top_k=top_k)
+
+@server.tool()
+def run_query(sql: str) -> str:
+    """Execute a read-only database query."""
+    return db.execute(sql)
+```
+
+The agent doesn't know you wrote it. It doesn't care which agent framework is consuming it. It just works — because both sides speak the same protocol.
+
+That's the USB-C quality. Not glamorous. Deeply, structurally useful.
+
+---
+
+## 97 Million Is Not a Popularity Number
+
+When I see a library hit a million downloads I think: popular. When I see 97 million monthly SDK downloads, I think: the debate is over.
+
+At that scale, the question stops being "should I adopt MCP?" and becomes "what do I build now that the plumbing is settled?" That's exactly where TCP/IP left us in the early 90s — and what followed was two decades of people building interesting things on top of boring infrastructure.
+
+I was wrong to treat MCP as just another contender. It already won. The interesting question is what gets built in the layer above it.
+
+> For deeper context on why this crossed the infrastructure threshold — Linux Foundation governance, AAIF, what it means for vendor lock-in — see [MCP and Agentic AI Have Crossed the Infrastructure Threshold](/blog/agentic-ai-mcp-as-infrastructure).
+
+---
+
+## Key Takeaways
+
+- TCP/IP won by becoming invisible. MCP is on the same trajectory.
+- 97M installs is a "debate is over" signal, not just a popularity metric.
+- The before/after on tool-wiring is stark — MCP removes an entire class of per-integration glue code.
+- The engineering energy will now move up the stack. That's where to focus.
+
+---
+
+## Related Posts
+
+- [Why Would I Use an MCP Server?](/blog/why-would-i-use-an-mcp-server) — Practical breakdown of when MCP fits and when it doesn't, with code examples.
+- [MCP and Agentic AI Have Crossed the Infrastructure Threshold](/blog/agentic-ai-mcp-as-infrastructure) — Governance, Linux Foundation, and what "infrastructure" actually means here.
+- [Agentic AI: Why It Gets Fired](/blog/agentic-ai-why-it-gets-fired) — The failure modes that matter once you're building on stable agent infrastructure.
+
+---
+
+*Changed your mind about MCP recently, or still skeptical? Drop your reasoning in the comments — especially if you think I'm wrong about the TCP/IP analogy.*

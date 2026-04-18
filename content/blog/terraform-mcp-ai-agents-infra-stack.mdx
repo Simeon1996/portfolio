@@ -1,0 +1,155 @@
+---
+title: "Terraform + MCP + AI Agents: The New Infrastructure Stack Nobody's Talking About"
+date: 2026-04-10
+excerpt: "Three technologies you already use. One pattern nobody has named yet. Here is the stack that makes AI agents safe to run against real cloud infrastructure — and the one line you must not let the agent cross."
+tags: ["Terraform", "MCP", "AI", "Agents", "Infrastructure", "DevOps", "Engineering"]
+published: true
+---
+
+# Terraform + MCP + AI Agents: The New Infrastructure Stack Nobody's Talking About
+
+Start with the problem that actually exists: you have cloud infrastructure, and you want an AI agent to reason over it. Not toy infrastructure. VPCs, IAM roles, S3 buckets with policies that have drifted from what Terraform said they should be, RDS instances you are not sure anyone is still using. Real infrastructure, with real blast radius if something goes wrong.
+
+The naive answer is to hand the agent cloud credentials. That is how you get a 3 AM incident.
+
+The right answer is a stack. And the stack is already sitting in your toolbox — you just have not assembled it this way yet.
+
+---
+
+## Layer One: Terraform
+
+Terraform is table stakes. You are almost certainly already using it, and if not, the argument for it is not new.
+
+What Terraform gives you here is not automation — it is **epistemic ground truth**. Your Terraform state file knows what exists. Your HCL modules declare what *should* exist. The delta between the two is your drift. That delta is exactly what an AI agent is well-suited to reason over.
+
+But Terraform on its own is inert. It cannot be queried. An agent cannot call it. It sits in a repo and requires a human (or a CI pipeline with sharp edges) to drive it.
+
+Which is where you start to want the next layer.
+
+---
+
+## Layer Two: MCP
+
+MCP wraps your Terraform-managed infrastructure as tools an agent can call safely. This is not a metaphor — it is the literal architecture.
+
+The Terraform-managed S3 bucket becomes a `read_file` and `write_file` tool. The RDS instance becomes a `query_db` tool. The IAM service account that Terraform provisioned for your audit workload becomes the credential the MCP server runs under — scoped to exactly the permissions that workload needs, no more.
+
+Here is the minimal version of a security-audit MCP server. Two tools. Read-only. Runs under a scoped IAM role via boto3 — no credentials in the code, no wildcard access:
+
+```python
+import boto3
+import json
+from mcp.server.fastmcp import FastMCP
+
+mcp = FastMCP(name="infra-audit-mcp", version="1.0.0")
+
+s3 = boto3.client("s3")  # credentials from instance profile / ECS task role
+
+@mcp.tool()
+def list_s3_buckets() -> list[dict]:
+    """Return all S3 buckets visible to the service account. Read-only."""
+    response = s3.list_buckets()
+    return [
+        {"name": b["Name"], "created": b["CreationDate"].isoformat()}
+        for b in response.get("Buckets", [])
+    ]
+
+@mcp.tool()
+def get_bucket_policy(bucket_name: str) -> dict:
+    """Return the bucket policy JSON for a named bucket. Read-only."""
+    try:
+        policy_str = s3.get_bucket_policy(Bucket=bucket_name)["Policy"]
+        return {"bucket": bucket_name, "policy": json.loads(policy_str)}
+    except s3.exceptions.from_code("NoSuchBucketPolicy"):
+        return {"bucket": bucket_name, "policy": None}
+```
+
+This is the interface layer between "infrastructure that exists" and "infrastructure an agent can use safely." The agent cannot touch anything the MCP server does not expose as a tool. It cannot escalate permissions, because the boto3 client is bound to the IAM role the server runs under. It cannot exfiltrate data, because there is no `write_to_external_url` tool. The blast radius is the tool surface. Nothing more.
+
+That constraint is not a limitation — it is the point.
+
+![Three-layer stack diagram. Bottom layer: Terraform (gray, "defines infra"). Middle layer: MCP Server (blue, "exposes infra as tools"). Top layer: AI Agent (purple, "reasons over infra"). A dotted vertical line on the right labeled "Human approval required" cuts through the top layer, separating "read/report" from "modify/apply."](/images/blog/terraform-mcp-agent-stack.svg)
+*The stack is clean. The boundary matters more than the stack.*
+
+---
+
+## Layer Three: The Agent
+
+Now you have something worth giving to an agent: a constrained, logged, IAM-scoped interface to real infrastructure. The agent receives a task — "find all S3 buckets with public read access and generate a remediation plan" — and it has exactly the tools it needs to do that work and nothing else.
+
+```python
+from anthropic import Anthropic
+
+client = Anthropic()
+tools = mcp.get_tools()  # list_s3_buckets, get_bucket_policy
+
+messages = [{"role": "user", "content": (
+    "Audit all S3 buckets. Find any with public read access. "
+    "Return a structured findings report with a remediation step for each."
+)}]
+
+while True:
+    response = client.messages.create(
+        model="claude-opus-4-5", max_tokens=4096, tools=tools, messages=messages
+    )
+    if response.stop_reason == "end_turn":
+        print(response.content[-1].text)
+        break
+    # Process tool calls
+    tool_results = []
+    for block in response.content:
+        if block.type == "tool_use":
+            result = mcp.call_tool(block.name, block.input)
+            tool_results.append({
+                "type": "tool_result", "tool_use_id": block.id, "content": str(result)
+            })
+    messages += [{"role": "assistant", "content": response.content},
+                 {"role": "user", "content": tool_results}]
+```
+
+The agent calls `list_s3_buckets`, gets the list, calls `get_bucket_policy` for each result, reasons over the policies, and returns a structured report. Every tool call is logged at the MCP server layer. The agent never touched an IAM credential directly. It never had the ability to modify anything — because no modification tool exists.
+
+---
+
+## The Thing Nobody Is Saying
+
+This stack is **safer than giving a human direct console access**.
+
+A human with AWS console access can attach policies, delete buckets, modify security groups, and spin up resources — intentionally or accidentally. The MCP server in this stack exposes two read-only tools. The blast radius is bounded by the tool surface. The agent can only do what is a tool.
+
+There is also a complete audit log. Every `list_s3_buckets` call and every `get_bucket_policy` call is a structured log entry with a timestamp and a caller ID. Your SIEM can ingest it. Your SOC 2 auditor can review it. Try getting that level of fidelity from a human's console session.
+
+---
+
+## The Line You Do Not Let the Agent Cross
+
+Here is the uncomfortable edge: when the agent starts modifying Terraform state files, you have crossed into different territory.
+
+Reading infrastructure state and generating a remediation report? That is the agent doing what it is good at — reasoning over a large structured data set and surfacing signal. Executing `terraform apply` on a generated plan? That is a different thing entirely. You do not know what the agent missed. You do not know what the plan will touch that was not in scope. Production infrastructure changes require a human to review the plan and explicitly approve the apply.
+
+This is not a technological limitation — it is a deliberate design choice, and you should name it explicitly in your architecture. The agent's authority ends at "read and report." Modification requires human approval. That boundary is not a temporary scaffold to remove once the agent proves itself. It is load-bearing.
+
+The stack handles this cleanly: the MCP server simply does not expose a `terraform_apply` tool. The agent cannot cross a line that does not exist in the tool surface.
+
+---
+
+## Key Takeaways
+
+- Terraform provides the ground truth — what infrastructure exists and how it is configured. That state is exactly what agents are well-suited to reason over.
+- MCP is the interface layer that makes Terraform-managed infrastructure safe for agents to consume — scoped credentials, bounded tool surface, complete audit log.
+- The IAM role the MCP server runs under is the real security boundary. Design it the same way you would design a service account for any privileged workload: least privilege, no wildcards.
+- This stack is auditable in a way that human console access is not. That is an underrated argument for it.
+- The human-in-the-loop checkpoint is not a weakness — it is where the architecture is honest about what agents can and cannot be trusted to do. Read and report: agent. Modify and apply: human approval required.
+
+---
+
+## Related Posts
+
+- [Why Would I Use an MCP Server?](/blog/why-would-i-use-an-mcp-server) — The MCP primitives this stack depends on: tools, resources, and how the server/client split actually works.
+- [MCP and Agentic AI Have Crossed the Infrastructure Threshold](/blog/agentic-ai-mcp-as-infrastructure) — Why MCP is now infrastructure-grade, and what production-grade MCP servers look like operationally.
+- [Agent Reliability Blueprint: SLOs, Guardrails, and Human Override](/blog/agent-reliability-blueprint) — The guardrails and human override patterns that make the agent layer in this stack safe to operate.
+- [Your AI Agent Just Got Fired](/blog/agentic-ai-why-it-gets-fired) — What happens when you skip the boundary design and let agents operate without constraints.
+
+---
+
+*Built a variation of this stack? Pulled the line somewhere different? Tell me where in the comments.*

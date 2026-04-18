@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" role="img" aria-labelledby="mcp-arch-title mcp-arch-desc">
+  <title id="mcp-arch-title">MCP Architecture Reference</title>
+  <desc id="mcp-arch-desc">MCP architecture at a glance — one diagram, everything in it.</desc>
+  <defs>
+    <linearGradient id="mcp-bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="mcp-cyan" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="mcp-pink" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <filter id="mcp-glow" x="-15%" y="-15%" width="130%" height="130%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .mcp-title { font: 700 34px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
+      .mcp-sub   { font: 500 14px 'Space Mono', monospace; fill: #9bc0d8; }
+      .mcp-node  { font: 700 17px 'Space Grotesk', sans-serif; fill: #dbf4ff; }
+      .mcp-small { font: 500 12px 'Space Mono', monospace; fill: #7ab0cc; }
+      .mcp-tag   { font: 600 11px 'Space Mono', monospace; letter-spacing: 1.5px; }
+      .mcp-arrow { font: 600 11px 'Space Mono', monospace; fill: #4ecbff; }
+    </style>
+  </defs>
+  <rect width="1200" height="640" fill="url(#mcp-bg)"/>
+  <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
+    <line x1="0" y1="160" x2="1200" y2="160"/><line x1="0" y1="320" x2="1200" y2="320"/>
+    <line x1="0" y1="480" x2="1200" y2="480"/><line x1="300" y1="0" x2="300" y2="640"/>
+    <line x1="600" y1="0" x2="600" y2="640"/><line x1="900" y1="0" x2="900" y2="640"/>
+  </g>
+
+  <text class="mcp-title" x="50" y="64">MCP Architecture Reference</text>
+  <text class="mcp-sub" x="50" y="94">Host → Client → Server → Resources / Tools / Prompts</text>
+
+  <!-- Host Application -->
+  <rect x="50" y="140" width="260" height="360" rx="12" fill="rgba(14,30,47,0.7)" stroke="rgba(78,203,255,0.35)" stroke-width="1.5"/>
+  <text class="mcp-tag" x="180" y="170" text-anchor="middle" fill="#4ecbff">HOST APPLICATION</text>
+  <rect x="80" y="190" width="200" height="70" rx="8" fill="rgba(10,22,40,0.9)" stroke="rgba(78,203,255,0.5)" stroke-width="1.5"/>
+  <text class="mcp-node" x="180" y="222" text-anchor="middle">LLM / Model</text>
+  <text class="mcp-small" x="180" y="244" text-anchor="middle">reasoning engine</text>
+  <rect x="80" y="290" width="200" height="70" rx="8" fill="rgba(10,22,40,0.9)" stroke="rgba(78,203,255,0.4)" stroke-width="1.5"/>
+  <text class="mcp-node" x="180" y="322" text-anchor="middle">MCP Client</text>
+  <text class="mcp-small" x="180" y="344" text-anchor="middle">protocol handler</text>
+  <rect x="80" y="390" width="200" height="70" rx="8" fill="rgba(10,22,40,0.9)" stroke="rgba(78,203,255,0.4)" stroke-width="1.5"/>
+  <text class="mcp-node" x="180" y="422" text-anchor="middle">Sampling Loop</text>
+  <text class="mcp-small" x="180" y="444" text-anchor="middle">tool calls + context</text>
+
+  <!-- MCP Protocol channel -->
+  <rect x="360" y="270" width="180" height="100" rx="10" fill="rgba(10,20,40,0.9)" stroke="rgba(125,245,242,0.6)" stroke-width="2" filter="url(#mcp-glow)"/>
+  <text class="mcp-node" x="450" y="308" text-anchor="middle" fill="#7df5f2">MCP</text>
+  <text class="mcp-node" x="450" y="332" text-anchor="middle" fill="#7df5f2">Protocol</text>
+  <text class="mcp-tag" x="450" y="358" text-anchor="middle" fill="#4ecbff">JSON-RPC 2.0</text>
+
+  <!-- MCP Server -->
+  <rect x="600" y="140" width="260" height="360" rx="12" fill="rgba(14,30,47,0.7)" stroke="rgba(255,106,158,0.35)" stroke-width="1.5"/>
+  <text class="mcp-tag" x="730" y="170" text-anchor="middle" fill="#ff9ec0">MCP SERVER</text>
+  <rect x="630" y="190" width="200" height="70" rx="8" fill="rgba(14,10,30,0.9)" stroke="rgba(255,106,158,0.5)" stroke-width="1.5"/>
+  <text class="mcp-node" x="730" y="222" text-anchor="middle" fill="#ffaac8">Tools</text>
+  <text class="mcp-small" x="730" y="244" text-anchor="middle">callable functions</text>
+  <rect x="630" y="290" width="200" height="70" rx="8" fill="rgba(14,10,30,0.9)" stroke="rgba(255,106,158,0.4)" stroke-width="1.5"/>
+  <text class="mcp-node" x="730" y="322" text-anchor="middle" fill="#ffaac8">Resources</text>
+  <text class="mcp-small" x="730" y="344" text-anchor="middle">file / URI content</text>
+  <rect x="630" y="390" width="200" height="70" rx="8" fill="rgba(14,10,30,0.9)" stroke="rgba(255,106,158,0.4)" stroke-width="1.5"/>
+  <text class="mcp-node" x="730" y="422" text-anchor="middle" fill="#ffaac8">Prompts</text>
+  <text class="mcp-small" x="730" y="444" text-anchor="middle">reusable templates</text>
+
+  <!-- External systems -->
+  <rect x="930" y="160" width="220" height="80" rx="8" fill="rgba(14,30,47,0.8)" stroke="rgba(109,181,222,0.4)" stroke-width="1.5"/>
+  <text class="mcp-node" x="1040" y="197" text-anchor="middle">Databases</text>
+  <text class="mcp-small" x="1040" y="220" text-anchor="middle">SQL / NoSQL</text>
+  <rect x="930" y="280" width="220" height="80" rx="8" fill="rgba(14,30,47,0.8)" stroke="rgba(109,181,222,0.4)" stroke-width="1.5"/>
+  <text class="mcp-node" x="1040" y="317" text-anchor="middle">APIs &amp; Services</text>
+  <text class="mcp-small" x="1040" y="340" text-anchor="middle">REST / GraphQL</text>
+  <rect x="930" y="400" width="220" height="80" rx="8" fill="rgba(14,30,47,0.8)" stroke="rgba(109,181,222,0.4)" stroke-width="1.5"/>
+  <text class="mcp-node" x="1040" y="437" text-anchor="middle">File Systems</text>
+  <text class="mcp-small" x="1040" y="460" text-anchor="middle">local / cloud storage</text>
+
+  <!-- Arrows: Client → Protocol → Server -->
+  <g fill="none" stroke="url(#mcp-cyan)" stroke-width="2.5" stroke-linecap="round">
+    <path d="M280 325 H360"/><polygon points="358,320 368,325 358,330" fill="#7df5f2"/>
+    <path d="M540 325 H600"/><polygon points="598,320 608,325 598,330" fill="#7df5f2"/>
+    <path d="M830 225 H930"/><path d="M830 320 H930"/><path d="M830 440 H930"/>
+  </g>
+
+  <!-- Bidirectional label -->
+  <text class="mcp-arrow" x="450" y="252" text-anchor="middle">⟵ capabilities</text>
+  <text class="mcp-arrow" x="450" y="390" text-anchor="middle">requests ⟶</text>
+
+  <!-- Sampling permission note -->
+  <rect x="50" y="530" width="1110" height="60" rx="8" fill="rgba(10,18,35,0.7)" stroke="rgba(78,203,255,0.2)" stroke-width="1"/>
+  <text class="mcp-small" x="605" y="558" text-anchor="middle">Sampling: server can request LLM completions via host — human approval required for sensitive operations</text>
+  <text class="mcp-small" x="605" y="578" text-anchor="middle">Roots: client exposes file system boundaries — servers respect declared access scope</text>
+</svg>

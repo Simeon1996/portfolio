@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" role="img" aria-labelledby="tf-title tf-desc">
+  <title id="tf-title">Terraform Workflow Diagram</title>
+  <desc id="tf-desc">Write, init, plan, apply, destroy cycle with state backend and provider registry.</desc>
+  <defs>
+    <linearGradient id="tf-bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="tf-cyan" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="tf-purple" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#9b6bff"/>
+      <stop offset="100%" stop-color="#c17df5"/>
+    </linearGradient>
+    <filter id="tf-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .tf-title { font: 700 36px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
+      .tf-sub   { font: 500 15px 'Space Mono', monospace; fill: #9bc0d8; }
+      .tf-node  { font: 700 17px 'Space Grotesk', sans-serif; fill: #dbf4ff; }
+      .tf-desc  { font: 500 12px 'Space Mono', monospace; fill: #7ab0cc; }
+      .tf-label { font: 600 12px 'Space Mono', monospace; fill: #4ecbff; letter-spacing: 1px; }
+      .tf-side  { font: 600 13px 'Space Mono', monospace; fill: #9bc0d8; }
+    </style>
+  </defs>
+  <rect width="1200" height="600" fill="url(#tf-bg)"/>
+  <g opacity="0.08" stroke="#5fa2d0" stroke-width="1">
+    <line x1="0" y1="150" x2="1200" y2="150"/><line x1="0" y1="300" x2="1200" y2="300"/>
+    <line x1="0" y1="450" x2="1200" y2="450"/><line x1="200" y1="0" x2="200" y2="600"/>
+    <line x1="400" y1="0" x2="400" y2="600"/><line x1="600" y1="0" x2="600" y2="600"/>
+    <line x1="800" y1="0" x2="800" y2="600"/><line x1="1000" y1="0" x2="1000" y2="600"/>
+  </g>
+  <text class="tf-title" x="60" y="62">Terraform Workflow</text>
+  <text class="tf-sub" x="60" y="92">Five-stage lifecycle — from code to infrastructure to cleanup</text>
+  <!-- Cycle nodes -->
+  <!-- Write -->
+  <rect x="60" y="160" width="160" height="90" rx="10" fill="rgba(14,30,47,0.8)" stroke="rgba(109,181,222,0.5)" stroke-width="1.5"/>
+  <text class="tf-node" x="140" y="200" text-anchor="middle">Write</text>
+  <text class="tf-desc" x="140" y="222" text-anchor="middle">.tf config files</text>
+  <!-- Init -->
+  <rect x="280" y="160" width="160" height="90" rx="10" fill="rgba(14,30,47,0.8)" stroke="rgba(109,181,222,0.5)" stroke-width="1.5"/>
+  <text class="tf-node" x="360" y="200" text-anchor="middle">Init</text>
+  <text class="tf-desc" x="360" y="222" text-anchor="middle">download providers</text>
+  <!-- Plan -->
+  <rect x="500" y="160" width="160" height="90" rx="10" fill="rgba(14,30,47,0.8)" stroke="rgba(78,203,255,0.6)" stroke-width="1.5"/>
+  <text class="tf-node" x="580" y="200" text-anchor="middle">Plan</text>
+  <text class="tf-desc" x="580" y="222" text-anchor="middle">diff vs state</text>
+  <!-- Apply -->
+  <rect x="720" y="160" width="160" height="90" rx="10" fill="rgba(14,47,30,0.8)" stroke="rgba(78,255,150,0.5)" stroke-width="1.5"/>
+  <text class="tf-node" x="800" y="195" text-anchor="middle" fill="#7dffb0">Apply</text>
+  <text class="tf-desc" x="800" y="217" text-anchor="middle">provision infra</text>
+  <text class="tf-desc" x="800" y="235" text-anchor="middle">update state</text>
+  <!-- Destroy -->
+  <rect x="940" y="160" width="160" height="90" rx="10" fill="rgba(47,14,14,0.8)" stroke="rgba(255,100,100,0.5)" stroke-width="1.5"/>
+  <text class="tf-node" x="1020" y="200" text-anchor="middle" fill="#ff9090">Destroy</text>
+  <text class="tf-desc" x="1020" y="222" text-anchor="middle">tear down infra</text>
+  <!-- Arrows between nodes -->
+  <g fill="none" stroke="url(#tf-cyan)" stroke-width="2.5" stroke-linecap="round" filter="url(#tf-glow)">
+    <path d="M220 205 H280"/><polygon points="278,200 288,205 278,210" fill="#7df5f2"/>
+    <path d="M440 205 H500"/><polygon points="498,200 508,205 498,210" fill="#7df5f2"/>
+    <path d="M660 205 H720"/><polygon points="718,200 728,205 718,210" fill="#7df5f2"/>
+    <path d="M880 205 H940"/><polygon points="938,200 948,205 938,210" fill="#7df5f2"/>
+  </g>
+  <!-- State Backend box -->
+  <rect x="280" y="340" width="280" height="100" rx="10" fill="rgba(20,20,60,0.8)" stroke="rgba(155,107,255,0.6)" stroke-width="1.5"/>
+  <text class="tf-node" x="420" y="378" text-anchor="middle" fill="#c17df5">State Backend</text>
+  <text class="tf-desc" x="420" y="402" text-anchor="middle">S3 / GCS / Terraform Cloud</text>
+  <text class="tf-desc" x="420" y="422" text-anchor="middle">locking + versioning</text>
+  <!-- Provider Registry box -->
+  <rect x="640" y="340" width="280" height="100" rx="10" fill="rgba(14,30,47,0.8)" stroke="rgba(78,203,255,0.5)" stroke-width="1.5"/>
+  <text class="tf-node" x="780" y="378" text-anchor="middle">Provider Registry</text>
+  <text class="tf-desc" x="780" y="402" text-anchor="middle">registry.terraform.io</text>
+  <text class="tf-desc" x="780" y="422" text-anchor="middle">AWS / GCP / Azure plugins</text>
+  <!-- Connectors to state and providers -->
+  <g fill="none" stroke-dasharray="6,4" stroke-width="1.8" opacity="0.6">
+    <path d="M580 250 L420 340" stroke="#9b6bff"/>
+    <path d="M800 250 L780 340" stroke="#4ecbff"/>
+    <path d="M360 250 L420 340" stroke="#9b6bff"/>
+  </g>
+  <!-- Labels -->
+  <text class="tf-label" x="420" y="490">reads / writes state</text>
+  <text class="tf-label" x="700" y="490">downloads on terraform init</text>
+  <!-- Footer -->
+  <text class="tf-sub" x="60" y="558">terraform init → terraform plan → terraform apply → terraform destroy</text>
+</svg>

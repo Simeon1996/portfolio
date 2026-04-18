@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" role="img" aria-labelledby="tms-title tms-desc">
+  <title id="tms-title">Terraform MCP Agent Stack</title>
+  <desc id="tms-desc">Three-layer stack: Terraform defines infra, MCP Server exposes infra as tools, AI Agent reasons over infra.</desc>
+  <defs>
+    <linearGradient id="tms-bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="tms-gray" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#3a4a58"/>
+      <stop offset="100%" stop-color="#4a5a68"/>
+    </linearGradient>
+    <linearGradient id="tms-blue" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#1e6aa0"/>
+      <stop offset="100%" stop-color="#2e8ac0"/>
+    </linearGradient>
+    <linearGradient id="tms-purple" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#6b3db0"/>
+      <stop offset="100%" stop-color="#8b5dd0"/>
+    </linearGradient>
+    <style>
+      .tms-title { font: 700 34px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
+      .tms-sub   { font: 500 14px 'Space Mono', monospace; fill: #9bc0d8; }
+      .tms-layer { font: 700 22px 'Space Grotesk', sans-serif; }
+      .tms-desc  { font: 500 14px 'Space Mono', monospace; fill: #c0d8e8; }
+      .tms-tag   { font: 600 11px 'Space Mono', monospace; letter-spacing: 1.5px; }
+      .tms-note  { font: 500 13px 'Space Mono', monospace; fill: #ff9090; }
+    </style>
+  </defs>
+  <rect width="900" height="620" fill="url(#tms-bg)"/>
+  <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
+    <line x1="0" y1="150" x2="900" y2="150"/><line x1="0" y1="300" x2="900" y2="300"/>
+    <line x1="0" y1="450" x2="900" y2="450"/><line x1="225" y1="0" x2="225" y2="620"/>
+    <line x1="675" y1="0" x2="675" y2="620"/>
+  </g>
+  <text class="tms-title" x="60" y="60">Terraform + MCP + AI Agent Stack</text>
+  <text class="tms-sub" x="60" y="88">Three-layer architecture for AI-driven infrastructure management</text>
+
+  <!-- Layer 1: Terraform (bottom) -->
+  <rect x="80" y="460" width="580" height="100" rx="12" fill="url(#tms-gray)" opacity="0.9"/>
+  <text class="tms-layer" x="160" y="517" fill="#c8d8e4">Terraform</text>
+  <text class="tms-desc" x="320" y="503">defines infrastructure</text>
+  <text class="tms-desc" x="320" y="525">HCL configs, state, providers</text>
+  <text class="tms-tag" x="100" y="548" fill="#aac0d0">LAYER 1 — INFRASTRUCTURE DEFINITION</text>
+
+  <!-- Layer 2: MCP Server (middle) -->
+  <rect x="80" y="320" width="580" height="100" rx="12" fill="url(#tms-blue)" opacity="0.9"/>
+  <text class="tms-layer" x="160" y="375" fill="#d8f0ff">MCP Server</text>
+  <text class="tms-desc" x="320" y="363">exposes infra as tools</text>
+  <text class="tms-desc" x="320" y="385">plan/apply/destroy as MCP endpoints</text>
+  <text class="tms-tag" x="100" y="408" fill="#7bd0ff">LAYER 2 — TOOL SURFACE</text>
+
+  <!-- Layer 3: AI Agent (top) -->
+  <rect x="80" y="170" width="580" height="110" rx="12" fill="url(#tms-purple)" opacity="0.9"/>
+  <text class="tms-layer" x="160" y="228" fill="#e8d8ff">AI Agent</text>
+  <text class="tms-desc" x="320" y="216">reasons over infra</text>
+  <text class="tms-desc" x="320" y="238">plans changes, calls MCP tools</text>
+  <text class="tms-desc" x="320" y="258">generates PRs, explains diffs</text>
+  <text class="tms-tag" x="100" y="278" fill="#c09df0">LAYER 3 — REASONING</text>
+
+  <!-- Dotted human approval line -->
+  <line x1="680" y1="145" x2="680" y2="570" stroke="#ff9090" stroke-width="2" stroke-dasharray="8,5"/>
+  <text class="tms-note" x="690" y="200">Human</text>
+  <text class="tms-note" x="690" y="220">approval</text>
+  <text class="tms-note" x="690" y="240">required</text>
+  <!-- read / modify markers -->
+  <text style="font:600 11px 'Space Mono',monospace;fill:#ffbbbb;" x="695" y="290">modify / apply</text>
+  <line x1="680" y1="300" x2="750" y2="300" stroke="#ff9090" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+  <text style="font:600 11px 'Space Mono',monospace;fill:#aaccdd;" x="695" y="420">read / report</text>
+
+  <!-- Vertical arrows between layers -->
+  <g fill="none" stroke="#7df5f2" stroke-width="2.5" stroke-linecap="round">
+    <path d="M370 320 L370 280"/><polygon points="364,282 370,270 376,282" fill="#7df5f2"/>
+    <path d="M370 460 L370 420"/><polygon points="364,422 370,410 376,422" fill="#7df5f2"/>
+  </g>
+
+  <text class="tms-sub" x="60" y="590">Agent reads before acting — modify/apply paths require human sign-off.</text>
+</svg>

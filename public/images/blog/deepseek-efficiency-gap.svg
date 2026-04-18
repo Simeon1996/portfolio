@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 640" role="img" aria-labelledby="deg-title deg-desc">
+  <title id="deg-title">DeepSeek Efficiency Gap Scatter Plot</title>
+  <desc id="deg-desc">Scatter plot: training cost (log scale) vs benchmark performance. DeepSeek-R1 sits above the trend line at unexpectedly low cost.</desc>
+  <defs>
+    <linearGradient id="deg-bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <filter id="deg-glow" x="-10%" y="-30%" width="120%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .deg-title { font: 700 32px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
+      .deg-sub   { font: 500 13px 'Space Mono', monospace; fill: #9bc0d8; }
+      .deg-axis  { font: 600 13px 'Space Grotesk', sans-serif; fill: #7ab0cc; }
+      .deg-tick  { font: 500 11px 'Space Mono', monospace; fill: #4a8090; }
+      .deg-label { font: 600 13px 'Space Grotesk', sans-serif; fill: #dbf4ff; }
+      .deg-note  { font: 500 11px 'Space Mono', monospace; fill: #7ab0cc; }
+    </style>
+  </defs>
+  <rect width="1000" height="640" fill="url(#deg-bg)"/>
+
+  <text class="deg-title" x="50" y="56">DeepSeek Cost-Performance Gap</text>
+  <text class="deg-sub" x="50" y="84">Training cost (log scale) vs benchmark score — one model doesn't follow the curve</text>
+
+  <!-- Plot area: x from 140 to 860, y from 120 to 540 -->
+  <rect x="140" y="120" width="720" height="420" fill="rgba(8,16,30,0.5)" stroke="rgba(78,203,255,0.2)" stroke-width="1"/>
+
+  <!-- Grid lines -->
+  <g stroke="rgba(78,203,255,0.1)" stroke-width="1">
+    <line x1="140" y1="225" x2="860" y2="225"/>
+    <line x1="140" y1="330" x2="860" y2="330"/>
+    <line x1="140" y1="435" x2="860" y2="435"/>
+    <line x1="320" y1="120" x2="320" y2="540"/>
+    <line x1="500" y1="120" x2="500" y2="540"/>
+    <line x1="680" y1="120" x2="680" y2="540"/>
+  </g>
+
+  <!-- X axis labels (log scale: $1M, $10M, $50M, $100M, $200M) -->
+  <text class="deg-tick" x="140" y="562" text-anchor="middle">$1M</text>
+  <text class="deg-tick" x="320" y="562" text-anchor="middle">$10M</text>
+  <text class="deg-tick" x="500" y="562" text-anchor="middle">$50M</text>
+  <text class="deg-tick" x="680" y="562" text-anchor="middle">$100M</text>
+  <text class="deg-tick" x="860" y="562" text-anchor="middle">$200M</text>
+  <text class="deg-axis" x="500" y="598" text-anchor="middle">Training Cost (log scale)</text>
+
+  <!-- Y axis labels (scores 70 to 92) -->
+  <text class="deg-tick" x="128" y="544" text-anchor="end">70</text>
+  <text class="deg-tick" x="128" y="437" text-anchor="end">76</text>
+  <text class="deg-tick" x="128" y="330" text-anchor="end">83</text>
+  <text class="deg-tick" x="128" y="223" text-anchor="end">88</text>
+  <text class="deg-tick" x="128" y="124" text-anchor="end">92</text>
+  <text class="deg-axis" x="60" y="340" text-anchor="middle" transform="rotate(-90 60 340)">Benchmark Score</text>
+
+  <!-- Trend line (expected) -->
+  <path d="M 180 520 Q 400 420 680 160" fill="none" stroke="rgba(78,203,255,0.35)" stroke-width="2" stroke-dasharray="10,5"/>
+  <text class="deg-note" x="700" y="150">expected</text>
+  <text class="deg-note" x="700" y="168">cost-perf</text>
+  <text class="deg-note" x="700" y="186">curve</text>
+
+  <!-- Data points -->
+  <!-- Mistral (~$3M, ~76) → x≈240, y≈437 -->
+  <circle cx="240" cy="437" r="8" fill="rgba(14,30,47,0.9)" stroke="rgba(78,203,255,0.6)" stroke-width="2"/>
+  <text class="deg-label" x="255" y="430">Mistral</text>
+  <text class="deg-note" x="255" y="448">~$3M</text>
+
+  <!-- Llama 3 70B (~$20M, ~80) → x≈380, y≈360 -->
+  <circle cx="380" cy="360" r="8" fill="rgba(14,30,47,0.9)" stroke="rgba(78,203,255,0.6)" stroke-width="2"/>
+  <text class="deg-label" x="394" y="354">Llama 3 70B</text>
+  <text class="deg-note" x="394" y="372">~$20M</text>
+
+  <!-- Claude 3 Opus (~$60M, ~86) → x≈530, y≈200 -->
+  <circle cx="530" cy="200" r="8" fill="rgba(14,30,47,0.9)" stroke="rgba(78,203,255,0.6)" stroke-width="2"/>
+  <text class="deg-label" x="544" y="194">Claude 3 Opus</text>
+  <text class="deg-note" x="544" y="212">~$60M</text>
+
+  <!-- GPT-4 (~$100M, ~88) → x≈680, y≈178 -->
+  <circle cx="680" cy="178" r="8" fill="rgba(14,30,47,0.9)" stroke="rgba(78,203,255,0.6)" stroke-width="2"/>
+  <text class="deg-label" x="694" y="172">GPT-4</text>
+  <text class="deg-note" x="694" y="190">~$100M</text>
+
+  <!-- DeepSeek-R1 (~$6M, ~87) → x≈280, y≈186 — OFF THE CURVE -->
+  <circle cx="280" cy="186" r="12" fill="rgba(255,193,50,0.9)" stroke="#ffd050" stroke-width="2.5" filter="url(#deg-glow)"/>
+  <text class="deg-label" x="300" y="162" fill="#ffd050">DeepSeek-R1</text>
+  <text class="deg-note" x="300" y="180">~$6M — WAY OFF CURVE</text>
+
+  <!-- Arrow pointing to DeepSeek -->
+  <path d="M 390 230 L 300 195" fill="none" stroke="#ffd050" stroke-width="1.8" stroke-dasharray="5,3"/>
+  <text style="font:600 12px 'Space Mono',monospace;fill:#ffd050;" x="400" y="228">15–17× cheaper</text>
+  <text style="font:600 12px 'Space Mono',monospace;fill:#ffd050;" x="400" y="246">same performance</text>
+
+  <text class="deg-sub" x="50" y="618">The algorithm was the moat — and now the paper is on arXiv.</text>
+</svg>

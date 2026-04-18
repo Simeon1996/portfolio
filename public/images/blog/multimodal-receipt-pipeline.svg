@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 540" role="img" aria-labelledby="mrp-title mrp-desc">
+  <title id="mrp-title">Multimodal Receipt Pipeline</title>
+  <desc id="mrp-desc">Three modalities feeding into one unified context for receipt processing.</desc>
+  <defs>
+    <linearGradient id="mrp-bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="mrp-cyan" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <filter id="mrp-glow" x="-15%" y="-15%" width="130%" height="130%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .mrp-title { font: 700 32px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
+      .mrp-sub   { font: 500 13px 'Space Mono', monospace; fill: #9bc0d8; }
+      .mrp-node  { font: 700 16px 'Space Grotesk', sans-serif; fill: #dbf4ff; }
+      .mrp-small { font: 500 12px 'Space Mono', monospace; fill: #7ab0cc; }
+      .mrp-tag   { font: 600 11px 'Space Mono', monospace; letter-spacing: 1.5px; }
+    </style>
+  </defs>
+  <rect width="1100" height="540" fill="url(#mrp-bg)"/>
+  <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
+    <line x1="0" y1="135" x2="1100" y2="135"/><line x1="0" y1="270" x2="1100" y2="270"/>
+    <line x1="0" y1="405" x2="1100" y2="405"/><line x1="275" y1="0" x2="275" y2="540"/>
+    <line x1="550" y1="0" x2="550" y2="540"/><line x1="825" y1="0" x2="825" y2="540"/>
+  </g>
+
+  <text class="mrp-title" x="50" y="58">Multimodal Receipt Pipeline</text>
+  <text class="mrp-sub" x="50" y="86">Three modalities, one unified context — vision + text + structured data</text>
+
+  <!-- Modality 1: Image/Vision -->
+  <rect x="50" y="150" width="220" height="160" rx="10" fill="rgba(14,30,47,0.85)" stroke="rgba(78,203,255,0.5)" stroke-width="1.5"/>
+  <text class="mrp-tag" x="160" y="178" text-anchor="middle" fill="#4ecbff">VISION</text>
+  <text class="mrp-node" x="160" y="210" text-anchor="middle">Receipt Image</text>
+  <text class="mrp-small" x="160" y="234" text-anchor="middle">JPEG / PNG scan</text>
+  <text class="mrp-small" x="160" y="254" text-anchor="middle">photo from mobile</text>
+  <text class="mrp-small" x="160" y="274" text-anchor="middle">base64 encoded</text>
+  <text class="mrp-small" x="160" y="294" text-anchor="middle">→ vision model</text>
+
+  <!-- Modality 2: Text/OCR -->
+  <rect x="50" y="340" width="220" height="140" rx="10" fill="rgba(14,30,47,0.85)" stroke="rgba(78,203,255,0.5)" stroke-width="1.5"/>
+  <text class="mrp-tag" x="160" y="368" text-anchor="middle" fill="#4ecbff">TEXT / OCR</text>
+  <text class="mrp-node" x="160" y="400" text-anchor="middle">Extracted Text</text>
+  <text class="mrp-small" x="160" y="424" text-anchor="middle">line items + prices</text>
+  <text class="mrp-small" x="160" y="444" text-anchor="middle">merchant, date, total</text>
+  <text class="mrp-small" x="160" y="464" text-anchor="middle">raw string input</text>
+
+  <!-- Center: Multimodal Context -->
+  <rect x="380" y="190" width="280" height="180" rx="14" fill="rgba(10,22,40,0.95)" stroke="rgba(125,245,242,0.7)" stroke-width="2.5" filter="url(#mrp-glow)"/>
+  <text class="mrp-tag" x="520" y="220" text-anchor="middle" fill="#4ecbff">UNIFIED CONTEXT</text>
+  <text class="mrp-node" x="520" y="255" text-anchor="middle" fill="#7df5f2">Multimodal LLM</text>
+  <text class="mrp-small" x="520" y="280" text-anchor="middle">vision + text + structure</text>
+  <text class="mrp-small" x="520" y="300" text-anchor="middle">cross-modal reasoning</text>
+  <text class="mrp-small" x="520" y="320" text-anchor="middle">single inference call</text>
+  <text class="mrp-small" x="520" y="345" text-anchor="middle">Claude / GPT-4V</text>
+
+  <!-- Right outputs -->
+  <rect x="780" y="150" width="260" height="100" rx="10" fill="rgba(14,30,47,0.85)" stroke="rgba(255,106,158,0.5)" stroke-width="1.5"/>
+  <text class="mrp-node" x="910" y="190" text-anchor="middle" fill="#ffaac8">Structured Output</text>
+  <text class="mrp-small" x="910" y="214" text-anchor="middle">JSON: items, amounts</text>
+  <text class="mrp-small" x="910" y="234" text-anchor="middle">category classification</text>
+
+  <rect x="780" y="290" width="260" height="100" rx="10" fill="rgba(14,30,47,0.85)" stroke="rgba(255,106,158,0.5)" stroke-width="1.5"/>
+  <text class="mrp-node" x="910" y="330" text-anchor="middle" fill="#ffaac8">Expense Report</text>
+  <text class="mrp-small" x="910" y="354" text-anchor="middle">reimbursement ready</text>
+  <text class="mrp-small" x="910" y="374" text-anchor="middle">policy compliance check</text>
+
+  <rect x="780" y="430" width="260" height="70" rx="10" fill="rgba(14,30,47,0.85)" stroke="rgba(255,106,158,0.45)" stroke-width="1.5"/>
+  <text class="mrp-node" x="910" y="462" text-anchor="middle" fill="#ffaac8">Anomaly Flags</text>
+  <text class="mrp-small" x="910" y="482" text-anchor="middle">duplicate detection</text>
+
+  <!-- Arrows -->
+  <g fill="none" stroke="url(#mrp-cyan)" stroke-width="2" stroke-linecap="round">
+    <path d="M270 230 H380"/><path d="M270 385 Q330 385 380 310"/>
+    <path d="M660 230 H780"/><path d="M660 310 H780"/><path d="M660 340 Q720 380 780 465"/>
+  </g>
+
+  <!-- Third modality: Structured data (below image) -->
+  <text class="mrp-tag" x="160" y="508" text-anchor="middle" fill="#4ecbff">+ METADATA</text>
+  <text class="mrp-small" x="160" y="525" text-anchor="middle">user profile, currency, locale</text>
+
+  <text class="mrp-sub" x="50" y="512">Feed all three modalities in one call — the model correlates across them.</text>
+</svg>
