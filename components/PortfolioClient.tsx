@@ -5,6 +5,7 @@ import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import Link from 'next/link'
 import ContactForm from './ContactForm'
 import ThemeToggle from './ThemeToggle'
+import { PROJECT_DETAILS } from '@/lib/projects'
 
 // ─────────────────────────────────────────────
 // DATA — edit everything in this section
@@ -198,7 +199,7 @@ const PROJECTS = [
   },
   {
     slug: 'cookingintelligence',
-    index: '14',
+    index: '13',
     title: 'CookingIntelligence',
     desc: 'Describe a dish, dietary preference, or available ingredients and CookingIntelligence generates a complete recipe in seconds using LLMs — ingredients, quantities, steps, and tips included. Recipes can be cooked interactively step-by-step with timers, substitution suggestions, and contextual guidance at each stage. Like QuizzYourself, recipes can be published publicly, kept private, or shared with specific people via invite link.',
     github: null,
@@ -207,7 +208,7 @@ const PROJECTS = [
   },
   {
     slug: 'botversehub',
-    index: '16',
+    index: '14',
     title: 'BotverseHub',
     desc: 'A unified platform for managing, training, and interacting with AI bots. Users can spin up bots with custom personas, equip them with selectable tool sets (web search, code execution, file access, APIs), and chat with them in real time. Includes a bot registry, per-bot memory and context management, tool permission controls, conversation history, and an analytics dashboard tracking usage and performance across the entire bot fleet.',
     github: null,
@@ -216,7 +217,7 @@ const PROJECTS = [
   },
   {
     slug: 'ai-detector',
-    index: '17',
+    index: '15',
     title: 'AI Content Detector',
     desc: 'A SaaS platform that detects AI-generated text with 97.4% accuracy across ChatGPT, Claude, Gemini, LLaMA, and more. Paste any text to get a verdict in under 800ms, a sentence-level heatmap highlighting which passages are AI-written, and per-model attribution scores. Includes a REST API with SDKs, batch upload, team workspaces, and a full analytics dashboard.',
     github: null,
@@ -225,13 +226,21 @@ const PROJECTS = [
   },
   {
     slug: 'freelance',
-    index: '18',
+    index: '16',
     title: 'Freelance Web Development',
     desc: 'Delivered 20+ custom websites and client platforms across industries — from e-commerce storefronts and booking systems to internal dashboards and REST APIs. Built with React, Angular, Python (Django/FastAPI), Java (Spring Boot), and vanilla JavaScript. Each engagement covered full-cycle delivery: scoping, architecture, implementation, and handoff.',
     github: null,
     project: '/projects/freelance',
     stack: ['React', 'Angular', 'Django', 'Spring Boot', 'TypeScript'],
   },
+]
+
+// TODO: replace these placeholder quotes with real ones (general praise, not project-specific)
+const TESTIMONIALS = [
+  { quote: 'Simeon shipped faster than our whole team expected, and the architecture still holds up a year later.', name: 'Client Name', role: 'CTO', company: 'Company' },
+  { quote: 'Rare to find someone equally strong across AI, backend, and infrastructure. He just makes hard things work.', name: 'Client Name', role: 'Founder', company: 'Startup' },
+  { quote: 'Clear communicator, zero hand-holding, and the quality bar never dropped under deadline.', name: 'Client Name', role: 'Head of Engineering', company: 'Scale-up' },
+  { quote: 'He turned a vague idea into a production system in weeks. I would hire him again without hesitation.', name: 'Client Name', role: 'Product Lead', company: 'Agency' },
 ]
 
 
@@ -275,6 +284,67 @@ function Pill({ label }: { label: string; color?: string }) {
 
 function SectionTopLine({ color = C.cyan }: { color?: string }) {
   return <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: `linear-gradient(90deg,transparent,${color},transparent)`, opacity: .3 }} />
+}
+
+function ProjectCard({ p }: { p: typeof PROJECTS[number] }) {
+  const [hover, setHover] = useState(false)
+  const [imgError, setImgError] = useState(false)
+  const detail = PROJECT_DETAILS[p.slug]
+  const thumb = detail?.images?.[0]?.src
+  const live = detail?.preview
+  const exploreHref = p.project ?? `/projects/${p.slug}`
+  return (
+    <div
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', background: C.card, border: `1px solid ${hover ? 'rgba(var(--cyan-rgb),.35)' : C.border}`, boxShadow: hover ? '0 0 24px rgba(var(--cyan-rgb),.12)' : 'none', overflow: 'hidden', position: 'relative', transition: 'border-color .3s, box-shadow .3s' }}
+    >
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: `linear-gradient(90deg,${C.cyan},transparent)`, opacity: hover ? .6 : .3, zIndex: 3 }} />
+      <div style={{ position: 'relative', width: '100%', aspectRatio: '16/10', overflow: 'hidden', background: 'linear-gradient(150deg,var(--card),var(--surface) 60%,var(--card))' }}>
+        <span style={{ position: 'absolute', top: 0, left: 0, width: 16, height: 16, borderTop: `2px solid ${C.cyan}`, borderLeft: `2px solid ${C.cyan}`, zIndex: 2 }} />
+        <span style={{ position: 'absolute', bottom: 0, right: 0, width: 16, height: 16, borderBottom: `2px solid ${C.pink}`, borderRight: `2px solid ${C.pink}`, zIndex: 2 }} />
+        {thumb && !imgError ? (
+          <img src={thumb} alt={p.title} loading="lazy" onError={() => setImgError(true)}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', display: 'block', transform: hover ? 'scale(1.04)' : 'scale(1)', transition: 'transform .4s ease' }} />
+        ) : (
+          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: C.muted, fontFamily: mono, fontSize: 10, letterSpacing: 2 }}>NO PREVIEW</div>
+        )}
+        <span style={{ position: 'absolute', top: 10, right: 10, zIndex: 2, fontFamily: mono, fontSize: 9, fontWeight: 700, letterSpacing: 1.5, color: C.cyan, background: 'rgba(var(--bg-rgb),.7)', border: `1px solid rgba(var(--cyan-rgb),.3)`, padding: '3px 7px' }}>{p.index}</span>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12, padding: 18, flex: 1 }}>
+        <h3 style={{ margin: 0, fontFamily: mono, fontSize: 15, fontWeight: 700, letterSpacing: .5, color: hover ? C.cyan : C.text, transition: 'color .2s' }}>{p.title}</h3>
+        <p style={{ margin: 0, fontSize: 12, fontWeight: 300, color: C.muted2, lineHeight: 1.7, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{p.desc}</p>
+        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+          {p.stack.slice(0, 4).map(t => <Pill key={t} label={t} />)}
+        </div>
+        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 'auto', paddingTop: 6 }}>
+          {live && (
+            <a href={live} target="_blank" rel="noopener noreferrer"
+              style={{ fontFamily: mono, fontSize: 9, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', textDecoration: 'none', padding: '8px 14px', background: C.cyan, color: '#001016', boxShadow: '0 0 16px rgba(var(--cyan-rgb),.3)' }}>Live ↗</a>
+          )}
+          <Link href={exploreHref}
+            style={{ fontFamily: mono, fontSize: 9, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', textDecoration: 'none', padding: '8px 14px', border: `1px solid rgba(var(--pink-rgb),.28)`, color: C.pink }}>Explore →</Link>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function TestimonialCard({ t }: { t: typeof TESTIMONIALS[number] }) {
+  return (
+    <div style={{ flex: '0 0 330px', width: 330, background: C.card, border: `1px solid ${C.border}`, padding: '26px 24px 22px', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: `linear-gradient(90deg,${C.cyan},transparent)`, opacity: .5 }} />
+      <div style={{ fontFamily: mono, fontSize: 54, lineHeight: .6, color: C.cyan, opacity: .18, height: 24 }}>&ldquo;</div>
+      <p style={{ fontSize: 13, fontWeight: 300, color: C.muted2, lineHeight: 1.8, margin: '6px 0 20px' }}>{t.quote}</p>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, borderTop: `1px solid ${C.border}`, paddingTop: 16 }}>
+        <div style={{ width: 38, height: 38, flex: '0 0 38px', border: `1px solid ${C.cyan}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: mono, fontWeight: 700, color: C.cyan, background: 'rgba(var(--cyan-rgb),.06)', fontSize: 14 }}>{t.name.charAt(0)}</div>
+        <div>
+          <div style={{ fontFamily: mono, fontSize: 12, fontWeight: 700, letterSpacing: .5, color: C.text }}>{t.name}</div>
+          <div style={{ fontSize: 10, letterSpacing: 1.5, textTransform: 'uppercase', color: C.muted, marginTop: 3 }}>{t.role} · {t.company}</div>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 interface Post { slug: string; title: string; date: string; readingTime: number; url: string; tags: string[] }
