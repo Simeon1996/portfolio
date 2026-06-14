@@ -332,7 +332,7 @@ function ProjectCard({ p }: { p: typeof PROJECTS[number] }) {
 
 function TestimonialCard({ t }: { t: typeof TESTIMONIALS[number] }) {
   return (
-    <div style={{ flex: '0 0 330px', width: 330, background: C.card, border: `1px solid ${C.border}`, padding: '26px 24px 22px', position: 'relative', overflow: 'hidden' }}>
+    <div style={{ flex: '0 0 330px', width: 330, marginRight: 16, background: C.card, border: `1px solid ${C.border}`, padding: '26px 24px 22px', position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: `linear-gradient(90deg,${C.cyan},transparent)`, opacity: .5 }} />
       <div style={{ fontFamily: mono, fontSize: 54, lineHeight: .6, color: C.cyan, opacity: .18, height: 24 }}>&ldquo;</div>
       <p style={{ fontSize: 13, fontWeight: 300, color: C.muted2, lineHeight: 1.8, margin: '6px 0 20px' }}>{t.quote}</p>
@@ -886,7 +886,13 @@ export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }
           {TESTIMONIALS.length > 0 && (
             <motion.div variants={revealVariant} className="testi-marquee">
               <div className="testi-track">
-                {[...TESTIMONIALS, ...TESTIMONIALS].map((t, i) => <TestimonialCard key={i} t={t} />)}
+                {[0, 1].map(group => (
+                  <div className="testi-group" key={group} aria-hidden={group === 1}>
+                    {Array.from({ length: 3 }).flatMap((_, r) =>
+                      TESTIMONIALS.map((t, i) => <TestimonialCard key={`${group}-${r}-${i}`} t={t} />)
+                    )}
+                  </div>
+                ))}
               </div>
             </motion.div>
           )}

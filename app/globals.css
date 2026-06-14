@@ -417,10 +417,13 @@ body::before {
 }
 .testi-track {
   display: flex;
-  gap: 16px;
   width: max-content;
-  padding: 4px 16px;
+  padding: 4px 0;
   animation: testi-scroll 40s linear infinite;
+}
+.testi-group {
+  display: flex;
+  flex-shrink: 0;
 }
 .testi-marquee:hover .testi-track {
   animation-play-state: paused;
