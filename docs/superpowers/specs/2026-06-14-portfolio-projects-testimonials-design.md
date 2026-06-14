@@ -81,10 +81,11 @@ Reassign each `PROJECTS[i].index` to `String(i+1).padStart(2,'0')` in array orde
 - `:hover` pauses the animation.
 - Each card: decorative quote mark · quote text · divider · avatar initial (bordered
   box) · name (mono) · role · company.
-- Section header `05 · TESTIMONIALS` (pink accent line, matching Services/Blog).
+- Section header `04 · TESTIMONIALS` (pink accent line, matching Services/Blog).
 
 **Surrounding changes:**
-- Insert `<section id="testimonials">` between Projects and Blog.
+- Insert `<section id="testimonials">` between Projects and Blog → Testimonials becomes
+  section `04`, Blog becomes `05`.
 - Renumber the **Blog** section's decorative label `04` → `05`.
 - Add `testimonials` to the `IntersectionObserver` id list and a `testimonials` link to
   both the desktop and mobile nav.
