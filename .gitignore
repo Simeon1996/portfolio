@@ -43,6 +43,9 @@ desktop.ini
 coverage/
 .nyc_output/
 
+# Brainstorm visual companion
+.superpowers/
+
 # Misc
 .cache/
 .parcel-cache/
