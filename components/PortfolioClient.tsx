@@ -413,8 +413,6 @@ const SERVICES = [
 ]
 
 export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }) {
-  const [hoveredRow, setHoveredRow]       = useState<string | null>(null)
-  const [projectsOpen, setProjectsOpen]   = useState(false)
   const [openService, setOpenService]     = useState<string>('01')
   const [activeSection, setActiveSection] = useState('home')
   const [mousePos, setMousePos]           = useState({ x: -100, y: -100 })
@@ -453,7 +451,7 @@ export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }
   }, [isCompact])
 
   useEffect(() => {
-    const ids = ['home','about','projects','services','blog']
+    const ids = ['home','about','projects','services','testimonials','blog']
     const obs = new IntersectionObserver(
       entries => entries.forEach(e => { if (e.isIntersecting) setActiveSection(e.target.id) }),
       { threshold: isPhone ? 0.22 : 0.3 }
@@ -498,7 +496,7 @@ export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }
         </div>
         {!isCompact && (
           <div style={{ display: 'flex', gap: 32 }}>
-            {[['about', 'about'],['projects', 'portfolio'],['services', 'services'],['blog', 'blog']].map(([id, label]) => (
+            {[['about', 'about'],['projects', 'portfolio'],['services', 'services'],['testimonials', 'testimonials'],['blog', 'blog']].map(([id, label]) => (
               <a key={id} href={`#${id}`} style={{ fontSize: 11, fontWeight: 500, letterSpacing: 2, textDecoration: 'none', textTransform: 'uppercase', color: activeSection === id ? C.cyan : C.muted, textShadow: activeSection === id ? `0 0 12px rgba(var(--cyan-rgb),.6)` : 'none', transition: 'color .2s, text-shadow .2s' }}>{label}</a>
             ))}
           </div>
@@ -532,7 +530,7 @@ export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }
             transition={{ duration: 0.2 }}
             style={{ position: 'fixed', top: isPhone ? 56 : 60, left: 0, right: 0, zIndex: 99, borderBottom: `1px solid ${C.border}`, background: C.surface, padding: `16px ${horizontalPad}px 20px`, display: 'grid', gap: 12 }}
           >
-            {[['about', 'about'],['projects', 'portfolio'],['services', 'services'],['blog', 'blog']].map(([id, label]) => (
+            {[['about', 'about'],['projects', 'portfolio'],['services', 'services'],['testimonials', 'testimonials'],['blog', 'blog']].map(([id, label]) => (
               <a
                 key={id}
                 href={`#${id}`}
@@ -857,98 +855,41 @@ export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }
       <section id="projects" style={{ padding: `${sectionVerticalPad}px ${horizontalPad}px`, borderTop: `1px solid ${C.border}`, position: 'relative' }}>
         <SectionTopLine />
         <motion.div variants={staggerVariant} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-80px' }}>
-          <motion.div variants={revealVariant}
-            onClick={() => setProjectsOpen(o => !o)}
-            whileHover="hov"
-            style={{ display: 'flex', alignItems: isPhone ? 'flex-start' : 'center', justifyContent: 'space-between', flexDirection: isPhone ? 'column' : 'row', gap: isPhone ? 10 : 0, cursor: 'pointer', userSelect: 'none', padding: '12px 16px', margin: `-12px -16px ${projectsOpen ? (isPhone ? 22 : 36) : -12}px`, borderRadius: 2, transition: 'background .2s' }}
-            onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = 'rgba(var(--cyan-rgb),.04)'}
-            onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = 'transparent'}
-          >
+          <motion.div variants={revealVariant} style={{ display: 'flex', alignItems: isPhone ? 'flex-start' : 'center', justifyContent: 'space-between', flexDirection: isPhone ? 'column' : 'row', gap: isPhone ? 10 : 0, marginBottom: isPhone ? 28 : 44 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: isPhone ? 12 : 20 }}>
               <span style={{ fontFamily: mono, fontSize: 10, fontWeight: 700, letterSpacing: 3, color: C.cyan, opacity: .6 }}>03</span>
               <span style={{ fontFamily: mono, fontSize: isPhone ? 20 : 24, fontWeight: 900, letterSpacing: 2, textTransform: 'uppercase' }}>Portfolio</span>
-              {!projectsOpen && (
-                <motion.span
-                  animate={{ opacity: [.4, 1, .4] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                  style={{ fontFamily: mono, fontSize: 8, fontWeight: 700, letterSpacing: 2, color: C.cyan, border: `1px solid rgba(var(--cyan-rgb),.3)`, padding: '2px 8px', marginLeft: 4 }}
-                >CLICK TO EXPAND</motion.span>
-              )}
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              <span style={{ fontSize: 10, letterSpacing: 2, color: C.muted }}>
-                {`${PROJECTS.length} project${PROJECTS.length === 1 ? '' : 's'}`}
-              </span>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 28, height: 28, border: `1px solid rgba(var(--cyan-rgb),.3)`, background: projectsOpen ? 'rgba(var(--cyan-rgb),.08)' : 'transparent', transition: 'background .2s, border-color .2s' }}>
-                <motion.span
-                  animate={{ rotate: projectsOpen ? 180 : 0 }}
-                  transition={{ duration: .25 }}
-                  style={{ fontFamily: mono, fontSize: 12, color: C.cyan, display: 'inline-block', lineHeight: 1 }}
-                >↓</motion.span>
-              </div>
-            </div>
+            <span style={{ fontSize: 10, letterSpacing: 2, color: C.muted }}>{`${PROJECTS.length} projects`}</span>
           </motion.div>
 
-          <AnimatePresence initial={false}>
-          {projectsOpen && (
-          <motion.div
-            key="projects-grid"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: .35, ease: EASE }}
-            style={{ overflow: 'hidden' }}
-          >
-          <div style={{ display: 'grid', gridTemplateColumns: isPhone ? '1fr' : '1fr 1fr', gap: 1, background: C.border }}>
-          {PROJECTS.map(p => {
-            const isActiveRow = hoveredRow === p.slug
-            return (
-              <motion.div key={p.slug}
-                style={{ position: 'relative', overflow: 'hidden', background: isActiveRow ? 'rgba(var(--cyan-rgb),.015)' : C.bg, transition: 'border-color .3s,background .3s' }}
-                onMouseEnter={() => { if (!isCompact) setHoveredRow(p.slug) }}
-                onMouseLeave={() => { if (!isCompact) setHoveredRow(null) }}>
-              <motion.div animate={{ scaleY: isActiveRow ? 1 : 0 }} transition={{ duration: .4, ease: EASE }}
-                style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 2, background: `linear-gradient(${C.cyan},${C.purple})`, transformOrigin: 'top', boxShadow: `2px 0 12px rgba(var(--cyan-rgb),.4)` }} />
-              <motion.div animate={{ opacity: isActiveRow ? .4 : 0 }} transition={{ duration: .3 }}
-                style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: `linear-gradient(90deg,transparent,${C.cyan},transparent)` }} />
-
-              <div style={{ display: 'grid', gridTemplateColumns: isPhone ? '1fr' : isTablet ? '52px minmax(0,1fr) auto' : '64px minmax(0,1fr) auto', alignItems: isPhone ? 'flex-start' : 'center', gap: isPhone ? 16 : 28, padding: isPhone ? '20px 18px' : '28px 32px' }}>
-                <span style={{ fontFamily: mono, fontSize: 10, fontWeight: 700, letterSpacing: 2, color: C.muted }}>{p.index}</span>
-
-                <div>
-                  <h3 style={{ margin: 0, fontFamily: mono, fontSize: isPhone ? 16 : 18, fontWeight: 700, letterSpacing: .5, color: isActiveRow ? C.cyan : C.text, textShadow: isActiveRow ? `0 0 20px rgba(var(--cyan-rgb),.3)` : 'none', transition: 'color .2s,text-shadow .2s' }}>
-                    {p.title}
-                  </h3>
-                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 16 }}>
-                    {p.stack.map(t => <Pill key={t} label={t} />)}
-                  </div>
-                </div>
-
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: isPhone ? 'center' : 'end', marginTop: isPhone ? 18 : 0 }}>
-                  {p.project ? (
-                    <Link href={p.project}
-                      style={{ fontFamily: mono, fontSize: 9, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', textDecoration: 'none', padding: '8px 14px', border: `1px solid rgba(var(--pink-rgb),.28)`, color: C.pink, transition: 'border-color .2s, box-shadow .2s' }}
-                      onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = C.pink; (e.currentTarget as HTMLAnchorElement).style.boxShadow = `0 0 12px rgba(var(--pink-rgb),.2)` }}
-                      onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(var(--pink-rgb),.28)'; (e.currentTarget as HTMLAnchorElement).style.boxShadow = 'none' }}>
-                      {'Explore →'}
-                    </Link>
-                  ) : (
-                    <Link href={`/projects/${p.slug}`}
-                      style={{ fontFamily: mono, fontSize: 9, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', textDecoration: 'none', padding: '8px 14px', border: `1px solid rgba(var(--pink-rgb),.28)`, color: C.pink, transition: 'border-color .2s, box-shadow .2s' }}
-                      onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = C.pink; (e.currentTarget as HTMLAnchorElement).style.boxShadow = `0 0 12px rgba(var(--pink-rgb),.2)` }}
-                      onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(var(--pink-rgb),.28)'; (e.currentTarget as HTMLAnchorElement).style.boxShadow = 'none' }}>
-                      {'Explore →'}
-                    </Link>
-                  )}
-                </div>
-              </div>
+          <div className="project-grid">
+            {PROJECTS.map(p => (
+              <motion.div key={p.slug} variants={revealVariant} style={{ display: 'flex' }}>
+                <ProjectCard p={p} />
               </motion.div>
-            )
-          })}
+            ))}
           </div>
+        </motion.div>
+      </section>
+
+      {/* ════════════════════════════════════
+          TESTIMONIALS
+      ════════════════════════════════════ */}
+      <section id="testimonials" style={{ padding: `${sectionVerticalPad}px 0`, borderTop: `1px solid ${C.border}`, background: C.surface, position: 'relative', overflow: 'hidden' }}>
+        <SectionTopLine color={C.pink} />
+        <motion.div variants={staggerVariant} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-80px' }}>
+          <motion.div variants={revealVariant} style={{ display: 'flex', alignItems: 'center', gap: isPhone ? 12 : 20, marginBottom: isPhone ? 28 : 44, padding: `0 ${horizontalPad}px` }}>
+            <span style={{ fontFamily: mono, fontSize: 10, fontWeight: 700, letterSpacing: 3, color: C.cyan, opacity: .6 }}>04</span>
+            <span style={{ fontFamily: mono, fontSize: isPhone ? 20 : 24, fontWeight: 900, letterSpacing: 2, textTransform: 'uppercase' }}>Testimonials</span>
           </motion.div>
+          {TESTIMONIALS.length > 0 && (
+            <motion.div variants={revealVariant} className="testi-marquee">
+              <div className="testi-track">
+                {[...TESTIMONIALS, ...TESTIMONIALS].map((t, i) => <TestimonialCard key={i} t={t} />)}
+              </div>
+            </motion.div>
           )}
-          </AnimatePresence>
         </motion.div>
       </section>
 
@@ -960,7 +901,7 @@ export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }
         <motion.div variants={staggerVariant} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-80px' }}>
           <motion.div variants={revealVariant} style={{ display: 'flex', justifyContent: 'space-between', alignItems: isPhone ? 'flex-start' : 'center', flexDirection: isPhone ? 'column' : 'row', gap: isPhone ? 10 : 0, paddingBottom: 24, borderBottom: `1px solid ${C.border}`, marginBottom: 0 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: isPhone ? 12 : 20 }}>
-              <span style={{ fontFamily: mono, fontSize: 10, fontWeight: 700, letterSpacing: 3, color: C.cyan, opacity: .6 }}>04</span>
+              <span style={{ fontFamily: mono, fontSize: 10, fontWeight: 700, letterSpacing: 3, color: C.cyan, opacity: .6 }}>05</span>
               <span style={{ fontFamily: mono, fontSize: isPhone ? 20 : 24, fontWeight: 900, letterSpacing: 2, textTransform: 'uppercase' }}>Writing</span>
             </div>
             <Link href="/blog" style={{ fontFamily: mono, fontSize: 9, fontWeight: 700, letterSpacing: 2, color: C.muted, textDecoration: 'none' }}>ALL POSTS →</Link>
