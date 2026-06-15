@@ -302,7 +302,7 @@ function SectionTopLine({ color = C.cyan }: { color?: string }) {
 function SpotlightShot({ src, alt }: { src?: string; alt: string }) {
   const [err, setErr] = useState(false)
   return (
-    <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden', border: `1px solid ${C.border}`, background: 'linear-gradient(150deg,#0e2236,#163150 60%,#0c1c2e)', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ position: 'relative', width: '100%', maxWidth: 460, aspectRatio: '16/9', overflow: 'hidden', border: `1px solid ${C.border}`, background: 'linear-gradient(150deg,#0e2236,#163150 60%,#0c1c2e)', display: 'flex', flexDirection: 'column' }}>
       <span style={{ position: 'absolute', top: -1, left: -1, width: 18, height: 18, borderTop: `2px solid ${C.cyan}`, borderLeft: `2px solid ${C.cyan}`, zIndex: 3, pointerEvents: 'none' }} />
       <span style={{ position: 'absolute', bottom: -1, right: -1, width: 18, height: 18, borderBottom: `2px solid ${C.pink}`, borderRight: `2px solid ${C.pink}`, zIndex: 3, pointerEvents: 'none' }} />
       <div style={{ display: 'flex', gap: 5, padding: '9px 11px', borderBottom: `1px solid rgba(var(--cyan-rgb),.12)`, flex: '0 0 auto' }}>
@@ -337,9 +337,9 @@ function ProjectSpotlight({ isPhone, isCompact }: { isPhone: boolean; isCompact:
   const category = CATEGORY_OF.get(activeSlug) ?? ''
 
   return (
-    <div style={{ display: 'flex', flexDirection: isCompact ? 'column' : 'row', gap: 1, background: C.border, border: `1px solid ${C.border}`, minHeight: isCompact ? 'auto' : 480 }}>
+    <div style={{ display: 'flex', flexDirection: isCompact ? 'column' : 'row', gap: 1, background: C.border, border: `1px solid ${C.border}`, minHeight: isCompact ? 'auto' : 640 }}>
       {/* RAIL */}
-      <div style={{ flex: isCompact ? '0 0 auto' : '0 0 300px', width: isCompact ? '100%' : 300, background: C.card, maxHeight: isCompact ? 'none' : 540, overflowY: isCompact ? 'visible' : 'auto' }}>
+      <div style={{ flex: isCompact ? '0 0 auto' : '0 0 300px', width: isCompact ? '100%' : 300, background: C.card, maxHeight: isCompact ? 'none' : 700, overflowY: isCompact ? 'visible' : 'auto' }}>
         {CATEGORIES.map(cat => {
           const items = cat.slugs.map(s => PROJECT_BY_SLUG[s]).filter(Boolean)
           if (items.length === 0) return null
