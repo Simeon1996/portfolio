@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import Link from 'next/link'
 import ContactForm from './ContactForm'
@@ -235,7 +235,7 @@ const PROJECTS = [
   },
 ]
 
-// Ordered project categories for the spotlight rail. Edit membership here.
+// Ordered project categories for the gallery tabs. Edit membership here.
 const CATEGORIES: { label: string; slugs: string[] }[] = [
   { label: 'AI Web Apps', slugs: ['quizforge', 'cookingintelligence', 'ai-detector', 'botversehub'] },
   { label: 'AI Engineering & Platforms', slugs: ['rag', 'email-rag', 'langchain-platform', 'mcp-platform', 'saas', 'resume', 'style'] },
@@ -244,9 +244,6 @@ const CATEGORIES: { label: string; slugs: string[] }[] = [
   { label: 'Mobile', slugs: ['android-freelance'] },
 ]
 const PROJECT_BY_SLUG: Record<string, typeof PROJECTS[number]> = Object.fromEntries(PROJECTS.map(p => [p.slug, p]))
-const FLAT_SLUGS: string[] = CATEGORIES.flatMap(c => c.slugs)
-const DISPLAY_NUM = new Map(FLAT_SLUGS.map((s, i) => [s, String(i + 1).padStart(2, '0')]))
-const CATEGORY_OF = new Map(CATEGORIES.flatMap(c => c.slugs.map(s => [s, c.label] as [string, string])))
 
 // TODO: replace these placeholder quotes with real ones (general praise, not project-specific)
 const TESTIMONIALS = [
@@ -302,7 +299,7 @@ function SectionTopLine({ color = C.cyan }: { color?: string }) {
 function SpotlightShot({ src, alt }: { src?: string; alt: string }) {
   const [err, setErr] = useState(false)
   return (
-    <div style={{ position: 'relative', width: '100%', maxWidth: 600, aspectRatio: '16/9', overflow: 'hidden', border: `1px solid ${C.border}`, background: 'linear-gradient(150deg,#0e2236,#163150 60%,#0c1c2e)', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden', border: `1px solid ${C.border}`, background: 'linear-gradient(150deg,#0e2236,#163150 60%,#0c1c2e)', display: 'flex', flexDirection: 'column' }}>
       <span style={{ position: 'absolute', top: -1, left: -1, width: 18, height: 18, borderTop: `2px solid ${C.cyan}`, borderLeft: `2px solid ${C.cyan}`, zIndex: 3, pointerEvents: 'none' }} />
       <span style={{ position: 'absolute', bottom: -1, right: -1, width: 18, height: 18, borderBottom: `2px solid ${C.pink}`, borderRight: `2px solid ${C.pink}`, zIndex: 3, pointerEvents: 'none' }} />
       <div style={{ display: 'flex', gap: 5, padding: '9px 11px', borderBottom: `1px solid rgba(var(--cyan-rgb),.12)`, flex: '0 0 auto' }}>
@@ -318,85 +315,76 @@ function SpotlightShot({ src, alt }: { src?: string; alt: string }) {
   )
 }
 
-function ProjectSpotlight({ isPhone, isCompact }: { isPhone: boolean; isCompact: boolean }) {
-  const [activeSlug, setActiveSlug] = useState<string>(FLAT_SLUGS[0])
-  const reduce = useReducedMotion()
-  const panelRef = useRef<HTMLDivElement>(null)
-
-  const select = (slug: string) => {
-    setActiveSlug(slug)
-    if (isCompact) requestAnimationFrame(() => panelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }))
-  }
-
-  const p = PROJECT_BY_SLUG[activeSlug]
-  if (!p) return null
-  const detail = PROJECT_DETAILS[activeSlug]
+function GalleryCard({ p }: { p: typeof PROJECTS[number] }) {
+  const [hover, setHover] = useState(false)
+  const detail = PROJECT_DETAILS[p.slug]
   const live = detail?.preview
   const thumb = detail?.images?.[0]?.src
   const exploreHref = p.project ?? `/projects/${p.slug}`
-  const category = CATEGORY_OF.get(activeSlug) ?? ''
+  return (
+    <div
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{ display: 'flex', flexDirection: 'column', height: '100%', background: C.card, border: `1px solid ${hover ? 'rgba(var(--cyan-rgb),.4)' : C.border}`, boxShadow: hover ? '0 0 26px rgba(var(--cyan-rgb),.14)' : 'none', transform: hover ? 'translateY(-3px)' : 'translateY(0)', overflow: 'hidden', position: 'relative', transition: 'border-color .25s, box-shadow .25s, transform .25s' }}
+    >
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: `linear-gradient(90deg,${C.cyan},transparent)`, opacity: hover ? .6 : .4, zIndex: 3 }} />
+      <div style={{ position: 'relative' }}>
+        <SpotlightShot src={thumb} alt={p.title} />
+        {live && <span style={{ position: 'absolute', top: 9, right: 9, zIndex: 3, fontFamily: mono, fontSize: 7, fontWeight: 700, letterSpacing: 1, color: C.green, border: `1px solid rgba(var(--green-rgb),.45)`, background: 'rgba(var(--bg-rgb),.7)', padding: '2px 6px' }}>LIVE</span>}
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 11, padding: '16px 18px 18px', flex: 1 }}>
+        <h3 style={{ margin: 0, fontFamily: mono, fontSize: 14, fontWeight: 700, letterSpacing: .3, color: hover ? C.cyan : C.text, transition: 'color .2s' }}>{p.title}</h3>
+        <p style={{ margin: 0, fontSize: 12, fontWeight: 300, color: C.muted2, lineHeight: 1.65, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{p.desc}</p>
+        <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
+          {p.stack.slice(0, 4).map(t => <Pill key={t} label={t} />)}
+        </div>
+        <div style={{ display: 'flex', gap: 9, flexWrap: 'wrap', marginTop: 'auto', paddingTop: 4 }}>
+          {live && (
+            <a href={live} target="_blank" rel="noopener noreferrer"
+              style={{ fontFamily: mono, fontSize: 8, fontWeight: 700, letterSpacing: 1.3, textTransform: 'uppercase', textDecoration: 'none', padding: '8px 13px', background: C.cyan, color: '#001016', boxShadow: '0 0 14px rgba(var(--cyan-rgb),.3)' }}>Live ↗</a>
+          )}
+          <Link href={exploreHref}
+            style={{ fontFamily: mono, fontSize: 8, fontWeight: 700, letterSpacing: 1.3, textTransform: 'uppercase', textDecoration: 'none', padding: '8px 13px', border: `1px solid rgba(var(--pink-rgb),.4)`, color: C.pink }}>Explore →</Link>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function ProjectGallery() {
+  const [activeCat, setActiveCat] = useState<string>(CATEGORIES[0].label)
+  const reduce = useReducedMotion()
+  const active = CATEGORIES.find(c => c.label === activeCat) ?? CATEGORIES[0]
+  const items = active.slugs.map(s => PROJECT_BY_SLUG[s]).filter(Boolean)
 
   return (
-    <div style={{ display: 'flex', flexDirection: isCompact ? 'column' : 'row', gap: 1, background: C.border, border: `1px solid ${C.border}`, minHeight: isCompact ? 'auto' : 640 }}>
-      {/* RAIL */}
-      <div style={{ flex: isCompact ? '0 0 auto' : '0 0 300px', width: isCompact ? '100%' : 300, background: C.card, maxHeight: isCompact ? 'none' : 700, overflowY: isCompact ? 'visible' : 'auto' }}>
+    <div>
+      {/* TABS */}
+      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', borderBottom: `1px solid ${C.border}`, paddingBottom: 18, marginBottom: 26 }}>
         {CATEGORIES.map(cat => {
-          const items = cat.slugs.map(s => PROJECT_BY_SLUG[s]).filter(Boolean)
-          if (items.length === 0) return null
+          const on = cat.label === activeCat
           return (
-            <div key={cat.label}>
-              <div style={{ padding: '15px 16px 6px', display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{ fontFamily: mono, fontSize: 9, fontWeight: 700, letterSpacing: 2.5, textTransform: 'uppercase', color: C.pink, opacity: .85, whiteSpace: 'nowrap' }}>{cat.label}</span>
-                <span style={{ fontFamily: mono, fontSize: 8, color: C.muted, opacity: .7 }}>· {items.length}</span>
-                <span style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,rgba(var(--pink-rgb),.4),transparent)' }} />
-              </div>
-              {items.map(item => {
-                const on = item.slug === activeSlug
-                const hasLive = Boolean(PROJECT_DETAILS[item.slug]?.preview)
-                return (
-                  <button key={item.slug} type="button" onClick={() => select(item.slug)}
-                    style={{ width: '100%', textAlign: 'left', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10, padding: '9px 16px 9px 18px', border: 'none', borderLeft: `2px solid ${on ? C.cyan : 'transparent'}`, background: on ? 'rgba(var(--cyan-rgb),.07)' : 'transparent', color: on ? C.cyan : C.muted2, fontFamily: "'Space Grotesk', sans-serif", fontSize: 12.5, transition: 'background .15s, color .15s, border-color .15s' }}
-                    onMouseEnter={e => { if (!on) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(var(--cyan-rgb),.04)' }}
-                    onMouseLeave={e => { if (!on) (e.currentTarget as HTMLButtonElement).style.background = 'transparent' }}>
-                    <span style={{ fontFamily: mono, fontSize: 9, color: on ? C.cyan : C.muted, opacity: .7 }}>{DISPLAY_NUM.get(item.slug)}</span>
-                    <span style={{ flex: 1 }}>{item.title}</span>
-                    {hasLive && <span style={{ fontSize: 7, fontFamily: mono, letterSpacing: 1, color: C.green, border: `1px solid rgba(var(--green-rgb),.4)`, padding: '1px 5px' }}>LIVE</span>}
-                  </button>
-                )
-              })}
-            </div>
+            <button key={cat.label} type="button" onClick={() => setActiveCat(cat.label)}
+              style={{ fontFamily: mono, fontSize: 10, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', padding: '9px 16px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8, border: `1px solid ${on ? C.cyan : C.border}`, color: on ? '#001016' : C.muted, background: on ? C.cyan : 'transparent', boxShadow: on ? '0 0 18px rgba(var(--cyan-rgb),.35)' : 'none', transition: 'all .2s' }}
+              onMouseEnter={e => { if (!on) { const b = e.currentTarget as HTMLButtonElement; b.style.borderColor = 'rgba(var(--cyan-rgb),.4)'; b.style.color = C.text } }}
+              onMouseLeave={e => { if (!on) { const b = e.currentTarget as HTMLButtonElement; b.style.borderColor = C.border; b.style.color = C.muted } }}>
+              {cat.label} <span style={{ fontSize: 8, opacity: .7 }}>{cat.slugs.length}</span>
+            </button>
           )
         })}
       </div>
 
-      {/* PANEL */}
-      <div ref={panelRef} style={{ flex: 1, position: 'relative', overflow: 'hidden', background: C.bg }}>
-        <AnimatePresence mode="wait">
-          <motion.div key={activeSlug}
-            initial={{ opacity: 0, x: reduce ? 0 : 24 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: reduce ? 0 : -24 }}
-            transition={{ duration: .3, ease: EASE }}
-            style={{ padding: isPhone ? '24px 22px' : '26px 30px', display: 'flex', flexDirection: 'column', gap: 16, position: 'relative' }}>
-            <div style={{ position: 'absolute', top: 18, right: 26, fontFamily: mono, fontSize: isPhone ? 64 : 90, fontWeight: 900, color: C.cyan, opacity: .04, lineHeight: 1, userSelect: 'none', pointerEvents: 'none' }}>{DISPLAY_NUM.get(activeSlug)}</div>
-            <SpotlightShot src={thumb} alt={p.title} />
-            <div style={{ fontFamily: mono, fontSize: 8, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: C.pink, opacity: .8 }}>{category}{live ? ' — Live Product' : ''}</div>
-            <h3 style={{ margin: 0, fontFamily: mono, fontSize: isPhone ? 20 : 24, fontWeight: 900, letterSpacing: .5, lineHeight: 1.1, color: C.text }}>{p.title}</h3>
-            <p style={{ margin: 0, fontSize: 13, fontWeight: 300, color: C.muted2, lineHeight: 1.8, maxWidth: 560 }}>{p.desc}</p>
-            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-              {p.stack.map(t => <Pill key={t} label={t} />)}
-            </div>
-            <div style={{ display: 'flex', gap: 12, marginTop: 4, flexWrap: 'wrap' }}>
-              {live && (
-                <a href={live} target="_blank" rel="noopener noreferrer"
-                  style={{ fontFamily: mono, fontSize: 10, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', textDecoration: 'none', padding: '10px 18px', background: C.cyan, color: '#001016', boxShadow: '0 0 18px rgba(var(--cyan-rgb),.35)' }}>Live ↗</a>
-              )}
-              <Link href={exploreHref}
-                style={{ fontFamily: mono, fontSize: 10, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', textDecoration: 'none', padding: '10px 18px', border: `1px solid rgba(var(--pink-rgb),.4)`, color: C.pink }}>Explore →</Link>
-            </div>
-          </motion.div>
-        </AnimatePresence>
-      </div>
+      {/* GRID */}
+      <AnimatePresence mode="wait">
+        <motion.div key={activeCat}
+          initial={{ opacity: 0, y: reduce ? 0 : 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: reduce ? 0 : -12 }}
+          transition={{ duration: .25, ease: EASE }}
+          style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))', gap: 18 }}>
+          {items.map(p => <GalleryCard key={p.slug} p={p} />)}
+        </motion.div>
+      </AnimatePresence>
     </div>
   )
 }
@@ -935,7 +923,7 @@ export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }
           </motion.div>
 
           <motion.div variants={revealVariant}>
-            <ProjectSpotlight isPhone={isPhone} isCompact={isCompact} />
+            <ProjectGallery />
           </motion.div>
         </motion.div>
       </section>
