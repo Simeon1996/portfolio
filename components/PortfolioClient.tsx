@@ -302,7 +302,7 @@ function SectionTopLine({ color = C.cyan }: { color?: string }) {
 function SpotlightShot({ src, alt }: { src?: string; alt: string }) {
   const [err, setErr] = useState(false)
   return (
-    <div style={{ position: 'relative', width: '100%', maxWidth: 460, aspectRatio: '16/9', overflow: 'hidden', border: `1px solid ${C.border}`, background: 'linear-gradient(150deg,#0e2236,#163150 60%,#0c1c2e)', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ position: 'relative', width: '100%', maxWidth: 600, aspectRatio: '16/9', overflow: 'hidden', border: `1px solid ${C.border}`, background: 'linear-gradient(150deg,#0e2236,#163150 60%,#0c1c2e)', display: 'flex', flexDirection: 'column' }}>
       <span style={{ position: 'absolute', top: -1, left: -1, width: 18, height: 18, borderTop: `2px solid ${C.cyan}`, borderLeft: `2px solid ${C.cyan}`, zIndex: 3, pointerEvents: 'none' }} />
       <span style={{ position: 'absolute', bottom: -1, right: -1, width: 18, height: 18, borderBottom: `2px solid ${C.pink}`, borderRight: `2px solid ${C.pink}`, zIndex: 3, pointerEvents: 'none' }} />
       <div style={{ display: 'flex', gap: 5, padding: '9px 11px', borderBottom: `1px solid rgba(var(--cyan-rgb),.12)`, flex: '0 0 auto' }}>
