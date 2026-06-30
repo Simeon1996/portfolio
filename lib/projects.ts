@@ -33,7 +33,9 @@ export const PROJECT_DETAILS: Record<string, ProjectDetail> = {
       'An AI support agent that works a shared inbox end to end. Hazel triages incoming conversations, drafts replies grounded in connected systems — Shopify orders, Stripe payments, returns, and a help center — surfaces the exact records behind every answer, and flags the cases that genuinely need a human. Routine tickets get resolved automatically while the team keeps full oversight.',
     stack: ['Next.js', 'TypeScript', 'LangGraph', 'OpenAI', 'PostgreSQL', 'Qdrant'],
     images: [
-      { src: '/projects/customer-support-agent/preview.png', caption: 'Shared inbox with grounded, AI-drafted replies' },
+      { src: '/projects/customer-support-agent/1.svg', caption: 'Shared inbox — AI triages & drafts grounded replies' },
+      { src: '/projects/customer-support-agent/2.svg', caption: 'Connections — the systems Hazel reads from' },
+      { src: '/projects/customer-support-agent/3.svg', caption: 'Insights — resolution & performance analytics' },
     ],
   },
   'ops-agent': {
@@ -44,7 +46,9 @@ export const PROJECT_DETAILS: Record<string, ProjectDetail> = {
       'An enterprise knowledge assistant that answers any question about your company by searching across every connected source — Slack, Google Drive, Notion, Confluence, Jira, GitHub, and an SOP library — and citing the exact documents behind each answer. It handles onboarding questions, policy lookups, decision history, and meeting summaries, with a live feed of what the rest of the team is asking.',
     stack: ['Next.js', 'TypeScript', 'LangChain', 'Qdrant', 'OpenAI', 'PostgreSQL'],
     images: [
-      { src: '/projects/ops-agent/preview.png', caption: 'Ask-anything home with cited, multi-source answers' },
+      { src: '/projects/ops-agent/1.svg', caption: 'Ask anything across every connected source' },
+      { src: '/projects/ops-agent/2.svg', caption: 'Connections — synced knowledge sources' },
+      { src: '/projects/ops-agent/3.svg', caption: 'Activity — what the team is asking' },
     ],
   },
   'security-agent': {
@@ -55,7 +59,10 @@ export const PROJECT_DETAILS: Record<string, ProjectDetail> = {
       'A control plane that keeps a fleet of AI agents safe and accountable. Warden enforces live guardrails on every action, redacts PII, gates spend, and routes high-risk steps to human approval — while a flight-recorder audit log captures every decision, verdict, and record. It includes a policy studio for authoring rules and a red-team & evals suite for stress-testing agents before they ship.',
     stack: ['Next.js', 'TypeScript', 'LangGraph', 'PostgreSQL', 'Redis'],
     images: [
-      { src: '/projects/security-agent/preview.png', caption: 'Command center — live fleet governance & risk' },
+      { src: '/projects/security-agent/1.svg', caption: 'Command center — live fleet governance & risk' },
+      { src: '/projects/security-agent/2.svg', caption: 'Flight recorder — full action audit trail' },
+      { src: '/projects/security-agent/3.svg', caption: 'Policy studio — author guardrail rules' },
+      { src: '/projects/security-agent/4.svg', caption: 'Red-team & evals — stress-test before shipping' },
     ],
   },
   'backoffice-agent': {
@@ -66,7 +73,10 @@ export const PROJECT_DETAILS: Record<string, ProjectDetail> = {
       'An intelligent document desk for the back office. Manila reads everything that lands in the mailroom — invoices, purchase orders, contracts and NDAs, insurance claims, HR forms — classifies and routes each one with a confidence score, auto-files the clear cases, and escalates the rest for human review. It ships with a rulebook, configurable document types, an approvals queue, and throughput analytics.',
     stack: ['Next.js', 'TypeScript', 'LangChain', 'OpenAI', 'PostgreSQL', 'Qdrant'],
     images: [
-      { src: '/projects/backoffice-agent/preview.png', caption: 'Document intake — auto-classified and routed' },
+      { src: '/projects/backoffice-agent/1.svg', caption: 'Intake — documents auto-classified & routed' },
+      { src: '/projects/backoffice-agent/2.svg', caption: 'A document, read and routed step by step' },
+      { src: '/projects/backoffice-agent/3.svg', caption: 'Throughput — processing analytics' },
+      { src: '/projects/backoffice-agent/4.svg', caption: 'Approvals — escalated for human review' },
     ],
   },
 
@@ -79,7 +89,9 @@ export const PROJECT_DETAILS: Record<string, ProjectDetail> = {
       'Paste text, upload a document, or drop in a URL or a whole website, and the detector returns the probability that the content was written by AI. Powered by Claude, it works across plain text, files, and live pages, giving a clear authorship read for educators, publishers, and content teams.',
     stack: ['Next.js', 'TypeScript', 'Claude', 'FastAPI'],
     images: [
-      { src: '/projects/ai-detector/preview.png', caption: 'Analyze text, files, URLs, or full websites' },
+      { src: '/projects/ai-detector/1.svg', caption: 'Gauge AI authorship of any text' },
+      { src: '/projects/ai-detector/2.svg', caption: 'Analyze an uploaded document' },
+      { src: '/projects/ai-detector/3.svg', caption: 'Scan a live URL or whole website' },
     ],
   },
   'cv-analyzer': {
@@ -90,7 +102,9 @@ export const PROJECT_DETAILS: Record<string, ProjectDetail> = {
       'Drop in a CV as a PDF or text file and get instant, detailed feedback scored against industry-leading standards — structure, clarity, impact, keyword coverage, and concrete, actionable suggestions. It gives candidates the kind of review a senior recruiter would, in seconds.',
     stack: ['Next.js', 'TypeScript', 'Claude', 'PostgreSQL'],
     images: [
-      { src: '/projects/cv-analyzer/preview.png', caption: 'Upload a CV for instant, standards-based feedback' },
+      { src: '/projects/cv-analyzer/1.svg', caption: 'Drop in a CV for instant feedback' },
+      { src: '/projects/cv-analyzer/2.svg', caption: 'CV loaded — ready to analyze' },
+      { src: '/projects/cv-analyzer/3.svg', caption: 'Light theme' },
     ],
   },
   'ai-chatbot': {
@@ -101,7 +115,9 @@ export const PROJECT_DETAILS: Record<string, ProjectDetail> = {
       'A retrieval-augmented chat assistant over your own documents. Pick which sources to search, ask a question in natural language, and get answers that cite the exact documents they came from. It includes multi-conversation history and a managed document store, so every response stays grounded and verifiable.',
     stack: ['Next.js', 'TypeScript', 'LangChain', 'Pinecone', 'OpenAI'],
     images: [
-      { src: '/projects/ai-chatbot/preview.png', caption: 'Source-grounded chat with document citations' },
+      { src: '/projects/ai-chatbot/1.svg', caption: 'Ask your knowledge base — cited answers' },
+      { src: '/projects/ai-chatbot/2.svg', caption: 'Manage the source documents' },
+      { src: '/projects/ai-chatbot/3.svg', caption: 'A saved conversation, grounded with citations' },
     ],
   },
 
@@ -114,7 +130,9 @@ export const PROJECT_DETAILS: Record<string, ProjectDetail> = {
       'A market-intelligence dashboard that ingests job openings from multiple global sources, normalizes a messy role taxonomy into clean categories, and tracks demand velocity across sectors and regions. It surfaces what is rising, cooling, and shifting right now — with momentum curves, demand leaders, and an automatic cache refresh.',
     stack: ['Next.js', 'TypeScript', 'Python', 'PostgreSQL'],
     images: [
-      { src: '/projects/jobs-categorizer/preview.png', caption: 'Worldwide opening intelligence & demand trends' },
+      { src: '/projects/jobs-categorizer/1.svg', caption: 'Worldwide opening intelligence' },
+      { src: '/projects/jobs-categorizer/2.svg', caption: 'Global demand curve & momentum' },
+      { src: '/projects/jobs-categorizer/3.svg', caption: 'Demand leaders by sector & region' },
     ],
   },
   'email-rag': {
@@ -160,7 +178,9 @@ export const PROJECT_DETAILS: Record<string, ProjectDetail> = {
       'A working catalogue of 30 complete, multi-page templates — websites and native Android app designs — each with its own typography, colour, and temperament. Every entry opens a live demo you can click through end to end, making it easy for a client to find the world that fits and make it their own.',
     stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Jetpack Compose'],
     images: [
-      { src: '/projects/web-templates/preview.png', caption: 'Thirty sites, thirty worlds — one studio' },
+      { src: '/projects/web-templates/1.svg', caption: 'Thirty sites, thirty worlds — one studio' },
+      { src: '/projects/web-templates/2.svg', caption: 'The catalogue of client-ready templates' },
+      { src: '/projects/web-templates/3.svg', caption: 'More worlds to make your own' },
     ],
   },
   'kameliya-ivanova': {
@@ -171,7 +191,9 @@ export const PROJECT_DETAILS: Record<string, ProjectDetail> = {
       'A polished personal portfolio for an AI engineer — an animated hero, work showcase, certifications, skills, and a career timeline, built as a fast, fully responsive single-page experience with a refined dark aesthetic.',
     stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
     images: [
-      { src: '/projects/kameliya-ivanova/preview.png', caption: 'Animated hero — “I build software that scales”' },
+      { src: '/projects/kameliya-ivanova/1.svg', caption: 'Animated hero — build software that scales' },
+      { src: '/projects/kameliya-ivanova/2.svg', caption: 'About — full-stack, AI & DevOps' },
+      { src: '/projects/kameliya-ivanova/3.svg', caption: 'Skills, certifications & path' },
     ],
   },
   freelance: {

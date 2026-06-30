@@ -246,7 +246,9 @@ function ProjectGallery() {
   )
 }
 
-function TestimonialCard({ t }: { t: typeof TESTIMONIALS[number] }) {
+// Testimonials are disabled (data + section commented out above) until real quotes are added.
+/*
+function TestimonialCard({ t }: { t: { quote: string; name: string; role: string; company: string } }) {
   return (
     <div style={{ flex: '0 0 330px', width: 330, marginRight: 16, background: C.card, border: `1px solid ${C.border}`, padding: '26px 24px 22px', position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: `linear-gradient(90deg,${C.cyan},transparent)`, opacity: .5 }} />
@@ -262,6 +264,7 @@ function TestimonialCard({ t }: { t: typeof TESTIMONIALS[number] }) {
     </div>
   )
 }
+*/
 
 interface Post { slug: string; title: string; date: string; readingTime: number; url: string; tags: string[] }
 
