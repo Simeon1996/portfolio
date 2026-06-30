@@ -94,17 +94,16 @@ const CATEGORIES: { label: string; slugs: string[] }[] = [
   { label: 'AI Web Apps', slugs: ['ai-detector', 'cv-analyzer', 'ai-chatbot', 'quizforge', 'cookingintelligence'] },
   { label: 'AI Engineering & Platforms', slugs: ['jobs-categorizer', 'email-rag', 'langchain-platform', 'mcp-platform'] },
   { label: 'Web / Full-Stack', slugs: ['web-templates', 'kameliya-ivanova', 'cheatsheet', 'freelance'] },
-  { label: 'Mobile', slugs: ['android-freelance'] },
 ]
 const TOTAL_PROJECTS = CATEGORIES.reduce((n, c) => n + c.slugs.length, 0)
 
 // TODO: replace these placeholder quotes with real ones (general praise, not project-specific)
-const TESTIMONIALS = [
-  { quote: 'Simeon shipped faster than our whole team expected, and the architecture still holds up a year later.', name: 'Client Name', role: 'CTO', company: 'Company' },
-  { quote: 'Rare to find someone equally strong across AI, backend, and infrastructure. He just makes hard things work.', name: 'Client Name', role: 'Founder', company: 'Startup' },
-  { quote: 'Clear communicator, zero hand-holding, and the quality bar never dropped under deadline.', name: 'Client Name', role: 'Head of Engineering', company: 'Scale-up' },
-  { quote: 'He turned a vague idea into a production system in weeks. I would hire him again without hesitation.', name: 'Client Name', role: 'Product Lead', company: 'Agency' },
-]
+// const TESTIMONIALS = [
+//   { quote: 'Simeon shipped faster than our whole team expected, and the architecture still holds up a year later.', name: 'Client Name', role: 'CTO', company: 'Company' },
+//   { quote: 'Rare to find someone equally strong across AI, backend, and infrastructure. He just makes hard things work.', name: 'Client Name', role: 'Founder', company: 'Startup' },
+//   { quote: 'Clear communicator, zero hand-holding, and the quality bar never dropped under deadline.', name: 'Client Name', role: 'Head of Engineering', company: 'Scale-up' },
+//   { quote: 'He turned a vague idea into a production system in weeks. I would hire him again without hesitation.', name: 'Client Name', role: 'Product Lead', company: 'Agency' },
+// ]
 
 
 
@@ -789,7 +788,7 @@ export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }
       {/* ════════════════════════════════════
           TESTIMONIALS
       ════════════════════════════════════ */}
-      <section id="testimonials" style={{ padding: `${sectionVerticalPad}px 0`, borderTop: `1px solid ${C.border}`, background: C.surface, position: 'relative', overflow: 'hidden' }}>
+      {/* <section id="testimonials" style={{ padding: `${sectionVerticalPad}px 0`, borderTop: `1px solid ${C.border}`, background: C.surface, position: 'relative', overflow: 'hidden' }}>
         <SectionTopLine color={C.pink} />
         <motion.div variants={staggerVariant} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-80px' }}>
           <motion.div variants={revealVariant} style={{ display: 'flex', alignItems: 'center', gap: isPhone ? 12 : 20, marginBottom: isPhone ? 28 : 44, padding: `0 ${horizontalPad}px` }}>
@@ -810,7 +809,7 @@ export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }
             </motion.div>
           )}
         </motion.div>
-      </section>
+      </section> */}
 
       {/* ════════════════════════════════════
           BLOG

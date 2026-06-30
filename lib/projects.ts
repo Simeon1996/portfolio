@@ -195,30 +195,6 @@ export const PROJECT_DETAILS: Record<string, ProjectDetail> = {
     ],
   },
 
-  // ───────────── Mobile ─────────────
-  'android-freelance': {
-    title: 'Freelance Android Development',
-    portrait: true,
-    preview: 'https://play.google.com/store/apps/developer?id=Grayscaler&hl=en_US',
-    description:
-      'Delivered 15+ Android apps for clients across retail, health, and logistics — all built with Jetpack Compose for fully declarative UIs. Stack includes Hilt for DI, Room for local persistence, Retrofit + OkHttp for networking, Coil for image loading, DataStore for preferences, WorkManager for background tasks, and Navigation Compose for deep-linked multi-screen flows. Applied MVVM with StateFlow, coroutines, and clean architecture across every engagement.',
-    stack: ['Kotlin', 'Jetpack Compose', 'Hilt', 'Room', 'Retrofit'],
-    images: [
-      { src: '/projects/android-freelance/1.svg', caption: '' },
-      { src: '/projects/android-freelance/2.svg', caption: '' },
-      { src: '/projects/android-freelance/3.svg', caption: '' },
-      { src: '/projects/android-freelance/4.svg', caption: '' },
-      { src: '/projects/android-freelance/5.svg', caption: '' },
-      { src: '/projects/android-freelance/6.svg', caption: '' },
-      { src: '/projects/android-freelance/7.svg', caption: '' },
-      { src: '/projects/android-freelance/8.svg', caption: '' },
-      { src: '/projects/android-freelance/9.svg', caption: '' },
-      { src: '/projects/android-freelance/10.svg', caption: '' },
-      { src: '/projects/android-freelance/11.svg', caption: '' },
-      { src: '/projects/android-freelance/12.svg', caption: '' },
-    ],
-  },
-
   // ───────────── AI Web Apps (existing live products) ─────────────
   quizforge: {
     title: 'QuizzYourself — AI Quiz Platform',
