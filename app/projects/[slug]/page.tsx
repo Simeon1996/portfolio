@@ -100,6 +100,15 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
           ))}
         </div>
 
+        {project.demo && (
+          <div style={{ marginBottom: 30, border: '1px solid rgba(var(--orange-rgb),.4)', borderLeft: '3px solid var(--orange)', background: 'rgba(var(--orange-rgb),.06)', padding: '16px 20px', maxWidth: 760 }}>
+            <div style={{ fontFamily: "'Orbitron', monospace", fontSize: 10, fontWeight: 700, letterSpacing: 2, textTransform: 'uppercase', color: 'var(--orange)', marginBottom: 8 }}>Live Demo</div>
+            <p style={{ margin: 0, fontSize: 14, lineHeight: 1.8, color: 'var(--muted2)' }}>
+              This is a live, front-end demo. On request, I&apos;ll wire up a production backend with the stack of your choice — LangChain, LangGraph, Qdrant, Weaviate, PostgreSQL, Pinecone, and more.
+            </p>
+          </div>
+        )}
+
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 64 }}>
           {project.preview ? (
             <a

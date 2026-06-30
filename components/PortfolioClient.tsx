@@ -88,162 +88,15 @@ const EXPERIENCE = [
   },
 ]
 
-const PROJECTS = [
-  {
-    slug: 'cheatsheet',
-    index: '01',
-    title: 'Cheatsheet — Reference Manager for Developers',
-    desc: 'Developer-focused cheatsheet and command reference manager. Organize CLI commands, code snippets, and one-liners into searchable, categorized collections. Private workspace for your personal library and a public explore page for curated community cheatsheets. Syntax-highlighted across Bash, Python, SQL, YAML, HCL, and more — copyable with one click.',
-    github: null,
-    project: '/projects/cheatsheet',
-    stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Prisma', 'PostgreSQL'],
-  },
-  {
-    slug: 'rag',
-    index: '02',
-    title: 'GPT Document Intelligence',
-    desc: 'Upload entire PDF libraries and query them with natural language. Built on LangChain, OpenAI embeddings, and Pinecone. Features hybrid BM25 + dense retrieval, citation tracking, and a streaming chat UI. Handles 10k-page corpora with sub-200ms retrieval.',
-    github: null,
-    project: '/projects/rag',
-    stack: ['Python', 'LangChain', 'OpenAI', 'Pinecone', 'FastAPI'],
-  },
-  {
-    slug: 'agent',
-    index: '03',
-    title: 'Autonomous Incident Commander',
-    desc: 'A multi-agent SRE command center that detects incidents, builds causal graphs from telemetry, executes guarded runbooks, and drafts postmortems automatically. Reduced mean time to resolution by 63% in staging chaos drills while keeping human approval in the loop for every high-risk action.',
-    github: null,
-    project: null,
-    stack: ['Python', 'LangChain', 'Prometheus', 'Kubernetes', 'Grafana'],
-  },
-  {
-    slug: 'devops',
-    index: '04',
-    title: 'FinOps Autopilot',
-    desc: 'An AI platform for cloud cost optimization that forecasts spend, detects anomalies in real time, opens infrastructure right-sizing pull requests, and recommends commitment plans. It combines retrieval over IaC history with policy constraints to avoid unsafe savings recommendations.',
-    github: null,
-    project: '/projects/devops',
-    stack: ['Python', 'AWS', 'Terraform', 'LangChain', 'PostgreSQL'],
-  },
-  {
-    slug: 'saas',
-    index: '05',
-    title: 'Voice Revenue Copilot',
-    desc: 'A real-time assistant for sales teams that transcribes calls live, surfaces objection-handling playbooks, scores deal health, and syncs structured notes into CRM automatically. The system supports multilingual conversations with latency under 400ms for in-call recommendations.',
-    github: null,
-    project: null,
-    stack: ['Python', 'OpenAI', 'React', 'TypeScript', 'WebSocket'],
-  },
-  {
-    slug: 'resume',
-    index: '06',
-    title: 'Talent Intelligence Graph',
-    desc: 'A recruiting intelligence system that converts resumes, portfolios, and job descriptions into a living skills graph. It generates explainable candidate-role matches, interview briefs, and market trend analytics while preserving strict data governance and access controls.',
-    github: null,
-    project: '/projects/resume',
-    stack: ['Python', 'Neo4j', 'LangChain', 'FastAPI', 'PostgreSQL'],
-  },
-  {
-    slug: 'style',
-    index: '07',
-    title: 'Generative Brand Studio',
-    desc: 'A multimodal creative suite that turns a brand brief into on-brand hero visuals, landing page variants, tokenized design systems, and accessibility reports in minutes. It blends diffusion models, retrieval over brand guidelines, and deterministic export pipelines for production handoff.',
-    github: null,
-    project: '/projects/style',
-    stack: ['Python', 'Stable Diffusion', 'LangChain', 'React', 'TypeScript'],
-  },
-  {
-    slug: 'email-rag',
-    index: '08',
-    title: 'High-Traffic Email RAG Engine',
-    desc: 'Production RAG pipeline ingesting millions of emails and attachments (PDF, DOCX, XLSX) daily. Hybrid retrieval combines BM25 sparse search via OpenSearch with dense vector search via Qdrant, fused through Reciprocal Rank Fusion. Includes chunking with overlap, per-tenant index isolation, async ingestion queues (Celery/Redis), deduplication, embedding caching, query rewriting, re-ranking with a cross-encoder, and streaming LLM responses — sustaining 10k+ queries/day with p99 latency under 300ms.',
-    github: null,
-    project: '/projects/email-rag',
-    stack: ['Python', 'OpenSearch', 'Qdrant', 'Celery', 'Redis'],
-  },
-  {
-    slug: 'langchain-platform',
-    index: '09',
-    title: 'LangChain AI Application Platform',
-    desc: 'A production multi-tenant platform built on LangChain\'s full stack — LCEL pipelines, ConversationalRetrievalChain, custom tool-calling agents (AgentExecutor), memory backends (ConversationSummaryBufferMemory), and structured output parsers. Integrates LangSmith for tracing and eval, LangServe for one-command API deployment, and LangGraph for stateful multi-step agent workflows. Supports hot-swappable LLM providers, retrieval over 50M+ documents, and per-user session persistence.',
-    github: null,
-    project: '/projects/langchain-platform',
-    stack: ['LangChain', 'LangGraph', 'LangSmith', 'Python', 'FastAPI'],
-  },
-  {
-    slug: 'mcp-platform',
-    index: '10',
-    title: 'Claude MCP Integration Platform',
-    desc: 'Built a suite of production Model Context Protocol (MCP) servers that give Claude structured, permissioned access to internal tools — databases, REST APIs, file systems, and ticketing systems. Implemented custom resource, tool, and prompt primitives with strict input validation, OAuth-scoped auth, and full audit logging. Enabled non-technical teams to interact with live business data through natural language with zero prompt injection surface.',
-    github: null,
-    project: '/projects/mcp-platform',
-    stack: ['Python', 'MCP', 'TypeScript', 'FastAPI', 'OAuth'],
-  },
-  {
-    slug: 'android-freelance',
-    index: '11',
-    title: 'Freelance Android Development',
-    desc: 'Delivered 15+ Android apps for clients across retail, health, and logistics — all built with Jetpack Compose for fully declarative UIs. Stack includes Hilt for DI, Room for local persistence, Retrofit + OkHttp for networking, Coil for image loading, DataStore for preferences, WorkManager for background tasks, and Navigation Compose for deep-linked multi-screen flows. Applied MVVM with StateFlow, coroutines, and clean architecture across every engagement.',
-    github: null,
-    project: '/projects/android-freelance',
-    stack: ['Kotlin', 'Jetpack Compose', 'Hilt', 'Room', 'Retrofit'],
-  },
-  {
-    slug: 'quizforge',
-    index: '12',
-    title: 'QuizzYourself — AI Quiz Platform',
-    desc: 'Describe a topic and QuizForge generates a full quiz in seconds using LLMs — questions, multiple-choice options, correct answers, and explanations all crafted automatically. Users run quizzes and receive detailed result breakdowns: per-question accuracy, wrong-answer analysis, and knowledge gap insights. Quizzes can be published publicly, kept private, or shared via invite link with specific individuals.',
-    github: null,
-    project: '/projects/quizforge',
-    stack: ['Next.js', 'TypeScript', 'OpenAI', 'PostgreSQL', 'Prisma'],
-  },
-  {
-    slug: 'cookingintelligence',
-    index: '13',
-    title: 'CookingIntelligence',
-    desc: 'Describe a dish, dietary preference, or available ingredients and CookingIntelligence generates a complete recipe in seconds using LLMs — ingredients, quantities, steps, and tips included. Recipes can be cooked interactively step-by-step with timers, substitution suggestions, and contextual guidance at each stage. Like QuizzYourself, recipes can be published publicly, kept private, or shared with specific people via invite link.',
-    github: null,
-    project: '/projects/cookingintelligence',
-    stack: ['Next.js', 'TypeScript', 'OpenAI', 'PostgreSQL', 'Prisma'],
-  },
-  {
-    slug: 'botversehub',
-    index: '14',
-    title: 'BotverseHub',
-    desc: 'A unified platform for managing, training, and interacting with AI bots. Users can spin up bots with custom personas, equip them with selectable tool sets (web search, code execution, file access, APIs), and chat with them in real time. Includes a bot registry, per-bot memory and context management, tool permission controls, conversation history, and an analytics dashboard tracking usage and performance across the entire bot fleet.',
-    github: null,
-    project: '/projects/botversehub',
-    stack: ['React', 'TypeScript', 'Python', 'FastAPI', 'WebSocket'],
-  },
-  {
-    slug: 'ai-detector',
-    index: '15',
-    title: 'AI Content Detector',
-    desc: 'A SaaS platform that detects AI-generated text with 97.4% accuracy across ChatGPT, Claude, Gemini, LLaMA, and more. Paste any text to get a verdict in under 800ms, a sentence-level heatmap highlighting which passages are AI-written, and per-model attribution scores. Includes a REST API with SDKs, batch upload, team workspaces, and a full analytics dashboard.',
-    github: null,
-    project: '/projects/ai-detector',
-    stack: ['Next.js', 'TypeScript', 'Python', 'FastAPI', 'PostgreSQL'],
-  },
-  {
-    slug: 'freelance',
-    index: '16',
-    title: 'Freelance Web Development',
-    desc: 'Delivered 20+ custom websites and client platforms across industries — from e-commerce storefronts and booking systems to internal dashboards and REST APIs. Built with React, Angular, Python (Django/FastAPI), Java (Spring Boot), and vanilla JavaScript. Each engagement covered full-cycle delivery: scoping, architecture, implementation, and handoff.',
-    github: null,
-    project: '/projects/freelance',
-    stack: ['React', 'Angular', 'Django', 'Spring Boot', 'TypeScript'],
-  },
-]
-
 // Ordered project categories for the gallery tabs. Edit membership here.
 const CATEGORIES: { label: string; slugs: string[] }[] = [
-  { label: 'AI Web Apps', slugs: ['quizforge', 'cookingintelligence', 'ai-detector', 'botversehub'] },
-  { label: 'AI Engineering & Platforms', slugs: ['rag', 'email-rag', 'langchain-platform', 'mcp-platform', 'saas', 'resume', 'style'] },
-  { label: 'DevOps & Cloud', slugs: ['agent', 'devops'] },
-  { label: 'Web / Full-Stack', slugs: ['cheatsheet', 'freelance'] },
+  { label: 'AI Agents', slugs: ['customer-support-agent', 'ops-agent', 'security-agent', 'backoffice-agent', 'botversehub'] },
+  { label: 'AI Web Apps', slugs: ['ai-detector', 'cv-analyzer', 'ai-chatbot', 'quizforge', 'cookingintelligence'] },
+  { label: 'AI Engineering & Platforms', slugs: ['jobs-categorizer', 'email-rag', 'langchain-platform', 'mcp-platform'] },
+  { label: 'Web / Full-Stack', slugs: ['web-templates', 'kameliya-ivanova', 'cheatsheet', 'freelance'] },
   { label: 'Mobile', slugs: ['android-freelance'] },
 ]
-const PROJECT_BY_SLUG: Record<string, typeof PROJECTS[number]> = Object.fromEntries(PROJECTS.map(p => [p.slug, p]))
+const TOTAL_PROJECTS = CATEGORIES.reduce((n, c) => n + c.slugs.length, 0)
 
 // TODO: replace these placeholder quotes with real ones (general praise, not project-specific)
 const TESTIMONIALS = [
@@ -315,12 +168,13 @@ function SpotlightShot({ src, alt }: { src?: string; alt: string }) {
   )
 }
 
-function GalleryCard({ p }: { p: typeof PROJECTS[number] }) {
+function GalleryCard({ slug }: { slug: string }) {
   const [hover, setHover] = useState(false)
-  const detail = PROJECT_DETAILS[p.slug]
-  const live = detail?.preview
-  const thumb = detail?.images?.[0]?.src
-  const exploreHref = p.project ?? `/projects/${p.slug}`
+  const d = PROJECT_DETAILS[slug]
+  if (!d) return null
+  const live = d.preview
+  const isDemo = d.demo
+  const thumb = d.images?.[0]?.src
   return (
     <div
       onMouseEnter={() => setHover(true)}
@@ -329,21 +183,25 @@ function GalleryCard({ p }: { p: typeof PROJECTS[number] }) {
     >
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: `linear-gradient(90deg,${C.cyan},transparent)`, opacity: hover ? .6 : .4, zIndex: 3 }} />
       <div style={{ position: 'relative' }}>
-        <SpotlightShot src={thumb} alt={p.title} />
-        {live && <span style={{ position: 'absolute', top: 9, right: 9, zIndex: 3, fontFamily: mono, fontSize: 7, fontWeight: 700, letterSpacing: 1, color: C.green, border: `1px solid rgba(var(--green-rgb),.45)`, background: 'rgba(var(--bg-rgb),.7)', padding: '2px 6px' }}>LIVE</span>}
+        <SpotlightShot src={thumb} alt={d.title} />
+        {isDemo ? (
+          <span style={{ position: 'absolute', top: 9, right: 9, zIndex: 3, fontFamily: mono, fontSize: 7, fontWeight: 700, letterSpacing: 1, color: C.orange, border: `1px solid rgba(var(--orange-rgb),.5)`, background: 'rgba(var(--bg-rgb),.7)', padding: '2px 6px' }}>DEMO</span>
+        ) : live ? (
+          <span style={{ position: 'absolute', top: 9, right: 9, zIndex: 3, fontFamily: mono, fontSize: 7, fontWeight: 700, letterSpacing: 1, color: C.green, border: `1px solid rgba(var(--green-rgb),.45)`, background: 'rgba(var(--bg-rgb),.7)', padding: '2px 6px' }}>LIVE</span>
+        ) : null}
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 11, padding: '16px 18px 18px', flex: 1 }}>
-        <h3 style={{ margin: 0, fontFamily: mono, fontSize: 14, fontWeight: 700, letterSpacing: .3, color: hover ? C.cyan : C.text, transition: 'color .2s' }}>{p.title}</h3>
-        <p style={{ margin: 0, fontSize: 12, fontWeight: 300, color: C.muted2, lineHeight: 1.65, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{p.desc}</p>
+        <h3 style={{ margin: 0, fontFamily: mono, fontSize: 14, fontWeight: 700, letterSpacing: .3, color: hover ? C.cyan : C.text, transition: 'color .2s' }}>{d.title}</h3>
+        <p style={{ margin: 0, fontSize: 12, fontWeight: 300, color: C.muted2, lineHeight: 1.65, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{d.description}</p>
         <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
-          {p.stack.slice(0, 4).map(t => <Pill key={t} label={t} />)}
+          {d.stack.slice(0, 4).map(t => <Pill key={t} label={t} />)}
         </div>
         <div style={{ display: 'flex', gap: 9, flexWrap: 'wrap', marginTop: 'auto', paddingTop: 4 }}>
           {live && (
             <a href={live} target="_blank" rel="noopener noreferrer"
-              style={{ fontFamily: mono, fontSize: 8, fontWeight: 700, letterSpacing: 1.3, textTransform: 'uppercase', textDecoration: 'none', padding: '8px 13px', background: C.cyan, color: '#001016', boxShadow: '0 0 14px rgba(var(--cyan-rgb),.3)' }}>Live ↗</a>
+              style={{ fontFamily: mono, fontSize: 8, fontWeight: 700, letterSpacing: 1.3, textTransform: 'uppercase', textDecoration: 'none', padding: '8px 13px', background: C.cyan, color: '#001016', boxShadow: '0 0 14px rgba(var(--cyan-rgb),.3)' }}>{isDemo ? 'View demo ↗' : 'Live ↗'}</a>
           )}
-          <Link href={exploreHref}
+          <Link href={`/projects/${slug}`}
             style={{ fontFamily: mono, fontSize: 8, fontWeight: 700, letterSpacing: 1.3, textTransform: 'uppercase', textDecoration: 'none', padding: '8px 13px', border: `1px solid rgba(var(--pink-rgb),.4)`, color: C.pink }}>Explore →</Link>
         </div>
       </div>
@@ -355,7 +213,7 @@ function ProjectGallery() {
   const [activeCat, setActiveCat] = useState<string>(CATEGORIES[0].label)
   const reduce = useReducedMotion()
   const active = CATEGORIES.find(c => c.label === activeCat) ?? CATEGORIES[0]
-  const items = active.slugs.map(s => PROJECT_BY_SLUG[s]).filter(Boolean)
+  const items = active.slugs.filter(s => PROJECT_DETAILS[s])
 
   return (
     <div>
@@ -382,7 +240,7 @@ function ProjectGallery() {
           exit={{ opacity: 0, y: reduce ? 0 : -12 }}
           transition={{ duration: .25, ease: EASE }}
           style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))', gap: 18 }}>
-          {items.map(p => <GalleryCard key={p.slug} p={p} />)}
+          {items.map(slug => <GalleryCard key={slug} slug={slug} />)}
         </motion.div>
       </AnimatePresence>
     </div>
@@ -919,7 +777,7 @@ export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }
               <span style={{ fontFamily: mono, fontSize: 10, fontWeight: 700, letterSpacing: 3, color: C.cyan, opacity: .6 }}>03</span>
               <span style={{ fontFamily: mono, fontSize: isPhone ? 20 : 24, fontWeight: 900, letterSpacing: 2, textTransform: 'uppercase' }}>Portfolio</span>
             </div>
-            <span style={{ fontSize: 10, letterSpacing: 2, color: C.muted }}>{`${PROJECTS.length} projects · ${CATEGORIES.length} categories`}</span>
+            <span style={{ fontSize: 10, letterSpacing: 2, color: C.muted }}>{`${TOTAL_PROJECTS} projects · ${CATEGORIES.length} categories`}</span>
           </motion.div>
 
           <motion.div variants={revealVariant}>

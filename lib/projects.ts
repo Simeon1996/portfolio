@@ -4,6 +4,7 @@ export interface ProjectDetail {
   preview?: string
   portrait?: boolean
   interval?: number
+  demo?: boolean
   stack: string[]
   images: { src: string; caption: string }[]
 }
@@ -22,70 +23,98 @@ export const PROJECT_DETAILS: Record<string, ProjectDetail> = {
       { src: '/projects/cheatsheet/5.svg', caption: 'Personal workspace with its own categories' },
     ],
   },
-  rag: {
-    title: 'GPT Document Intelligence',
+
+  // ───────────── AI Agents (live demos) ─────────────
+  'customer-support-agent': {
+    title: 'Hazel — AI Customer Support Agent',
+    preview: 'https://customer-agent-support.vercel.app/',
+    demo: true,
     description:
-      'Upload entire PDF libraries and query them with natural language. Built on LangChain, OpenAI embeddings, and Pinecone. Features hybrid BM25 + dense retrieval, citation tracking, and a streaming chat UI. Handles 10k-page corpora with sub-200ms retrieval.',
-    stack: ['Python', 'LangChain', 'OpenAI', 'Pinecone', 'FastAPI'],
+      'An AI support agent that works a shared inbox end to end. Hazel triages incoming conversations, drafts replies grounded in connected systems — Shopify orders, Stripe payments, returns, and a help center — surfaces the exact records behind every answer, and flags the cases that genuinely need a human. Routine tickets get resolved automatically while the team keeps full oversight.',
+    stack: ['Next.js', 'TypeScript', 'LangGraph', 'OpenAI', 'PostgreSQL', 'Qdrant'],
     images: [
-      { src: '/projects/rag/upload.svg', caption: 'PDF library upload & indexing pipeline' },
-      { src: '/projects/rag/chat.svg', caption: 'Streaming natural language chat with citations' },
-      { src: '/projects/rag/retrieval.svg', caption: 'Hybrid BM25 + dense retrieval results' },
+      { src: '/projects/customer-support-agent/preview.png', caption: 'Shared inbox with grounded, AI-drafted replies' },
     ],
   },
-  agent: {
-    title: 'Autonomous Incident Commander',
+  'ops-agent': {
+    title: 'Helix — Internal Knowledge & Ops Assistant',
+    preview: 'https://ops-agent-omega.vercel.app/',
+    demo: true,
     description:
-      'A multi-agent SRE command center that detects incidents, builds causal graphs from telemetry, executes guarded runbooks, and drafts postmortems automatically. Reduced mean time to resolution by 63% in staging chaos drills while keeping human approval in the loop for every high-risk action.',
-    stack: ['Python', 'LangChain', 'Prometheus', 'Kubernetes', 'Grafana'],
+      'An enterprise knowledge assistant that answers any question about your company by searching across every connected source — Slack, Google Drive, Notion, Confluence, Jira, GitHub, and an SOP library — and citing the exact documents behind each answer. It handles onboarding questions, policy lookups, decision history, and meeting summaries, with a live feed of what the rest of the team is asking.',
+    stack: ['Next.js', 'TypeScript', 'LangChain', 'Qdrant', 'OpenAI', 'PostgreSQL'],
     images: [
-      { src: '/projects/agent/dashboard.svg', caption: 'Live incident detection dashboard' },
-      { src: '/projects/agent/graph.svg', caption: 'Causal graph built from telemetry' },
-      { src: '/projects/agent/runbook.svg', caption: 'Guarded runbook execution timeline' },
+      { src: '/projects/ops-agent/preview.png', caption: 'Ask-anything home with cited, multi-source answers' },
     ],
   },
-  devops: {
-    title: 'FinOps Autopilot',
+  'security-agent': {
+    title: 'Warden — AI Agent Governance & Audit',
+    preview: 'https://security-agent-chi.vercel.app/',
+    demo: true,
     description:
-      'An AI platform for cloud cost optimization that forecasts spend, detects anomalies in real time, opens infrastructure right-sizing pull requests, and recommends commitment plans. It combines retrieval over IaC history with policy constraints to avoid unsafe savings recommendations.',
-    stack: ['Python', 'AWS', 'Terraform', 'LangChain', 'PostgreSQL'],
+      'A control plane that keeps a fleet of AI agents safe and accountable. Warden enforces live guardrails on every action, redacts PII, gates spend, and routes high-risk steps to human approval — while a flight-recorder audit log captures every decision, verdict, and record. It includes a policy studio for authoring rules and a red-team & evals suite for stress-testing agents before they ship.',
+    stack: ['Next.js', 'TypeScript', 'LangGraph', 'PostgreSQL', 'Redis'],
     images: [
-      { src: '/projects/devops/forecast.svg', caption: 'Cloud spend forecasting chart' },
-      { src: '/projects/devops/anomaly.svg', caption: 'Real-time anomaly detection alerts' },
-      { src: '/projects/devops/rightsizing.svg', caption: 'Right-sizing PR recommendations' },
+      { src: '/projects/security-agent/preview.png', caption: 'Command center — live fleet governance & risk' },
     ],
   },
-  saas: {
-    title: 'Voice Revenue Copilot',
+  'backoffice-agent': {
+    title: 'Manila — Back-Office Document Agent',
+    preview: 'https://backoffice-agent-dun.vercel.app/',
+    demo: true,
     description:
-      'A real-time assistant for sales teams that transcribes calls live, surfaces objection-handling playbooks, scores deal health, and syncs structured notes into CRM automatically. The system supports multilingual conversations with latency under 400ms for in-call recommendations.',
-    stack: ['Python', 'OpenAI', 'React', 'TypeScript', 'WebSocket'],
+      'An intelligent document desk for the back office. Manila reads everything that lands in the mailroom — invoices, purchase orders, contracts and NDAs, insurance claims, HR forms — classifies and routes each one with a confidence score, auto-files the clear cases, and escalates the rest for human review. It ships with a rulebook, configurable document types, an approvals queue, and throughput analytics.',
+    stack: ['Next.js', 'TypeScript', 'LangChain', 'OpenAI', 'PostgreSQL', 'Qdrant'],
     images: [
-      { src: '/projects/saas/transcription.svg', caption: 'Live call transcription view' },
-      { src: '/projects/saas/playbook.svg', caption: 'Objection-handling playbook surface' },
-      { src: '/projects/saas/dealhealth.svg', caption: 'Deal health score & CRM sync' },
+      { src: '/projects/backoffice-agent/preview.png', caption: 'Document intake — auto-classified and routed' },
     ],
   },
-  resume: {
-    title: 'Talent Intelligence Graph',
+
+  // ───────────── AI Web Apps (live demos) ─────────────
+  'ai-detector': {
+    title: 'AI Detector — Was This Written by a Machine?',
+    preview: 'https://ai-detector-gules.vercel.app/',
+    demo: true,
     description:
-      'A recruiting intelligence system that converts resumes, portfolios, and job descriptions into a living skills graph. It generates explainable candidate-role matches, interview briefs, and market trend analytics while preserving strict data governance and access controls.',
-    stack: ['Python', 'Neo4j', 'LangChain', 'FastAPI', 'PostgreSQL'],
+      'Paste text, upload a document, or drop in a URL or a whole website, and the detector returns the probability that the content was written by AI. Powered by Claude, it works across plain text, files, and live pages, giving a clear authorship read for educators, publishers, and content teams.',
+    stack: ['Next.js', 'TypeScript', 'Claude', 'FastAPI'],
     images: [
-      { src: '/projects/resume/graph.svg', caption: 'Live skills graph visualization' },
-      { src: '/projects/resume/match.svg', caption: 'Candidate-role match matrix' },
-      { src: '/projects/resume/trends.svg', caption: 'Market trend analytics dashboard' },
+      { src: '/projects/ai-detector/preview.png', caption: 'Analyze text, files, URLs, or full websites' },
     ],
   },
-  style: {
-    title: 'Generative Brand Studio',
+  'cv-analyzer': {
+    title: 'CV Analyzer — Instant Résumé Feedback',
+    preview: 'https://cv-analyzer-wheat-ten.vercel.app/',
+    demo: true,
     description:
-      'A multimodal creative suite that turns a brand brief into on-brand hero visuals, landing page variants, tokenized design systems, and accessibility reports in minutes. It blends diffusion models, retrieval over brand guidelines, and deterministic export pipelines for production handoff.',
-    stack: ['Python', 'Stable Diffusion', 'LangChain', 'React', 'TypeScript'],
+      'Drop in a CV as a PDF or text file and get instant, detailed feedback scored against industry-leading standards — structure, clarity, impact, keyword coverage, and concrete, actionable suggestions. It gives candidates the kind of review a senior recruiter would, in seconds.',
+    stack: ['Next.js', 'TypeScript', 'Claude', 'PostgreSQL'],
     images: [
-      { src: '/projects/style/brief.svg', caption: 'Brand brief input & style extraction' },
-      { src: '/projects/style/visuals.svg', caption: 'Generated hero visuals grid' },
-      { src: '/projects/style/tokens.svg', caption: 'Tokenized design system export' },
+      { src: '/projects/cv-analyzer/preview.png', caption: 'Upload a CV for instant, standards-based feedback' },
+    ],
+  },
+  'ai-chatbot': {
+    title: 'Knowledge-Base Chatbot — Cited RAG',
+    preview: 'https://chatbot-zeta-livid-46.vercel.app/',
+    demo: true,
+    description:
+      'A retrieval-augmented chat assistant over your own documents. Pick which sources to search, ask a question in natural language, and get answers that cite the exact documents they came from. It includes multi-conversation history and a managed document store, so every response stays grounded and verifiable.',
+    stack: ['Next.js', 'TypeScript', 'LangChain', 'Pinecone', 'OpenAI'],
+    images: [
+      { src: '/projects/ai-chatbot/preview.png', caption: 'Source-grounded chat with document citations' },
+    ],
+  },
+
+  // ───────────── AI Engineering & Platforms ─────────────
+  'jobs-categorizer': {
+    title: 'Global Job Pulse — Job-Market Intelligence',
+    preview: 'https://jobs-categorizer.vercel.app/',
+    demo: true,
+    description:
+      'A market-intelligence dashboard that ingests job openings from multiple global sources, normalizes a messy role taxonomy into clean categories, and tracks demand velocity across sectors and regions. It surfaces what is rising, cooling, and shifting right now — with momentum curves, demand leaders, and an automatic cache refresh.',
+    stack: ['Next.js', 'TypeScript', 'Python', 'PostgreSQL'],
+    images: [
+      { src: '/projects/jobs-categorizer/preview.png', caption: 'Worldwide opening intelligence & demand trends' },
     ],
   },
   'email-rag': {
@@ -121,6 +150,52 @@ export const PROJECT_DETAILS: Record<string, ProjectDetail> = {
       { src: '/projects/mcp-platform/chat.svg', caption: 'Natural language query interface' },
     ],
   },
+
+  // ───────────── Web / Full-Stack ─────────────
+  'web-templates': {
+    title: 'The Template Studio — 30 Client-Ready Templates',
+    preview: 'https://web-templates-eight.vercel.app/',
+    demo: true,
+    description:
+      'A working catalogue of 30 complete, multi-page templates — websites and native Android app designs — each with its own typography, colour, and temperament. Every entry opens a live demo you can click through end to end, making it easy for a client to find the world that fits and make it their own.',
+    stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Jetpack Compose'],
+    images: [
+      { src: '/projects/web-templates/preview.png', caption: 'Thirty sites, thirty worlds — one studio' },
+    ],
+  },
+  'kameliya-ivanova': {
+    title: 'Kameliya Ivanova — Portfolio Site',
+    preview: 'https://kameliyaivanova.com/',
+    demo: true,
+    description:
+      'A polished personal portfolio for an AI engineer — an animated hero, work showcase, certifications, skills, and a career timeline, built as a fast, fully responsive single-page experience with a refined dark aesthetic.',
+    stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
+    images: [
+      { src: '/projects/kameliya-ivanova/preview.png', caption: 'Animated hero — “I build software that scales”' },
+    ],
+  },
+  freelance: {
+    title: 'Freelance Web Development',
+    interval: 30000,
+    description:
+      'Delivered 20+ custom websites and client platforms across industries — from e-commerce storefronts and booking systems to internal dashboards and REST APIs. Built with React, Angular, Python (Django/FastAPI), Java (Spring Boot), and vanilla JavaScript. Each engagement covered full-cycle delivery: scoping, architecture, implementation, and handoff.',
+    stack: ['React', 'Angular', 'Django', 'Spring Boot', 'TypeScript', 'Python', 'Java', 'JavaScript', 'HTML', 'CSS', 'AWS'],
+    images: [
+      { src: '/projects/freelance/1.mp4', caption: '' },
+      { src: '/projects/freelance/2.mp4', caption: '' },
+      { src: '/projects/freelance/4.mp4', caption: '' },
+      { src: '/projects/freelance/5.mp4', caption: '' },
+      { src: '/projects/freelance/6.mp4', caption: '' },
+      { src: '/projects/freelance/7.svg', caption: '' },
+      { src: '/projects/freelance/8.svg', caption: '' },
+      { src: '/projects/freelance/9.svg', caption: '' },
+      { src: '/projects/freelance/10.svg', caption: '' },
+      { src: '/projects/freelance/11.mp4', caption: '' },
+      { src: '/projects/freelance/12.mp4', caption: '' },
+    ],
+  },
+
+  // ───────────── Mobile ─────────────
   'android-freelance': {
     title: 'Freelance Android Development',
     portrait: true,
@@ -143,6 +218,8 @@ export const PROJECT_DETAILS: Record<string, ProjectDetail> = {
       { src: '/projects/android-freelance/12.svg', caption: '' },
     ],
   },
+
+  // ───────────── AI Web Apps (existing live products) ─────────────
   quizforge: {
     title: 'QuizzYourself — AI Quiz Platform',
     preview: 'https://quizz-yourself.com',
@@ -196,38 +273,6 @@ export const PROJECT_DETAILS: Record<string, ProjectDetail> = {
       { src: '/projects/botversehub/9.svg', caption: '' },
       { src: '/projects/botversehub/10.svg', caption: '' },
       { src: '/projects/botversehub/11.svg', caption: '' },
-    ],
-  },
-  'ai-detector': {
-    title: 'AI Content Detector',
-    description:
-      'A SaaS platform that detects AI-generated text with 97.4% accuracy across ChatGPT, Claude, Gemini, LLaMA, and more. Paste any text to get a verdict in under 800ms, a sentence-level heatmap highlighting which passages are AI-written, and per-model attribution scores. Built for educators, publishers, and content teams — includes a REST API with SDKs, batch upload, team workspaces, and a full analytics dashboard tracking detection history and trends.',
-    stack: ['Next.js', 'TypeScript', 'Python', 'FastAPI', 'PostgreSQL'],
-    images: [
-      { src: '/projects/ai-detector/1.svg', caption: 'Landing page with live stats' },
-      { src: '/projects/ai-detector/2.svg', caption: 'Text analyzer — paste and configure' },
-      { src: '/projects/ai-detector/3.svg', caption: 'Detection results with sentence heatmap' },
-      { src: '/projects/ai-detector/4.svg', caption: 'Analytics dashboard and check history' }
-    ],
-  },
-  freelance: {
-    title: 'Freelance Web Development',
-    interval: 30000,
-    description:
-      'Delivered 20+ custom websites and client platforms across industries — from e-commerce storefronts and booking systems to internal dashboards and REST APIs. Built with React, Angular, Python (Django/FastAPI), Java (Spring Boot), and vanilla JavaScript. Each engagement covered full-cycle delivery: scoping, architecture, implementation, and handoff.',
-    stack: ['React', 'Angular', 'Django', 'Spring Boot', 'TypeScript', 'Python', 'Java', 'JavaScript', 'HTML', 'CSS', 'AWS'],
-    images: [
-      { src: '/projects/freelance/1.mp4', caption: '' },
-      { src: '/projects/freelance/2.mp4', caption: '' },
-      { src: '/projects/freelance/4.mp4', caption: '' },
-      { src: '/projects/freelance/5.mp4', caption: '' },
-      { src: '/projects/freelance/6.mp4', caption: '' },
-      { src: '/projects/freelance/7.svg', caption: '' },
-      { src: '/projects/freelance/8.svg', caption: '' },
-      { src: '/projects/freelance/9.svg', caption: '' },
-      { src: '/projects/freelance/10.svg', caption: '' },
-      { src: '/projects/freelance/11.mp4', caption: '' },
-      { src: '/projects/freelance/12.mp4', caption: '' },
     ],
   },
 }
