@@ -460,7 +460,7 @@ export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }
         </div>
         {!isCompact && (
           <div style={{ display: 'flex', gap: 32 }}>
-            {[['about', 'about'],['projects', 'portfolio'],['services', 'services'],['testimonials', 'testimonials'],['blog', 'blog']].map(([id, label]) => (
+            {[['about', 'about'],['projects', 'portfolio'],['services', 'services'],['blog', 'blog']].map(([id, label]) => (
               <a key={id} href={`#${id}`} style={{ fontSize: 11, fontWeight: 500, letterSpacing: 2, textDecoration: 'none', textTransform: 'uppercase', color: activeSection === id ? C.cyan : C.muted, textShadow: activeSection === id ? `0 0 12px rgba(var(--cyan-rgb),.6)` : 'none', transition: 'color .2s, text-shadow .2s' }}>{label}</a>
             ))}
           </div>
@@ -494,7 +494,7 @@ export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }
             transition={{ duration: 0.2 }}
             style={{ position: 'fixed', top: isPhone ? 56 : 60, left: 0, right: 0, zIndex: 99, borderBottom: `1px solid ${C.border}`, background: C.surface, padding: `16px ${horizontalPad}px 20px`, display: 'grid', gap: 12 }}
           >
-            {[['about', 'about'],['projects', 'portfolio'],['services', 'services'],['testimonials', 'testimonials'],['blog', 'blog']].map(([id, label]) => (
+            {[['about', 'about'],['projects', 'portfolio'],['services', 'services'],['blog', 'blog']].map(([id, label]) => (
               <a
                 key={id}
                 href={`#${id}`}
