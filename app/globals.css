@@ -409,6 +409,66 @@ body::before {
   }
 }
 
+/* ── Blog tag sidebar ── */
+.blog-layout {
+  display: grid;
+  grid-template-columns: 1fr 240px;
+  gap: clamp(28px, 5vw, 56px);
+  align-items: start;
+}
+
+.blog-tags {
+  position: sticky;
+  top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  max-height: calc(100vh - 64px);
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.blog-tag-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 7px 10px;
+  text-decoration: none;
+  color: var(--blog-muted);
+  font-size: 11px;
+  letter-spacing: 1px;
+  border: 1px solid transparent;
+  transition: border-color .15s, background .15s, color .15s;
+}
+
+.blog-tag-row:hover {
+  border-color: var(--blog-border);
+  background: var(--blog-tag-bg);
+  color: var(--blog-text);
+}
+
+.blog-tag-count {
+  font-size: 10px;
+  opacity: .6;
+  flex-shrink: 0;
+}
+
+@media (max-width: 900px) {
+  .blog-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .blog-tags {
+    position: static;
+    order: -1;
+    max-height: 220px;
+    margin-bottom: clamp(24px, 4vw, 40px);
+    border: 1px solid var(--blog-border);
+    padding: 14px;
+  }
+}
+
 /* ── Testimonials marquee ── */
 .testi-marquee {
   overflow: hidden;
