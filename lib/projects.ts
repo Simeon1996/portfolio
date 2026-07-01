@@ -194,24 +194,16 @@ export const PROJECT_DETAILS: Record<string, ProjectDetail> = {
       { src: '/projects/kameliya-ivanova/3.svg', caption: 'Skills, certifications & path' },
     ],
   },
-  freelance: {
-    title: 'Freelance Web Development',
-    interval: 30000,
+  algorational: {
+    title: 'AlgoRational — Engineering Blog Platform',
+    preview: 'https://algorational.com/',
     description:
-      'Delivered 20+ custom websites and client platforms across industries — from e-commerce storefronts and booking systems to internal dashboards and REST APIs. Built with React, Angular, Python (Django/FastAPI), Java (Spring Boot), and vanilla JavaScript. Each engagement covered full-cycle delivery: scoping, architecture, implementation, and handoff.',
-    stack: ['React', 'Angular', 'Django', 'Spring Boot', 'TypeScript', 'Python', 'Java', 'JavaScript', 'HTML', 'CSS', 'AWS'],
+      'A technical publication on algorithms, data structures, and backend engineering — Java, Spring, DevOps, containers, and more. Includes tag-based topic browsing, trending and latest feeds, full-text search, per-article tables of contents, and a clean editorial reading experience. Built and operated end to end.',
+    stack: ['Java', 'Spring Boot', 'Thymeleaf', 'PostgreSQL', 'Docker'],
     images: [
-      { src: '/projects/freelance/1.mp4', caption: '' },
-      { src: '/projects/freelance/2.mp4', caption: '' },
-      { src: '/projects/freelance/4.mp4', caption: '' },
-      { src: '/projects/freelance/5.mp4', caption: '' },
-      { src: '/projects/freelance/6.mp4', caption: '' },
-      { src: '/projects/freelance/7.svg', caption: '' },
-      { src: '/projects/freelance/8.svg', caption: '' },
-      { src: '/projects/freelance/9.svg', caption: '' },
-      { src: '/projects/freelance/10.svg', caption: '' },
-      { src: '/projects/freelance/11.mp4', caption: '' },
-      { src: '/projects/freelance/12.mp4', caption: '' },
+      { src: '/projects/algorational/1.svg', caption: 'Curated feed — trending & latest posts' },
+      { src: '/projects/algorational/2.svg', caption: 'Article view with a live table of contents' },
+      { src: '/projects/algorational/3.svg', caption: 'Browse deep by topic' },
     ],
   },
 

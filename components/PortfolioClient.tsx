@@ -93,7 +93,7 @@ const CATEGORIES: { label: string; slugs: string[] }[] = [
   { label: 'AI Agents', slugs: ['customer-support-agent', 'ops-agent', 'security-agent', 'backoffice-agent', 'botversehub'] },
   { label: 'AI Web Apps', slugs: ['ai-detector', 'cv-analyzer', 'ai-chatbot', 'quizforge', 'cookingintelligence'] },
   { label: 'AI Engineering & Platforms', slugs: ['jobs-categorizer', 'email-rag', 'langchain-platform', 'mcp-platform'] },
-  { label: 'Web / Full-Stack', slugs: ['web-templates', 'kameliya-ivanova', 'cheatsheet', 'freelance'] },
+  { label: 'Web / Full-Stack', slugs: ['web-templates', 'kameliya-ivanova', 'cheatsheet', 'algorational'] },
 ]
 const TOTAL_PROJECTS = CATEGORIES.reduce((n, c) => n + c.slugs.length, 0)
 
