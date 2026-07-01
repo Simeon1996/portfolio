@@ -415,7 +415,7 @@ export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }
   }, [isCompact])
 
   useEffect(() => {
-    const ids = ['home','about','projects','services','testimonials','blog']
+    const ids = ['home','about','projects','services','blog']
     const obs = new IntersectionObserver(
       entries => entries.forEach(e => { if (e.isIntersecting) setActiveSection(e.target.id) }),
       { threshold: isPhone ? 0.22 : 0.3 }
