@@ -304,6 +304,21 @@ const SERVICES = [
   },
   {
     num: '03',
+    title: 'Fine-Tuning & Self-Hosted Models',
+    timeline: '1 – 30 days',
+    desc: 'Own your models — fine-tune or distill open-weight LLMs for your domain and run them in your own VPC or on-prem, for lower cost, data privacy, and compliance.',
+    checks: [
+      'Dataset curation, fine-tuning & LoRA / QLoRA adapters',
+      'Distillation to smaller, faster task-specific models',
+      'Self-hosted inference (vLLM / Ollama) with GPU autoscaling',
+      'Benchmarking vs. hosted APIs — quality, latency & cost',
+      'Private VPC / on-prem deployment & handoff',
+    ],
+    stack: ['PyTorch', 'Hugging Face', 'LoRA', 'vLLM', 'Ollama', 'Docker', 'AWS'],
+    note: 'Best when API cost, latency, or data-residency rules push you off hosted models. Includes one round of revisions.',
+  },
+  {
+    num: '04',
     title: 'LLMOps & Evaluation',
     timeline: '1 – 30 days',
     desc: 'Make the AI you already shipped trustworthy in production — evaluation, tracing, guardrails, and cost/latency control so quality stops being a guess.',
@@ -318,7 +333,7 @@ const SERVICES = [
     note: 'Ideal once AI is live and you need reliability, safety & cost control. Includes one round of revisions.',
   },
   {
-    num: '04',
+    num: '05',
     title: 'Full-Stack Development',
     timeline: '1 – 30 days',
     desc: 'End-to-end web applications — schema design, API architecture, and polished interfaces built to hold up under real traffic and real users.',
@@ -332,7 +347,7 @@ const SERVICES = [
     stack: ['Next.js', 'Angular', 'React', 'Python', 'Java', 'TypeScript', 'MySQL', 'MongoDB', 'Jenkins, GitHub Actions or GitLab CI']
   },
   {
-    num: '05',
+    num: '06',
     title: 'DevOps & Infrastructure',
     timeline: '1 – 30 days',
     desc: 'CI/CD pipelines, containerisation, and cloud deployments. Infrastructure that scales silently and fails gracefully.',
@@ -346,7 +361,7 @@ const SERVICES = [
     stack: ['Docker', 'Kubernetes', 'Terraform', 'GitHub Actions', 'Prometheus', 'Jenkins', 'AWS', 'GCP']
   },
   {
-    num: '06',
+    num: '07',
     title: 'Data Pipelines',
     timeline: '1 – 30 days',
     desc: 'ETL workflows, vector databases, and real-time analytics. Raw, messy data transformed into fast, reliable decisions.',
