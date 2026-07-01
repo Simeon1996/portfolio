@@ -408,3 +408,31 @@ body::before {
     line-height: 1.6;
   }
 }
+
+/* ── Testimonials marquee ── */
+.testi-marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+.testi-track {
+  display: flex;
+  width: max-content;
+  padding: 4px 0;
+  animation: testi-scroll 40s linear infinite;
+}
+.testi-group {
+  display: flex;
+  flex-shrink: 0;
+}
+.testi-marquee:hover .testi-track {
+  animation-play-state: paused;
+}
+@keyframes testi-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .testi-track { animation: none; }
+  .testi-marquee { overflow-x: auto; }
+}

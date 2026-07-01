@@ -1,10 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
+import { motion, AnimatePresence, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import Link from 'next/link'
 import ContactForm from './ContactForm'
 import ThemeToggle from './ThemeToggle'
+import { PROJECT_DETAILS } from '@/lib/projects'
 
 // ─────────────────────────────────────────────
 // DATA — edit everything in this section
@@ -87,152 +88,22 @@ const EXPERIENCE = [
   },
 ]
 
-const PROJECTS = [
-  {
-    slug: 'cheatsheet',
-    index: '01',
-    title: 'Cheatsheet — Reference Manager for Developers',
-    desc: 'Developer-focused cheatsheet and command reference manager. Organize CLI commands, code snippets, and one-liners into searchable, categorized collections. Private workspace for your personal library and a public explore page for curated community cheatsheets. Syntax-highlighted across Bash, Python, SQL, YAML, HCL, and more — copyable with one click.',
-    github: null,
-    project: '/projects/cheatsheet',
-    stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Prisma', 'PostgreSQL'],
-  },
-  {
-    slug: 'rag',
-    index: '02',
-    title: 'GPT Document Intelligence',
-    desc: 'Upload entire PDF libraries and query them with natural language. Built on LangChain, OpenAI embeddings, and Pinecone. Features hybrid BM25 + dense retrieval, citation tracking, and a streaming chat UI. Handles 10k-page corpora with sub-200ms retrieval.',
-    github: null,
-    project: '/projects/rag',
-    stack: ['Python', 'LangChain', 'OpenAI', 'Pinecone', 'FastAPI'],
-  },
-  {
-    slug: 'agent',
-    index: '03',
-    title: 'Autonomous Incident Commander',
-    desc: 'A multi-agent SRE command center that detects incidents, builds causal graphs from telemetry, executes guarded runbooks, and drafts postmortems automatically. Reduced mean time to resolution by 63% in staging chaos drills while keeping human approval in the loop for every high-risk action.',
-    github: null,
-    project: null,
-    stack: ['Python', 'LangChain', 'Prometheus', 'Kubernetes', 'Grafana'],
-  },
-  {
-    slug: 'devops',
-    index: '04',
-    title: 'FinOps Autopilot',
-    desc: 'An AI platform for cloud cost optimization that forecasts spend, detects anomalies in real time, opens infrastructure right-sizing pull requests, and recommends commitment plans. It combines retrieval over IaC history with policy constraints to avoid unsafe savings recommendations.',
-    github: null,
-    project: '/projects/devops',
-    stack: ['Python', 'AWS', 'Terraform', 'LangChain', 'PostgreSQL'],
-  },
-  {
-    slug: 'saas',
-    index: '05',
-    title: 'Voice Revenue Copilot',
-    desc: 'A real-time assistant for sales teams that transcribes calls live, surfaces objection-handling playbooks, scores deal health, and syncs structured notes into CRM automatically. The system supports multilingual conversations with latency under 400ms for in-call recommendations.',
-    github: null,
-    project: null,
-    stack: ['Python', 'OpenAI', 'React', 'TypeScript', 'WebSocket'],
-  },
-  {
-    slug: 'resume',
-    index: '06',
-    title: 'Talent Intelligence Graph',
-    desc: 'A recruiting intelligence system that converts resumes, portfolios, and job descriptions into a living skills graph. It generates explainable candidate-role matches, interview briefs, and market trend analytics while preserving strict data governance and access controls.',
-    github: null,
-    project: '/projects/resume',
-    stack: ['Python', 'Neo4j', 'LangChain', 'FastAPI', 'PostgreSQL'],
-  },
-  {
-    slug: 'style',
-    index: '07',
-    title: 'Generative Brand Studio',
-    desc: 'A multimodal creative suite that turns a brand brief into on-brand hero visuals, landing page variants, tokenized design systems, and accessibility reports in minutes. It blends diffusion models, retrieval over brand guidelines, and deterministic export pipelines for production handoff.',
-    github: null,
-    project: '/projects/style',
-    stack: ['Python', 'Stable Diffusion', 'LangChain', 'React', 'TypeScript'],
-  },
-  {
-    slug: 'email-rag',
-    index: '08',
-    title: 'High-Traffic Email RAG Engine',
-    desc: 'Production RAG pipeline ingesting millions of emails and attachments (PDF, DOCX, XLSX) daily. Hybrid retrieval combines BM25 sparse search via OpenSearch with dense vector search via Qdrant, fused through Reciprocal Rank Fusion. Includes chunking with overlap, per-tenant index isolation, async ingestion queues (Celery/Redis), deduplication, embedding caching, query rewriting, re-ranking with a cross-encoder, and streaming LLM responses — sustaining 10k+ queries/day with p99 latency under 300ms.',
-    github: null,
-    project: '/projects/email-rag',
-    stack: ['Python', 'OpenSearch', 'Qdrant', 'Celery', 'Redis'],
-  },
-  {
-    slug: 'langchain-platform',
-    index: '09',
-    title: 'LangChain AI Application Platform',
-    desc: 'A production multi-tenant platform built on LangChain\'s full stack — LCEL pipelines, ConversationalRetrievalChain, custom tool-calling agents (AgentExecutor), memory backends (ConversationSummaryBufferMemory), and structured output parsers. Integrates LangSmith for tracing and eval, LangServe for one-command API deployment, and LangGraph for stateful multi-step agent workflows. Supports hot-swappable LLM providers, retrieval over 50M+ documents, and per-user session persistence.',
-    github: null,
-    project: '/projects/langchain-platform',
-    stack: ['LangChain', 'LangGraph', 'LangSmith', 'Python', 'FastAPI'],
-  },
-  {
-    slug: 'mcp-platform',
-    index: '10',
-    title: 'Claude MCP Integration Platform',
-    desc: 'Built a suite of production Model Context Protocol (MCP) servers that give Claude structured, permissioned access to internal tools — databases, REST APIs, file systems, and ticketing systems. Implemented custom resource, tool, and prompt primitives with strict input validation, OAuth-scoped auth, and full audit logging. Enabled non-technical teams to interact with live business data through natural language with zero prompt injection surface.',
-    github: null,
-    project: '/projects/mcp-platform',
-    stack: ['Python', 'MCP', 'TypeScript', 'FastAPI', 'OAuth'],
-  },
-  {
-    slug: 'android-freelance',
-    index: '11',
-    title: 'Freelance Android Development',
-    desc: 'Delivered 15+ Android apps for clients across retail, health, and logistics — all built with Jetpack Compose for fully declarative UIs. Stack includes Hilt for DI, Room for local persistence, Retrofit + OkHttp for networking, Coil for image loading, DataStore for preferences, WorkManager for background tasks, and Navigation Compose for deep-linked multi-screen flows. Applied MVVM with StateFlow, coroutines, and clean architecture across every engagement.',
-    github: null,
-    project: '/projects/android-freelance',
-    stack: ['Kotlin', 'Jetpack Compose', 'Hilt', 'Room', 'Retrofit'],
-  },
-  {
-    slug: 'quizforge',
-    index: '12',
-    title: 'QuizzYourself — AI Quiz Platform',
-    desc: 'Describe a topic and QuizForge generates a full quiz in seconds using LLMs — questions, multiple-choice options, correct answers, and explanations all crafted automatically. Users run quizzes and receive detailed result breakdowns: per-question accuracy, wrong-answer analysis, and knowledge gap insights. Quizzes can be published publicly, kept private, or shared via invite link with specific individuals.',
-    github: null,
-    project: '/projects/quizforge',
-    stack: ['Next.js', 'TypeScript', 'OpenAI', 'PostgreSQL', 'Prisma'],
-  },
-  {
-    slug: 'cookingintelligence',
-    index: '14',
-    title: 'CookingIntelligence',
-    desc: 'Describe a dish, dietary preference, or available ingredients and CookingIntelligence generates a complete recipe in seconds using LLMs — ingredients, quantities, steps, and tips included. Recipes can be cooked interactively step-by-step with timers, substitution suggestions, and contextual guidance at each stage. Like QuizzYourself, recipes can be published publicly, kept private, or shared with specific people via invite link.',
-    github: null,
-    project: '/projects/cookingintelligence',
-    stack: ['Next.js', 'TypeScript', 'OpenAI', 'PostgreSQL', 'Prisma'],
-  },
-  {
-    slug: 'botversehub',
-    index: '16',
-    title: 'BotverseHub',
-    desc: 'A unified platform for managing, training, and interacting with AI bots. Users can spin up bots with custom personas, equip them with selectable tool sets (web search, code execution, file access, APIs), and chat with them in real time. Includes a bot registry, per-bot memory and context management, tool permission controls, conversation history, and an analytics dashboard tracking usage and performance across the entire bot fleet.',
-    github: null,
-    project: '/projects/botversehub',
-    stack: ['React', 'TypeScript', 'Python', 'FastAPI', 'WebSocket'],
-  },
-  {
-    slug: 'ai-detector',
-    index: '17',
-    title: 'AI Content Detector',
-    desc: 'A SaaS platform that detects AI-generated text with 97.4% accuracy across ChatGPT, Claude, Gemini, LLaMA, and more. Paste any text to get a verdict in under 800ms, a sentence-level heatmap highlighting which passages are AI-written, and per-model attribution scores. Includes a REST API with SDKs, batch upload, team workspaces, and a full analytics dashboard.',
-    github: null,
-    project: '/projects/ai-detector',
-    stack: ['Next.js', 'TypeScript', 'Python', 'FastAPI', 'PostgreSQL'],
-  },
-  {
-    slug: 'freelance',
-    index: '18',
-    title: 'Freelance Web Development',
-    desc: 'Delivered 20+ custom websites and client platforms across industries — from e-commerce storefronts and booking systems to internal dashboards and REST APIs. Built with React, Angular, Python (Django/FastAPI), Java (Spring Boot), and vanilla JavaScript. Each engagement covered full-cycle delivery: scoping, architecture, implementation, and handoff.',
-    github: null,
-    project: '/projects/freelance',
-    stack: ['React', 'Angular', 'Django', 'Spring Boot', 'TypeScript'],
-  },
+// Ordered project categories for the gallery tabs. Edit membership here.
+const CATEGORIES: { label: string; slugs: string[] }[] = [
+  { label: 'AI Agents', slugs: ['customer-support-agent', 'ops-agent', 'security-agent', 'backoffice-agent', 'botversehub'] },
+  { label: 'AI Web Apps', slugs: ['ai-detector', 'cv-analyzer', 'ai-chatbot', 'quizforge', 'cookingintelligence'] },
+  { label: 'AI Engineering & Platforms', slugs: ['jobs-categorizer', 'email-rag', 'langchain-platform', 'mcp-platform'] },
+  { label: 'Web / Full-Stack', slugs: ['web-templates', 'kameliya-ivanova', 'cheatsheet', 'algorational'] },
 ]
+const TOTAL_PROJECTS = CATEGORIES.reduce((n, c) => n + c.slugs.length, 0)
+
+// TODO: replace these placeholder quotes with real ones (general praise, not project-specific)
+// const TESTIMONIALS = [
+//   { quote: 'Simeon shipped faster than our whole team expected, and the architecture still holds up a year later.', name: 'Client Name', role: 'CTO', company: 'Company' },
+//   { quote: 'Rare to find someone equally strong across AI, backend, and infrastructure. He just makes hard things work.', name: 'Client Name', role: 'Founder', company: 'Startup' },
+//   { quote: 'Clear communicator, zero hand-holding, and the quality bar never dropped under deadline.', name: 'Client Name', role: 'Head of Engineering', company: 'Scale-up' },
+//   { quote: 'He turned a vague idea into a production system in weeks. I would hire him again without hesitation.', name: 'Client Name', role: 'Product Lead', company: 'Agency' },
+// ]
 
 
 
@@ -276,6 +147,124 @@ function Pill({ label }: { label: string; color?: string }) {
 function SectionTopLine({ color = C.cyan }: { color?: string }) {
   return <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: `linear-gradient(90deg,transparent,${color},transparent)`, opacity: .3 }} />
 }
+
+function SpotlightShot({ src, alt }: { src?: string; alt: string }) {
+  const [err, setErr] = useState(false)
+  return (
+    <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden', border: `1px solid ${C.border}`, background: 'linear-gradient(150deg,#0e2236,#163150 60%,#0c1c2e)', display: 'flex', flexDirection: 'column' }}>
+      <span style={{ position: 'absolute', top: -1, left: -1, width: 18, height: 18, borderTop: `2px solid ${C.cyan}`, borderLeft: `2px solid ${C.cyan}`, zIndex: 3, pointerEvents: 'none' }} />
+      <span style={{ position: 'absolute', bottom: -1, right: -1, width: 18, height: 18, borderBottom: `2px solid ${C.pink}`, borderRight: `2px solid ${C.pink}`, zIndex: 3, pointerEvents: 'none' }} />
+      <div style={{ display: 'flex', gap: 5, padding: '9px 11px', borderBottom: `1px solid rgba(var(--cyan-rgb),.12)`, flex: '0 0 auto' }}>
+        {['#ff5f56', '#ffbd2e', '#27c93f'].map(c => <span key={c} style={{ width: 8, height: 8, borderRadius: '50%', background: c, display: 'inline-block' }} />)}
+      </div>
+      <div style={{ position: 'relative', flex: 1, overflow: 'hidden' }}>
+        {src && !err && (
+          <img src={src} alt={alt} loading="lazy" onError={() => setErr(true)}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', display: 'block' }} />
+        )}
+      </div>
+    </div>
+  )
+}
+
+function GalleryCard({ slug }: { slug: string }) {
+  const [hover, setHover] = useState(false)
+  const d = PROJECT_DETAILS[slug]
+  if (!d) return null
+  const live = d.preview
+  const isDemo = d.demo
+  const thumb = d.images?.[0]?.src
+  return (
+    <div
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{ display: 'flex', flexDirection: 'column', height: '100%', background: C.card, border: `1px solid ${hover ? 'rgba(var(--cyan-rgb),.4)' : C.border}`, boxShadow: hover ? '0 0 26px rgba(var(--cyan-rgb),.14)' : 'none', transform: hover ? 'translateY(-3px)' : 'translateY(0)', overflow: 'hidden', position: 'relative', transition: 'border-color .25s, box-shadow .25s, transform .25s' }}
+    >
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: `linear-gradient(90deg,${C.cyan},transparent)`, opacity: hover ? .6 : .4, zIndex: 3 }} />
+      <div style={{ position: 'relative' }}>
+        <SpotlightShot src={thumb} alt={d.title} />
+        {isDemo ? (
+          <span style={{ position: 'absolute', top: 9, right: 9, zIndex: 3, fontFamily: mono, fontSize: 7, fontWeight: 700, letterSpacing: 1, color: C.orange, border: `1px solid rgba(var(--orange-rgb),.5)`, background: 'rgba(var(--bg-rgb),.7)', padding: '2px 6px' }}>DEMO</span>
+        ) : live ? (
+          <span style={{ position: 'absolute', top: 9, right: 9, zIndex: 3, fontFamily: mono, fontSize: 7, fontWeight: 700, letterSpacing: 1, color: C.green, border: `1px solid rgba(var(--green-rgb),.45)`, background: 'rgba(var(--bg-rgb),.7)', padding: '2px 6px' }}>LIVE</span>
+        ) : null}
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 11, padding: '16px 18px 18px', flex: 1 }}>
+        <h3 style={{ margin: 0, fontFamily: mono, fontSize: 14, fontWeight: 700, letterSpacing: .3, color: hover ? C.cyan : C.text, transition: 'color .2s' }}>{d.title}</h3>
+        <p style={{ margin: 0, fontSize: 12, fontWeight: 300, color: C.muted2, lineHeight: 1.65, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{d.description}</p>
+        <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
+          {d.stack.slice(0, 4).map(t => <Pill key={t} label={t} />)}
+        </div>
+        <div style={{ display: 'flex', gap: 9, flexWrap: 'wrap', marginTop: 'auto', paddingTop: 4 }}>
+          {live && (
+            <a href={live} target="_blank" rel="noopener noreferrer"
+              style={{ fontFamily: mono, fontSize: 8, fontWeight: 700, letterSpacing: 1.3, textTransform: 'uppercase', textDecoration: 'none', padding: '8px 13px', background: C.cyan, color: '#001016', boxShadow: '0 0 14px rgba(var(--cyan-rgb),.3)' }}>{isDemo ? 'View demo ↗' : 'Live ↗'}</a>
+          )}
+          <Link href={`/projects/${slug}`}
+            style={{ fontFamily: mono, fontSize: 8, fontWeight: 700, letterSpacing: 1.3, textTransform: 'uppercase', textDecoration: 'none', padding: '8px 13px', border: `1px solid rgba(var(--pink-rgb),.4)`, color: C.pink }}>Explore →</Link>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function ProjectGallery() {
+  const [activeCat, setActiveCat] = useState<string>(CATEGORIES[0].label)
+  const reduce = useReducedMotion()
+  const active = CATEGORIES.find(c => c.label === activeCat) ?? CATEGORIES[0]
+  const items = active.slugs.filter(s => PROJECT_DETAILS[s])
+
+  return (
+    <div>
+      {/* TABS */}
+      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', borderBottom: `1px solid ${C.border}`, paddingBottom: 18, marginBottom: 26 }}>
+        {CATEGORIES.map(cat => {
+          const on = cat.label === activeCat
+          return (
+            <button key={cat.label} type="button" onClick={() => setActiveCat(cat.label)}
+              style={{ fontFamily: mono, fontSize: 10, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', padding: '9px 16px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8, border: `1px solid ${on ? C.cyan : C.border}`, color: on ? '#001016' : C.muted, background: on ? C.cyan : 'transparent', boxShadow: on ? '0 0 18px rgba(var(--cyan-rgb),.35)' : 'none', transition: 'all .2s' }}
+              onMouseEnter={e => { if (!on) { const b = e.currentTarget as HTMLButtonElement; b.style.borderColor = 'rgba(var(--cyan-rgb),.4)'; b.style.color = C.text } }}
+              onMouseLeave={e => { if (!on) { const b = e.currentTarget as HTMLButtonElement; b.style.borderColor = C.border; b.style.color = C.muted } }}>
+              {cat.label} <span style={{ fontSize: 8, opacity: .7 }}>{cat.slugs.length}</span>
+            </button>
+          )
+        })}
+      </div>
+
+      {/* GRID */}
+      <AnimatePresence mode="wait">
+        <motion.div key={activeCat}
+          initial={{ opacity: 0, y: reduce ? 0 : 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: reduce ? 0 : -12 }}
+          transition={{ duration: .25, ease: EASE }}
+          style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))', gap: 18 }}>
+          {items.map(slug => <GalleryCard key={slug} slug={slug} />)}
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  )
+}
+
+// Testimonials are disabled (data + section commented out above) until real quotes are added.
+/*
+function TestimonialCard({ t }: { t: { quote: string; name: string; role: string; company: string } }) {
+  return (
+    <div style={{ flex: '0 0 330px', width: 330, marginRight: 16, background: C.card, border: `1px solid ${C.border}`, padding: '26px 24px 22px', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: `linear-gradient(90deg,${C.cyan},transparent)`, opacity: .5 }} />
+      <div style={{ fontFamily: mono, fontSize: 54, lineHeight: .6, color: C.cyan, opacity: .18, height: 24 }}>&ldquo;</div>
+      <p style={{ fontSize: 13, fontWeight: 300, color: C.muted2, lineHeight: 1.8, margin: '6px 0 20px' }}>{t.quote}</p>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, borderTop: `1px solid ${C.border}`, paddingTop: 16 }}>
+        <div style={{ width: 38, height: 38, flex: '0 0 38px', border: `1px solid ${C.cyan}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: mono, fontWeight: 700, color: C.cyan, background: 'rgba(var(--cyan-rgb),.06)', fontSize: 14 }}>{t.name.charAt(0)}</div>
+        <div>
+          <div style={{ fontFamily: mono, fontSize: 12, fontWeight: 700, letterSpacing: .5, color: C.text }}>{t.name}</div>
+          <div style={{ fontSize: 10, letterSpacing: 1.5, textTransform: 'uppercase', color: C.muted, marginTop: 3 }}>{t.role} · {t.company}</div>
+        </div>
+      </div>
+    </div>
+  )
+}
+*/
 
 interface Post { slug: string; title: string; date: string; readingTime: number; url: string; tags: string[] }
 
@@ -343,8 +332,6 @@ const SERVICES = [
 ]
 
 export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }) {
-  const [hoveredRow, setHoveredRow]       = useState<string | null>(null)
-  const [projectsOpen, setProjectsOpen]   = useState(false)
   const [openService, setOpenService]     = useState<string>('01')
   const [activeSection, setActiveSection] = useState('home')
   const [mousePos, setMousePos]           = useState({ x: -100, y: -100 })
@@ -383,7 +370,7 @@ export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }
   }, [isCompact])
 
   useEffect(() => {
-    const ids = ['home','about','projects','services','blog']
+    const ids = ['home','about','projects','services','testimonials','blog']
     const obs = new IntersectionObserver(
       entries => entries.forEach(e => { if (e.isIntersecting) setActiveSection(e.target.id) }),
       { threshold: isPhone ? 0.22 : 0.3 }
@@ -428,7 +415,7 @@ export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }
         </div>
         {!isCompact && (
           <div style={{ display: 'flex', gap: 32 }}>
-            {[['about', 'about'],['projects', 'portfolio'],['services', 'services'],['blog', 'blog']].map(([id, label]) => (
+            {[['about', 'about'],['projects', 'portfolio'],['services', 'services'],['testimonials', 'testimonials'],['blog', 'blog']].map(([id, label]) => (
               <a key={id} href={`#${id}`} style={{ fontSize: 11, fontWeight: 500, letterSpacing: 2, textDecoration: 'none', textTransform: 'uppercase', color: activeSection === id ? C.cyan : C.muted, textShadow: activeSection === id ? `0 0 12px rgba(var(--cyan-rgb),.6)` : 'none', transition: 'color .2s, text-shadow .2s' }}>{label}</a>
             ))}
           </div>
@@ -462,7 +449,7 @@ export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }
             transition={{ duration: 0.2 }}
             style={{ position: 'fixed', top: isPhone ? 56 : 60, left: 0, right: 0, zIndex: 99, borderBottom: `1px solid ${C.border}`, background: C.surface, padding: `16px ${horizontalPad}px 20px`, display: 'grid', gap: 12 }}
           >
-            {[['about', 'about'],['projects', 'portfolio'],['services', 'services'],['blog', 'blog']].map(([id, label]) => (
+            {[['about', 'about'],['projects', 'portfolio'],['services', 'services'],['testimonials', 'testimonials'],['blog', 'blog']].map(([id, label]) => (
               <a
                 key={id}
                 href={`#${id}`}
@@ -787,100 +774,45 @@ export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }
       <section id="projects" style={{ padding: `${sectionVerticalPad}px ${horizontalPad}px`, borderTop: `1px solid ${C.border}`, position: 'relative' }}>
         <SectionTopLine />
         <motion.div variants={staggerVariant} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-80px' }}>
-          <motion.div variants={revealVariant}
-            onClick={() => setProjectsOpen(o => !o)}
-            whileHover="hov"
-            style={{ display: 'flex', alignItems: isPhone ? 'flex-start' : 'center', justifyContent: 'space-between', flexDirection: isPhone ? 'column' : 'row', gap: isPhone ? 10 : 0, cursor: 'pointer', userSelect: 'none', padding: '12px 16px', margin: `-12px -16px ${projectsOpen ? (isPhone ? 22 : 36) : -12}px`, borderRadius: 2, transition: 'background .2s' }}
-            onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = 'rgba(var(--cyan-rgb),.04)'}
-            onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = 'transparent'}
-          >
+          <motion.div variants={revealVariant} style={{ display: 'flex', alignItems: isPhone ? 'flex-start' : 'center', justifyContent: 'space-between', flexDirection: isPhone ? 'column' : 'row', gap: isPhone ? 10 : 0, marginBottom: isPhone ? 28 : 44 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: isPhone ? 12 : 20 }}>
               <span style={{ fontFamily: mono, fontSize: 10, fontWeight: 700, letterSpacing: 3, color: C.cyan, opacity: .6 }}>03</span>
               <span style={{ fontFamily: mono, fontSize: isPhone ? 20 : 24, fontWeight: 900, letterSpacing: 2, textTransform: 'uppercase' }}>Portfolio</span>
-              {!projectsOpen && (
-                <motion.span
-                  animate={{ opacity: [.4, 1, .4] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                  style={{ fontFamily: mono, fontSize: 8, fontWeight: 700, letterSpacing: 2, color: C.cyan, border: `1px solid rgba(var(--cyan-rgb),.3)`, padding: '2px 8px', marginLeft: 4 }}
-                >CLICK TO EXPAND</motion.span>
-              )}
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              <span style={{ fontSize: 10, letterSpacing: 2, color: C.muted }}>
-                {`${PROJECTS.length} project${PROJECTS.length === 1 ? '' : 's'}`}
-              </span>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 28, height: 28, border: `1px solid rgba(var(--cyan-rgb),.3)`, background: projectsOpen ? 'rgba(var(--cyan-rgb),.08)' : 'transparent', transition: 'background .2s, border-color .2s' }}>
-                <motion.span
-                  animate={{ rotate: projectsOpen ? 180 : 0 }}
-                  transition={{ duration: .25 }}
-                  style={{ fontFamily: mono, fontSize: 12, color: C.cyan, display: 'inline-block', lineHeight: 1 }}
-                >↓</motion.span>
-              </div>
-            </div>
+            <span style={{ fontSize: 10, letterSpacing: 2, color: C.muted }}>{`${TOTAL_PROJECTS} projects · ${CATEGORIES.length} categories`}</span>
           </motion.div>
 
-          <AnimatePresence initial={false}>
-          {projectsOpen && (
-          <motion.div
-            key="projects-grid"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: .35, ease: EASE }}
-            style={{ overflow: 'hidden' }}
-          >
-          <div style={{ display: 'grid', gridTemplateColumns: isPhone ? '1fr' : '1fr 1fr', gap: 1, background: C.border }}>
-          {PROJECTS.map(p => {
-            const isActiveRow = hoveredRow === p.slug
-            return (
-              <motion.div key={p.slug}
-                style={{ position: 'relative', overflow: 'hidden', background: isActiveRow ? 'rgba(var(--cyan-rgb),.015)' : C.bg, transition: 'border-color .3s,background .3s' }}
-                onMouseEnter={() => { if (!isCompact) setHoveredRow(p.slug) }}
-                onMouseLeave={() => { if (!isCompact) setHoveredRow(null) }}>
-              <motion.div animate={{ scaleY: isActiveRow ? 1 : 0 }} transition={{ duration: .4, ease: EASE }}
-                style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 2, background: `linear-gradient(${C.cyan},${C.purple})`, transformOrigin: 'top', boxShadow: `2px 0 12px rgba(var(--cyan-rgb),.4)` }} />
-              <motion.div animate={{ opacity: isActiveRow ? .4 : 0 }} transition={{ duration: .3 }}
-                style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: `linear-gradient(90deg,transparent,${C.cyan},transparent)` }} />
-
-              <div style={{ display: 'grid', gridTemplateColumns: isPhone ? '1fr' : isTablet ? '52px minmax(0,1fr) auto' : '64px minmax(0,1fr) auto', alignItems: isPhone ? 'flex-start' : 'center', gap: isPhone ? 16 : 28, padding: isPhone ? '20px 18px' : '28px 32px' }}>
-                <span style={{ fontFamily: mono, fontSize: 10, fontWeight: 700, letterSpacing: 2, color: C.muted }}>{p.index}</span>
-
-                <div>
-                  <h3 style={{ margin: 0, fontFamily: mono, fontSize: isPhone ? 16 : 18, fontWeight: 700, letterSpacing: .5, color: isActiveRow ? C.cyan : C.text, textShadow: isActiveRow ? `0 0 20px rgba(var(--cyan-rgb),.3)` : 'none', transition: 'color .2s,text-shadow .2s' }}>
-                    {p.title}
-                  </h3>
-                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 16 }}>
-                    {p.stack.map(t => <Pill key={t} label={t} />)}
-                  </div>
-                </div>
-
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: isPhone ? 'center' : 'end', marginTop: isPhone ? 18 : 0 }}>
-                  {p.project ? (
-                    <Link href={p.project}
-                      style={{ fontFamily: mono, fontSize: 9, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', textDecoration: 'none', padding: '8px 14px', border: `1px solid rgba(var(--pink-rgb),.28)`, color: C.pink, transition: 'border-color .2s, box-shadow .2s' }}
-                      onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = C.pink; (e.currentTarget as HTMLAnchorElement).style.boxShadow = `0 0 12px rgba(var(--pink-rgb),.2)` }}
-                      onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(var(--pink-rgb),.28)'; (e.currentTarget as HTMLAnchorElement).style.boxShadow = 'none' }}>
-                      {'Explore →'}
-                    </Link>
-                  ) : (
-                    <Link href={`/projects/${p.slug}`}
-                      style={{ fontFamily: mono, fontSize: 9, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', textDecoration: 'none', padding: '8px 14px', border: `1px solid rgba(var(--pink-rgb),.28)`, color: C.pink, transition: 'border-color .2s, box-shadow .2s' }}
-                      onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = C.pink; (e.currentTarget as HTMLAnchorElement).style.boxShadow = `0 0 12px rgba(var(--pink-rgb),.2)` }}
-                      onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(var(--pink-rgb),.28)'; (e.currentTarget as HTMLAnchorElement).style.boxShadow = 'none' }}>
-                      {'Explore →'}
-                    </Link>
-                  )}
-                </div>
-              </div>
-              </motion.div>
-            )
-          })}
-          </div>
+          <motion.div variants={revealVariant}>
+            <ProjectGallery />
           </motion.div>
-          )}
-          </AnimatePresence>
         </motion.div>
       </section>
+
+      {/* ════════════════════════════════════
+          TESTIMONIALS
+      ════════════════════════════════════ */}
+      {/* <section id="testimonials" style={{ padding: `${sectionVerticalPad}px 0`, borderTop: `1px solid ${C.border}`, background: C.surface, position: 'relative', overflow: 'hidden' }}>
+        <SectionTopLine color={C.pink} />
+        <motion.div variants={staggerVariant} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-80px' }}>
+          <motion.div variants={revealVariant} style={{ display: 'flex', alignItems: 'center', gap: isPhone ? 12 : 20, marginBottom: isPhone ? 28 : 44, padding: `0 ${horizontalPad}px` }}>
+            <span style={{ fontFamily: mono, fontSize: 10, fontWeight: 700, letterSpacing: 3, color: C.cyan, opacity: .6 }}>04</span>
+            <span style={{ fontFamily: mono, fontSize: isPhone ? 20 : 24, fontWeight: 900, letterSpacing: 2, textTransform: 'uppercase' }}>Testimonials</span>
+          </motion.div>
+          {TESTIMONIALS.length > 0 && (
+            <motion.div variants={revealVariant} className="testi-marquee">
+              <div className="testi-track">
+                {[0, 1].map(group => (
+                  <div className="testi-group" key={group} aria-hidden={group === 1}>
+                    {Array.from({ length: 3 }).flatMap((_, r) =>
+                      TESTIMONIALS.map((t, i) => <TestimonialCard key={`${group}-${r}-${i}`} t={t} />)
+                    )}
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </motion.div>
+      </section> */}
 
       {/* ════════════════════════════════════
           BLOG
@@ -890,7 +822,7 @@ export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }
         <motion.div variants={staggerVariant} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-80px' }}>
           <motion.div variants={revealVariant} style={{ display: 'flex', justifyContent: 'space-between', alignItems: isPhone ? 'flex-start' : 'center', flexDirection: isPhone ? 'column' : 'row', gap: isPhone ? 10 : 0, paddingBottom: 24, borderBottom: `1px solid ${C.border}`, marginBottom: 0 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: isPhone ? 12 : 20 }}>
-              <span style={{ fontFamily: mono, fontSize: 10, fontWeight: 700, letterSpacing: 3, color: C.cyan, opacity: .6 }}>04</span>
+              <span style={{ fontFamily: mono, fontSize: 10, fontWeight: 700, letterSpacing: 3, color: C.cyan, opacity: .6 }}>05</span>
               <span style={{ fontFamily: mono, fontSize: isPhone ? 20 : 24, fontWeight: 900, letterSpacing: 2, textTransform: 'uppercase' }}>Writing</span>
             </div>
             <Link href="/blog" style={{ fontFamily: mono, fontSize: 9, fontWeight: 700, letterSpacing: 2, color: C.muted, textDecoration: 'none' }}>ALL POSTS →</Link>
