@@ -141,9 +141,9 @@ export const PROJECT_DETAILS: Record<string, ProjectDetail> = {
       'Production RAG pipeline ingesting millions of emails and attachments (PDF, DOCX, XLSX) daily. Hybrid retrieval combines BM25 sparse search via OpenSearch with dense vector search via Qdrant, fused through Reciprocal Rank Fusion. Includes chunking with overlap, per-tenant index isolation, async ingestion queues (Celery/Redis), deduplication, embedding caching, query rewriting, re-ranking with a cross-encoder, and streaming LLM responses — sustaining 10k+ queries/day with p99 latency under 300ms.',
     stack: ['Python', 'OpenSearch', 'Qdrant', 'Celery', 'Redis'],
     images: [
-      { src: '/projects/email-rag/ingestion.svg', caption: 'Email & attachment ingestion pipeline' },
-      { src: '/projects/email-rag/search.svg', caption: 'Hybrid sparse + dense search interface' },
-      { src: '/projects/email-rag/results.svg', caption: 'RRF-fused results with re-ranking' },
+      { src: '/projects/email-rag/1.svg', caption: 'Pipeline overview — live ingestion & retrieval' },
+      { src: '/projects/email-rag/2.svg', caption: 'Hybrid retrieval — BM25 + dense, RRF fused' },
+      { src: '/projects/email-rag/3.svg', caption: 'Per-tenant indices & embedding cache' },
     ],
   },
   'langchain-platform': {
@@ -152,9 +152,9 @@ export const PROJECT_DETAILS: Record<string, ProjectDetail> = {
       "A production multi-tenant platform built on LangChain's full stack — LCEL pipelines, ConversationalRetrievalChain, custom tool-calling agents (AgentExecutor), memory backends (ConversationSummaryBufferMemory), and structured output parsers. Integrates LangSmith for tracing and eval, LangServe for one-command API deployment, and LangGraph for stateful multi-step agent workflows. Supports hot-swappable LLM providers, retrieval over 50M+ documents, and per-user session persistence.",
     stack: ['LangChain', 'LangGraph', 'LangSmith', 'Python', 'FastAPI'],
     images: [
-      { src: '/projects/langchain-platform/pipeline.svg', caption: 'LCEL pipeline builder' },
-      { src: '/projects/langchain-platform/trace.svg', caption: 'LangSmith trace & eval viewer' },
-      { src: '/projects/langchain-platform/agent.svg', caption: 'LangGraph agent execution log' },
+      { src: '/projects/langchain-platform/1.svg', caption: 'LCEL pipeline builder — composable runnables' },
+      { src: '/projects/langchain-platform/2.svg', caption: 'Run trace & automatic evals' },
+      { src: '/projects/langchain-platform/3.svg', caption: 'Stateful LangGraph agent with tool-calling' },
     ],
   },
   'mcp-platform': {
@@ -163,9 +163,9 @@ export const PROJECT_DETAILS: Record<string, ProjectDetail> = {
       'Built a suite of production Model Context Protocol (MCP) servers that give Claude structured, permissioned access to internal tools — databases, REST APIs, file systems, and ticketing systems. Implemented custom resource, tool, and prompt primitives with strict input validation, OAuth-scoped auth, and full audit logging. Enabled non-technical teams to interact with live business data through natural language with zero prompt injection surface.',
     stack: ['Python', 'MCP', 'TypeScript', 'FastAPI', 'OAuth'],
     images: [
-      { src: '/projects/mcp-platform/registry.svg', caption: 'MCP server registry & status' },
-      { src: '/projects/mcp-platform/permissions.svg', caption: 'Tool permission & OAuth controls' },
-      { src: '/projects/mcp-platform/chat.svg', caption: 'Natural language query interface' },
+      { src: '/projects/mcp-platform/1.svg', caption: 'MCP server registry — permissioned tools' },
+      { src: '/projects/mcp-platform/2.svg', caption: 'Permissions & full audit trail' },
+      { src: '/projects/mcp-platform/3.svg', caption: 'Ask live business data in plain English' },
     ],
   },
 
@@ -173,7 +173,6 @@ export const PROJECT_DETAILS: Record<string, ProjectDetail> = {
   'web-templates': {
     title: 'The Template Studio — 30 Client-Ready Templates',
     preview: 'https://web-templates-eight.vercel.app/',
-    demo: true,
     description:
       'A working catalogue of 30 complete, multi-page templates — websites and native Android app designs — each with its own typography, colour, and temperament. Every entry opens a live demo you can click through end to end, making it easy for a client to find the world that fits and make it their own.',
     stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Jetpack Compose'],
@@ -186,7 +185,6 @@ export const PROJECT_DETAILS: Record<string, ProjectDetail> = {
   'kameliya-ivanova': {
     title: 'Kameliya Ivanova — Portfolio Site',
     preview: 'https://kameliyaivanova.com/',
-    demo: true,
     description:
       'A polished personal portfolio for an AI engineer — an animated hero, work showcase, certifications, skills, and a career timeline, built as a fast, fully responsive single-page experience with a refined dark aesthetic.',
     stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
