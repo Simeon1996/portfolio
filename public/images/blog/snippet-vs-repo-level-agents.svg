@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" role="img" aria-labelledby="svr-title svr-desc">
+  <title id="svr-title">Snippet-Level vs Repo-Level Reasoning</title>
+  <desc id="svr-desc">Left column shows a snippet-level autocomplete tool limited to the current file with no search and no verification. Right column shows a repo-level agent pipeline that searches the repo, follows references, plans a multi-file edit set, then acts and verifies.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="cyanLine" gradientUnits="userSpaceOnUse" x1="0" x2="1400" y1="0" y2="0">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="cyanLineV" gradientUnits="userSpaceOnUse" x1="0" x2="0" y1="0" y2="820">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="pinkLine" gradientUnits="userSpaceOnUse" x1="0" x2="1400" y1="0" y2="0">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <linearGradient id="ok" gradientUnits="userSpaceOnUse" x1="0" x2="1400" y1="0" y2="0">
+      <stop offset="0%" stop-color="#4ef2a5"/>
+      <stop offset="100%" stop-color="#78ffe2"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      .title { font: 700 40px 'Space Grotesk', sans-serif; fill: #e9f6ff; }
+      .sub { font: 500 16px 'Space Mono', monospace; fill: #9dc1d8; }
+      .colLabel { font: 700 13px 'Space Mono', monospace; letter-spacing: 2.5px; }
+      .stepTitle { font: 700 17px 'Space Grotesk', sans-serif; fill: #e3f5ff; }
+      .stepText { font: 500 13px 'Space Mono', monospace; fill: #9bc4dd; }
+      .okText { font: 700 11px 'Space Mono', monospace; fill: #6affc7; letter-spacing: 1.4px; }
+      .badText { font: 700 11px 'Space Mono', monospace; fill: #ff9db9; letter-spacing: 1.4px; }
+      .card { fill: rgba(14, 29, 46, 0.82); stroke: rgba(120, 179, 216, 0.44); stroke-width: 1.2; rx: 14; }
+      .cardHot { fill: rgba(43, 19, 42, 0.42); stroke: rgba(255, 119, 177, 0.42); stroke-width: 1.2; rx: 14; }
+      .cardOk { fill: rgba(14, 34, 48, 0.88); stroke: rgba(126, 230, 240, 0.8); stroke-width: 1.4; rx: 14; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="820" fill="url(#bg)"/>
+
+  <g opacity="0.08" stroke="#5fa2d0" stroke-width="1">
+    <path d="M0 160 H1400 M0 280 H1400 M0 400 H1400 M0 520 H1400 M0 640 H1400"/>
+    <path d="M200 0 V820 M500 0 V820 M900 0 V820 M1200 0 V820"/>
+  </g>
+
+  <text class="title" x="76" y="80">Snippet-Level vs Repo-Level Reasoning</text>
+  <text class="sub" x="76" y="112">Same model, two very different context strategies</text>
+
+  <line x1="700" y1="150" x2="700" y2="700" stroke="rgba(120,179,216,0.28)" stroke-width="1" stroke-dasharray="4 8"/>
+
+  <text class="colLabel" x="120" y="168" fill="#ff9db9">AUTOCOMPLETE (SNIPPET-LEVEL)</text>
+
+  <rect class="card" x="120" y="190" width="520" height="130"/>
+  <text class="stepTitle" x="146" y="228">Current File Only</text>
+  <text class="stepText" x="146" y="254">Sees the open buffer, maybe a few tabs</text>
+  <text class="stepText" x="146" y="274">No search, no dependency trace</text>
+  <text class="stepText" x="146" y="294">Doesn't know what else calls this code</text>
+
+  <rect class="card" x="120" y="350" width="520" height="130"/>
+  <text class="stepTitle" x="146" y="388">Next-Token Suggestion</text>
+  <text class="stepText" x="146" y="414">Predicts the most likely next line</text>
+  <text class="stepText" x="146" y="434">Guesses at call sites it cannot see</text>
+  <text class="stepText" x="146" y="454">You accept, reject, or edit manually</text>
+
+  <rect class="cardHot" x="120" y="510" width="520" height="110"/>
+  <text class="stepTitle" x="146" y="548">Stops at the File Edge</text>
+  <text class="badText" x="146" y="584">NO MEMORY BETWEEN SUGGESTIONS</text>
+
+  <text class="colLabel" x="780" y="168" fill="#8ef4ff">CODING AGENT (REPO-LEVEL)</text>
+
+  <rect class="cardHot" x="780" y="190" width="500" height="100"/>
+  <text class="stepTitle" x="806" y="224">1. Search the Repo</text>
+  <text class="stepText" x="806" y="250">grep, symbol index, semantic search</text>
+  <text class="stepText" x="806" y="270">Finds every relevant reference first</text>
+
+  <rect class="card" x="780" y="308" width="500" height="100"/>
+  <text class="stepTitle" x="806" y="342">2. Follow References</text>
+  <text class="stepText" x="806" y="368">Callers, imports, tests, config, docs</text>
+
+  <rect class="cardHot" x="780" y="426" width="500" height="100"/>
+  <text class="stepTitle" x="806" y="460">3. Plan the Edit Set</text>
+  <text class="stepText" x="806" y="486">Which files change, and in what order</text>
+
+  <rect class="cardOk" x="780" y="544" width="500" height="110" filter="url(#glow)"/>
+  <text class="stepTitle" x="806" y="580" style="font: 700 19px 'Space Grotesk', sans-serif; fill: #e9f6ff;">4. Act + Verify</text>
+  <text class="stepText" x="806" y="604">Edit files, run tests, confirm before reporting</text>
+  <text class="okText" x="806" y="632">LOOPS BACK IF VERIFICATION FAILS</text>
+
+  <g fill="none" stroke-linecap="round" stroke-width="3" filter="url(#glow)">
+    <path d="M1030 290 V308" stroke="#8ef4ff"/>
+    <path d="M1030 408 V426" stroke="#8ef4ff"/>
+    <path d="M1030 526 V544" stroke="#8ef4ff"/>
+  </g>
+
+  <g fill="#8ceeff" opacity="0.9">
+    <circle cx="1030" cy="308" r="4"/>
+    <circle cx="1030" cy="426" r="4"/>
+    <circle cx="1030" cy="544" r="4"/>
+  </g>
+
+  <text class="sub" x="76" y="770">The difference is not context size — it is whether the tool goes looking for what it doesn't yet know.</text>
+</svg>

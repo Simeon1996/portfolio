@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" role="img" aria-labelledby="ral-title ral-desc">
+  <title id="ral-title">The Repo-Level Agent Loop</title>
+  <desc id="ral-desc">A pipeline diagram: Task leads to Search, then Build Context, then Plan across the top row, down to Act and Verify on the bottom row. Verify either leads to Done or loops back to Search on failure.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="cyanLine" gradientUnits="userSpaceOnUse" x1="0" x2="1400" y1="0" y2="0">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="cyanLineV" gradientUnits="userSpaceOnUse" x1="0" x2="0" y1="0" y2="820">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="pinkLine" gradientUnits="userSpaceOnUse" x1="0" x2="1400" y1="0" y2="0">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <linearGradient id="ok" gradientUnits="userSpaceOnUse" x1="0" x2="1400" y1="0" y2="0">
+      <stop offset="0%" stop-color="#4ef2a5"/>
+      <stop offset="100%" stop-color="#78ffe2"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      .title { font: 700 40px 'Space Grotesk', sans-serif; fill: #e9f6ff; }
+      .sub { font: 500 16px 'Space Mono', monospace; fill: #9dc1d8; }
+      .stepTitle { font: 700 17px 'Space Grotesk', sans-serif; fill: #e3f5ff; }
+      .stepText { font: 500 12.5px 'Space Mono', monospace; fill: #9bc4dd; }
+      .okText { font: 700 11px 'Space Mono', monospace; fill: #6affc7; letter-spacing: 1.4px; }
+      .badText { font: 700 11px 'Space Mono', monospace; fill: #ff9db9; letter-spacing: 1.4px; }
+      .card { fill: rgba(14, 29, 46, 0.82); stroke: rgba(120, 179, 216, 0.44); stroke-width: 1.2; rx: 14; }
+      .cardHot { fill: rgba(43, 19, 42, 0.42); stroke: rgba(255, 119, 177, 0.42); stroke-width: 1.2; rx: 14; }
+      .cardOk { fill: rgba(14, 34, 48, 0.88); stroke: rgba(126, 230, 240, 0.8); stroke-width: 1.6; rx: 14; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="820" fill="url(#bg)"/>
+
+  <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
+    <path d="M0 160 H1400 M0 300 H1400 M0 440 H1400 M0 580 H1400 M0 700 H1400"/>
+    <path d="M200 0 V820 M500 0 V820 M800 0 V820 M1100 0 V820"/>
+  </g>
+
+  <text class="title" x="76" y="80">The Repo-Level Agent Loop</text>
+  <text class="sub" x="76" y="112">Search, read, plan, act, verify — repeat until the change is safe</text>
+
+  <rect class="card" x="90" y="180" width="250" height="130"/>
+  <text class="stepTitle" x="114" y="222">1. Task</text>
+  <text class="stepText" x="114" y="250">"Rename calculateTotal</text>
+  <text class="stepText" x="114" y="268">safely across the repo"</text>
+
+  <rect class="cardHot" x="405" y="180" width="250" height="130"/>
+  <text class="stepTitle" x="429" y="222">2. Search</text>
+  <text class="stepText" x="429" y="250">grep + semantic index</text>
+  <text class="stepText" x="429" y="268">find every reference</text>
+
+  <rect class="card" x="720" y="180" width="250" height="130"/>
+  <text class="stepTitle" x="744" y="222">3. Build Context</text>
+  <text class="stepText" x="744" y="250">Pull in only the relevant</text>
+  <text class="stepText" x="744" y="268">files and symbols</text>
+
+  <rect class="cardHot" x="1035" y="180" width="250" height="130"/>
+  <text class="stepTitle" x="1059" y="222">4. Plan</text>
+  <text class="stepText" x="1059" y="250">Order the edits</text>
+  <text class="stepText" x="1059" y="268">flag risky call sites</text>
+
+  <rect class="cardHot" x="1035" y="480" width="250" height="130"/>
+  <text class="stepTitle" x="1059" y="522">5. Act</text>
+  <text class="stepText" x="1059" y="550">Edit files</text>
+  <text class="stepText" x="1059" y="568">run the test suite</text>
+
+  <rect class="card" x="720" y="480" width="250" height="130"/>
+  <text class="stepTitle" x="744" y="522">6. Verify</text>
+  <text class="stepText" x="744" y="550">Tests green?</text>
+  <text class="stepText" x="744" y="568">Build clean?</text>
+
+  <rect class="cardOk" x="350" y="480" width="280" height="130" filter="url(#glow)"/>
+  <text class="stepTitle" x="376" y="522" style="font: 700 19px 'Space Grotesk', sans-serif; fill: #e9f6ff;">Done</text>
+  <text class="stepText" x="376" y="548">Diff + rationale reported</text>
+  <text class="okText" x="376" y="580">HUMAN REVIEWS BEFORE MERGE</text>
+
+  <g fill="none" stroke-linecap="round" stroke-width="3" filter="url(#glow)">
+    <path d="M340 245 H405" stroke="url(#cyanLine)"/>
+    <path d="M655 245 H720" stroke="url(#cyanLine)"/>
+    <path d="M970 245 H1035" stroke="url(#cyanLine)"/>
+    <path d="M1160 310 V480" stroke="url(#cyanLineV)"/>
+    <path d="M1035 545 H970" stroke="url(#cyanLine)"/>
+    <path d="M720 545 H630" stroke="url(#ok)"/>
+    <path d="M845 480 V420 H530 V310" stroke="url(#pinkLine)"/>
+  </g>
+
+  <g fill="#8ceeff" opacity="0.9">
+    <circle cx="340" cy="245" r="4"/>
+    <circle cx="405" cy="245" r="4"/>
+    <circle cx="655" cy="245" r="4"/>
+    <circle cx="720" cy="245" r="4"/>
+    <circle cx="970" cy="245" r="4"/>
+    <circle cx="1035" cy="245" r="4"/>
+    <circle cx="1160" cy="480" r="4"/>
+    <circle cx="970" cy="545" r="4"/>
+  </g>
+  <circle cx="630" cy="545" r="4" fill="#8effc0"/>
+  <circle cx="845" cy="480" r="4" fill="#ff93bb"/>
+  <circle cx="530" cy="310" r="4" fill="#ff93bb"/>
+
+  <text class="badText" x="560" y="440">RETRY ON FAILURE</text>
+
+  <text class="sub" x="76" y="770">It is a loop, not a forward pass — the agent keeps searching until the plan survives verification.</text>
+</svg>

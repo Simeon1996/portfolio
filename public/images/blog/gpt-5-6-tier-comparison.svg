@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" role="img" aria-labelledby="gtc-title gtc-desc">
+  <title id="gtc-title">GPT-5.6 Tier Comparison — Luna, Terra, Sol</title>
+  <desc id="gtc-desc">Three cards comparing Luna, Terra, and Sol on price per million tokens and best use case, with a cost bar under each card scaled to output price. Terra is marked as the default choice. A footer notes Sol's benchmark results.</desc>
+  <defs>
+    <linearGradient id="bg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="820">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="okBar" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#4ef2a5"/>
+      <stop offset="100%" stop-color="#78ffe2"/>
+    </linearGradient>
+    <linearGradient id="cyanBar" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="pinkBar" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      .title { font: 700 40px 'Space Grotesk', sans-serif; fill: #e9f6ff; }
+      .sub { font: 500 16px 'Space Mono', monospace; fill: #9dc1d8; }
+      .badge { font: 700 22px 'Space Grotesk', sans-serif; }
+      .tagline { font: 600 14px 'Space Mono', monospace; fill: #cfe8f7; }
+      .price { font: 700 26px 'Space Grotesk', sans-serif; fill: #ffffff; }
+      .priceUnit { font: 500 11px 'Space Mono', monospace; fill: #8fb3cc; letter-spacing: 1px; }
+      .stepText { font: 500 12.5px 'Space Mono', monospace; fill: #9bc4dd; }
+      .barLabel { font: 700 10px 'Space Mono', monospace; fill: #8fb3cc; letter-spacing: 1.5px; }
+      .card { fill: rgba(14, 29, 46, 0.82); stroke: rgba(120, 179, 216, 0.44); stroke-width: 1.2; rx: 16; }
+      .cardOk { fill: rgba(14, 34, 48, 0.9); stroke: rgba(126, 230, 240, 0.85); stroke-width: 1.8; rx: 16; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="820" fill="url(#bg)"/>
+
+  <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
+    <path d="M0 160 H1400 M0 300 H1400 M0 440 H1400 M0 580 H1400 M0 700 H1400"/>
+    <path d="M200 0 V820 M500 0 V820 M800 0 V820 M1100 0 V820"/>
+  </g>
+
+  <text class="title" x="76" y="80">GPT-5.6: Three Tiers, One Family</text>
+  <text class="sub" x="76" y="112">Same lineage, different jobs — priced per 1M tokens, input / output</text>
+
+  <rect class="card" x="90" y="180" width="380" height="440"/>
+  <text class="badge" x="122" y="240" fill="#8effc0">LUNA</text>
+  <text class="tagline" x="122" y="266">Fast + cheap</text>
+  <text class="price" x="122" y="316">$1 / $6</text>
+  <text class="priceUnit" x="122" y="338">PER 1M TOKENS, IN / OUT</text>
+  <text class="stepText" x="122" y="378">High-volume, latency-sensitive</text>
+  <text class="stepText" x="122" y="398">jobs — Sol-grade reasoning</text>
+  <text class="stepText" x="122" y="418">would be overkill here</text>
+  <rect x="122" y="540" width="60" height="14" rx="4" fill="url(#okBar)"/>
+  <text class="barLabel" x="122" y="572">RELATIVE OUTPUT COST</text>
+
+  <rect class="cardOk" x="510" y="160" width="380" height="480" filter="url(#glow)"/>
+  <text class="badge" x="542" y="240" fill="#8ef4ff">TERRA</text>
+  <text class="stepText" x="700" y="234" fill="#6affc7" style="font: 700 11px 'Space Mono', monospace; letter-spacing: 1.5px;">DEFAULT</text>
+  <text class="tagline" x="542" y="266">Everyday workhorse</text>
+  <text class="price" x="542" y="316">$2.50 / $15</text>
+  <text class="priceUnit" x="542" y="338">PER 1M TOKENS, IN / OUT</text>
+  <text class="stepText" x="542" y="378">~GPT-5.5-level performance</text>
+  <text class="stepText" x="542" y="398">at roughly half the cost —</text>
+  <text class="stepText" x="542" y="418">the right starting point</text>
+  <rect x="542" y="560" width="150" height="14" rx="4" fill="url(#cyanBar)"/>
+  <text class="barLabel" x="542" y="592">RELATIVE OUTPUT COST</text>
+
+  <rect class="card" x="930" y="180" width="380" height="440"/>
+  <text class="badge" x="962" y="240" fill="#ff9db9">SOL</text>
+  <text class="tagline" x="962" y="266">Flagship, deepest reasoning</text>
+  <text class="price" x="962" y="316">$5 / $30</text>
+  <text class="priceUnit" x="962" y="338">PER 1M TOKENS, IN / OUT</text>
+  <text class="stepText" x="962" y="378">Hard problems, long agent</text>
+  <text class="stepText" x="962" y="398">runs, security work — exclusive</text>
+  <text class="stepText" x="962" y="418">access to max + ultra modes</text>
+  <rect x="962" y="540" width="300" height="14" rx="4" fill="url(#pinkBar)"/>
+  <text class="barLabel" x="962" y="572">RELATIVE OUTPUT COST</text>
+
+  <text class="stepText" x="76" y="770">Sol + ultra: 91.91% on TerminalBench 2.1 · first model to clear 50% on Agent's Last Exam (50.9%)</text>
+</svg>

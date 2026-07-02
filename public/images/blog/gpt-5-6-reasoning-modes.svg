@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" role="img" aria-labelledby="grm-title grm-desc">
+  <title id="grm-title">Sol's Reasoning Modes — Standard, Max, and Ultra</title>
+  <desc id="grm-desc">Three columns. Standard shows a single model pass to an answer. Max shows the same single agent thinking for longer before answering. Ultra shows one task fanning out into three parallel subagents that converge into one synthesized answer.</desc>
+  <defs>
+    <linearGradient id="bg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="820">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="cyanLine" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="pinkLine" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <linearGradient id="okLine" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#4ef2a5"/>
+      <stop offset="100%" stop-color="#78ffe2"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      .title { font: 700 40px 'Space Grotesk', sans-serif; fill: #e9f6ff; }
+      .sub { font: 500 16px 'Space Mono', monospace; fill: #9dc1d8; }
+      .colLabel { font: 700 13px 'Space Mono', monospace; letter-spacing: 2.5px; }
+      .stepTitle { font: 700 16px 'Space Grotesk', sans-serif; fill: #e3f5ff; }
+      .stepText { font: 500 12px 'Space Mono', monospace; fill: #9bc4dd; }
+      .miniTitle { font: 700 12px 'Space Grotesk', sans-serif; fill: #e3f5ff; }
+      .miniText { font: 500 10px 'Space Mono', monospace; fill: #9bc4dd; }
+      .card { fill: rgba(14, 29, 46, 0.82); stroke: rgba(120, 179, 216, 0.44); stroke-width: 1.2; rx: 14; }
+      .cardHot { fill: rgba(43, 19, 42, 0.42); stroke: rgba(255, 119, 177, 0.42); stroke-width: 1.2; rx: 14; }
+      .cardOk { fill: rgba(14, 34, 48, 0.9); stroke: rgba(126, 230, 240, 0.85); stroke-width: 1.6; rx: 14; }
+      .cardMini { fill: rgba(43, 19, 42, 0.5); stroke: rgba(255, 119, 177, 0.5); stroke-width: 1.1; rx: 10; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="820" fill="url(#bg)"/>
+
+  <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
+    <path d="M0 160 H1400 M0 300 H1400 M0 440 H1400 M0 580 H1400 M0 700 H1400"/>
+    <path d="M200 0 V820 M500 0 V820 M800 0 V820 M1100 0 V820"/>
+  </g>
+
+  <text class="title" x="76" y="80">Sol's Reasoning Modes</text>
+  <text class="sub" x="76" y="112">Standard, max, and ultra spend effort differently — not just "more of the same"</text>
+
+  <text class="colLabel" x="90" y="168" fill="#9dc1d8">STANDARD</text>
+  <rect class="card" x="90" y="190" width="300" height="110"/>
+  <text class="stepTitle" x="116" y="228">Model Thinks</text>
+  <text class="stepText" x="116" y="254">Single pass, default effort</text>
+  <text class="stepText" x="116" y="274">Good for most everyday tasks</text>
+
+  <rect class="card" x="90" y="440" width="300" height="90"/>
+  <text class="stepTitle" x="116" y="478">Answer</text>
+  <text class="stepText" x="116" y="500">Fast turnaround</text>
+
+  <text class="colLabel" x="510" y="168" fill="#ffc17d">MAX</text>
+  <rect class="cardHot" x="510" y="190" width="300" height="170"/>
+  <text class="stepTitle" x="536" y="228">Model Thinks Longer</text>
+  <text class="stepText" x="536" y="254">Same single agent</text>
+  <text class="stepText" x="536" y="274">Extended internal reasoning</text>
+  <text class="stepText" x="536" y="294">budget before it answers</text>
+  <path d="M536 320 Q660 350 784 320" fill="none" stroke="#ffc17d" stroke-width="2" stroke-dasharray="3 5" opacity="0.7"/>
+
+  <rect class="cardHot" x="510" y="500" width="300" height="90"/>
+  <text class="stepTitle" x="536" y="538">Answer</text>
+  <text class="stepText" x="536" y="560">Higher quality, slower, pricier</text>
+
+  <text class="colLabel" x="930" y="168" fill="#ff9db9">ULTRA</text>
+  <rect class="cardHot" x="930" y="190" width="300" height="80"/>
+  <text class="stepTitle" x="956" y="228">Task</text>
+  <text class="stepText" x="956" y="250">Same input as standard</text>
+
+  <rect class="cardMini" x="930" y="330" width="90" height="80"/>
+  <text class="miniTitle" x="946" y="360">Subagent A</text>
+  <text class="miniText" x="946" y="380">reasons</text>
+  <text class="miniText" x="946" y="394">in parallel</text>
+
+  <rect class="cardMini" x="1035" y="330" width="90" height="80"/>
+  <text class="miniTitle" x="1051" y="360">Subagent B</text>
+  <text class="miniText" x="1051" y="380">reasons</text>
+  <text class="miniText" x="1051" y="394">in parallel</text>
+
+  <rect class="cardMini" x="1140" y="330" width="90" height="80"/>
+  <text class="miniTitle" x="1156" y="360">Subagent C</text>
+  <text class="miniText" x="1156" y="380">reasons</text>
+  <text class="miniText" x="1156" y="394">in parallel</text>
+
+  <rect class="cardOk" x="930" y="500" width="300" height="90" filter="url(#glow)"/>
+  <text class="stepTitle" x="956" y="538">Synthesized Answer</text>
+  <text class="stepText" x="956" y="560">Merged from every subagent</text>
+
+  <g fill="none" stroke-linecap="round" stroke-width="3" filter="url(#glow)">
+    <path d="M240 300 V440" stroke="url(#cyanLine)"/>
+    <path d="M660 360 V500" stroke="url(#pinkLine)"/>
+    <path d="M1080 270 V300 H975 V330" stroke="url(#pinkLine)"/>
+    <path d="M1080 270 V330" stroke="url(#pinkLine)"/>
+    <path d="M1080 270 V300 H1185 V330" stroke="url(#pinkLine)"/>
+    <path d="M975 410 V460 H1080 V500" stroke="url(#okLine)"/>
+    <path d="M1080 410 V500" stroke="url(#okLine)"/>
+    <path d="M1185 410 V460 H1080 V500" stroke="url(#okLine)"/>
+  </g>
+
+  <g fill="#8ceeff" opacity="0.9">
+    <circle cx="240" cy="300" r="4"/>
+    <circle cx="240" cy="440" r="4"/>
+  </g>
+  <g fill="#ff93bb" opacity="0.9">
+    <circle cx="660" cy="360" r="4"/>
+    <circle cx="660" cy="500" r="4"/>
+    <circle cx="1080" cy="270" r="4"/>
+    <circle cx="975" cy="330" r="4"/>
+    <circle cx="1080" cy="330" r="4"/>
+    <circle cx="1185" cy="330" r="4"/>
+  </g>
+  <g fill="#8effc0" opacity="0.9">
+    <circle cx="975" cy="410" r="4"/>
+    <circle cx="1080" cy="500" r="4"/>
+    <circle cx="1185" cy="410" r="4"/>
+  </g>
+
+  <text class="sub" x="76" y="770">Ultra trades latency and cost for reliability on long, high-stakes tasks — a team, not a longer monologue.</text>
+</svg>

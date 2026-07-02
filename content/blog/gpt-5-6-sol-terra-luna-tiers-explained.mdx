@@ -1,0 +1,103 @@
+---
+title: "GPT-5.6's Three Tiers: Sol, Terra, and Luna, Simply Explained"
+date: 2026-07-02
+excerpt: "OpenAI split GPT-5.5 into three models instead of shipping one bigger one. Simply explained: what Sol, Terra, and Luna actually are, what they cost, what's genuinely new, and which one you should reach for."
+tags: ["OpenAI", "AI", "LLM", "Benchmarks"]
+published: true
+---
+
+# GPT-5.6's Three Tiers: Sol, Terra, and Luna, Simply Explained
+
+OpenAI's answer to "which model should I use?" used to be simple because there wasn't much to choose from. GPT-5.6 changes that on purpose: instead of one flagship model, you get three — Sol, Terra, and Luna — each tuned for a different job instead of a different price point on the same job.
+
+That's a real shift in how to think about model selection, not just a rename. Here's what each tier actually is, what's new under the hood, and how to pick without overthinking it.
+
+---
+
+## The three tiers, simply
+
+- **Sol** — the flagship. Deepest reasoning, highest price, and the only tier with access to two new reasoning modes. Reach for it when the task is genuinely hard.
+- **Terra** — the everyday workhorse. Roughly GPT-5.5-level performance at about half the cost. This is the sensible default for most production workloads.
+- **Luna** — fast and cheap. Built for high-volume, latency-sensitive jobs where Sol-grade reasoning would just add cost and latency for no benefit.
+
+![Three cards comparing Luna, Terra, and Sol on price per million tokens and best use case, with a cost bar under each card scaled to output price. Terra is marked as the default choice.](/images/blog/gpt-5-6-tier-comparison.svg)
+*Same lineage, three different jobs. Terra is the sensible starting point.*
+
+Priced per 1M tokens (input / output):
+
+- **Luna** — $1 / $6 — fast, cheap, high-volume
+- **Terra** — $2.50 / $15 — everyday default
+- **Sol** — $5 / $30 — flagship, hardest problems
+
+If you were already paying GPT-5.5 prices, Terra gets you similar quality for about half the bill, and Sol gets you a materially better model at the same price you were already paying. Neither is a bad deal — they're just answers to different questions.
+
+---
+
+## What's actually new, not just repackaged
+
+The pricing split is the visible part. The more interesting change is two new reasoning modes, both exclusive to Sol:
+
+- **max** — the same single model, given a much larger reasoning budget before it answers. It's not a different model, just more time to think.
+- **ultra** — a genuinely different mechanism. Instead of one model reasoning longer, ultra spins up multiple subagents that work the problem in parallel, then merges their results into one answer.
+
+![Three columns. Standard shows a single model pass to an answer. Max shows the same single agent thinking for longer before answering. Ultra shows one task fanning out into three parallel subagents that converge into one synthesized answer.](/images/blog/gpt-5-6-reasoning-modes.svg)
+*Max is a longer monologue. Ultra is a team — and that distinction is the actual news here.*
+
+This matters because "more reasoning" usually just means a bigger token budget on the same line of thought. Ultra's fan-out-then-merge approach is a different bet: multiple independent attempts are more likely to catch an error than one attempt thinking longer, at the cost of more compute and latency per query.
+
+---
+
+## What the benchmarks actually show
+
+A few numbers worth knowing, because they explain what these modes are for rather than just how big the model is:
+
+- **TerminalBench 2.1** (command-line automation) — Sol with ultra scored 91.91%, a new high; Sol with max scored 88.76%.
+- **Agent's Last Exam** (long-horizon agentic tasks) — Sol is the first model to clear the halfway mark, at 50.9% in "code mode."
+- **ExploitGym** (UC Berkeley's cybersecurity benchmark) — all three tiers improve as reasoning effort increases, which is the expected shape but useful to see confirmed.
+
+The common thread: these gains show up specifically on long-horizon, multi-step, agentic work — not on short single-turn questions, where the difference between tiers is much smaller. That's the honest way to read "Sol is better": it pulls ahead on the hard, long tasks, not on everything.
+
+---
+
+## The caching change that actually affects your bill
+
+GPT-5.6 also reworks prompt caching: explicit cache breakpoints, a 30-minute minimum cache life, and cache writes now billed at 1.25x the uncached input rate (cache reads keep the existing 90% discount). If your workload reuses long system prompts or tool definitions across many calls — which most agent stacks do — this is worth re-checking rather than assuming your old caching math still holds. It's a small line item that compounds fast at agent-scale call volumes, in the same spirit as the cost-and-reliability tradeoffs covered in [Agent Reliability Blueprint](/blog/agent-reliability-blueprint).
+
+---
+
+## Which one should you actually use
+
+Skip the temptation to default to the flagship. A simple decision order:
+
+1. **Start with Terra.** It's the closest thing to a safe default — near-flagship quality at meaningfully lower cost.
+2. **Move to Sol** when the task is long-horizon, multi-step, security-sensitive, or when a wrong answer is expensive enough that ultra's extra compute is cheap by comparison.
+3. **Drop to Luna** for high-volume, latency-sensitive, or simple classification/extraction work where Sol-grade reasoning was never going to change the outcome.
+
+This is the same "don't reach for the biggest model by default" logic covered in [Stop Fine-Tuning GPT-5: A 7B Model Will Beat It on Your Use Case](/blog/stop-finetuning-gpt5-use-7b) and the [model graduation ladder](/blog/small-models-big-impact-2026) — tier selection should be driven by the task's actual difficulty, not habit.
+
+---
+
+## One caveat, since this moves fast
+
+As of this writing, Sol, Terra, and Luna are in limited preview — available through the OpenAI API and Codex to a restricted set of partners, with general availability expected in the coming weeks. Pricing and benchmark numbers above reflect the preview; treat them as directionally right rather than locked in until GA.
+
+---
+
+## Key Takeaways
+
+- GPT-5.6 splits into three tiers by job, not just by size: Luna (cheap/fast), Terra (default), Sol (hardest problems).
+- Terra is the sensible default — near-GPT-5.5 quality at roughly half the cost.
+- The real news isn't the pricing split, it's Sol's two new modes: max (longer single-agent reasoning) and ultra (parallel subagents merged into one answer).
+- Benchmark gains concentrate on long-horizon, agentic tasks — not everyday single-turn queries.
+- Caching rules changed too (explicit breakpoints, 30-min minimum life, 1.25x write cost) — worth re-checking if you run agent workloads at volume.
+- All of this is still preview-stage; verify current pricing and access before committing production traffic to it.
+
+---
+
+## Related Posts
+
+- [Why Would I Choose Codex?](/blog/why-would-i-choose-codex) — OpenAI's coding agent, which is one of the first surfaces where Sol, Terra, and Luna are actually accessible.
+- [Stop Fine-Tuning GPT-5: A 7B Model Will Beat It on Your Use Case](/blog/stop-finetuning-gpt5-use-7b) — the broader case for matching model size to task difficulty instead of defaulting to the flagship.
+- [Repo-Level AI Agents: How Coding Assistants Learned to Reason Across a Whole Codebase](/blog/repo-level-ai-agents-whole-codebase-reasoning) — the agentic search-and-verify loop that benefits most from modes like ultra.
+- [The State of AI Benchmarks in 2026](/blog/ai-benchmarks-2026) — how to read benchmark claims like the ones above without being misled by them.
+- [Agent Reliability Blueprint: SLOs, Guardrails, and Human Override](/blog/agent-reliability-blueprint) — why caching and cost discipline matter once you're running agents at scale.
