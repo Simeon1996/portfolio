@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" role="img" aria-labelledby="f5t-title f5t-desc">
+  <title id="f5t-title">Fable 5 Export-Control Suspension Timeline</title>
+  <desc id="f5t-desc">Top row: a timeline showing Fable 5 suspended on June 12, 2026 when Commerce imposed export controls, a 19-day gap with no ETA and no status page, controls lifted June 30, and access restored worldwide on July 1, 2026 at 3:31pm ET. Bottom row: two comparison cards contrasting a technical outage, which has a status page, an ETA, and an engineering fix, against a regulatory suspension, which has none of those and is resolved by policy instead of code.</desc>
+  <defs>
+    <linearGradient id="bg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="820">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="cyanLine" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="pinkLine" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <linearGradient id="okLine" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#4ef2a5"/>
+      <stop offset="100%" stop-color="#78ffe2"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .title { font: 700 40px 'Space Grotesk', sans-serif; fill: #e9f6ff; }
+      .sub { font: 500 16px 'Space Mono', monospace; fill: #9dc1d8; }
+      .stepTitle { font: 700 17px 'Space Grotesk', sans-serif; fill: #e3f5ff; }
+      .stepText { font: 500 12.5px 'Space Mono', monospace; fill: #9bc4dd; }
+      .okText { font: 700 11px 'Space Mono', monospace; fill: #6affc7; letter-spacing: 1.4px; }
+      .badText { font: 700 11px 'Space Mono', monospace; fill: #ff9db9; letter-spacing: 1.4px; }
+      .badge { font: 700 21px 'Space Grotesk', sans-serif; }
+      .tagline { font: 600 13px 'Space Mono', monospace; fill: #cfe8f7; }
+      .bigStat { font: 700 30px 'Space Grotesk', sans-serif; fill: #ffe1b0; }
+      .microLabel { font: 700 10.5px 'Space Mono', monospace; fill: #8fb3cc; letter-spacing: 1.3px; }
+      .card { fill: rgba(14, 29, 46, 0.82); stroke: rgba(120, 179, 216, 0.44); stroke-width: 1.2; rx: 14; }
+      .cardHot { fill: rgba(43, 19, 42, 0.42); stroke: rgba(255, 119, 177, 0.42); stroke-width: 1.2; rx: 14; }
+      .cardOk { fill: rgba(14, 34, 48, 0.9); stroke: rgba(126, 230, 240, 0.85); stroke-width: 1.6; rx: 14; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="820" fill="url(#bg)"/>
+  <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
+    <path d="M0 160 H1400 M0 300 H1400 M0 440 H1400 M0 580 H1400 M0 700 H1400"/>
+    <path d="M200 0 V820 M500 0 V820 M800 0 V820 M1100 0 V820"/>
+  </g>
+
+  <text class="title" x="76" y="80">Fable 5: 19 Days Offline</text>
+  <text class="sub" x="76" y="112">June 12 &#8211; July 1, 2026 &#183; a regulatory outage, not a technical one</text>
+
+  <!-- Timeline: suspended card -->
+  <rect class="cardHot" x="90" y="180" width="340" height="190"/>
+  <text class="stepTitle" x="114" y="226" fill="#ff9db9">JUN 12, 2026</text>
+  <text class="tagline" x="114" y="252">Export controls imposed</text>
+  <text class="stepText" x="114" y="280">Commerce Dept suspends Fable 5</text>
+  <text class="stepText" x="114" y="300">access for every user, worldwide</text>
+  <text class="badText" x="114" y="342">SUSPENDED</text>
+
+  <!-- Timeline: restored card -->
+  <rect class="cardOk" x="970" y="180" width="340" height="190" filter="url(#glow)"/>
+  <text class="stepTitle" x="994" y="226" fill="#8effc0">JUL 1, 2026 &#183; 3:31 PM ET</text>
+  <text class="tagline" x="994" y="252">Access restored, worldwide</text>
+  <text class="stepText" x="994" y="280">Claude.ai &#183; API &#183; Claude Code</text>
+  <text class="stepText" x="994" y="300">&#183; Claude Cowork &#8212; every country</text>
+  <text class="okText" x="994" y="342">RESTORED</text>
+
+  <!-- Connecting line + gap stat -->
+  <g fill="none" stroke-linecap="round" stroke-width="3" filter="url(#glow)">
+    <path d="M430 270 H970" stroke="url(#pinkLine)" stroke-dasharray="2 10"/>
+  </g>
+  <circle cx="430" cy="270" r="4" fill="#ff93bb"/>
+  <circle cx="970" cy="270" r="4" fill="#8ceeff"/>
+
+  <text class="bigStat" x="700" y="256" text-anchor="middle">19 DAYS</text>
+  <text class="microLabel" x="700" y="284" text-anchor="middle">NO ETA &#183; NO STATUS PAGE</text>
+
+  <circle cx="850" cy="270" r="4" fill="#ffe1b0"/>
+  <text class="stepText" x="850" y="248" text-anchor="middle" fill="#ffe1b0">JUN 30</text>
+  <text class="stepText" x="850" y="312" text-anchor="middle">controls lifted</text>
+
+  <!-- Section header -->
+  <text class="sub" x="76" y="432">Two kinds of outage &#8212; only one of them has a support ticket you can file</text>
+
+  <!-- Technical outage card -->
+  <rect class="card" x="90" y="470" width="600" height="260"/>
+  <text class="badge" x="114" y="518" fill="#8ef4ff">TECHNICAL OUTAGE</text>
+  <text class="tagline" x="114" y="544">e.g. a cloud region or provider API down</text>
+  <text class="stepText" x="114" y="584">&#8212; Status page tracks it in real time</text>
+  <text class="stepText" x="114" y="614">&#8212; Engineers post a concrete ETA</text>
+  <text class="stepText" x="114" y="644">&#8212; Resolved by a fix, failover, or deploy</text>
+  <text class="stepText" x="114" y="674">&#8212; Vendor SLA credits often apply</text>
+
+  <!-- Regulatory suspension card -->
+  <rect class="cardHot" x="710" y="470" width="600" height="260"/>
+  <text class="badge" x="734" y="518" fill="#ff9db9">REGULATORY SUSPENSION</text>
+  <text class="tagline" x="734" y="544">e.g. export controls, sanctions, injunctions</text>
+  <text class="stepText" x="734" y="584">&#8212; No status page to refresh</text>
+  <text class="stepText" x="734" y="614">&#8212; No ETA &#8212; the timeline is political</text>
+  <text class="stepText" x="734" y="644">&#8212; Resolved by policy, not code</text>
+  <text class="stepText" x="734" y="674">&#8212; Most SLAs are silent on this scenario</text>
+
+  <text class="sub" x="76" y="784">19 days was short, and this one resolved. Plan as if the next one won't be.</text>
+</svg>
