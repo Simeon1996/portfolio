@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" role="img" aria-labelledby="acr-title acr-desc">
+  <title id="acr-title">What Gets Re-Sent Every Agent Step</title>
+  <desc id="acr-desc">Four connected cards: System Prompt and Tool Definitions, Transcript So Far, Reasoning Traces, and New Call and Result. Arrows connect them left to right, and a loop-back arrow runs from the fourth card back to the second, labeled "appended next step, not replaced," showing that the transcript and reasoning traces keep growing every step while the system prompt and tools stay fixed size.</desc>
+  <defs>
+    <linearGradient id="bg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="820">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="cyanLine" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="cyanLineV" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="820">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="pinkLine" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <linearGradient id="okLine" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#4ef2a5"/>
+      <stop offset="100%" stop-color="#78ffe2"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .title { font: 700 40px 'Space Grotesk', sans-serif; fill: #e9f6ff; }
+      .sub { font: 500 16px 'Space Mono', monospace; fill: #9dc1d8; }
+      .stepTitle { font: 700 17px 'Space Grotesk', sans-serif; fill: #e3f5ff; }
+      .stepText { font: 500 12.5px 'Space Mono', monospace; fill: #9bc4dd; }
+      .okText { font: 700 11px 'Space Mono', monospace; fill: #6affc7; letter-spacing: 1.4px; }
+      .badText { font: 700 11px 'Space Mono', monospace; fill: #ff9db9; letter-spacing: 1.4px; }
+      .card { fill: rgba(14, 29, 46, 0.82); stroke: rgba(120, 179, 216, 0.44); stroke-width: 1.2; rx: 14; }
+      .cardHot { fill: rgba(43, 19, 42, 0.42); stroke: rgba(255, 119, 177, 0.42); stroke-width: 1.2; rx: 14; }
+      .cardOk { fill: rgba(14, 34, 48, 0.9); stroke: rgba(126, 230, 240, 0.85); stroke-width: 1.6; rx: 14; }
+    </style>
+  </defs>
+  <rect width="1400" height="820" fill="url(#bg)"/>
+  <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
+    <path d="M0 160 H1400 M0 300 H1400 M0 440 H1400 M0 580 H1400 M0 700 H1400"/>
+    <path d="M200 0 V820 M500 0 V820 M800 0 V820 M1100 0 V820"/>
+  </g>
+
+  <text class="title" x="76" y="80">What Gets Re-Sent, Every Single Step</text>
+  <text class="sub" x="76" y="112">One agent call's context — the fixed parts stay fixed, the historical parts don't</text>
+
+  <rect class="cardOk" x="90" y="180" width="250" height="130"/>
+  <text class="stepTitle" x="114" y="222">1. System + Tools</text>
+  <text class="stepText" x="114" y="250">Instructions and tool</text>
+  <text class="stepText" x="114" y="268">definitions</text>
+  <text class="okText" x="114" y="296">FIXED SIZE</text>
+
+  <rect class="cardHot" x="405" y="180" width="250" height="130"/>
+  <text class="stepTitle" x="429" y="222">2. Transcript So Far</text>
+  <text class="stepText" x="429" y="250">Every prior tool call</text>
+  <text class="stepText" x="429" y="268">and every prior result</text>
+  <text class="badText" x="429" y="296">GROWS EACH STEP</text>
+
+  <rect class="cardHot" x="720" y="180" width="250" height="130"/>
+  <text class="stepTitle" x="744" y="222">3. Reasoning Traces</text>
+  <text class="stepText" x="744" y="250">Prior "thinking out loud"</text>
+  <text class="stepText" x="744" y="268">carried forward as text</text>
+  <text class="badText" x="744" y="296">GROWS EACH STEP</text>
+
+  <rect class="card" x="1035" y="180" width="250" height="130" filter="url(#glow)"/>
+  <text class="stepTitle" x="1059" y="222">4. New Call + Result</text>
+  <text class="stepText" x="1059" y="250">This step's tool call</text>
+  <text class="stepText" x="1059" y="268">and its output</text>
+  <text class="badText" x="1059" y="296">TRIGGERS NEXT GROWTH</text>
+
+  <g fill="none" stroke-linecap="round" stroke-width="3" filter="url(#glow)">
+    <path d="M340 245 H405" stroke="url(#cyanLine)"/>
+    <path d="M655 245 H720" stroke="url(#cyanLine)"/>
+    <path d="M970 245 H1035" stroke="url(#cyanLine)"/>
+    <path d="M1160 310 V480 H530 V310" stroke="url(#pinkLine)"/>
+  </g>
+
+  <g fill="#8ceeff" opacity="0.9">
+    <circle cx="340" cy="245" r="4"/>
+    <circle cx="405" cy="245" r="4"/>
+    <circle cx="655" cy="245" r="4"/>
+    <circle cx="720" cy="245" r="4"/>
+    <circle cx="970" cy="245" r="4"/>
+    <circle cx="1035" cy="245" r="4"/>
+  </g>
+  <circle cx="1160" cy="310" r="4" fill="#ff93bb"/>
+  <circle cx="530" cy="310" r="4" fill="#ff93bb"/>
+
+  <rect class="card" x="460" y="440" width="480" height="80"/>
+  <text class="badText" x="486" y="472">APPENDED NEXT STEP, NOT REPLACED</text>
+  <text class="stepText" x="486" y="498">Card 4 becomes part of card 2 and 3 on the next call</text>
+
+  <text class="sub" x="76" y="770">Steps 2 through 50 don't start fresh — they replay everything that came before, plus something new.</text>
+</svg>

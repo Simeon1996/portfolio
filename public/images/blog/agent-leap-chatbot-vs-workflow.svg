@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" role="img" aria-labelledby="acw-title acw-desc">
+  <title id="acw-title">Chatbot AI vs Workflow AI</title>
+  <desc id="acw-desc">Left column shows chatbot AI handling one support ticket: the model answers a single question with a draft reply, then the human does everything else — reading, prioritizing, sending, tracking, and escalating manually, with no memory of the next ticket. Right column shows workflow AI as a four-step pipeline: it monitors the ticket queue, triages and drafts a reply, runs a confidence check on itself, and then either sends and logs the reply automatically or hands off to a human when it is unsure.</desc>
+  <defs>
+    <linearGradient id="bg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="820">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="cyanLine" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="pinkLine" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <linearGradient id="okLine" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#4ef2a5"/>
+      <stop offset="100%" stop-color="#78ffe2"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .title { font: 700 40px 'Space Grotesk', sans-serif; fill: #e9f6ff; }
+      .sub { font: 500 16px 'Space Mono', monospace; fill: #9dc1d8; }
+      .colLabel { font: 700 13px 'Space Mono', monospace; letter-spacing: 2.5px; }
+      .stepTitle { font: 700 17px 'Space Grotesk', sans-serif; fill: #e3f5ff; }
+      .stepText { font: 500 12.5px 'Space Mono', monospace; fill: #9bc4dd; }
+      .okText { font: 700 11px 'Space Mono', monospace; fill: #6affc7; letter-spacing: 1.4px; }
+      .badText { font: 700 11px 'Space Mono', monospace; fill: #ff9db9; letter-spacing: 1.4px; }
+      .card { fill: rgba(14, 29, 46, 0.82); stroke: rgba(120, 179, 216, 0.44); stroke-width: 1.2; rx: 14; }
+      .cardHot { fill: rgba(43, 19, 42, 0.42); stroke: rgba(255, 119, 177, 0.42); stroke-width: 1.2; rx: 14; }
+      .cardOk { fill: rgba(14, 34, 48, 0.9); stroke: rgba(126, 230, 240, 0.85); stroke-width: 1.6; rx: 14; }
+    </style>
+  </defs>
+  <rect width="1400" height="820" fill="url(#bg)"/>
+  <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
+    <path d="M0 160 H1400 M0 300 H1400 M0 440 H1400 M0 580 H1400 M0 700 H1400"/>
+    <path d="M200 0 V820 M500 0 V820 M800 0 V820 M1100 0 V820"/>
+  </g>
+
+  <text class="title" x="76" y="80">Chatbot AI vs Workflow AI</text>
+  <text class="sub" x="76" y="112">Same support ticket, two very different levels of ownership</text>
+
+  <line x1="700" y1="150" x2="700" y2="700" stroke="rgba(120,179,216,0.28)" stroke-width="1" stroke-dasharray="4 8"/>
+
+  <text class="colLabel" x="120" y="168" fill="#ff9db9">CHATBOT AI — ANSWERS A QUESTION</text>
+
+  <rect class="card" x="120" y="190" width="520" height="140"/>
+  <text class="stepTitle" x="146" y="226">You Ask, It Answers</text>
+  <text class="stepText" x="146" y="254">"Draft a reply to this angry customer"</text>
+  <text class="stepText" x="146" y="274">Model returns one draft reply</text>
+  <text class="stepText" x="146" y="294">That is the entire interaction</text>
+
+  <rect class="cardHot" x="120" y="350" width="520" height="140"/>
+  <text class="stepTitle" x="146" y="386">Everything Else Is On You</text>
+  <text class="stepText" x="146" y="414">Read the ticket, judge the priority</text>
+  <text class="stepText" x="146" y="434">Edit the draft, send it yourself</text>
+  <text class="stepText" x="146" y="454">Track it and escalate it — manually</text>
+
+  <rect class="cardHot" x="120" y="510" width="520" height="110"/>
+  <text class="stepTitle" x="146" y="548">Stops After One Answer</text>
+  <text class="badText" x="146" y="584">NO MEMORY OF THE NEXT TICKET</text>
+
+  <text class="colLabel" x="780" y="168" fill="#8ef4ff">WORKFLOW AI — OWNS THE TASK</text>
+
+  <rect class="cardHot" x="780" y="190" width="500" height="100"/>
+  <text class="stepTitle" x="806" y="224">1. Monitor the Queue</text>
+  <text class="stepText" x="806" y="250">Watches inbound tickets as they arrive</text>
+  <text class="stepText" x="806" y="270">No human has to press "go"</text>
+
+  <rect class="card" x="780" y="308" width="500" height="100"/>
+  <text class="stepTitle" x="806" y="342">2. Triage &amp; Draft</text>
+  <text class="stepText" x="806" y="368">Classifies urgency, checks account history,</text>
+  <text class="stepText" x="806" y="388">drafts a reply against past resolutions</text>
+
+  <rect class="cardHot" x="780" y="426" width="500" height="100"/>
+  <text class="stepTitle" x="806" y="460">3. Confidence Check</text>
+  <text class="stepText" x="806" y="486">Scores its own certainty before acting</text>
+  <text class="stepText" x="806" y="506">"Unsure" is defined in advance, not guessed</text>
+
+  <rect class="cardOk" x="780" y="544" width="500" height="110" filter="url(#glow)"/>
+  <text class="stepTitle" x="806" y="580" style="font: 700 19px 'Space Grotesk', sans-serif; fill: #e9f6ff;">4. Send or Escalate</text>
+  <text class="stepText" x="806" y="606">High confidence: sends the reply and logs it</text>
+  <text class="okText" x="806" y="632">LOW CONFIDENCE: HANDS OFF TO A HUMAN</text>
+
+  <g fill="none" stroke-linecap="round" stroke-width="3" filter="url(#glow)">
+    <path d="M1030 290 V308" stroke="url(#cyanLine)"/>
+    <path d="M1030 408 V426" stroke="url(#cyanLine)"/>
+    <path d="M1030 526 V544" stroke="url(#okLine)"/>
+  </g>
+
+  <g fill="#8ceeff" opacity="0.9">
+    <circle cx="1030" cy="308" r="4"/>
+    <circle cx="1030" cy="426" r="4"/>
+  </g>
+  <circle cx="1030" cy="544" r="4" fill="#8effc0"/>
+
+  <text class="sub" x="76" y="770">The chatbot answers once. The workflow owns the ticket from arrival to resolution — or a clean handoff.</text>
+</svg>

@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" role="img" aria-labelledby="c3c-title c3c-desc">
+  <title id="c3c-title">Public Cloud vs. Multi-Cloud vs. Sovereign Cloud</title>
+  <desc id="c3c-desc">Three cards comparing Public Cloud, Multi-Cloud, and Sovereign Cloud on their primary guarantee and operational cost. Public Cloud guarantees speed and scale with low overhead. Multi-Cloud guarantees no vendor lock-in with medium overhead. Sovereign Cloud, marked as compliance-driven rather than default, guarantees data residency and jurisdictional control with high overhead, shown with the longest cost bar.</desc>
+  <defs>
+    <linearGradient id="bg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="820">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="cyanBar" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="pinkBar" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <linearGradient id="okBar" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#4ef2a5"/>
+      <stop offset="100%" stop-color="#78ffe2"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .title { font: 700 40px 'Space Grotesk', sans-serif; fill: #e9f6ff; }
+      .sub { font: 500 16px 'Space Mono', monospace; fill: #9dc1d8; }
+      .badge { font: 700 21px 'Space Grotesk', sans-serif; }
+      .tagline { font: 600 14px 'Space Mono', monospace; fill: #cfe8f7; }
+      .headline { font: 700 25px 'Space Grotesk', sans-serif; fill: #ffffff; }
+      .headUnit { font: 500 11px 'Space Mono', monospace; fill: #8fb3cc; letter-spacing: 1px; }
+      .stepText { font: 500 12.5px 'Space Mono', monospace; fill: #9bc4dd; }
+      .barLabel { font: 700 10px 'Space Mono', monospace; fill: #8fb3cc; letter-spacing: 1.3px; }
+      .okText { font: 700 10.5px 'Space Mono', monospace; fill: #6affc7; letter-spacing: 1.2px; }
+      .card { fill: rgba(14, 29, 46, 0.82); stroke: rgba(120, 179, 216, 0.44); stroke-width: 1.2; rx: 16; }
+      .cardHot { fill: rgba(43, 19, 42, 0.42); stroke: rgba(255, 119, 177, 0.42); stroke-width: 1.2; rx: 16; }
+      .cardOk { fill: rgba(14, 34, 48, 0.9); stroke: rgba(126, 230, 240, 0.85); stroke-width: 1.8; rx: 16; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="820" fill="url(#bg)"/>
+
+  <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
+    <path d="M0 160 H1400 M0 300 H1400 M0 440 H1400 M0 580 H1400 M0 700 H1400"/>
+    <path d="M200 0 V820 M500 0 V820 M800 0 V820 M1100 0 V820"/>
+  </g>
+
+  <text class="title" x="76" y="80">Three Ways to Run Your Stack</text>
+  <text class="sub" x="76" y="112">Pick by requirement, not by default — each tier trades cost and complexity for a different guarantee</text>
+
+  <rect class="card" x="90" y="170" width="380" height="460"/>
+  <text class="badge" x="122" y="232" fill="#8ef4ff">PUBLIC CLOUD</text>
+  <text class="tagline" x="122" y="258">One provider, default region</text>
+  <text class="headline" x="122" y="308">SPEED + SCALE</text>
+  <text class="headUnit" x="122" y="330">PRIMARY GUARANTEE</text>
+  <text class="stepText" x="122" y="368">Uptime SLA and elastic</text>
+  <text class="stepText" x="122" y="386">capacity, fastest to ship —</text>
+  <text class="stepText" x="122" y="404">no jurisdiction guarantee,</text>
+  <text class="stepText" x="122" y="422">data can land in any region</text>
+  <rect x="122" y="560" width="70" height="14" rx="4" fill="url(#cyanBar)"/>
+  <text class="barLabel" x="122" y="592">COST + OPS OVERHEAD: LOW</text>
+
+  <rect class="cardHot" x="510" y="170" width="380" height="460"/>
+  <text class="badge" x="542" y="232" fill="#ff9db9">MULTI-CLOUD</text>
+  <text class="tagline" x="542" y="258">Two or more providers</text>
+  <text class="headline" x="542" y="308">NO LOCK-IN</text>
+  <text class="headUnit" x="542" y="330">PRIMARY GUARANTEE</text>
+  <text class="stepText" x="542" y="368">Survives one vendor's outage</text>
+  <text class="stepText" x="542" y="386">or price hike, adds negotiating</text>
+  <text class="stepText" x="542" y="404">leverage — still no legal</text>
+  <text class="stepText" x="542" y="422">control over where data sits</text>
+  <rect x="542" y="560" width="180" height="14" rx="4" fill="url(#pinkBar)"/>
+  <text class="barLabel" x="542" y="592">COST + OPS OVERHEAD: MEDIUM</text>
+
+  <rect class="cardOk" x="930" y="150" width="380" height="500" filter="url(#glow)"/>
+  <text class="badge" x="962" y="222" fill="#8effc0">SOVEREIGN CLOUD</text>
+  <text class="okText" x="962" y="244">COMPLIANCE-DRIVEN, NOT DEFAULT</text>
+  <text class="tagline" x="962" y="274">Jurisdiction-locked region</text>
+  <text class="headline" x="962" y="324">RESIDENCY + CONTROL</text>
+  <text class="headUnit" x="962" y="346">PRIMARY GUARANTEE</text>
+  <text class="stepText" x="962" y="384">Data, backups, and logs stay</text>
+  <text class="stepText" x="962" y="402">in one legal jurisdiction by</text>
+  <text class="stepText" x="962" y="420">contract — sometimes a fully</text>
+  <text class="stepText" x="962" y="438">separate govcloud offering</text>
+  <rect x="962" y="574" width="300" height="14" rx="4" fill="url(#okBar)"/>
+  <text class="barLabel" x="962" y="606">COST + OPS OVERHEAD: HIGH</text>
+
+  <text class="sub" x="76" y="770">Multi-cloud buys you redundancy. Sovereign cloud buys you jurisdiction. Neither substitutes for the other.</text>
+</svg>

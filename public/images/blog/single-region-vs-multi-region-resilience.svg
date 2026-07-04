@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" role="img" aria-labelledby="srmr-title srmr-desc">
+  <title id="srmr-title">Single-Region Dependency vs. Multi-Region Failover</title>
+  <desc id="srmr-desc">Two side-by-side diagrams. Left, labeled fragile: a single app instance connects only to one cloud region; when that region fails, the app goes down completely, a hard fail. Right, labeled resilient: an app connects to a primary region and a secondary region with health checks; when the primary fails, traffic reroutes to the secondary and the app degrades gracefully instead of going fully down.</desc>
+  <defs>
+    <linearGradient id="bg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="820">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="cyanLine" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="pinkLine" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <linearGradient id="okLine" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#4ef2a5"/>
+      <stop offset="100%" stop-color="#78ffe2"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .title { font: 700 40px 'Space Grotesk', sans-serif; fill: #e9f6ff; }
+      .sub { font: 500 16px 'Space Mono', monospace; fill: #9dc1d8; }
+      .colHead { font: 700 20px 'Space Grotesk', sans-serif; }
+      .stepTitle { font: 700 17px 'Space Grotesk', sans-serif; fill: #e3f5ff; }
+      .stepText { font: 500 12.5px 'Space Mono', monospace; fill: #9bc4dd; }
+      .okText { font: 700 11px 'Space Mono', monospace; fill: #6affc7; letter-spacing: 1.4px; }
+      .badText { font: 700 11px 'Space Mono', monospace; fill: #ff9db9; letter-spacing: 1.4px; }
+      .card { fill: rgba(14, 29, 46, 0.82); stroke: rgba(120, 179, 216, 0.44); stroke-width: 1.2; rx: 14; }
+      .cardHot { fill: rgba(43, 19, 42, 0.42); stroke: rgba(255, 119, 177, 0.42); stroke-width: 1.2; rx: 14; }
+      .cardOk { fill: rgba(14, 34, 48, 0.9); stroke: rgba(126, 230, 240, 0.85); stroke-width: 1.6; rx: 14; }
+    </style>
+  </defs>
+  <rect width="1400" height="820" fill="url(#bg)"/>
+  <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
+    <path d="M0 160 H1400 M0 300 H1400 M0 440 H1400 M0 580 H1400 M0 700 H1400"/>
+    <path d="M200 0 V820 M500 0 V820 M700 0 V820 M900 0 V820 M1200 0 V820"/>
+  </g>
+
+  <text class="title" x="76" y="80">One Region Is a Single Point of Failure</text>
+  <text class="sub" x="76" y="112">Same app, two architectures — only one of them survives a region-level outage</text>
+
+  <!-- Divider -->
+  <line x1="700" y1="150" x2="700" y2="700" stroke="#5fa2d0" stroke-width="1" opacity="0.25"/>
+
+  <!-- LEFT: FRAGILE -->
+  <text class="colHead" x="76" y="180" fill="#ff9db9">FRAGILE — SINGLE REGION</text>
+
+  <rect class="card" x="76" y="220" width="260" height="100"/>
+  <text class="stepTitle" x="100" y="260">Your App</text>
+  <text class="stepText" x="100" y="284">All traffic, one path</text>
+
+  <rect class="cardHot" x="76" y="420" width="260" height="120" filter="url(#glow)"/>
+  <text class="stepTitle" x="100" y="460">us-region-1</text>
+  <text class="stepText" x="100" y="484">Compute + storage + queue</text>
+  <text class="badText" x="100" y="512">ONLY COPY OF STATE</text>
+
+  <g fill="none" stroke-linecap="round" stroke-width="3" filter="url(#glow)">
+    <path d="M206 320 V420" stroke="url(#pinkLine)"/>
+  </g>
+  <circle cx="206" cy="320" r="4" fill="#ff93bb"/>
+  <circle cx="206" cy="420" r="4" fill="#ff93bb"/>
+
+  <rect class="cardHot" x="76" y="600" width="260" height="90"/>
+  <text class="stepTitle" x="100" y="632" fill="#ffb3cc">Region down</text>
+  <text class="badText" x="100" y="656">RESULT: HARD FAIL</text>
+  <text class="stepText" x="100" y="676">App is fully offline</text>
+
+  <g fill="none" stroke-linecap="round" stroke-width="3" stroke-dasharray="2 8" opacity="0.7">
+    <path d="M206 540 V600" stroke="#ff6a9e"/>
+  </g>
+
+  <!-- RIGHT: RESILIENT -->
+  <text class="colHead" x="740" y="180" fill="#6affc7">RESILIENT — MULTI-REGION</text>
+
+  <rect class="card" x="740" y="220" width="260" height="100"/>
+  <text class="stepTitle" x="764" y="252">Your App</text>
+  <text class="stepText" x="764" y="276">Health-aware router +</text>
+  <text class="stepText" x="764" y="294">graceful degradation</text>
+
+  <rect class="cardOk" x="600" y="420" width="230" height="120">
+  </rect>
+  <text class="stepTitle" x="624" y="456">Primary region</text>
+  <text class="stepText" x="624" y="480">Full read/write</text>
+  <text class="okText" x="624" y="508">HEALTHY</text>
+
+  <rect class="card" x="890" y="420" width="230" height="120"/>
+  <text class="stepTitle" x="914" y="456">Secondary region</text>
+  <text class="stepText" x="914" y="480">Warm standby, synced state</text>
+  <text class="stepText" x="914" y="500">Ready to take reads/writes</text>
+
+  <g fill="none" stroke-linecap="round" stroke-width="3" filter="url(#glow)">
+    <path d="M840 320 V420" stroke="url(#okLine)"/>
+    <path d="M900 320 Q 1005 370 1005 420" stroke="url(#cyanLine)"/>
+  </g>
+  <circle cx="840" cy="320" r="4" fill="#8effc0"/>
+  <circle cx="840" cy="420" r="4" fill="#8effc0"/>
+  <circle cx="1005" cy="420" r="4" fill="#8ceeff"/>
+
+  <rect class="cardOk" x="740" y="600" width="260" height="90" filter="url(#glow)"/>
+  <text class="stepTitle" x="764" y="632" fill="#e9f6ff">Primary fails over</text>
+  <text class="okText" x="764" y="656">RESULT: DEGRADED, NOT DOWN</text>
+  <text class="stepText" x="764" y="676">Reads served, writes queued</text>
+
+  <g fill="none" stroke-linecap="round" stroke-width="3">
+    <path d="M715 540 V585 Q715 600 730 600 H740" stroke="#ff6a9e" stroke-dasharray="2 8" opacity="0.7"/>
+    <path d="M1005 540 V585 Q1005 600 990 600 H1000" stroke="url(#okLine)"/>
+  </g>
+  <circle cx="1005" cy="600" r="4" fill="#6affc7"/>
+
+  <text class="sub" x="76" y="770">Treat a cloud region like any other single point of failure — because in an outage, that is exactly what it is.</text>
+</svg>

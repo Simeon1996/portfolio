@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" role="img" aria-labelledby="atc-title atc-desc">
+  <title id="atc-title">Token Cost Compounds Across an Agent Loop</title>
+  <desc id="atc-desc">Bar chart comparing a single chat turn, worth about 1,000 tokens, against ten steps of an agent loop. The step bars grow steadily taller from step 1 through step 10 because each step resends the whole transcript so far. A dashed reference line marks what the cost would look like if it stayed flat at the step 1 level. A callout box reports that all 10 steps together total about 32,500 tokens, roughly 32 times a single chat turn rather than the 10 times a flat-cost estimate would suggest.</desc>
+  <defs>
+    <linearGradient id="bg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="820">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="cyanBar" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="pinkBar" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <linearGradient id="okBar" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#4ef2a5"/>
+      <stop offset="100%" stop-color="#78ffe2"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .title { font: 700 40px 'Space Grotesk', sans-serif; fill: #e9f6ff; }
+      .sub { font: 500 16px 'Space Mono', monospace; fill: #9dc1d8; }
+      .stepText { font: 500 12.5px 'Space Mono', monospace; fill: #9bc4dd; }
+      .barVal { font: 700 12px 'Space Mono', monospace; fill: #cfe8f7; }
+      .barLabel { font: 700 12px 'Space Mono', monospace; fill: #8fb3cc; }
+      .okText { font: 700 11px 'Space Mono', monospace; fill: #6affc7; letter-spacing: 1.4px; }
+      .badText { font: 700 11px 'Space Mono', monospace; fill: #ff9db9; letter-spacing: 1.4px; }
+      .price { font: 700 24px 'Space Grotesk', sans-serif; fill: #ffffff; }
+      .card { fill: rgba(14, 29, 46, 0.82); stroke: rgba(120, 179, 216, 0.44); stroke-width: 1.2; rx: 14; }
+      .cardOk { fill: rgba(14, 34, 48, 0.9); stroke: rgba(126, 230, 240, 0.85); stroke-width: 1.6; rx: 14; }
+    </style>
+  </defs>
+  <rect width="1400" height="820" fill="url(#bg)"/>
+  <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
+    <path d="M0 160 H1400 M0 300 H1400 M0 440 H1400 M0 580 H1400 M0 700 H1400"/>
+    <path d="M200 0 V820 M500 0 V820 M800 0 V820 M1100 0 V820"/>
+  </g>
+
+  <text class="title" x="76" y="80">Same Model, Compounding Bill</text>
+  <text class="sub" x="76" y="112">Tokens processed per step in a 10-step agent loop, versus one chat turn</text>
+
+  <!-- reference card: single chat turn -->
+  <rect class="cardOk" x="90" y="170" width="260" height="120"/>
+  <text class="barLabel" x="114" y="204">1 CHAT TURN</text>
+  <text class="price" x="114" y="240">~1,000 tokens</text>
+  <text class="stepText" x="114" y="266">one question, one answer</text>
+
+  <!-- callout card: actual total -->
+  <rect class="card" x="980" y="170" width="340" height="120"/>
+  <text class="barLabel" x="1004" y="204">ALL 10 STEPS, TOTAL</text>
+  <text class="price" x="1004" y="240">~32,500 tokens</text>
+  <text class="badText" x="1004" y="266">32x A CHAT TURN, NOT 10x</text>
+
+  <!-- dashed flat-cost reference line at step-1 height -->
+  <line x1="90" y1="590" x2="1322" y2="590" stroke="#5fa2d0" stroke-width="1.5" stroke-dasharray="6 6" opacity="0.55"/>
+  <text class="stepText" x="1080" y="608" fill="#7fa5c2">IF COST STAYED FLAT PER STEP</text>
+
+  <!-- bars: steps 1-10, baseline y=650 -->
+  <!-- step 1: height 60, cyan (same size as a chat turn) -->
+  <rect x="90" y="590" width="80" height="60" rx="6" fill="url(#cyanBar)"/>
+  <text class="barVal" x="98" y="580">1.0K</text>
+  <text class="stepText" x="118" y="668">1</text>
+
+  <!-- step 2: height 90 -->
+  <rect x="218" y="560" width="80" height="90" rx="6" fill="url(#pinkBar)"/>
+  <text class="barVal" x="226" y="550">1.5K</text>
+  <text class="stepText" x="246" y="668">2</text>
+
+  <!-- step 3: height 120 -->
+  <rect x="346" y="530" width="80" height="120" rx="6" fill="url(#pinkBar)"/>
+  <text class="barVal" x="354" y="520">2.0K</text>
+  <text class="stepText" x="374" y="668">3</text>
+
+  <!-- step 4: height 150 -->
+  <rect x="474" y="500" width="80" height="150" rx="6" fill="url(#pinkBar)"/>
+  <text class="barVal" x="482" y="490">2.5K</text>
+  <text class="stepText" x="502" y="668">4</text>
+
+  <!-- step 5: height 180 -->
+  <rect x="602" y="470" width="80" height="180" rx="6" fill="url(#pinkBar)"/>
+  <text class="barVal" x="610" y="460">3.0K</text>
+  <text class="stepText" x="630" y="668">5</text>
+
+  <!-- step 6: height 210 -->
+  <rect x="730" y="440" width="80" height="210" rx="6" fill="url(#pinkBar)"/>
+  <text class="barVal" x="738" y="430">3.5K</text>
+  <text class="stepText" x="758" y="668">6</text>
+
+  <!-- step 7: height 240 -->
+  <rect x="858" y="410" width="80" height="240" rx="6" fill="url(#pinkBar)"/>
+  <text class="barVal" x="866" y="400">4.0K</text>
+  <text class="stepText" x="886" y="668">7</text>
+
+  <!-- step 8: height 270 -->
+  <rect x="986" y="380" width="80" height="270" rx="6" fill="url(#pinkBar)"/>
+  <text class="barVal" x="994" y="370">4.5K</text>
+  <text class="stepText" x="1014" y="668">8</text>
+
+  <!-- step 9: height 300 -->
+  <rect x="1114" y="350" width="80" height="300" rx="6" fill="url(#pinkBar)"/>
+  <text class="barVal" x="1122" y="340">5.0K</text>
+  <text class="stepText" x="1142" y="668">9</text>
+
+  <!-- step 10: height 330 -->
+  <rect x="1242" y="320" width="80" height="330" rx="6" fill="url(#pinkBar)" filter="url(#glow)"/>
+  <text class="barVal" x="1246" y="310">5.5K</text>
+  <text class="stepText" x="1266" y="668">10</text>
+
+  <line x1="90" y1="650" x2="1322" y2="650" stroke="#5fa2d0" stroke-width="1.5" opacity="0.5"/>
+  <text class="sub" x="640" y="700">AGENT STEP →</text>
+
+  <text class="sub" x="76" y="770">Step 1 costs about the same as a chat turn. Step 10 costs over five times as much — same model, same task type, later in the loop.</text>
+</svg>

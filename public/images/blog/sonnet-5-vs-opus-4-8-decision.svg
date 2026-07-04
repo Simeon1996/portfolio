@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" role="img" aria-labelledby="svo-title svo-desc">
+  <title id="svo-title">Sonnet 5 Default vs. Manually Switching to Opus 4.8</title>
+  <desc id="svo-desc">Two cards compare staying on the Sonnet 5 default against manually switching to Opus 4.8. The Sonnet 5 card, marked DEFAULT, lists everyday coding and debugging, iterative back-and-forth edits, general reasoning and writing, and high-volume cost-sensitive calls, with a footer reading stays default, no action needed. The Opus 4.8 card, marked MANUAL, lists high-stakes production changes, long multi-step agent runs, hardest open-ended problems, and cases where Sonnet 5 output was not enough, with a footer reading requires the model picker. A connecting arrow between the two cards is labeled manual switch.</desc>
+  <defs>
+    <linearGradient id="bg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="820">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="cyanLine" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="pinkLine" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <linearGradient id="okLine" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#4ef2a5"/>
+      <stop offset="100%" stop-color="#78ffe2"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .title { font: 700 40px 'Space Grotesk', sans-serif; fill: #e9f6ff; }
+      .sub { font: 500 16px 'Space Mono', monospace; fill: #9dc1d8; }
+      .badge { font: 700 27px 'Space Grotesk', sans-serif; }
+      .tagline { font: 600 14px 'Space Mono', monospace; fill: #cfe8f7; }
+      .sectionLabel { font: 700 11px 'Space Mono', monospace; fill: #7ea8c4; letter-spacing: 2px; }
+      .stepText { font: 500 13px 'Space Mono', monospace; fill: #b9d8ea; }
+      .okText { font: 700 11px 'Space Mono', monospace; fill: #6affc7; letter-spacing: 1.4px; }
+      .badText { font: 700 11px 'Space Mono', monospace; fill: #ff9db9; letter-spacing: 1.4px; }
+      .card { fill: rgba(14, 29, 46, 0.82); stroke: rgba(120, 179, 216, 0.44); stroke-width: 1.2; rx: 16; }
+      .cardOk { fill: rgba(14, 34, 48, 0.9); stroke: rgba(126, 230, 240, 0.85); stroke-width: 1.8; rx: 16; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="820" fill="url(#bg)"/>
+
+  <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
+    <path d="M0 160 H1400 M0 300 H1400 M0 440 H1400 M0 580 H1400 M0 700 H1400"/>
+    <path d="M200 0 V820 M500 0 V820 M800 0 V820 M1100 0 V820"/>
+  </g>
+
+  <text class="title" x="76" y="80">Stay on Default, or Switch on Purpose?</text>
+  <text class="sub" x="76" y="112">Sonnet 5 handles the default lane. Opus 4.8 is one manual switch away.</text>
+
+  <!-- Sonnet 5 card -->
+  <rect class="cardOk" x="90" y="170" width="560" height="500" filter="url(#glow)"/>
+  <text class="badge" x="122" y="234" fill="#8ef4ff">SONNET 5</text>
+  <text class="okText" x="480" y="230">DEFAULT</text>
+  <text class="tagline" x="122" y="266">Automatic for Free and Pro, no picker needed</text>
+  <path d="M122 288 H618" stroke="rgba(126,230,240,0.25)" stroke-width="1"/>
+
+  <text class="sectionLabel" x="122" y="326">GOOD FOR</text>
+  <circle cx="128" cy="358" r="3.5" fill="#6affc7"/>
+  <text class="stepText" x="146" y="363">Everyday coding &amp; debugging</text>
+  <circle cx="128" cy="398" r="3.5" fill="#6affc7"/>
+  <text class="stepText" x="146" y="403">Iterative back-and-forth edits</text>
+  <circle cx="128" cy="438" r="3.5" fill="#6affc7"/>
+  <text class="stepText" x="146" y="443">General reasoning &amp; writing</text>
+  <circle cx="128" cy="478" r="3.5" fill="#6affc7"/>
+  <text class="stepText" x="146" y="483">High-volume, cost-sensitive calls</text>
+
+  <rect x="122" y="600" width="16" height="16" rx="4" fill="url(#okLine)"/>
+  <text class="okText" x="150" y="612">STAYS DEFAULT — NO ACTION NEEDED</text>
+
+  <!-- Opus 4.8 card -->
+  <rect class="card" x="750" y="170" width="560" height="500"/>
+  <text class="badge" x="782" y="234" fill="#ff9db9">OPUS 4.8</text>
+  <text class="badText" x="1160" y="230">MANUAL</text>
+  <text class="tagline" x="782" y="266">Pro only — you switch to it on purpose</text>
+  <path d="M782 288 H1278" stroke="rgba(255,119,177,0.25)" stroke-width="1"/>
+
+  <text class="sectionLabel" x="782" y="326">REACH FOR IT WHEN</text>
+  <circle cx="788" cy="358" r="3.5" fill="#ff9db9"/>
+  <text class="stepText" x="806" y="363">High-stakes production changes</text>
+  <circle cx="788" cy="398" r="3.5" fill="#ff9db9"/>
+  <text class="stepText" x="806" y="403">Long, multi-step agent runs</text>
+  <circle cx="788" cy="438" r="3.5" fill="#ff9db9"/>
+  <text class="stepText" x="806" y="443">Hardest, open-ended problems</text>
+  <circle cx="788" cy="478" r="3.5" fill="#ff9db9"/>
+  <text class="stepText" x="806" y="483">Sonnet 5's answer wasn't enough</text>
+
+  <rect x="782" y="600" width="16" height="16" rx="4" fill="url(#pinkLine)"/>
+  <text class="badText" x="810" y="612">REQUIRES THE MODEL PICKER</text>
+
+  <!-- connector -->
+  <g fill="none" stroke-linecap="round" stroke-width="3" filter="url(#glow)">
+    <path d="M650 420 H750" stroke="url(#pinkLine)"/>
+  </g>
+  <circle cx="650" cy="420" r="4" fill="#8ceeff"/>
+  <circle cx="750" cy="420" r="4" fill="#ff93bb"/>
+  <text class="badText" x="700" y="395" text-anchor="middle">MANUAL</text>
+  <text class="badText" x="700" y="450" text-anchor="middle">SWITCH</text>
+
+  <text class="sub" x="76" y="770">Both are one account away — the difference is whether you reach for the picker, or don't have to.</text>
+</svg>

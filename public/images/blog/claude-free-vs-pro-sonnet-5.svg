@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" role="img" aria-labelledby="fvp-title fvp-desc">
+  <title id="fvp-title">Claude Free vs. Pro — What Changes for Sonnet 5 Access</title>
+  <desc id="fvp-desc">Two cards compare the Free and Pro Claude plans now that Sonnet 5 is the default model on both. The Free card lists full Sonnet 5 default access, standard free-plan usage limits, no manual Opus 4.8 option, and that it suits occasional or lighter use, with a short usage-ceiling bar. The Pro card, priced at 17 dollars per month, lists the Sonnet 5 default with higher usage limits, the ability to manually switch to Opus 4.8 anytime, that it suits daily or professional use, and that model quality is identical to Free, with a longer usage-ceiling bar. A footer notes that Pro buys more headroom and optionality, not a smarter model.</desc>
+  <defs>
+    <linearGradient id="bg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="820">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="cyanBar" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="pinkBar" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .title { font: 700 40px 'Space Grotesk', sans-serif; fill: #e9f6ff; }
+      .sub { font: 500 16px 'Space Mono', monospace; fill: #9dc1d8; }
+      .badge { font: 700 27px 'Space Grotesk', sans-serif; }
+      .tagline { font: 600 14px 'Space Mono', monospace; fill: #cfe8f7; }
+      .sectionLabel { font: 700 11px 'Space Mono', monospace; fill: #7ea8c4; letter-spacing: 2px; }
+      .stepText { font: 500 13px 'Space Mono', monospace; fill: #b9d8ea; }
+      .barLabel { font: 700 10px 'Space Mono', monospace; fill: #8fb3cc; letter-spacing: 1.5px; }
+      .card { fill: rgba(14, 29, 46, 0.82); stroke: rgba(120, 179, 216, 0.44); stroke-width: 1.2; rx: 16; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="820" fill="url(#bg)"/>
+
+  <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
+    <path d="M0 160 H1400 M0 300 H1400 M0 440 H1400 M0 580 H1400 M0 700 H1400"/>
+    <path d="M200 0 V820 M500 0 V820 M800 0 V820 M1100 0 V820"/>
+  </g>
+
+  <text class="title" x="76" y="80">Free vs. Pro: What Actually Changes</text>
+  <text class="sub" x="76" y="112">Same Sonnet 5 quality on both plans — the difference is headroom and the Opus 4.8 option</text>
+
+  <!-- Free card -->
+  <rect class="card" x="90" y="170" width="560" height="460"/>
+  <text class="badge" x="122" y="234" fill="#8ef4ff">FREE</text>
+  <text class="tagline" x="122" y="266">Sonnet 5 at no cost</text>
+  <path d="M122 288 H618" stroke="rgba(126,230,240,0.25)" stroke-width="1"/>
+
+  <text class="sectionLabel" x="122" y="326">WHAT YOU GET</text>
+  <circle cx="128" cy="358" r="3.5" fill="#7df5f2"/>
+  <text class="stepText" x="146" y="363">Full Sonnet 5 default access</text>
+  <circle cx="128" cy="398" r="3.5" fill="#7df5f2"/>
+  <text class="stepText" x="146" y="403">Standard free-plan usage limits</text>
+  <circle cx="128" cy="438" r="3.5" fill="#7df5f2"/>
+  <text class="stepText" x="146" y="443">No manual Opus 4.8 option</text>
+  <circle cx="128" cy="478" r="3.5" fill="#7df5f2"/>
+  <text class="stepText" x="146" y="483">Fits occasional, lighter-use days</text>
+
+  <rect x="122" y="546" width="90" height="14" rx="4" fill="url(#cyanBar)"/>
+  <text class="barLabel" x="122" y="580">LOWER USAGE CEILING</text>
+
+  <!-- Pro card -->
+  <rect class="card" x="750" y="170" width="560" height="460"/>
+  <text class="badge" x="782" y="234" fill="#ffc17d">PRO</text>
+  <text class="tagline" x="900" y="234" style="font: 700 20px 'Space Grotesk', sans-serif; fill: #e9f6ff;">— $17/month</text>
+  <text class="tagline" x="782" y="266">Same Sonnet 5, more headroom</text>
+  <path d="M782 288 H1278" stroke="rgba(255,193,125,0.25)" stroke-width="1"/>
+
+  <text class="sectionLabel" x="782" y="326">WHAT YOU GET</text>
+  <circle cx="788" cy="358" r="3.5" fill="#ffc17d"/>
+  <text class="stepText" x="806" y="363">Sonnet 5 default, higher usage limits</text>
+  <circle cx="788" cy="398" r="3.5" fill="#ffc17d"/>
+  <text class="stepText" x="806" y="403">Manual switch to Opus 4.8 anytime</text>
+  <circle cx="788" cy="438" r="3.5" fill="#ffc17d"/>
+  <text class="stepText" x="806" y="443">Fits daily, professional-use days</text>
+  <circle cx="788" cy="478" r="3.5" fill="#ffc17d"/>
+  <text class="stepText" x="806" y="483">Identical model quality to Free</text>
+
+  <rect x="782" y="546" width="320" height="14" rx="4" fill="url(#pinkBar)"/>
+  <text class="barLabel" x="782" y="580">HIGHER USAGE CEILING</text>
+
+  <text class="sub" x="76" y="770">Pro doesn't buy a smarter model — it buys more of it, plus the option to go bigger when needed.</text>
+</svg>

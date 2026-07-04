@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" role="img" aria-labelledby="ala-title ala-desc">
+  <title id="ala-title">Workplace AI Agent Adoption, 2025 to 2026</title>
+  <desc id="ala-desc">Horizontal bar chart. 2025 bar reaches 34 percent. 2026 bar reaches 73 percent, more than doubling in one year, per Google Cloud's Business Trends Report 2026. Below the chart, a callout box notes that adoption is ahead of maturity: 73 percent report using agents somewhere, but far fewer have moved a workflow past the pilot stage into unattended production use.</desc>
+  <defs>
+    <linearGradient id="bg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="820">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="pinkBar" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <linearGradient id="okBar" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#4ef2a5"/>
+      <stop offset="100%" stop-color="#78ffe2"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .title { font: 700 40px 'Space Grotesk', sans-serif; fill: #e9f6ff; }
+      .sub { font: 500 16px 'Space Mono', monospace; fill: #9dc1d8; }
+      .yearLabel { font: 700 20px 'Space Grotesk', sans-serif; fill: #e3f5ff; }
+      .pctLabel { font: 700 30px 'Space Grotesk', sans-serif; fill: #ffffff; }
+      .axisText { font: 500 11px 'Space Mono', monospace; fill: #6f93ac; }
+      .stepTitle { font: 700 17px 'Space Grotesk', sans-serif; fill: #e3f5ff; }
+      .stepText { font: 500 12.5px 'Space Mono', monospace; fill: #9bc4dd; }
+      .cardHot { fill: rgba(43, 19, 42, 0.42); stroke: rgba(255, 119, 177, 0.42); stroke-width: 1.2; rx: 14; }
+    </style>
+  </defs>
+  <rect width="1400" height="820" fill="url(#bg)"/>
+  <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
+    <path d="M0 160 H1400 M0 300 H1400 M0 440 H1400 M0 580 H1400 M0 700 H1400"/>
+    <path d="M200 0 V820 M500 0 V820 M800 0 V820 M1100 0 V820"/>
+  </g>
+
+  <text class="title" x="76" y="80">The Agent Leap, in One Chart</text>
+  <text class="sub" x="76" y="112">Share of organizations reporting AI agents in the workplace — Google Cloud Business Trends Report 2026</text>
+
+  <text class="yearLabel" x="76" y="298">2025</text>
+  <rect x="280" y="256" width="347" height="60" rx="10" fill="url(#pinkBar)"/>
+  <text class="pctLabel" x="645" y="298">34%</text>
+
+  <text class="yearLabel" x="76" y="418">2026</text>
+  <rect x="280" y="376" width="745" height="60" rx="10" fill="url(#okBar)" filter="url(#glow)"/>
+  <text class="pctLabel" x="1043" y="418">73%</text>
+
+  <g stroke="rgba(120,179,216,0.4)" stroke-width="1">
+    <line x1="280" y1="450" x2="280" y2="466"/>
+    <line x1="535" y1="450" x2="535" y2="466"/>
+    <line x1="790" y1="450" x2="790" y2="466"/>
+    <line x1="1045" y1="450" x2="1045" y2="466"/>
+    <line x1="1300" y1="450" x2="1300" y2="466"/>
+  </g>
+  <g class="axisText" text-anchor="middle">
+    <text x="280" y="484">0%</text>
+    <text x="535" y="484">25%</text>
+    <text x="790" y="484">50%</text>
+    <text x="1045" y="484">75%</text>
+    <text x="1300" y="484">100%</text>
+  </g>
+
+  <rect class="cardHot" x="90" y="540" width="1220" height="150"/>
+  <text class="stepTitle" x="122" y="580">Adoption Is Ahead of Maturity</text>
+  <text class="stepText" x="122" y="612">73% report agents somewhere in the organization — that is the headline number.</text>
+  <text class="stepText" x="122" y="634">A much smaller slice has moved past a pilot into a workflow that runs</text>
+  <text class="stepText" x="122" y="656">unattended in production, with defined escalation points and real ROI.</text>
+
+  <text class="sub" x="76" y="770">The stat everyone quotes is adoption. The stat that matters is whether it survived contact with a real workflow.</text>
+</svg>

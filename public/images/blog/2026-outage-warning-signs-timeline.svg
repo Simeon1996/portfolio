@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" role="img" aria-labelledby="owt-title owt-desc">
+  <title id="owt-title">Timeline: 2025-2026 Cloud Outage Warning Signs</title>
+  <desc id="owt-desc">A timeline of four events building toward a predicted risk. October 2025: AWS outage disrupts multiple regions. November 2025: Azure outage disrupts businesses globally. Early 2026: intermittent elevated latency and possible packet loss on Google Cloud traffic through Delhi, Chennai, and Mumbai. Late March through May 1, 2026: AWS me-central-1 region outage tied to regional disruption, the second straight month of operational stress in that region. The timeline ends at a highlighted 2026 forecast card showing Forrester's prediction of at least two major multi-day cloud outages driven by AI data-center capacity upgrades.</desc>
+  <defs>
+    <linearGradient id="bg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="820">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="cyanLine" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="pinkLine" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <linearGradient id="okLine" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+      <stop offset="0%" stop-color="#4ef2a5"/>
+      <stop offset="100%" stop-color="#78ffe2"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .title { font: 700 40px 'Space Grotesk', sans-serif; fill: #e9f6ff; }
+      .sub { font: 500 16px 'Space Mono', monospace; fill: #9dc1d8; }
+      .stepTitle { font: 700 16px 'Space Grotesk', sans-serif; fill: #e3f5ff; }
+      .dateText { font: 700 11px 'Space Mono', monospace; fill: #8fb3cc; letter-spacing: 1.3px; }
+      .stepText { font: 500 12px 'Space Mono', monospace; fill: #9bc4dd; }
+      .okText { font: 700 11px 'Space Mono', monospace; fill: #6affc7; letter-spacing: 1.4px; }
+      .badText { font: 700 11px 'Space Mono', monospace; fill: #ff9db9; letter-spacing: 1.4px; }
+      .card { fill: rgba(14, 29, 46, 0.82); stroke: rgba(120, 179, 216, 0.44); stroke-width: 1.2; rx: 14; }
+      .cardHot { fill: rgba(43, 19, 42, 0.42); stroke: rgba(255, 119, 177, 0.42); stroke-width: 1.2; rx: 14; }
+      .cardOk { fill: rgba(14, 34, 48, 0.9); stroke: rgba(126, 230, 240, 0.85); stroke-width: 1.6; rx: 14; }
+    </style>
+  </defs>
+  <rect width="1400" height="820" fill="url(#bg)"/>
+  <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
+    <path d="M0 160 H1400 M0 300 H1400 M0 440 H1400 M0 580 H1400 M0 700 H1400"/>
+    <path d="M200 0 V820 M500 0 V820 M800 0 V820 M1100 0 V820"/>
+  </g>
+
+  <text class="title" x="76" y="80">The Warm-Up, Not the Main Event</text>
+  <text class="sub" x="76" y="112">Smaller-scale incidents on the way to Forrester's predicted 2026 outage</text>
+
+  <!-- Timeline spine -->
+  <line x1="110" y1="260" x2="1290" y2="260" stroke="#5fa2d0" stroke-width="2" opacity="0.35"/>
+
+  <!-- Node 1 -->
+  <circle cx="150" cy="260" r="7" fill="#8ceeff" filter="url(#glow)"/>
+  <rect class="card" x="76" y="300" width="230" height="150"/>
+  <text class="dateText" x="100" y="332">OCT 2025</text>
+  <text class="stepTitle" x="100" y="360">AWS outage</text>
+  <text class="stepText" x="100" y="386">Disrupted businesses</text>
+  <text class="stepText" x="100" y="404">across multiple regions</text>
+  <text class="badText" x="100" y="430">PREVIEW #1</text>
+
+  <!-- Node 2 -->
+  <circle cx="450" cy="260" r="7" fill="#8ceeff" filter="url(#glow)"/>
+  <rect class="card" x="376" y="300" width="230" height="150"/>
+  <text class="dateText" x="400" y="332">NOV 2025</text>
+  <text class="stepTitle" x="400" y="360">Azure outage</text>
+  <text class="stepText" x="400" y="386">Global business disruption,</text>
+  <text class="stepText" x="400" y="404">same pattern as AWS</text>
+  <text class="badText" x="400" y="430">PREVIEW #2</text>
+
+  <!-- Node 3 -->
+  <circle cx="750" cy="260" r="7" fill="#ffc98f" filter="url(#glow)"/>
+  <rect class="cardHot" x="676" y="300" width="230" height="150"/>
+  <text class="dateText" x="700" y="332">EARLY 2026</text>
+  <text class="stepTitle" x="700" y="358">Google Cloud latency</text>
+  <text class="stepText" x="700" y="384">Elevated latency, possible</text>
+  <text class="stepText" x="700" y="402">packet loss — Delhi, Chennai,</text>
+  <text class="stepText" x="700" y="420">Mumbai and surrounding areas</text>
+
+  <!-- Node 4 -->
+  <circle cx="1050" cy="260" r="7" fill="#ffc98f" filter="url(#glow)"/>
+  <rect class="cardHot" x="976" y="300" width="230" height="150"/>
+  <text class="dateText" x="1000" y="332">LATE MAR – MAY 1, 2026</text>
+  <text class="stepTitle" x="1000" y="360">AWS me-central-1</text>
+  <text class="stepText" x="1000" y="386">Regional outage tied to</text>
+  <text class="stepText" x="1000" y="404">regional disruption — 2nd</text>
+  <text class="stepText" x="1000" y="422">straight month of stress</text>
+
+  <g fill="none" stroke-linecap="round" stroke-width="3" opacity="0.9">
+    <path d="M157 260 H443" stroke="url(#cyanLine)"/>
+    <path d="M457 260 H743" stroke="url(#cyanLine)"/>
+    <path d="M757 260 H1043" stroke="url(#pinkLine)"/>
+  </g>
+
+  <!-- Forecast card -->
+  <rect class="cardOk" x="76" y="560" width="1248" height="130" filter="url(#glow)"/>
+  <text class="stepTitle" x="110" y="600" style="font: 700 20px 'Space Grotesk', sans-serif; fill: #e9f6ff;">Forrester's 2026 forecast</text>
+  <text class="stepText" x="110" y="628">AI data-center capacity upgrades will trigger at least two major multi-day cloud outages in 2026 —</text>
+  <text class="stepText" x="110" y="648">new GPU capacity, power, and cooling systems coming online faster than operational maturity allows.</text>
+  <text class="okText" x="110" y="674">STILL A PREDICTION, NOT A CONFIRMED EVENT</text>
+
+  <g fill="none" stroke-linecap="round" stroke-width="3">
+    <path d="M1050 450 V520 Q1050 560 700 560" stroke="url(#pinkLine)" filter="url(#glow)"/>
+  </g>
+  <circle cx="1050" cy="450" r="4" fill="#ffb37d"/>
+
+  <text class="sub" x="76" y="770">None of these four is the "big one" on its own — together they are the shape of the risk building.</text>
+</svg>
