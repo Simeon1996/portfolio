@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" role="img" aria-labelledby="cr-title cr-desc">
+  <title id="cr-title">AI-Assisted Code Reviews: More Issues, More Vulnerabilities</title>
+  <desc id="cr-desc">Three stat cards from CodeRabbit's 2026 analysis of 470 pull requests: AI-co-authored code had 1.7 times more major issues and 2.74 times more security vulnerabilities than human-only code.</desc>
+  <defs>
+    <linearGradient id="cr-bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="cr-cardCyan" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="rgba(78,203,255,0.08)"/>
+      <stop offset="100%" stop-color="rgba(78,203,255,0.02)"/>
+    </linearGradient>
+    <linearGradient id="cr-cardPink" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="rgba(255,106,158,0.10)"/>
+      <stop offset="100%" stop-color="rgba(255,106,158,0.02)"/>
+    </linearGradient>
+    <linearGradient id="cr-cardAmber" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="rgba(255,193,125,0.10)"/>
+      <stop offset="100%" stop-color="rgba(255,193,125,0.02)"/>
+    </linearGradient>
+    <filter id="cr-glow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .cr-t  { font: 700 34px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
+      .cr-s  { font: 500 16px 'Space Mono', monospace; fill: #9bc0d8; }
+      .cr-big { font: 800 60px 'Space Grotesk', sans-serif; }
+      .cr-lbl { font: 600 16px 'Space Grotesk', sans-serif; fill: #c8e6f8; }
+      .cr-sm  { font: 500 13px 'Space Mono', monospace; fill: #7aaabf; }
+      .cr-src { font: 500 12px 'Space Mono', monospace; fill: #3a5a70; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="500" fill="url(#cr-bg)"/>
+
+  <!-- grid -->
+  <g opacity="0.07">
+    <line x1="0" y1="140" x2="1200" y2="140" stroke="#5fa2d0" stroke-width="1"/>
+    <line x1="0" y1="260" x2="1200" y2="260" stroke="#5fa2d0" stroke-width="1"/>
+    <line x1="0" y1="380" x2="1200" y2="380" stroke="#5fa2d0" stroke-width="1"/>
+    <line x1="400" y1="0" x2="400" y2="500" stroke="#5fa2d0" stroke-width="1"/>
+    <line x1="800" y1="0" x2="800" y2="500" stroke="#5fa2d0" stroke-width="1"/>
+  </g>
+
+  <text class="cr-t" x="70" y="68">470 Pull Requests, One Clear Pattern</text>
+  <text class="cr-s" x="70" y="96">CodeRabbit's 2026 review-quality analysis, AI-co-authored vs. human-only code</text>
+
+  <!-- Card 1 -->
+  <rect x="60" y="140" width="320" height="280" rx="14" fill="url(#cr-cardCyan)" stroke="rgba(78,203,255,0.35)" stroke-width="1.2"/>
+  <text class="cr-big" x="80" y="230" fill="#4ecbff" filter="url(#cr-glow)">470</text>
+  <text class="cr-lbl" x="80" y="268">Pull requests analyzed</text>
+  <text class="cr-sm" x="80" y="298">Real-world PRs comparing</text>
+  <text class="cr-sm" x="80" y="318">AI-assisted commits against</text>
+  <text class="cr-sm" x="80" y="338">human-only commits.</text>
+
+  <!-- Card 2 -->
+  <rect x="440" y="140" width="320" height="280" rx="14" fill="url(#cr-cardPink)" stroke="rgba(255,106,158,0.35)" stroke-width="1.2"/>
+  <text class="cr-big" x="460" y="230" fill="#ff6a9e" filter="url(#cr-glow)">1.7x</text>
+  <text class="cr-lbl" x="460" y="268">More major issues</text>
+  <text class="cr-sm" x="460" y="298">AI-co-authored code needed</text>
+  <text class="cr-sm" x="460" y="318">more review rounds and fixes</text>
+  <text class="cr-sm" x="460" y="338">before it could merge.</text>
+
+  <!-- Card 3 -->
+  <rect x="820" y="140" width="320" height="280" rx="14" fill="url(#cr-cardAmber)" stroke="rgba(255,193,125,0.35)" stroke-width="1.2"/>
+  <text class="cr-big" x="840" y="230" fill="#ffc17d" filter="url(#cr-glow)">2.74x</text>
+  <text class="cr-lbl" x="840" y="268">More security vulnerabilities</text>
+  <text class="cr-sm" x="840" y="298">The gap was widest exactly</text>
+  <text class="cr-sm" x="840" y="318">where mistakes cost the most —</text>
+  <text class="cr-sm" x="840" y="338">security-sensitive code.</text>
+
+  <text class="cr-src" x="70" y="468">Source: CodeRabbit code review analysis, 2026.</text>
+</svg>

@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" role="img" aria-labelledby="aac-title aac-desc">
+  <title id="aac-title">Enterprise Agent Adoption Is Exploding — Coordination Isn't Keeping Up</title>
+  <desc id="aac-desc">Bar chart showing task-specific AI agent adoption in enterprise applications rising from under 5% at the end of 2025 to a projected 40% by the end of 2026, per Gartner. A callout notes that companies run 12 AI agents on average, and half of those agents operate with no orchestration, per a 2026 Belitsoft report.</desc>
+  <defs>
+    <linearGradient id="aac-bg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1200" y2="520">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="aac-cyan" gradientUnits="userSpaceOnUse" x1="290" y1="0" x2="1050" y2="0">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="aac-gray" gradientUnits="userSpaceOnUse" x1="290" y1="0" x2="1050" y2="0">
+      <stop offset="0%" stop-color="#2a3f55"/>
+      <stop offset="100%" stop-color="#3a5168"/>
+    </linearGradient>
+    <linearGradient id="aac-pink" gradientUnits="userSpaceOnUse" x1="60" y1="0" x2="1140" y2="0">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <filter id="aac-glow" x="-5%" y="-40%" width="110%" height="180%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .aac-title { font: 700 30px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
+      .aac-sub   { font: 500 14px 'Space Mono', monospace; fill: #9bc0d8; }
+      .aac-label { font: 600 15px 'Space Grotesk', sans-serif; fill: #c8e6f8; }
+      .aac-pct   { font: 700 22px 'Space Grotesk', sans-serif; }
+      .aac-note  { font: 500 13px 'Space Mono', monospace; fill: #5a8099; }
+      .aac-axis  { font: 500 12px 'Space Mono', monospace; fill: #4a7090; }
+      .aac-callTitle { font: 700 16px 'Space Grotesk', sans-serif; fill: #ffe3ee; }
+      .aac-callText  { font: 500 13px 'Space Mono', monospace; fill: #ffcfe0; }
+      .aac-foot  { font: 500 12px 'Space Mono', monospace; fill: #3d6478; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="520" fill="url(#aac-bg)"/>
+
+  <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
+    <line x1="0" y1="130" x2="1200" y2="130"/>
+    <line x1="0" y1="330" x2="1200" y2="330"/>
+    <line x1="480" y1="120" x2="480" y2="340"/>
+    <line x1="670" y1="120" x2="670" y2="340"/>
+    <line x1="860" y1="120" x2="860" y2="340"/>
+    <line x1="1050" y1="120" x2="1050" y2="340"/>
+  </g>
+
+  <!-- header -->
+  <text class="aac-title" x="60" y="52">Adoption Is Up. Coordination Isn't.</text>
+  <text class="aac-sub"   x="60" y="76">Task-specific AI agents in enterprise applications — Gartner, 2026</text>
+
+  <!-- axis baseline -->
+  <line x1="290" y1="330" x2="1050" y2="330" stroke="#2a4a62" stroke-width="1.5"/>
+
+  <!-- x-axis labels -->
+  <text class="aac-axis" x="290"  y="350" text-anchor="middle">0%</text>
+  <text class="aac-axis" x="480"  y="350" text-anchor="middle">10%</text>
+  <text class="aac-axis" x="670"  y="350" text-anchor="middle">20%</text>
+  <text class="aac-axis" x="860"  y="350" text-anchor="middle">30%</text>
+  <text class="aac-axis" x="1050" y="350" text-anchor="middle">40%</text>
+
+  <!-- ROW 1 — End of 2025 -->
+  <text class="aac-label" x="275" y="160" text-anchor="end">End of 2025</text>
+  <rect x="290" y="140" width="70" height="34" rx="3" fill="url(#aac-gray)"/>
+  <text class="aac-pct" x="376" y="164" fill="#7a9cb5">&lt;5%</text>
+  <text class="aac-note" x="376" y="185">of enterprise apps used task-specific agents</text>
+
+  <!-- ROW 2 — End of 2026 projected -->
+  <text class="aac-label" x="275" y="270" text-anchor="end">End of 2026</text>
+  <rect x="290" y="250" width="760" height="34" rx="3" fill="url(#aac-cyan)" filter="url(#aac-glow)"/>
+  <text class="aac-pct" x="1060" y="274" fill="#7df5f2">40%</text>
+  <text class="aac-note" x="1060" y="295" text-anchor="end">projected — Gartner</text>
+
+  <!-- growth connector -->
+  <path d="M360 174 C 400 208, 400 212, 420 246" fill="none" stroke="#5a8099" stroke-width="1.5" stroke-dasharray="3 5"/>
+  <text class="aac-note" x="430" y="216">~8x in one year</text>
+
+  <!-- coordination gap callout -->
+  <rect x="60" y="382" width="1080" height="104" rx="14" fill="rgba(49, 24, 40, 0.55)" stroke="rgba(255, 142, 180, 0.5)" stroke-width="1.2"/>
+  <rect x="60" y="382" width="6" height="104" fill="url(#aac-pink)"/>
+  <text class="aac-callTitle" x="90" y="414">The coordination gap</text>
+  <text class="aac-callText" x="90" y="440">Companies run 12 AI agents on average — but half of them work completely alone,</text>
+  <text class="aac-callText" x="90" y="460">with no orchestration connecting them to anything else. (Belitsoft, 2026)</text>
+
+  <text class="aac-foot" x="60" y="506">More agents deployed does not mean more value captured — the missing layer is coordination, not capability.</text>
+</svg>

@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" role="img" aria-labelledby="bva-title bva-desc">
+  <title id="bva-title">One Giant Agent vs. Many Bounded Agents With a Human Loop</title>
+  <desc id="bva-desc">Comparison diagram. Left: a single autonomous agent running one long unsupervised chain of steps, where an early error compounds unnoticed and there is no audit seam. Right: several small bounded agents, each with a narrow job and a checkpoint, all connected to a human who owns the loop between them, producing an intact audit trail.</desc>
+  <defs>
+    <linearGradient id="bva-bg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1200" y2="520">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="bva-warn" gradientUnits="userSpaceOnUse" x1="90" y1="0" x2="530" y2="0">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <linearGradient id="bva-ok" gradientUnits="userSpaceOnUse" x1="650" y1="0" x2="1110" y2="0">
+      <stop offset="0%" stop-color="#4ef2a5"/>
+      <stop offset="100%" stop-color="#78ffe2"/>
+    </linearGradient>
+    <linearGradient id="bva-cyan" gradientUnits="userSpaceOnUse" x1="650" y1="0" x2="1110" y2="0">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <filter id="bva-glow" x="-40%" y="-60%" width="180%" height="220%">
+      <feGaussianBlur stdDeviation="3.2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .bva-title  { font: 700 30px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
+      .bva-sub    { font: 500 14px 'Space Mono', monospace; fill: #9bc0d8; }
+      .bva-h      { font: 700 16px 'Space Grotesk', sans-serif; letter-spacing: 1px; }
+      .bva-card   { fill: rgba(14, 29, 46, 0.82); stroke-width: 1.2; rx: 12; }
+      .bva-cardWarn { fill: rgba(49, 24, 40, 0.72); stroke: rgba(255, 142, 180, 0.55); }
+      .bva-cardOk   { fill: rgba(14, 46, 38, 0.72); stroke: rgba(120, 255, 210, 0.5); }
+      .bva-cardNeutral { fill: rgba(14, 29, 46, 0.85); stroke: rgba(120, 179, 216, 0.4); }
+      .bva-ctitle { font: 700 15px 'Space Grotesk', sans-serif; fill: #e3f5ff; }
+      .bva-ctext  { font: 500 12px 'Space Mono', monospace; fill: #9bc4dd; }
+      .bva-tagWarn { font: 700 11px 'Space Mono', monospace; fill: #ffb4ce; letter-spacing: 1.2px; }
+      .bva-tagOk   { font: 700 11px 'Space Mono', monospace; fill: #6affc7; letter-spacing: 1.2px; }
+      .bva-foot   { font: 500 12px 'Space Mono', monospace; fill: #4a7090; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="520" fill="url(#bva-bg)"/>
+
+  <g opacity="0.14">
+    <circle cx="170" cy="120" r="150" fill="#5a3550"/>
+    <circle cx="1040" cy="440" r="180" fill="#2c4f6b"/>
+  </g>
+
+  <text class="bva-title" x="60" y="52">One Giant Agent vs. Bounded Agents</text>
+  <text class="bva-sub" x="60" y="76">Same capability. Very different blast radius when something goes wrong.</text>
+
+  <line x1="600" y1="98" x2="600" y2="466" stroke="#2a4a62" stroke-width="1.5" stroke-dasharray="4 6"/>
+
+  <!-- LEFT: single giant autonomous agent -->
+  <text class="bva-h" x="90" y="118" fill="#ff9dbd">THE "VIRTUAL EMPLOYEE"</text>
+
+  <rect class="bva-card bva-cardNeutral" x="90" y="136" width="440" height="96" rx="12"/>
+  <text class="bva-ctitle" x="112" y="164">One agent, one giant loop</text>
+  <text class="bva-ctext" x="112" y="188">Books trips, files reports, closes tickets,</text>
+  <text class="bva-ctext" x="112" y="206">writes and ships code — 3+ unsupervised hours</text>
+
+  <path d="M310 232 V254" fill="none" stroke="url(#bva-warn)" stroke-width="3" filter="url(#bva-glow)"/>
+
+  <!-- unbounded chain of steps, no checkpoints, drifting toward red -->
+  <g>
+    <line x1="112" y1="270" x2="508" y2="270" stroke="#5a4058" stroke-width="2"/>
+    <circle cx="130" cy="270" r="7" fill="#7df5f2"/>
+    <circle cx="200" cy="270" r="7" fill="#a0d8c8"/>
+    <circle cx="270" cy="270" r="7" fill="#d1c090"/>
+    <circle cx="340" cy="270" r="7" fill="#ffb48a"/>
+    <circle cx="410" cy="270" r="7" fill="#ff8aa8"/>
+    <circle cx="480" cy="270" r="8" fill="#ff6a9e" filter="url(#bva-glow)"/>
+  </g>
+  <text class="bva-ctext" x="112" y="296">step 1 → step 2 (error) → ... → step 40, unreviewed</text>
+
+  <rect class="bva-card bva-cardWarn" x="90" y="318" width="440" height="112" rx="12"/>
+  <text class="bva-ctitle" x="112" y="346">Nobody checks until it's done</text>
+  <text class="bva-ctext" x="112" y="370">A wrong step at hour one is trusted</text>
+  <text class="bva-ctext" x="112" y="388">by every step that follows it</text>
+  <text class="bva-tagWarn" x="112" y="414">ERRORS COMPOUND · NO AUDIT SEAM</text>
+
+  <!-- RIGHT: bounded agents + human loop -->
+  <text class="bva-h" x="650" y="118" fill="#7bffce">BOUNDED AGENTS, ONE HUMAN LOOP</text>
+
+  <rect class="bva-card bva-cardNeutral" x="650" y="136" width="132" height="70" rx="10"/>
+  <text class="bva-ctitle" x="664" y="162" style="font-size:12px">Draft Reply</text>
+  <text class="bva-ctext" x="664" y="182">one job</text>
+
+  <rect class="bva-card bva-cardNeutral" x="798" y="136" width="150" height="70" rx="10"/>
+  <text class="bva-ctitle" x="812" y="162" style="font-size:12px">Check Invoice</text>
+  <text class="bva-ctext" x="812" y="182">one job</text>
+
+  <rect class="bva-card bva-cardNeutral" x="964" y="136" width="146" height="70" rx="10"/>
+  <text class="bva-ctitle" x="978" y="162" style="font-size:12px">Summarize</text>
+  <text class="bva-ctext" x="978" y="182">one job</text>
+
+  <!-- checkpoints under each narrow agent -->
+  <g filter="url(#bva-glow)">
+    <circle cx="716" cy="222" r="9" fill="url(#bva-ok)"/>
+    <circle cx="873" cy="222" r="9" fill="url(#bva-ok)"/>
+    <circle cx="1037" cy="222" r="9" fill="url(#bva-ok)"/>
+  </g>
+  <path d="M716 206 V213 M873 206 V213 M1037 206 V213" stroke="#4ef2a5" stroke-width="2" fill="none"/>
+  <path d="M716 231 V246 M873 231 V246 M1037 231 V246" stroke="#4ef2a5" stroke-width="2" fill="none"/>
+
+  <rect class="bva-card bva-cardOk" x="650" y="246" width="460" height="60" rx="12"/>
+  <text class="bva-ctitle" x="672" y="270" fill="#d8fff0">Human owns the handoffs</text>
+  <text class="bva-ctext" x="672" y="290">positioned where a bad handoff would get caught</text>
+
+  <path d="M880 306 V330" fill="none" stroke="url(#bva-ok)" stroke-width="3" filter="url(#bva-glow)"/>
+
+  <rect class="bva-card bva-cardNeutral" x="650" y="340" width="460" height="90" rx="12"/>
+  <text class="bva-ctitle" x="672" y="368">Every step logged, scope earned</text>
+  <text class="bva-ctext" x="672" y="392">Wider access only after the narrow version</text>
+  <text class="bva-ctext" x="672" y="410">has proven itself for a while</text>
+  <text class="bva-tagOk" x="1088" y="410" text-anchor="end">AUDIT TRAIL INTACT</text>
+
+  <text class="bva-foot" x="60" y="490">Bounded pattern: same end-to-end capability, contained blast radius per step.</text>
+</svg>

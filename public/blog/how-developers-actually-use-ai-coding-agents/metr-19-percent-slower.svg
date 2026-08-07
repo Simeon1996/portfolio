@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" role="img" aria-labelledby="metr-title metr-desc">
+  <title id="metr-title">METR Study: Experienced Developers Were 19% Slower With AI Tools</title>
+  <desc id="metr-desc">Bar chart from a METR randomized controlled trial comparing time to complete real coding tasks. Experienced open-source developers working without AI tools are the 100% baseline. The group using AI tools took 19% longer to finish the same real tasks.</desc>
+  <defs>
+    <linearGradient id="metr-bg" x1="0" y1="0" x2="1200" y2="520" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="metr-gray" x1="0" y1="0" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2a3f55"/>
+      <stop offset="100%" stop-color="#3a5168"/>
+    </linearGradient>
+    <linearGradient id="metr-pink" x1="0" y1="0" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <filter id="metr-glow" x="-5%" y="-30%" width="110%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .metr-title { font: 700 32px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
+      .metr-sub   { font: 500 15px 'Space Mono', monospace; fill: #9bc0d8; }
+      .metr-label { font: 600 16px 'Space Grotesk', sans-serif; fill: #c8e6f8; }
+      .metr-pct   { font: 700 22px 'Space Grotesk', sans-serif; }
+      .metr-note  { font: 500 13px 'Space Mono', monospace; fill: #5a8099; }
+      .metr-axis  { font: 500 12px 'Space Mono', monospace; fill: #4a7090; }
+      .metr-foot  { font: 500 12px 'Space Mono', monospace; fill: #3d6478; }
+      .metr-base  { font: 600 12px 'Space Mono', monospace; fill: #6f95ac; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="520" fill="url(#metr-bg)"/>
+
+  <!-- subtle grid -->
+  <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
+    <line x1="0" y1="170" x2="1200" y2="170"/>
+    <line x1="0" y1="290" x2="1200" y2="290"/>
+    <line x1="458" y1="150" x2="458" y2="430"/>
+    <line x1="606" y1="150" x2="606" y2="430"/>
+    <line x1="754" y1="150" x2="754" y2="430"/>
+  </g>
+
+  <!-- header -->
+  <text class="metr-title" x="60" y="64">METR Study: AI Group Was 19% Slower</text>
+  <text class="metr-sub"   x="60" y="92">Randomized controlled trial — experienced open-source developers, real coding tasks, 2026</text>
+
+  <!-- axis baseline -->
+  <line x1="310" y1="430" x2="1050" y2="430" stroke="#2a4a62" stroke-width="1.5"/>
+
+  <!-- x-axis labels -->
+  <text class="metr-axis" x="310" y="450" text-anchor="middle">0%</text>
+  <text class="metr-axis" x="458" y="450" text-anchor="middle">25%</text>
+  <text class="metr-axis" x="606" y="450" text-anchor="middle">50%</text>
+  <text class="metr-axis" x="754" y="450" text-anchor="middle">75%</text>
+  <text class="metr-axis" x="902" y="450" text-anchor="middle">100%</text>
+  <text class="metr-axis" x="1050" y="450" text-anchor="middle">125%</text>
+  <line x1="458" y1="430" x2="458" y2="436" stroke="#2a4a62" stroke-width="1"/>
+  <line x1="606" y1="430" x2="606" y2="436" stroke="#2a4a62" stroke-width="1"/>
+  <line x1="754" y1="430" x2="754" y2="436" stroke="#2a4a62" stroke-width="1"/>
+  <line x1="902" y1="430" x2="902" y2="436" stroke="#2a4a62" stroke-width="1"/>
+  <line x1="1050" y1="430" x2="1050" y2="436" stroke="#2a4a62" stroke-width="1"/>
+
+  <!-- baseline reference line at 100% -->
+  <line x1="902" y1="150" x2="902" y2="430" stroke="#4a7090" stroke-width="1" stroke-dasharray="4 5" opacity="0.6"/>
+  <text class="metr-base" x="902" y="140" text-anchor="middle">baseline (no AI)</text>
+
+  <!-- ROW 1 — Without AI tools -->
+  <text class="metr-label" x="295" y="207" text-anchor="end">Without AI tools</text>
+  <rect x="310" y="186" width="592" height="38" rx="3" fill="url(#metr-gray)"/>
+  <text class="metr-pct" x="918" y="212" fill="#8fb3cc">100%</text>
+  <text class="metr-note" x="310" y="240">Time to complete the same real tasks — the baseline.</text>
+
+  <!-- ROW 2 — With AI tools -->
+  <text class="metr-label" x="295" y="335" text-anchor="end">With AI tools</text>
+  <rect x="310" y="314" width="705" height="38" rx="3" fill="url(#metr-pink)" filter="url(#metr-glow)"/>
+  <text class="metr-pct" x="1031" y="340" fill="#ff8fb4">119%</text>
+  <text class="metr-note" x="310" y="368" fill="#ffaac8">+19% slower — not faster, despite using real AI coding tools.</text>
+
+  <!-- footer notes -->
+  <text class="metr-foot" x="60" y="477">Source: METR randomized controlled trial, 2026 — real tasks, experienced developers, real tools.</text>
+  <text class="metr-foot" x="60" y="497">Reading it right: this is a case for narrow, supervised tasks — not a case against using AI at all.</text>
+</svg>

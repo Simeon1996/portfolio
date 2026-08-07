@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 540" role="img" aria-labelledby="stack-title stack-desc">
+  <title id="stack-title">The 2026 AI Coding Stack: Three Layers, Three Jobs</title>
+  <desc id="stack-desc">Diagram of the three layers of AI coding tools developers combine in 2026: an IDE assistant for real-time in-editor suggestions on the current file, a CLI agent for local multi-file tasks lasting minutes across the whole repository, and a cloud agent for larger delegated tasks lasting up to hours, reviewed after the fact. A legend bar shows scope, task length, and autonomy increasing left to right while supervision shifts from continuous to async review.</desc>
+  <defs>
+    <linearGradient id="stack-bg" x1="0" y1="0" x2="1200" y2="540" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="stack-cardCyan" x1="0" y1="140" x2="0" y2="440" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="rgba(78,203,255,0.10)"/>
+      <stop offset="100%" stop-color="rgba(78,203,255,0.02)"/>
+    </linearGradient>
+    <linearGradient id="stack-cardPink" x1="0" y1="140" x2="0" y2="440" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="rgba(255,106,158,0.10)"/>
+      <stop offset="100%" stop-color="rgba(255,106,158,0.02)"/>
+    </linearGradient>
+    <linearGradient id="stack-cardAmber" x1="0" y1="140" x2="0" y2="440" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="rgba(255,193,125,0.10)"/>
+      <stop offset="100%" stop-color="rgba(255,193,125,0.02)"/>
+    </linearGradient>
+    <linearGradient id="stack-legend" x1="0" y1="0" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="50%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <filter id="stack-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .stack-t    { font: 700 36px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
+      .stack-s    { font: 500 16px 'Space Mono', monospace; fill: #9bc0d8; }
+      .stack-big  { font: 800 60px 'Space Grotesk', sans-serif; }
+      .stack-lbl  { font: 600 17px 'Space Grotesk', sans-serif; fill: #c8e6f8; }
+      .stack-sm   { font: 500 14px 'Space Mono', monospace; fill: #7aaabf; }
+      .stack-hl   { font: 600 14px 'Space Mono', monospace; }
+      .stack-leg  { font: 600 15px 'Space Grotesk', sans-serif; fill: #c8e6f8; }
+      .stack-cap  { font: 500 13px 'Space Mono', monospace; fill: #5a8099; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="540" fill="url(#stack-bg)"/>
+
+  <!-- subtle grid -->
+  <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
+    <line x1="0" y1="140" x2="1200" y2="140"/>
+    <line x1="0" y1="260" x2="1200" y2="260"/>
+    <line x1="0" y1="380" x2="1200" y2="380"/>
+    <line x1="400" y1="120" x2="400" y2="460"/>
+    <line x1="800" y1="120" x2="800" y2="460"/>
+  </g>
+
+  <text class="stack-t" x="60" y="64">The 2026 AI Coding Stack</text>
+  <text class="stack-s" x="60" y="92">Three layers, three jobs — the same developer picks a different tool for a different task size</text>
+
+  <!-- Card 1: IDE Assistant -->
+  <rect x="60" y="140" width="320" height="300" rx="14" fill="url(#stack-cardCyan)" stroke="rgba(78,203,255,0.35)" stroke-width="1.2"/>
+  <text class="stack-big" x="80" y="230" fill="#4ecbff" filter="url(#stack-glow)">IDE</text>
+  <text class="stack-lbl" x="80" y="268">Real-time, in-editor assistant</text>
+  <text class="stack-sm" x="80" y="300">Copilot, Cursor</text>
+  <text class="stack-sm" x="80" y="328">Task length: seconds</text>
+  <text class="stack-sm" x="80" y="356">Scope: current file</text>
+  <text class="stack-hl" x="80" y="384" fill="#4ecbff">Supervision: continuous</text>
+
+  <!-- Card 2: CLI Agent -->
+  <rect x="440" y="140" width="320" height="300" rx="14" fill="url(#stack-cardPink)" stroke="rgba(255,106,158,0.35)" stroke-width="1.2"/>
+  <text class="stack-big" x="460" y="230" fill="#ff6a9e" filter="url(#stack-glow)">CLI</text>
+  <text class="stack-lbl" x="460" y="268">Local, multi-file agent</text>
+  <text class="stack-sm" x="460" y="300">Claude Code, Codex</text>
+  <text class="stack-sm" x="460" y="328">Task length: minutes</text>
+  <text class="stack-sm" x="460" y="356">Scope: your repository</text>
+  <text class="stack-hl" x="460" y="384" fill="#ff6a9e">Supervision: check each step</text>
+
+  <!-- Card 3: Cloud Agent -->
+  <rect x="820" y="140" width="320" height="300" rx="14" fill="url(#stack-cardAmber)" stroke="rgba(255,193,125,0.35)" stroke-width="1.2"/>
+  <text class="stack-big" x="840" y="230" fill="#ffc17d" filter="url(#stack-glow)">CLOUD</text>
+  <text class="stack-lbl" x="840" y="268">Remote, delegated agent</text>
+  <text class="stack-sm" x="840" y="300">Async cloud agents</text>
+  <text class="stack-sm" x="840" y="328">Task length: up to hours</text>
+  <text class="stack-sm" x="840" y="356">Scope: delegated task</text>
+  <text class="stack-hl" x="840" y="384" fill="#ffc17d">Supervision: review when done</text>
+
+  <!-- Legend: increasing scope / decreasing supervision -->
+  <text class="stack-leg" x="60" y="470">Scope, task length &amp; autonomy increase →</text>
+  <rect x="60" y="480" width="1080" height="14" rx="7" fill="url(#stack-legend)" opacity="0.85"/>
+  <polygon points="1140,472 1160,487 1140,502" fill="#ffc17d"/>
+  <text class="stack-cap" x="60" y="518">Supervision shifts from continuous (IDE) to step-by-step (CLI) to async review (cloud) — never to none.</text>
+</svg>

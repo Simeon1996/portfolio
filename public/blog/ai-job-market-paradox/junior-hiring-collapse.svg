@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" role="img" aria-labelledby="jp-title jp-desc">
+  <title id="jp-title">The Junior Hiring Collapse</title>
+  <desc id="jp-desc">Pictogram showing entry-level engineers hired per year at a typical company: 10 junior engineers a year ago, down to about 3 in 2026.</desc>
+  <defs>
+    <linearGradient id="jp-bg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1200" y2="520">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="jp-cyan" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1200" y2="0">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="jp-pink" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1200" y2="0">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <filter id="jp-glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .jp-title { font: 700 32px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
+      .jp-sub   { font: 500 15px 'Space Mono', monospace; fill: #9bc0d8; }
+      .jp-label { font: 700 14px 'Space Grotesk', sans-serif; fill: #c8e6f8; letter-spacing: 1px; }
+      .jp-num   { font: 700 46px 'Space Grotesk', sans-serif; }
+      .jp-numsub{ font: 600 14px 'Space Mono', monospace; fill: #7ea8c4; }
+      .jp-mid   { font: 600 13px 'Space Mono', monospace; fill: #5a8099; letter-spacing: 1px; }
+      .jp-foot  { font: 500 12px 'Space Mono', monospace; fill: #4a7090; }
+    </style>
+    <symbol id="jp-person" viewBox="0 0 40 52">
+      <circle cx="20" cy="12" r="12"/>
+      <path d="M4 52 C4 32 9 24 20 24 C31 24 36 32 36 52 Z"/>
+    </symbol>
+  </defs>
+
+  <rect width="1200" height="520" fill="url(#jp-bg)"/>
+
+  <!-- header -->
+  <text class="jp-title" x="60" y="60">The Junior Hiring Collapse</text>
+  <text class="jp-sub"   x="60" y="88">Entry-level engineers hired per year, at a typical company</text>
+
+  <!-- ROW 1: before -->
+  <text class="jp-label" x="60" y="150">A FEW YEARS AGO</text>
+  <g fill="url(#jp-cyan)" filter="url(#jp-glow)">
+    <use href="#jp-person" x="230" y="160" width="48" height="62"/>
+    <use href="#jp-person" x="320" y="160" width="48" height="62"/>
+    <use href="#jp-person" x="410" y="160" width="48" height="62"/>
+    <use href="#jp-person" x="500" y="160" width="48" height="62"/>
+    <use href="#jp-person" x="590" y="160" width="48" height="62"/>
+    <use href="#jp-person" x="680" y="160" width="48" height="62"/>
+    <use href="#jp-person" x="770" y="160" width="48" height="62"/>
+    <use href="#jp-person" x="860" y="160" width="48" height="62"/>
+    <use href="#jp-person" x="950" y="160" width="48" height="62"/>
+    <use href="#jp-person" x="1040" y="160" width="48" height="62"/>
+  </g>
+  <text class="jp-num" x="1140" y="205" text-anchor="end" fill="#4ecbff">10</text>
+  <text class="jp-numsub" x="1140" y="228" text-anchor="end">juniors / year</text>
+
+  <!-- transition -->
+  <line x1="600" y1="248" x2="600" y2="272" stroke="#3a5f7a" stroke-width="1.5"/>
+  <polygon points="600,278 593,264 607,264" fill="#3a5f7a"/>
+  <text class="jp-mid" x="600" y="298" text-anchor="middle">TWO TO THREE YEARS LATER</text>
+
+  <!-- ROW 2: now -->
+  <text class="jp-label" x="60" y="345">SAME COMPANY, 2026</text>
+  <g>
+    <g fill="url(#jp-pink)" filter="url(#jp-glow)">
+      <use href="#jp-person" x="230" y="355" width="48" height="62"/>
+      <use href="#jp-person" x="320" y="355" width="48" height="62"/>
+      <use href="#jp-person" x="410" y="355" width="48" height="62"/>
+    </g>
+    <g fill="none" stroke="#2a4258" stroke-width="1.5" opacity="0.55">
+      <use href="#jp-person" x="500" y="355" width="48" height="62"/>
+      <use href="#jp-person" x="590" y="355" width="48" height="62"/>
+      <use href="#jp-person" x="680" y="355" width="48" height="62"/>
+      <use href="#jp-person" x="770" y="355" width="48" height="62"/>
+      <use href="#jp-person" x="860" y="355" width="48" height="62"/>
+      <use href="#jp-person" x="950" y="355" width="48" height="62"/>
+      <use href="#jp-person" x="1040" y="355" width="48" height="62"/>
+    </g>
+  </g>
+  <text class="jp-num" x="1140" y="400" text-anchor="end" fill="#ff6a9e">3</text>
+  <text class="jp-numsub" x="1140" y="423" text-anchor="end">juniors / year</text>
+
+  <!-- footer notes -->
+  <text class="jp-foot" x="60" y="475">Companies that hired 10 junior engineers a year in 2021-2023 now hire about 3 — 2026 hiring manager reports</text>
+  <text class="jp-foot" x="60" y="495">Juniors aren't just cheap labor — they're the pipeline that becomes tomorrow's senior engineers</text>
+</svg>

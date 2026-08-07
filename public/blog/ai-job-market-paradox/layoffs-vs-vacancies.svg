@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" role="img" aria-labelledby="pv-title pv-desc">
+  <title id="pv-title">The 2026 Job Market Paradox</title>
+  <desc id="pv-desc">Left: share of tech layoffs blamed on AI rose from 7% in January 2026 to 40% in May 2026. Right: software engineer job vacancies rose 30% in 2026, a three-year high. Both numbers went up in the same year.</desc>
+  <defs>
+    <linearGradient id="pv-bg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1200" y2="520">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="pv-pink" gradientUnits="userSpaceOnUse" x1="0" y1="430" x2="0" y2="210">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <linearGradient id="pv-cyan" gradientUnits="userSpaceOnUse" x1="0" y1="335" x2="0" y2="170">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="pv-gray" gradientUnits="userSpaceOnUse" x1="150" y1="0" x2="260" y2="0">
+      <stop offset="0%" stop-color="#2a3f55"/>
+      <stop offset="100%" stop-color="#3a5168"/>
+    </linearGradient>
+    <filter id="pv-glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .pv-title { font: 700 32px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
+      .pv-sub   { font: 500 15px 'Space Mono', monospace; fill: #9bc0d8; }
+      .pv-label { font: 700 14px 'Space Grotesk', sans-serif; fill: #c8e6f8; letter-spacing: 1px; }
+      .pv-pct   { font: 700 26px 'Space Grotesk', sans-serif; }
+      .pv-cat   { font: 500 14px 'Space Mono', monospace; fill: #7ea8c4; }
+      .pv-big   { font: 700 58px 'Space Grotesk', sans-serif; fill: #4ecbff; }
+      .pv-cap   { font: 600 15px 'Space Grotesk', sans-serif; fill: #c8e6f8; }
+      .pv-capsub{ font: 500 13px 'Space Mono', monospace; fill: #5a8099; }
+      .pv-foot  { font: 500 12px 'Space Mono', monospace; fill: #4a7090; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="520" fill="url(#pv-bg)"/>
+
+  <!-- subtle grid, left panel only -->
+  <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
+    <line x1="60" y1="250" x2="560" y2="250"/>
+    <line x1="60" y1="310" x2="560" y2="310"/>
+    <line x1="60" y1="370" x2="560" y2="370"/>
+  </g>
+
+  <!-- header -->
+  <text class="pv-title" x="60" y="60">The 2026 Job Market Paradox</text>
+  <text class="pv-sub"   x="60" y="88">Two numbers went up in the same year</text>
+
+  <!-- divider -->
+  <line x1="600" y1="120" x2="600" y2="452" stroke="#2a4a62" stroke-width="1"/>
+
+  <!-- LEFT PANEL: AI-blamed layoffs -->
+  <text class="pv-label" x="100" y="150">AI-BLAMED SHARE OF LAYOFFS</text>
+  <line x1="100" y1="430" x2="460" y2="430" stroke="#2a4a62" stroke-width="1.5"/>
+
+  <!-- Jan bar (7%) -->
+  <rect x="150" y="391" width="110" height="39" rx="4" fill="url(#pv-gray)"/>
+  <text class="pv-pct" x="205" y="378" text-anchor="middle" fill="#8fb4cc">7%</text>
+  <text class="pv-cat" x="205" y="452" text-anchor="middle">Jan 2026</text>
+
+  <!-- May bar (40%) -->
+  <rect x="330" y="210" width="110" height="220" rx="4" fill="url(#pv-pink)" filter="url(#pv-glow)"/>
+  <text class="pv-pct" x="385" y="197" text-anchor="middle" fill="#ffaac8">40%</text>
+  <text class="pv-cat" x="385" y="452" text-anchor="middle">May 2026</text>
+
+  <!-- rise arrow -->
+  <path d="M 220 375 C 260 320, 300 260, 350 215" fill="none" stroke="#ff8fb4" stroke-width="2" stroke-dasharray="5 5" opacity="0.7"/>
+  <polygon points="350,215 341,224 359,227" fill="#ff8fb4" opacity="0.85"/>
+
+  <!-- RIGHT PANEL: vacancies -->
+  <text class="pv-label" x="680" y="150">SOFTWARE ENGINEER VACANCIES</text>
+
+  <!-- big arrow -->
+  <g filter="url(#pv-glow)">
+    <rect x="860" y="235" width="60" height="100" fill="url(#pv-cyan)"/>
+    <polygon points="890,170 838,235 942,235" fill="url(#pv-cyan)"/>
+  </g>
+
+  <text class="pv-big" x="890" y="405" text-anchor="middle">+30%</text>
+  <text class="pv-cap" x="890" y="432" text-anchor="middle">Software engineer job openings</text>
+  <text class="pv-capsub" x="890" y="453" text-anchor="middle">Three-year high — 2026</text>
+
+  <!-- footer notes -->
+  <text class="pv-foot" x="60" y="480">~170,000 tech layoffs in 2026 — AI blamed for 7% of cuts in January, ~40% by May</text>
+  <text class="pv-foot" x="60" y="500">Meanwhile, software engineering vacancies rose 30% — the highest in three years</text>
+</svg>
