@@ -680,15 +680,7 @@ export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }
 
                     {/* Title block */}
                     <div>
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 12 }}>
-                        <div style={{ fontFamily: mono, fontSize: 9, fontWeight: 700, letterSpacing: 3, color: C.cyan, opacity: .6 }}>{`SERVICE ${s.num}`}</div>
-                        <Link href={`/services#${s.slug}`}
-                          style={{ fontFamily: mono, fontSize: 8, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', textDecoration: 'none', padding: '6px 10px', border: `1px solid rgba(var(--pink-rgb),.4)`, color: C.pink, position: 'relative', zIndex: 2, transition: 'all .2s' }}
-                          onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.borderColor = C.pink; a.style.boxShadow = `0 0 12px rgba(var(--pink-rgb),.25)` }}
-                          onMouseLeave={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.borderColor = 'rgba(var(--pink-rgb),.4)'; a.style.boxShadow = 'none' }}>
-                          Full details →
-                        </Link>
-                      </div>
+                      <div style={{ fontFamily: mono, fontSize: 9, fontWeight: 700, letterSpacing: 3, color: C.cyan, opacity: .6, marginBottom: 12 }}>{`SERVICE ${s.num}`}</div>
                       <h3 style={{ margin: 0, fontFamily: mono, fontSize: isPhone ? 22 : 28, fontWeight: 900, letterSpacing: 1, color: C.text, lineHeight: 1.1, marginBottom: 16 }}>{s.title}</h3>
                       <p style={{ margin: 0, fontSize: isPhone ? 13 : 14, fontWeight: 300, color: C.muted2, lineHeight: 1.85, maxWidth: 520 }}>{s.desc}</p>
                     </div>
