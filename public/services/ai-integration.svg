@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" font-family="Menlo,Consolas,'Courier New',monospace">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#00f5ff" stroke-opacity=".05"/>
+    </pattern>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="mc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#00f5ff"/>
+    </marker>
+    <marker id="mo" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#fb923c"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="675" fill="#08131f"/>
+  <rect width="1200" height="675" fill="url(#grid)"/>
+
+  <text x="40" y="60" fill="#00f5ff" font-size="20" letter-spacing="6" opacity=".85">SVC 01 · AI INTEGRATION</text>
+  <text x="40" y="88" fill="#5a8090" font-size="14" letter-spacing="3">RAG PIPELINE — SYSTEM BLUEPRINT</text>
+
+  <!-- docs stack -->
+  <g stroke="#00f5ff" fill="#0d1b2b">
+    <rect x="84" y="252" width="100" height="120" opacity=".35"/>
+    <rect x="72" y="264" width="100" height="120" opacity=".6"/>
+    <rect x="60" y="276" width="100" height="120"/>
+  </g>
+  <g stroke="#00f5ff" stroke-opacity=".45">
+    <line x1="74" y1="304" x2="146" y2="304"/><line x1="74" y1="324" x2="146" y2="324"/>
+    <line x1="74" y1="344" x2="122" y2="344"/><line x1="74" y1="364" x2="138" y2="364"/>
+  </g>
+  <text x="110" y="428" fill="#5a8090" font-size="15" text-anchor="middle" letter-spacing="2">YOUR DOCS</text>
+
+  <line x1="172" y1="336" x2="204" y2="336" stroke="#00f5ff" marker-end="url(#mc)"/>
+
+  <!-- chunk + embed -->
+  <rect x="210" y="276" width="160" height="120" fill="#0d1b2b" stroke="#9d00ff"/>
+  <text x="290" y="302" fill="#9d00ff" font-size="15" text-anchor="middle" letter-spacing="2">CHUNK+EMBED</text>
+  <g fill="#9d00ff">
+    <rect x="232" y="318" width="14" height="14" opacity=".9"/><rect x="256" y="318" width="14" height="14" opacity=".6"/>
+    <rect x="280" y="318" width="14" height="14" opacity=".9"/><rect x="304" y="318" width="14" height="14" opacity=".5"/>
+    <rect x="328" y="318" width="14" height="14" opacity=".8"/>
+    <rect x="232" y="342" width="14" height="14" opacity=".5"/><rect x="256" y="342" width="14" height="14" opacity=".9"/>
+    <rect x="280" y="342" width="14" height="14" opacity=".6"/><rect x="304" y="342" width="14" height="14" opacity=".9"/>
+    <rect x="328" y="342" width="14" height="14" opacity=".6"/>
+  </g>
+  <text x="290" y="428" fill="#5a8090" font-size="13" text-anchor="middle" letter-spacing="2">ASYNC INGESTION</text>
+
+  <line x1="370" y1="336" x2="404" y2="336" stroke="#00f5ff" marker-end="url(#mc)"/>
+
+  <!-- vector db cylinder -->
+  <g filter="url(#glow)">
+    <path d="M410 288a70 16 0 0 1 140 0v84a70 16 0 0 1-140 0z" fill="#0d1b2b" stroke="#00f5ff"/>
+    <ellipse cx="480" cy="288" rx="70" ry="16" fill="#0d1b2b" stroke="#00f5ff"/>
+  </g>
+  <text x="480" y="342" fill="#00f5ff" font-size="15" text-anchor="middle" letter-spacing="2">VECTOR DB</text>
+  <!-- bm25 index -->
+  <rect x="410" y="440" width="140" height="54" fill="#0d1b2b" stroke="#fb923c"/>
+  <text x="480" y="472" fill="#fb923c" font-size="15" text-anchor="middle" letter-spacing="2">BM25 INDEX</text>
+
+  <line x1="550" y1="336" x2="584" y2="342" stroke="#00f5ff" marker-end="url(#mc)"/>
+  <line x1="550" y1="467" x2="600" y2="392" stroke="#fb923c" marker-end="url(#mo)"/>
+
+  <!-- user query drops in -->
+  <rect x="575" y="96" width="180" height="48" fill="#0d1b2b" stroke="#00f5ff"/>
+  <text x="665" y="126" fill="#c8e0f4" font-size="15" text-anchor="middle" letter-spacing="2">USER QUERY</text>
+  <line x1="665" y1="144" x2="665" y2="294" stroke="#00f5ff" stroke-dasharray="6 6" marker-end="url(#mc)"/>
+
+  <!-- hybrid rerank -->
+  <rect x="590" y="300" width="150" height="86" fill="#0d1b2b" stroke="#00ff88"/>
+  <text x="665" y="336" fill="#00ff88" font-size="15" text-anchor="middle" letter-spacing="2">HYBRID</text>
+  <text x="665" y="360" fill="#00ff88" font-size="15" text-anchor="middle" letter-spacing="2">RERANK</text>
+
+  <line x1="740" y1="343" x2="774" y2="343" stroke="#00f5ff" marker-end="url(#mc)"/>
+
+  <!-- llm core -->
+  <g filter="url(#glow)">
+    <rect x="780" y="293" width="110" height="100" fill="#0d1b2b" stroke="#ff0080" stroke-width="1.5"/>
+  </g>
+  <text x="835" y="350" fill="#ff0080" font-size="20" text-anchor="middle" letter-spacing="3">LLM</text>
+
+  <line x1="890" y1="343" x2="924" y2="343" stroke="#00f5ff" marker-end="url(#mc)"/>
+
+  <!-- streamed answer -->
+  <rect x="930" y="240" width="210" height="206" fill="#0d1b2b" stroke="#00f5ff"/>
+  <text x="946" y="270" fill="#00f5ff" font-size="14" letter-spacing="2">ANSWER ▍</text>
+  <g stroke="#5a8090" stroke-opacity=".9">
+    <line x1="946" y1="292" x2="1124" y2="292"/><line x1="946" y1="314" x2="1104" y2="314"/>
+    <line x1="946" y1="336" x2="1124" y2="336"/><line x1="946" y1="358" x2="1064" y2="358"/>
+  </g>
+  <rect x="946" y="390" width="130" height="32" fill="none" stroke="#00ff88"/>
+  <text x="1011" y="411" fill="#00ff88" font-size="13" text-anchor="middle" letter-spacing="1">[1] POLICY.PDF</text>
+
+  <!-- stage rail -->
+  <line x1="60" y1="560" x2="1140" y2="560" stroke="#244763" stroke-dasharray="4 8"/>
+  <text x="110" y="592" fill="#5a8090" font-size="13" text-anchor="middle" letter-spacing="2">INGEST</text>
+  <text x="480" y="592" fill="#5a8090" font-size="13" text-anchor="middle" letter-spacing="2">INDEX</text>
+  <text x="665" y="592" fill="#5a8090" font-size="13" text-anchor="middle" letter-spacing="2">RETRIEVE</text>
+  <text x="835" y="592" fill="#5a8090" font-size="13" text-anchor="middle" letter-spacing="2">GENERATE</text>
+  <text x="1035" y="592" fill="#5a8090" font-size="13" text-anchor="middle" letter-spacing="2">STREAM · CITED</text>
+
+  <!-- frame + corner accents -->
+  <rect x="16" y="16" width="1168" height="643" fill="none" stroke="#244763"/>
+  <path d="M16 44V16h28" fill="none" stroke="#00f5ff" stroke-width="3"/>
+  <path d="M1184 631v28h-28" fill="none" stroke="#ff0080" stroke-width="3"/>
+</svg>

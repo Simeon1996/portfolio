@@ -186,7 +186,7 @@ export const PROJECT_DETAILS: Record<string, ProjectDetail> = {
     title: 'The Celebration Studio — Wedding & Christening Templates',
     preview: 'https://celebrations-8e3r.vercel.app/',
     description:
-      'A sister studio to the Template Studio, dedicated entirely to celebrations: five complete wedding websites and five christening websites, each with its own palette, typography and temperament. Every site carries the whole day for guests — ceremony and venue with maps, schedule, dress code, godparents, FAQ and a themed RSVP — and every template ships with a matching, print-ready invitation card that greets each guest by name. All ten cards are collected in a dedicated gallery, each dressed in its template’s palette, type and motif.',
+      'A sister studio to the Template Studio, dedicated entirely to celebrations: five complete wedding websites and five christening websites, each with its own typography, temperament and three switchable colour palettes a couple can flip through live. Every site carries the whole day for guests — ceremony and venue with maps, schedule, dress code, godparents, FAQ and a themed RSVP — and every template ships with a matching, print-ready invitation card that greets each guest by name. All ten cards are collected in a dedicated gallery, each dressed in its template’s palette, type and motif.',
     stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
     images: [
       { src: '/projects/celebration-studio/1.svg', caption: 'Ten celebrations, ten worlds — one studio' },

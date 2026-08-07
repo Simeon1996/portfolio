@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" font-family="Menlo,Consolas,'Courier New',monospace">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#00f5ff" stroke-opacity=".05"/>
+    </pattern>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="mc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#00f5ff"/>
+    </marker>
+    <marker id="mg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#00ff88"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="675" fill="#08131f"/>
+  <rect width="1200" height="675" fill="url(#grid)"/>
+
+  <text x="40" y="60" fill="#00f5ff" font-size="20" letter-spacing="6">SVC 06 · DEVOPS &amp; INFRASTRUCTURE</text>
+  <text x="40" y="88" fill="#5a8090" font-size="14" letter-spacing="3">PIPELINE → CLUSTER → ALERTS — SYSTEM BLUEPRINT</text>
+
+  <!-- pipeline -->
+  <rect x="60" y="130" width="150" height="50" fill="#0d1b2b" stroke="#00f5ff"/>
+  <text x="135" y="161" fill="#c8e0f4" font-size="14" text-anchor="middle" letter-spacing="2">GIT PUSH</text>
+  <line x1="210" y1="155" x2="252" y2="155" stroke="#00f5ff" marker-end="url(#mc)"/>
+  <g fill="#0d1b2b" stroke="#00f5ff">
+    <rect x="258" y="130" width="120" height="50"/>
+    <rect x="428" y="130" width="120" height="50"/>
+    <rect x="598" y="130" width="120" height="50"/>
+    <rect x="768" y="130" width="120" height="50"/>
+  </g>
+  <text x="318" y="161" fill="#00f5ff" font-size="14" text-anchor="middle" letter-spacing="2">BUILD</text>
+  <text x="488" y="161" fill="#00f5ff" font-size="14" text-anchor="middle" letter-spacing="2">TEST</text>
+  <text x="658" y="161" fill="#00f5ff" font-size="14" text-anchor="middle" letter-spacing="2">SCAN</text>
+  <text x="828" y="161" fill="#00f5ff" font-size="14" text-anchor="middle" letter-spacing="2">DEPLOY</text>
+  <line x1="378" y1="155" x2="422" y2="155" stroke="#00f5ff" marker-end="url(#mc)"/>
+  <line x1="548" y1="155" x2="592" y2="155" stroke="#00f5ff" marker-end="url(#mc)"/>
+  <line x1="718" y1="155" x2="762" y2="155" stroke="#00f5ff" marker-end="url(#mc)"/>
+  <text x="960" y="161" fill="#5a8090" font-size="13" letter-spacing="2">← IaC · TERRAFORM</text>
+
+  <path d="M828 180V236" fill="none" stroke="#00ff88" marker-end="url(#mg)"/>
+
+  <!-- cloud boundary -->
+  <rect x="60" y="242" width="1080" height="290" fill="none" stroke="#fb923c" stroke-dasharray="10 8"/>
+  <text x="80" y="272" fill="#fb923c" font-size="14" letter-spacing="3">AWS / GCP</text>
+
+  <!-- load balancer -->
+  <path d="M150 350l50-38 50 38-50 38z" fill="#0d1b2b" stroke="#ff0080" filter="url(#glow)"/>
+  <text x="200" y="356" fill="#ff0080" font-size="13" text-anchor="middle" letter-spacing="1">LB</text>
+  <text x="200" y="428" fill="#5a8090" font-size="12" text-anchor="middle" letter-spacing="1">INGRESS</text>
+  <line x1="250" y1="350" x2="304" y2="350" stroke="#00f5ff" marker-end="url(#mc)"/>
+
+  <!-- k8s cluster -->
+  <rect x="310" y="286" width="470" height="220" fill="#0d1b2b" stroke="#00f5ff" stroke-opacity=".6"/>
+  <text x="330" y="314" fill="#00f5ff" font-size="13" letter-spacing="3">KUBERNETES</text>
+  <g fill="#08131f" stroke="#00ff88">
+    <path d="M390 344l24-14 24 14v28l-24 14-24-14z"/>
+    <path d="M470 344l24-14 24 14v28l-24 14-24-14z"/>
+    <path d="M550 344l24-14 24 14v28l-24 14-24-14z"/>
+    <path d="M390 424l24-14 24 14v28l-24 14-24-14z"/>
+    <path d="M470 424l24-14 24 14v28l-24 14-24-14z"/>
+    <path d="M550 424l24-14 24 14v28l-24 14-24-14z" stroke="#00f5ff" stroke-dasharray="4 4"/>
+  </g>
+  <text x="414" y="364" fill="#00ff88" font-size="11" text-anchor="middle">POD</text>
+  <text x="494" y="364" fill="#00ff88" font-size="11" text-anchor="middle">POD</text>
+  <text x="574" y="364" fill="#00ff88" font-size="11" text-anchor="middle">POD</text>
+  <text x="414" y="444" fill="#00ff88" font-size="11" text-anchor="middle">POD</text>
+  <text x="494" y="444" fill="#00ff88" font-size="11" text-anchor="middle">POD</text>
+  <text x="574" y="444" fill="#00f5ff" font-size="11" text-anchor="middle">+1</text>
+  <text x="700" y="364" fill="#5a8090" font-size="12" text-anchor="middle">AUTO</text>
+  <text x="700" y="382" fill="#5a8090" font-size="12" text-anchor="middle">SCALE</text>
+  <text x="545" y="490" fill="#5a8090" font-size="12" text-anchor="middle" letter-spacing="1">SECRETS MANAGED · LEAST PRIVILEGE</text>
+
+  <!-- monitoring -->
+  <line x1="780" y1="396" x2="834" y2="396" stroke="#ff0080" stroke-dasharray="6 6"/>
+  <rect x="840" y="300" width="270" height="190" fill="#0d1b2b" stroke="#ff0080"/>
+  <text x="864" y="330" fill="#ff0080" font-size="13" letter-spacing="2">MONITORING</text>
+  <polyline points="864,400 894,400 906,368 920,428 934,384 946,400 990,400 1002,372 1016,424 1030,392 1042,400 1086,400"
+    fill="none" stroke="#ff0080" stroke-width="2" filter="url(#glow)"/>
+  <text x="864" y="466" fill="#c8e0f4" font-size="12" letter-spacing="1">ALERTS → ON-CALL RUNBOOK</text>
+
+  <text x="60" y="580" fill="#5a8090" font-size="13" letter-spacing="2">SCALES SILENTLY · FAILS GRACEFULLY · PAGES YOU BEFORE YOUR USERS DO</text>
+
+  <!-- frame + corner accents -->
+  <rect x="16" y="16" width="1168" height="643" fill="none" stroke="#244763"/>
+  <path d="M16 44V16h28" fill="none" stroke="#00f5ff" stroke-width="3"/>
+  <path d="M1184 631v28h-28" fill="none" stroke="#ff0080" stroke-width="3"/>
+</svg>

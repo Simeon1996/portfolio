@@ -6,6 +6,7 @@ import Link from 'next/link'
 import ContactForm from './ContactForm'
 import ThemeToggle from './ThemeToggle'
 import { PROJECT_DETAILS } from '@/lib/projects'
+import { SERVICES } from '@/lib/services'
 
 // ─────────────────────────────────────────────
 // DATA — edit everything in this section
@@ -271,111 +272,6 @@ interface Post { slug: string; title: string; date: string; readingTime: number;
 // ─────────────────────────────────────────────
 // MAIN
 // ─────────────────────────────────────────────
-const SERVICES = [
-  {
-    num: '01',
-    title: 'AI Integration',
-    timeline: '1 – 30 days',
-    desc: 'LLM pipelines, RAG systems, and intelligent features embedded directly into your product. From proof-of-concept to production-grade infrastructure.',
-    checks: [
-      'Custom RAG pipeline with vector search including chunking, embedding caching, async ingestion, and hybrid BM25 + vector retrieval',
-      'LLM selection, prompt engineering & evaluation',
-      'Streaming API with cost & latency optimisation',
-      'Observability: tracing, logging, evals dashboard',
-      'Handoff documentation & team walkthrough',
-    ],
-    stack: ['LangChain', 'OpenAI', 'Claude', 'Qdrant', 'Pinecone', 'FastAPI', 'AWS'],
-    note: 'Typical engagement: 1–8 weeks depending on scope. Includes one round of revisions post-launch.',
-  },
-  {
-    num: '02',
-    title: 'AI Agents & Automation',
-    timeline: '1 – 30 days',
-    desc: 'Autonomous, multi-step agents that take real actions — tool-calling, stateful workflows, and MCP integrations into your existing systems, with humans in the loop where it matters.',
-    checks: [
-      'Agent design with LangGraph — planning, tool-calling, memory & bounded loops',
-      'MCP servers connecting agents to your databases, APIs, files & ticketing',
-      'Human-in-the-loop approvals for high-risk actions',
-      'Retries, guardrails & graceful failure handling',
-      'Deployment, monitoring & handoff documentation',
-    ],
-    stack: ['LangGraph', 'LangChain', 'MCP', 'OpenAI', 'Claude', 'FastAPI', 'PostgreSQL'],
-    note: 'Great fit for support, ops, and back-office automation. Includes one round of revisions post-launch.',
-  },
-  {
-    num: '03',
-    title: 'Fine-Tuning & Self-Hosted Models',
-    timeline: '1 – 30 days',
-    desc: 'Own your models — fine-tune or distill open-weight LLMs for your domain and run them in your own VPC or on-prem, for lower cost, data privacy, and compliance.',
-    checks: [
-      'Dataset curation, fine-tuning & LoRA / QLoRA adapters',
-      'Distillation to smaller, faster task-specific models',
-      'Self-hosted inference (vLLM / Ollama) with GPU autoscaling',
-      'Benchmarking vs. hosted APIs — quality, latency & cost',
-      'Private VPC / on-prem deployment & handoff',
-    ],
-    stack: ['PyTorch', 'Hugging Face', 'LoRA', 'vLLM', 'Ollama', 'Docker', 'AWS'],
-    note: 'Best when API cost, latency, or data-residency rules push you off hosted models. Includes one round of revisions.',
-  },
-  {
-    num: '04',
-    title: 'LLMOps & Evaluation',
-    timeline: '1 – 30 days',
-    desc: 'Make the AI you already shipped trustworthy in production — evaluation, tracing, guardrails, and cost/latency control so quality stops being a guess.',
-    checks: [
-      'Automated eval suites & regression tracking (LLM-as-judge + datasets)',
-      'Tracing & observability across chains, agents and tools',
-      'Guardrails: PII redaction, output validation, spend & rate limits',
-      'Prompt-injection defence & red-team testing',
-      'Cost & latency optimisation with a live metrics dashboard',
-    ],
-    stack: ['LangSmith', 'LangChain', 'Claude', 'OpenAI', 'Qdrant', 'Redis', 'Grafana'],
-    note: 'Ideal once AI is live and you need reliability, safety & cost control. Includes one round of revisions.',
-  },
-  {
-    num: '05',
-    title: 'Full-Stack Development',
-    timeline: '1 – 30 days',
-    desc: 'End-to-end web applications — schema design, API architecture, and polished interfaces built to hold up under real traffic and real users.',
-    checks: [
-      'Frontend development with Angular, React, Next.js, Tailwind UI or custom designs',
-      'Backend development with Python (Django/FastAPI), Java (Spring Boot), or Node.js',
-      'Database design, migrations & query optimisation',
-      'CI/CD pipeline with automated testing',
-      'Performance audit, Monitoring & Core Web Vitals pass',
-    ],
-    stack: ['Next.js', 'Angular', 'React', 'Python', 'Java', 'TypeScript', 'MySQL', 'MongoDB', 'Jenkins, GitHub Actions or GitLab CI']
-  },
-  {
-    num: '06',
-    title: 'DevOps & Infrastructure',
-    timeline: '1 – 30 days',
-    desc: 'CI/CD pipelines, containerisation, and cloud deployments. Infrastructure that scales silently and fails gracefully.',
-    checks: [
-      'Docker + Kubernetes cluster setup',
-      'GitHub Actions or GitLab CI pipeline',
-      'Cloud infrastructure on AWS or GCP (IaC)',
-      'Monitoring, alerting & on-call runbooks',
-      'Security audit & secrets management',
-    ],
-    stack: ['Docker', 'Kubernetes', 'Terraform', 'GitHub Actions', 'Prometheus', 'Jenkins', 'AWS', 'GCP']
-  },
-  {
-    num: '07',
-    title: 'Data Pipelines',
-    timeline: '1 – 30 days',
-    desc: 'ETL workflows, vector databases, and real-time analytics. Raw, messy data transformed into fast, reliable decisions.',
-    checks: [
-      'ETL / ELT pipeline design & implementation',
-      'Vector store setup & embedding strategy',
-      'Real-time streaming with Kafka or Pub/Sub',
-      'Analytics dashboard (Metabase or custom)',
-      'Data quality monitoring & alerting',
-    ],
-    stack: ['Python', 'Airflow', 'Kafka', 'BigQuery', 'Pinecone']
-  },
-]
-
 export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }) {
   const [openService, setOpenService]     = useState<string>('01')
   const [activeSection, setActiveSection] = useState('home')
@@ -719,7 +615,12 @@ export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }
               <span style={{ fontFamily: mono, fontSize: 10, fontWeight: 700, letterSpacing: 3, color: C.cyan, opacity: .6 }}>02</span>
               <span style={{ fontFamily: mono, fontSize: isPhone ? 20 : 24, fontWeight: 900, letterSpacing: 2, textTransform: 'uppercase' }}>Services</span>
             </div>
-            <span style={{ fontSize: 10, letterSpacing: 2, color: C.muted }}>All engagements include weekly updates & Slack access</span>
+            <Link href="/services"
+              style={{ fontFamily: mono, fontSize: 9, fontWeight: 700, letterSpacing: 2, color: C.muted, textDecoration: 'none', transition: 'color .2s' }}
+              onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.color = C.cyan}
+              onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.color = C.muted}>
+              FULL SERVICES PAGE →
+            </Link>
           </motion.div>
 
           {/* Split-screen body */}
@@ -744,9 +645,18 @@ export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }
                         <div style={{ fontFamily: mono, fontSize: 8, fontWeight: 700, letterSpacing: 2.5, color: isActive ? C.cyan : C.muted, opacity: isActive ? .8 : .5, marginBottom: 6, transition: 'color .2s' }}>{s.num}</div>
                         <div style={{ fontFamily: mono, fontSize: isPhone ? 13 : 14, fontWeight: 700, letterSpacing: .5, color: isActive ? C.cyan : C.text, transition: 'color .2s' }}>{s.title}</div>
                       </div>
-                      <div style={{ textAlign: 'right', flexShrink: 0 }}>
-                        <div style={{ fontFamily: mono, fontSize: 9, letterSpacing: 1, color: C.muted, whiteSpace: 'nowrap' }}>{s.timeline}</div>
-                        <motion.div animate={{ x: isActive ? 0 : -4, opacity: isActive ? 1 : 0 }} transition={{ duration: .2 }} style={{ fontFamily: mono, fontSize: 10, color: C.cyan, marginTop: 4 }}>→</motion.div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
+                        <div style={{ textAlign: 'right' }}>
+                          <div style={{ fontFamily: mono, fontSize: 9, letterSpacing: 1, color: C.muted, whiteSpace: 'nowrap' }}>{s.timeline}</div>
+                          <motion.div animate={{ x: isActive ? 0 : -4, opacity: isActive ? 1 : 0 }} transition={{ duration: .2 }} style={{ fontFamily: mono, fontSize: 10, color: C.cyan, marginTop: 4 }}>→</motion.div>
+                        </div>
+                        <Link href={`/services#${s.slug}`} title={`${s.title} — full details & blueprint`} aria-label={`${s.title} — full details`}
+                          onClick={e => e.stopPropagation()}
+                          style={{ width: 22, height: 22, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', border: `1px solid ${isActive ? 'rgba(var(--cyan-rgb),.5)' : C.border}`, color: isActive ? C.cyan : C.muted, textDecoration: 'none', fontFamily: mono, fontSize: 10, fontWeight: 700, transition: 'all .2s' }}
+                          onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.borderColor = C.cyan; a.style.color = C.cyan; a.style.boxShadow = '0 0 10px rgba(var(--cyan-rgb),.35)' }}
+                          onMouseLeave={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.borderColor = isActive ? 'rgba(var(--cyan-rgb),.5)' : C.border; a.style.color = isActive ? C.cyan : C.muted; a.style.boxShadow = 'none' }}>
+                          i
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -770,7 +680,15 @@ export default function PortfolioClient({ latestPosts }: { latestPosts: Post[] }
 
                     {/* Title block */}
                     <div>
-                      <div style={{ fontFamily: mono, fontSize: 9, fontWeight: 700, letterSpacing: 3, color: C.cyan, opacity: .6, marginBottom: 12 }}>{`SERVICE ${s.num}`}</div>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 12 }}>
+                        <div style={{ fontFamily: mono, fontSize: 9, fontWeight: 700, letterSpacing: 3, color: C.cyan, opacity: .6 }}>{`SERVICE ${s.num}`}</div>
+                        <Link href={`/services#${s.slug}`}
+                          style={{ fontFamily: mono, fontSize: 8, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', textDecoration: 'none', padding: '6px 10px', border: `1px solid rgba(var(--pink-rgb),.4)`, color: C.pink, position: 'relative', zIndex: 2, transition: 'all .2s' }}
+                          onMouseEnter={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.borderColor = C.pink; a.style.boxShadow = `0 0 12px rgba(var(--pink-rgb),.25)` }}
+                          onMouseLeave={e => { const a = e.currentTarget as HTMLAnchorElement; a.style.borderColor = 'rgba(var(--pink-rgb),.4)'; a.style.boxShadow = 'none' }}>
+                          Full details →
+                        </Link>
+                      </div>
                       <h3 style={{ margin: 0, fontFamily: mono, fontSize: isPhone ? 22 : 28, fontWeight: 900, letterSpacing: 1, color: C.text, lineHeight: 1.1, marginBottom: 16 }}>{s.title}</h3>
                       <p style={{ margin: 0, fontSize: isPhone ? 13 : 14, fontWeight: 300, color: C.muted2, lineHeight: 1.85, maxWidth: 520 }}>{s.desc}</p>
                     </div>

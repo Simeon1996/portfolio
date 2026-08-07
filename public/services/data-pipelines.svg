@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" font-family="Menlo,Consolas,'Courier New',monospace">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#00f5ff" stroke-opacity=".05"/>
+    </pattern>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="mc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#00f5ff"/>
+    </marker>
+    <marker id="mv" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#9d00ff"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="675" fill="#08131f"/>
+  <rect width="1200" height="675" fill="url(#grid)"/>
+
+  <text x="40" y="60" fill="#00f5ff" font-size="20" letter-spacing="6">SVC 07 · DATA PIPELINES</text>
+  <text x="40" y="88" fill="#5a8090" font-size="14" letter-spacing="3">RAW EVENTS → LIVE DECISIONS — SYSTEM BLUEPRINT</text>
+
+  <!-- sources -->
+  <g fill="#0d1b2b" stroke="#00f5ff">
+    <rect x="60" y="150" width="130" height="50"/>
+    <rect x="60" y="230" width="130" height="50"/>
+    <rect x="60" y="310" width="130" height="50"/>
+    <rect x="60" y="390" width="130" height="50"/>
+  </g>
+  <text x="125" y="181" fill="#c8e0f4" font-size="14" text-anchor="middle" letter-spacing="2">APP</text>
+  <text x="125" y="261" fill="#c8e0f4" font-size="14" text-anchor="middle" letter-spacing="2">CRM</text>
+  <text x="125" y="341" fill="#c8e0f4" font-size="14" text-anchor="middle" letter-spacing="2">LOGS</text>
+  <text x="125" y="421" fill="#c8e0f4" font-size="14" text-anchor="middle" letter-spacing="2">S3</text>
+  <text x="125" y="478" fill="#5a8090" font-size="12" text-anchor="middle" letter-spacing="2">SOURCES</text>
+
+  <!-- kafka stream lanes -->
+  <g stroke="#ff0080" stroke-opacity=".6">
+    <line x1="190" y1="215" x2="380" y2="255"/>
+    <line x1="190" y1="295" x2="380" y2="295"/>
+    <line x1="190" y1="375" x2="380" y2="335"/>
+  </g>
+  <rect x="386" y="230" width="24" height="130" fill="#0d1b2b" stroke="#ff0080" filter="url(#glow)"/>
+  <g fill="#ff0080">
+    <circle cx="398" cy="258" r="5"/><circle cx="398" cy="295" r="5"/><circle cx="398" cy="332" r="5"/>
+  </g>
+  <text x="398" y="398" fill="#ff0080" font-size="13" text-anchor="middle" letter-spacing="2">KAFKA</text>
+  <text x="398" y="418" fill="#5a8090" font-size="11" text-anchor="middle" letter-spacing="1">TOPICS</text>
+
+  <line x1="410" y1="295" x2="470" y2="295" stroke="#00f5ff" marker-end="url(#mc)"/>
+
+  <!-- transform: airflow dag -->
+  <rect x="476" y="216" width="240" height="160" fill="#0d1b2b" stroke="#9d00ff"/>
+  <text x="596" y="246" fill="#9d00ff" font-size="14" text-anchor="middle" letter-spacing="2">TRANSFORM · DAG</text>
+  <g fill="#08131f" stroke="#9d00ff">
+    <circle cx="516" cy="300" r="12"/>
+    <circle cx="576" cy="276" r="12"/>
+    <circle cx="576" cy="326" r="12"/>
+    <circle cx="640" cy="300" r="12"/>
+    <circle cx="688" cy="300" r="12" stroke="#00ff88"/>
+  </g>
+  <g stroke="#9d00ff" stroke-opacity=".7">
+    <line x1="527" y1="295" x2="565" y2="280"/>
+    <line x1="527" y1="306" x2="565" y2="321"/>
+    <line x1="587" y1="281" x2="629" y2="296"/>
+    <line x1="587" y1="321" x2="629" y2="305"/>
+    <line x1="652" y1="300" x2="676" y2="300"/>
+  </g>
+  <text x="596" y="360" fill="#5a8090" font-size="12" text-anchor="middle" letter-spacing="1">AIRFLOW · RETRIES · BACKFILLS</text>
+
+  <!-- split to stores -->
+  <path d="M716 270Q760 240 798 226" fill="none" stroke="#9d00ff" marker-end="url(#mv)"/>
+  <path d="M716 322Q760 352 798 366" fill="none" stroke="#9d00ff" marker-end="url(#mv)"/>
+
+  <!-- warehouse -->
+  <g filter="url(#glow)">
+    <path d="M804 196a64 15 0 0 1 128 0v76a64 15 0 0 1-128 0z" fill="#0d1b2b" stroke="#00ff88"/>
+    <ellipse cx="868" cy="196" rx="64" ry="15" fill="#0d1b2b" stroke="#00ff88"/>
+  </g>
+  <text x="868" y="244" fill="#00ff88" font-size="13" text-anchor="middle" letter-spacing="1">WAREHOUSE</text>
+  <!-- vector store -->
+  <path d="M868 336l40 23v46l-40 23-40-23v-46z" fill="#0d1b2b" stroke="#00f5ff" filter="url(#glow)"/>
+  <text x="868" y="388" fill="#00f5ff" font-size="12" text-anchor="middle" letter-spacing="1">VECTORS</text>
+
+  <line x1="932" y1="240" x2="986" y2="272" stroke="#00f5ff" marker-end="url(#mc)"/>
+  <line x1="908" y1="382" x2="986" y2="342" stroke="#00f5ff" marker-end="url(#mc)"/>
+
+  <!-- dashboard -->
+  <rect x="992" y="252" width="148" height="120" fill="#0d1b2b" stroke="#fb923c"/>
+  <text x="1066" y="278" fill="#fb923c" font-size="13" text-anchor="middle" letter-spacing="1">DASHBOARD</text>
+  <g fill="#fb923c" opacity=".85">
+    <rect x="1012" y="330" width="16" height="26"/>
+    <rect x="1036" y="316" width="16" height="40"/>
+    <rect x="1060" y="298" width="16" height="58"/>
+    <rect x="1084" y="322" width="16" height="34"/>
+    <rect x="1108" y="308" width="16" height="48"/>
+  </g>
+
+  <!-- quality rail -->
+  <line x1="60" y1="530" x2="1140" y2="530" stroke="#244763" stroke-dasharray="4 8"/>
+  <text x="60" y="566" fill="#00ff88" font-size="13" letter-spacing="2">✓ DATA QUALITY CHECKS AT EVERY HOP — FRESHNESS · SCHEMA · VOLUME · ALERTS</text>
+
+  <!-- frame + corner accents -->
+  <rect x="16" y="16" width="1168" height="643" fill="none" stroke="#244763"/>
+  <path d="M16 44V16h28" fill="none" stroke="#00f5ff" stroke-width="3"/>
+  <path d="M1184 631v28h-28" fill="none" stroke="#ff0080" stroke-width="3"/>
+</svg>

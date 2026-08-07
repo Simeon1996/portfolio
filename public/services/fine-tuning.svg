@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" font-family="Menlo,Consolas,'Courier New',monospace">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#00f5ff" stroke-opacity=".05"/>
+    </pattern>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="mg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#00ff88"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="675" fill="#08131f"/>
+  <rect width="1200" height="675" fill="url(#grid)"/>
+
+  <text x="40" y="60" fill="#00f5ff" font-size="20" letter-spacing="6">SVC 03 · FINE-TUNING &amp; SELF-HOSTED MODELS</text>
+  <text x="40" y="88" fill="#5a8090" font-size="14" letter-spacing="3">OWN YOUR WEIGHTS — SYSTEM BLUEPRINT</text>
+
+  <!-- base model -->
+  <rect x="70" y="160" width="240" height="220" fill="#0d1b2b" stroke="#00f5ff"/>
+  <text x="190" y="192" fill="#00f5ff" font-size="16" text-anchor="middle" letter-spacing="2">BASE MODEL · 70B</text>
+  <g stroke="#00f5ff" stroke-opacity=".35">
+    <line x1="94" y1="216" x2="286" y2="216"/><line x1="94" y1="240" x2="286" y2="240"/>
+    <line x1="94" y1="264" x2="286" y2="264"/><line x1="94" y1="288" x2="286" y2="288"/>
+    <line x1="94" y1="312" x2="286" y2="312"/><line x1="94" y1="336" x2="286" y2="336"/>
+  </g>
+  <!-- lora adapters clipped on -->
+  <g fill="#0d1b2b" stroke="#9d00ff" filter="url(#glow)">
+    <rect x="286" y="228" width="72" height="30"/>
+    <rect x="286" y="276" width="72" height="30"/>
+    <rect x="286" y="324" width="72" height="30"/>
+  </g>
+  <text x="322" y="248" fill="#9d00ff" font-size="12" text-anchor="middle" letter-spacing="1">LoRA</text>
+  <text x="322" y="296" fill="#9d00ff" font-size="12" text-anchor="middle" letter-spacing="1">LoRA</text>
+  <text x="322" y="344" fill="#9d00ff" font-size="12" text-anchor="middle" letter-spacing="1">QLoRA</text>
+  <text x="190" y="412" fill="#5a8090" font-size="13" text-anchor="middle" letter-spacing="2">YOUR DATASET → ADAPTERS</text>
+
+  <!-- distill arrow -->
+  <line x1="366" y1="270" x2="470" y2="270" stroke="#00ff88" marker-end="url(#mg)"/>
+  <text x="418" y="252" fill="#00ff88" font-size="13" text-anchor="middle" letter-spacing="2">DISTILL</text>
+
+  <!-- task model -->
+  <g filter="url(#glow)">
+    <rect x="476" y="212" width="150" height="120" fill="#0d1b2b" stroke="#00ff88" stroke-width="1.5"/>
+  </g>
+  <text x="551" y="262" fill="#00ff88" font-size="15" text-anchor="middle" letter-spacing="2">TASK MODEL</text>
+  <text x="551" y="288" fill="#00ff88" font-size="15" text-anchor="middle" letter-spacing="2">8B · FAST</text>
+
+  <line x1="626" y1="270" x2="712" y2="270" stroke="#00ff88" marker-end="url(#mg)"/>
+  <text x="669" y="252" fill="#00ff88" font-size="13" text-anchor="middle" letter-spacing="2">DEPLOY</text>
+
+  <!-- VPC boundary -->
+  <rect x="718" y="140" width="412" height="330" fill="none" stroke="#fb923c" stroke-dasharray="10 8"/>
+  <text x="738" y="172" fill="#fb923c" font-size="14" letter-spacing="3">YOUR VPC / ON-PREM</text>
+
+  <!-- gpu rack -->
+  <rect x="760" y="196" width="180" height="230" fill="#0d1b2b" stroke="#244763"/>
+  <g fill="#08131f" stroke="#00f5ff" stroke-opacity=".8">
+    <rect x="776" y="214" width="148" height="40"/>
+    <rect x="776" y="266" width="148" height="40"/>
+    <rect x="776" y="318" width="148" height="40"/>
+    <rect x="776" y="370" width="148" height="40"/>
+  </g>
+  <g fill="#00ff88">
+    <circle cx="792" cy="234" r="4"/><circle cx="792" cy="286" r="4"/>
+    <circle cx="792" cy="338" r="4"/><circle cx="792" cy="390" r="4"/>
+  </g>
+  <text x="858" y="239" fill="#c8e0f4" font-size="13" text-anchor="middle" letter-spacing="2">GPU 0</text>
+  <text x="858" y="291" fill="#c8e0f4" font-size="13" text-anchor="middle" letter-spacing="2">GPU 1</text>
+  <text x="858" y="343" fill="#c8e0f4" font-size="13" text-anchor="middle" letter-spacing="2">GPU 2</text>
+  <text x="858" y="395" fill="#c8e0f4" font-size="13" text-anchor="middle" letter-spacing="2">GPU 3</text>
+  <text x="850" y="450" fill="#5a8090" font-size="13" text-anchor="middle" letter-spacing="2">vLLM · AUTOSCALED</text>
+
+  <!-- privacy chip -->
+  <rect x="972" y="196" width="136" height="66" fill="#0d1b2b" stroke="#00f5ff"/>
+  <text x="1040" y="224" fill="#00f5ff" font-size="13" text-anchor="middle" letter-spacing="1">DATA STAYS</text>
+  <text x="1040" y="246" fill="#00f5ff" font-size="13" text-anchor="middle" letter-spacing="1">INSIDE</text>
+  <rect x="972" y="286" width="136" height="66" fill="#0d1b2b" stroke="#9d00ff"/>
+  <text x="1040" y="314" fill="#9d00ff" font-size="13" text-anchor="middle" letter-spacing="1">COMPLIANCE</text>
+  <text x="1040" y="336" fill="#9d00ff" font-size="13" text-anchor="middle" letter-spacing="1">READY</text>
+
+  <!-- benchmark bars -->
+  <text x="70" y="510" fill="#5a8090" font-size="14" letter-spacing="3">BENCHMARK VS HOSTED API</text>
+  <g>
+    <text x="120" y="612" fill="#5a8090" font-size="12" text-anchor="middle" letter-spacing="1">QUALITY</text>
+    <rect x="84" y="540" width="30" height="50" fill="#00f5ff" opacity=".85"/>
+    <rect x="122" y="546" width="30" height="44" fill="#ff0080" opacity=".85"/>
+    <text x="320" y="612" fill="#5a8090" font-size="12" text-anchor="middle" letter-spacing="1">LATENCY ↓</text>
+    <rect x="284" y="556" width="30" height="34" fill="#00f5ff" opacity=".85"/>
+    <rect x="322" y="534" width="30" height="56" fill="#ff0080" opacity=".85"/>
+    <text x="520" y="612" fill="#5a8090" font-size="12" text-anchor="middle" letter-spacing="1">COST ↓</text>
+    <rect x="484" y="562" width="30" height="28" fill="#00f5ff" opacity=".85"/>
+    <rect x="522" y="528" width="30" height="62" fill="#ff0080" opacity=".85"/>
+  </g>
+  <rect x="640" y="536" width="14" height="14" fill="#00f5ff"/>
+  <text x="662" y="548" fill="#5a8090" font-size="12" letter-spacing="1">SELF-HOSTED</text>
+  <rect x="640" y="562" width="14" height="14" fill="#ff0080"/>
+  <text x="662" y="574" fill="#5a8090" font-size="12" letter-spacing="1">HOSTED API</text>
+
+  <!-- frame + corner accents -->
+  <rect x="16" y="16" width="1168" height="643" fill="none" stroke="#244763"/>
+  <path d="M16 44V16h28" fill="none" stroke="#00f5ff" stroke-width="3"/>
+  <path d="M1184 631v28h-28" fill="none" stroke="#ff0080" stroke-width="3"/>
+</svg>

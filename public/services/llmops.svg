@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" font-family="Menlo,Consolas,'Courier New',monospace">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#00f5ff" stroke-opacity=".05"/>
+    </pattern>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="675" fill="#08131f"/>
+  <rect width="1200" height="675" fill="url(#grid)"/>
+
+  <text x="40" y="60" fill="#00f5ff" font-size="20" letter-spacing="6">SVC 04 · LLMOPS &amp; EVALUATION</text>
+  <text x="40" y="88" fill="#5a8090" font-size="14" letter-spacing="3">PRODUCTION CONTROL ROOM — SYSTEM BLUEPRINT</text>
+
+  <!-- pass rate stat -->
+  <rect x="60" y="120" width="340" height="170" fill="#0d1b2b" stroke="#00ff88"/>
+  <text x="84" y="152" fill="#5a8090" font-size="13" letter-spacing="2">EVAL PASS RATE</text>
+  <text x="84" y="216" fill="#00ff88" font-size="52" letter-spacing="2" filter="url(#glow)">94.2%</text>
+  <polyline points="84,268 124,262 164,264 204,252 244,256 284,244 324,240 364,232" fill="none" stroke="#00ff88" stroke-width="2"/>
+  <text x="84" y="288" fill="#5a8090" font-size="11" letter-spacing="1">LLM-AS-JUDGE + DATASETS</text>
+
+  <!-- cost stat -->
+  <rect x="430" y="120" width="340" height="170" fill="#0d1b2b" stroke="#00f5ff"/>
+  <text x="454" y="152" fill="#5a8090" font-size="13" letter-spacing="2">COST / DAY</text>
+  <text x="454" y="216" fill="#00f5ff" font-size="52" letter-spacing="2" filter="url(#glow)">$41.07</text>
+  <polyline points="454,244 494,250 534,246 574,258 614,262 654,266 694,268 734,272" fill="none" stroke="#00f5ff" stroke-width="2"/>
+  <text x="454" y="288" fill="#5a8090" font-size="11" letter-spacing="1">-38% AFTER CACHE + ROUTING</text>
+
+  <!-- latency stat -->
+  <rect x="800" y="120" width="340" height="170" fill="#0d1b2b" stroke="#9d00ff"/>
+  <text x="824" y="152" fill="#5a8090" font-size="13" letter-spacing="2">P95 LATENCY</text>
+  <text x="824" y="216" fill="#9d00ff" font-size="52" letter-spacing="2" filter="url(#glow)">1.9s</text>
+  <polyline points="824,240 864,248 904,246 944,256 984,260 1024,266 1064,264 1104,270" fill="none" stroke="#9d00ff" stroke-width="2"/>
+  <text x="824" y="288" fill="#5a8090" font-size="11" letter-spacing="1">STREAM-FIRST · BUDGETS</text>
+
+  <!-- trace waterfall -->
+  <rect x="60" y="320" width="710" height="230" fill="#0d1b2b" stroke="#244763"/>
+  <text x="84" y="352" fill="#5a8090" font-size="13" letter-spacing="2">TRACE · REQ 7F3A — CHAIN → TOOL → LLM</text>
+  <g>
+    <rect x="84" y="374" width="560" height="22" fill="#00f5ff" opacity=".8"/>
+    <text x="652" y="390" fill="#5a8090" font-size="12">chain.run 2.9s</text>
+    <rect x="124" y="404" width="180" height="22" fill="#9d00ff" opacity=".85"/>
+    <text x="312" y="420" fill="#5a8090" font-size="12">retriever 0.4s</text>
+    <rect x="312" y="434" width="120" height="22" fill="#fb923c" opacity=".85"/>
+    <text x="440" y="450" fill="#5a8090" font-size="12">tool: sql 0.3s</text>
+    <rect x="440" y="464" width="204" height="22" fill="#ff0080" opacity=".85"/>
+    <text x="652" y="480" fill="#5a8090" font-size="12">llm 1.6s</text>
+  </g>
+  <line x1="84" y1="500" x2="744" y2="500" stroke="#244763"/>
+  <text x="84" y="528" fill="#00ff88" font-size="12" letter-spacing="1">✓ NO REGRESSIONS IN LAST 14 RELEASES</text>
+
+  <!-- guardrails column -->
+  <rect x="800" y="320" width="340" height="230" fill="#0d1b2b" stroke="#fb923c"/>
+  <text x="824" y="352" fill="#fb923c" font-size="13" letter-spacing="2">GUARDRAILS · LIVE</text>
+  <g>
+    <path d="M836 376l14-6 14 6v14c0 10-6 16-14 20-8-4-14-10-14-20z" fill="none" stroke="#fb923c"/>
+    <text x="880" y="396" fill="#c8e0f4" font-size="14" letter-spacing="1">PII REDACTION</text>
+    <text x="1108" y="396" fill="#00ff88" font-size="12" text-anchor="end">ON</text>
+    <path d="M836 420l14-6 14 6v14c0 10-6 16-14 20-8-4-14-10-14-20z" fill="none" stroke="#fb923c"/>
+    <text x="880" y="440" fill="#c8e0f4" font-size="14" letter-spacing="1">SPEND LIMITS</text>
+    <text x="1108" y="440" fill="#00ff88" font-size="12" text-anchor="end">ON</text>
+    <path d="M836 464l14-6 14 6v14c0 10-6 16-14 20-8-4-14-10-14-20z" fill="none" stroke="#fb923c"/>
+    <text x="880" y="484" fill="#c8e0f4" font-size="14" letter-spacing="1">INJECTION DEFENCE</text>
+    <text x="1108" y="484" fill="#00ff88" font-size="12" text-anchor="end">ON</text>
+    <path d="M836 508l14-6 14 6v14c0 10-6 16-14 20-8-4-14-10-14-20z" fill="none" stroke="#fb923c"/>
+    <text x="880" y="528" fill="#c8e0f4" font-size="14" letter-spacing="1">OUTPUT VALIDATION</text>
+    <text x="1108" y="528" fill="#00ff88" font-size="12" text-anchor="end">ON</text>
+  </g>
+
+  <text x="60" y="600" fill="#5a8090" font-size="13" letter-spacing="2">QUALITY STOPS BEING A GUESS — EVERY RELEASE MEASURED BEFORE IT SHIPS</text>
+
+  <!-- frame + corner accents -->
+  <rect x="16" y="16" width="1168" height="643" fill="none" stroke="#244763"/>
+  <path d="M16 44V16h28" fill="none" stroke="#00f5ff" stroke-width="3"/>
+  <path d="M1184 631v28h-28" fill="none" stroke="#ff0080" stroke-width="3"/>
+</svg>
