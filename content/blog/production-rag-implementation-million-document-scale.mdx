@@ -1,0 +1,74 @@
+---
+title: "Production RAG Implementation: How I Build Retrieval Systems at Million-Document Scale"
+date: 2026-08-08
+excerpt: "Most RAG demos fall apart past a few thousand documents. Here's what I actually build for clients — a hybrid retrieval architecture proven past a million documents, with the production practices that keep it fast and reliable."
+tags: ["RAG", "LLM", "AI", "Production", "Engineering"]
+published: true
+---
+
+# Production RAG Implementation: How I Build Retrieval Systems at Million-Document Scale
+
+Every RAG demo works. Ten PDFs, one embedding model, a vector search call, and the answers look great in the walkthrough video. Then a client says: "Great — now point it at our real document store. All 1.2 million files, across a dozen departments, updated daily." That's the moment most RAG projects quietly fall apart.
+
+I build the systems that survive that moment. This isn't a tutorial — I've already written those (linked below). This is a straight description of what I actually build and deliver for clients who need retrieval that works at real scale, and how you can get one built for you.
+
+## Why Demos Don't Survive Contact With Production
+
+At a few hundred documents, almost any approach looks fine. Brute-force similarity search is fast enough, a single chunking rule is good enough, and nobody notices the edge cases. None of that holds at scale.
+
+Past tens of thousands of documents, naive setups start failing in specific, predictable ways: retrieval gets noisy and starts surfacing near-misses instead of the right chunk, latency climbs, one customer's documents leak into another's answers, and quality quietly degrades because nobody built a way to measure it. These aren't exotic failures — they're the default outcome of shipping a prototype architecture as-is.
+
+If you want the deep-dive on chunking strategy, retrieval mechanics, and eval frameworks, read [Building the Perfect RAG](/blog/building-the-perfect-rag) — it covers the theory in full. This post skips the theory and shows you the resulting production system.
+
+## What I've Built: A Multi-Tenant RAG Platform Past 1 Million Documents
+
+I've designed and shipped a multi-tenant RAG platform indexing **more than one million documents**, with retrieval that stays fast at that scale — not just on a good day, but as the baseline. The core architecture:
+
+- **Qdrant** for dense vector search
+- **OpenSearch running BM25** for sparse, lexical search
+- **Hybrid retrieval** that combines both, so results aren't dependent on either method's blind spots
+- **Reranking** on top of the combined candidate set
+- **Query rewriting** in front of retrieval, to clean up how real users actually phrase questions
+
+Here's why each of those pieces earns its place.
+
+### Why Hybrid Search, Not Just Vector Search
+
+Dense vector search is excellent at meaning — it finds the chunk that's conceptually related to a question even if the wording is completely different. It's weak, though, at exact terms: a contract clause number, a product SKU, a specific name. Sparse lexical search (BM25) is the mirror image — strong on exact matches, blind to meaning. Run both and combine the results, and you cover each other's weak spots instead of picking one and living with its gaps.
+
+Hybrid doesn't have to mean two engines, either. I've also built the entire hybrid approach inside Qdrant alone — it stores dense and sparse vectors side by side, so a single engine handles both semantic and lexical search without a separate search cluster to operate. Fewer moving parts, same coverage. Which shape fits depends on your infrastructure, and I've shipped both.
+
+### Why Adaptive Chunking
+
+Treating every document with the same chunking rule is one of the most common shortcuts I see — and one of the most expensive. A 40-page equipment manual, a 2-page contract, and a dense quarterly report don't share a structure, so splitting them all with the same fixed-size rule throws away the structure that made each one readable in the first place. I build chunking that adapts to document type — respecting how contracts, reports, and manuals are actually organized — rather than forcing every document through the same generic splitter.
+
+### Why Reranking and Query Rewriting
+
+Initial retrieval is intentionally a wide net — it pulls a broad candidate set from both the dense and sparse indexes. Reranking then narrows that set with a model that looks at the query and each candidate together, which is far more accurate than similarity scores computed independently. Query rewriting sits in front of all of it, because real user queries are messy, vague, or missing context an LLM needs to retrieve well — cleaning that up before retrieval runs measurably improves what comes back.
+
+## What "Production-Grade" Actually Means
+
+A lot of RAG systems are "production" only in the sense that they're deployed somewhere. Production-grade means something more specific:
+
+- **Multi-tenancy isolation** — each customer's documents are isolated by design, so scale never becomes a data-leakage risk
+- **Continuous evaluation** — retrieval and generation quality are measured on an ongoing basis, not eyeballed once at launch and forgotten
+- **Speed that holds at scale** — retrieval latency stays low whether the index has ten thousand documents or a few million
+- **Observability** — you can see why the system retrieved what it retrieved, not just what it returned
+- **Document-type flexibility** — contracts, manuals, reports, policies, transcripts — the pipeline adapts instead of assuming one format
+
+## What I Can Build for You
+
+I've delivered systems in this same category — hybrid retrieval, adaptive chunking, production hardening — for multiple clients, in both **Java and Python**, across different document types and industries. And none of it is tied to one vendor: Qdrant is what the platform above runs on, but the same retrieval design works on **Weaviate, Elasticsearch, or any other vector database** — the right engine is whichever one fits your infrastructure and your team. If you already have a stack, I build inside it rather than pushing a rewrite you didn't ask for. If you're starting from a shaky prototype or nothing at all, the deliverable is the same class of system described above, sized to your actual document volume and use case.
+
+If you're still deciding between RAG and fine-tuning for your use case, [Why RAG beats fine-tuning for most use cases](/blog/why-rag-beats-finetuning) lays out when each one actually makes sense — RAG wins for the large majority of document-grounded use cases, which is exactly why it's what I build most.
+
+## Let's Build Yours
+
+If you have a real document corpus — thousands or millions of files — and you need retrieval that actually holds up in production, [get in touch through the contact form](/#contact). You can also see the full scope of what this kind of engagement looks like on the [AI Integration services page](/services#ai-integration).
+
+## Related Posts
+
+- [Building the Perfect RAG](/blog/building-the-perfect-rag) — The practical, technical deep-dive on chunking, retrieval, advanced techniques, and evals.
+- [Why RAG beats fine-tuning for most use cases](/blog/why-rag-beats-finetuning) — The strategic case for retrieval over retraining, and when fine-tuning actually wins instead.
+- [Agent Reliability Blueprint: SLOs, Guardrails, and Human Override](/blog/agent-reliability-blueprint) — The reliability layer a RAG system needs once it's embedded inside a larger agent.
+- [Building a production LLM pipeline in 2025](/blog/production-llm-pipeline) — Broader lessons on taking LLM features from demo to production.
