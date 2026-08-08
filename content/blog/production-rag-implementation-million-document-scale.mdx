@@ -2,7 +2,7 @@
 title: "Production RAG Implementation: How I Build Retrieval Systems at Million-Document Scale"
 date: 2026-08-08
 excerpt: "Most RAG demos fall apart past a few thousand documents. Here's what I actually build for clients — a hybrid retrieval architecture proven past a million documents, with the production practices that keep it fast and reliable."
-tags: ["RAG", "LLM", "AI", "Production", "Engineering"]
+tags: ["RAG", "LLM", "AI", "Production", "Engineering", "Evaluation"]
 published: true
 ---
 
@@ -55,6 +55,29 @@ A lot of RAG systems are "production" only in the sense that they're deployed so
 - **Speed that holds at scale** — retrieval latency stays low whether the index has ten thousand documents or a few million
 - **Observability** — you can see why the system retrieved what it retrieved, not just what it returned
 - **Document-type flexibility** — contracts, manuals, reports, policies, transcripts — the pipeline adapts instead of assuming one format
+
+## How I Keep a RAG System Honest: Evaluation
+
+"Continuous evaluation" was one bullet in the list above, but it deserves its own section, because it's the practice that separates systems that stay good from systems that quietly rot. Eyeballing ten answers at launch is not evaluation. A million-document system changes constantly — new documents, new query patterns, model upgrades, chunking tweaks — and every one of those changes can make answers worse without anyone noticing until a client does.
+
+What I actually set up looks like this:
+
+- **A golden dataset** — a set of real questions with known correct answers and known source documents, grown continuously from logged production failures rather than invented in a workshop. Every pipeline change runs against it before it ships.
+- **Retrieval and generation measured separately** — if the right chunk never came back, no amount of prompt tuning will fix the answer. Retrieval gets its own metrics (did the correct document land in the top-k, and how high?) before generation quality is even looked at.
+- **Evals wired into CI** — a chunking change that silently hurts recall should fail the build, not surface as a support ticket three weeks later.
+- **Tracing in production** — every query's full path (rewrite, retrieval, rerank, generation) is recorded, so when an answer is wrong you can see exactly which stage failed instead of guessing.
+
+### The Tools I Reach For
+
+The ecosystem has largely settled on a handful of tools, and the same vendor-neutral rule applies as with vector databases — the loop matters more than the logo:
+
+- **[Ragas](https://github.com/explodinggradients/ragas)** — the standard open-source framework for RAG-specific metrics: faithfulness (is the answer grounded in the retrieved context?), answer relevancy, context precision, and context recall. Its strength is scoring without hand-labelled ground truth for every question, which makes it practical for regression checks at scale.
+- **LangSmith** — the tracing and evaluation platform from the LangChain team, and the most polished managed option. Traces every step of every request, builds eval datasets straight from real production traffic, and runs experiments against them. If your stack is LangChain-based it's the path of least resistance, but it works fine without LangChain too.
+- **Langfuse** — the open-source, self-hostable alternative to LangSmith. Same core idea — tracing, datasets, evals, prompt management — but it can run entirely inside your infrastructure, which is the deciding factor for clients with data-residency or compliance constraints.
+- **Arize Phoenix** — open-source tracing and evals built on OpenTelemetry, strong if you want RAG observability folded into monitoring standards your platform team already runs.
+- **DeepEval and promptfoo** — the CI-native end of the spectrum. DeepEval gives you pytest-style unit tests for LLM outputs; promptfoo is config-driven and slots neatly into a build pipeline. Both are the easiest way to make "the evals must pass" a merge requirement rather than a good intention.
+
+Which of these lands in your stack depends on what you already run and where your data is allowed to live — I've set up managed and self-hosted variants both. The non-negotiable part isn't the tool. It's that evaluation runs continuously, on real traffic, with failures feeding back into the golden dataset. The full metric-by-metric breakdown — RAGAS dimensions, LLM-as-judge rubrics, retrieval metrics like MRR and NDCG — is in [Building the Perfect RAG](/blog/building-the-perfect-rag) if you want the theory behind the loop.
 
 ## What I Can Build for You
 
