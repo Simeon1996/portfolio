@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" role="img" aria-labelledby="tdl-title tdl-desc">
+  <title id="tdl-title">The 30-Day Ledger: What Happened to Every Task I Delegated</title>
+  <desc id="tdl-desc">Four stat cards from a personal 30-day experiment: 214 tasks delegated to an AI agent stack, 132 shipped completely untouched (62 percent), 61 needed rework (28 percent), and 21 were taken back and done entirely by hand (10 percent).</desc>
+  <defs>
+    <linearGradient id="tdl-bg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1200" y2="560">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="tdl-cardCyan" gradientUnits="userSpaceOnUse" x1="0" y1="150" x2="0" y2="430">
+      <stop offset="0%" stop-color="rgba(78,203,255,0.10)"/>
+      <stop offset="100%" stop-color="rgba(78,203,255,0.02)"/>
+    </linearGradient>
+    <linearGradient id="tdl-cardGreen" gradientUnits="userSpaceOnUse" x1="0" y1="150" x2="0" y2="430">
+      <stop offset="0%" stop-color="rgba(78,242,165,0.12)"/>
+      <stop offset="100%" stop-color="rgba(78,242,165,0.02)"/>
+    </linearGradient>
+    <linearGradient id="tdl-cardAmber" gradientUnits="userSpaceOnUse" x1="0" y1="150" x2="0" y2="430">
+      <stop offset="0%" stop-color="rgba(255,193,125,0.10)"/>
+      <stop offset="100%" stop-color="rgba(255,193,125,0.02)"/>
+    </linearGradient>
+    <linearGradient id="tdl-cardPink" gradientUnits="userSpaceOnUse" x1="0" y1="150" x2="0" y2="430">
+      <stop offset="0%" stop-color="rgba(255,106,158,0.12)"/>
+      <stop offset="100%" stop-color="rgba(255,106,158,0.02)"/>
+    </linearGradient>
+    <filter id="tdl-glow" x="-40%" y="-60%" width="180%" height="220%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .tdl-t    { font: 700 34px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
+      .tdl-s    { font: 500 16px 'Space Mono', monospace; fill: #9bc0d8; }
+      .tdl-big  { font: 800 58px 'Space Grotesk', sans-serif; }
+      .tdl-lbl  { font: 600 16px 'Space Grotesk', sans-serif; fill: #c8e6f8; }
+      .tdl-sm   { font: 500 12.5px 'Space Mono', monospace; fill: #7aaabf; }
+      .tdl-pct  { font: 700 14px 'Space Mono', monospace; }
+      .tdl-foot { font: 500 12px 'Space Mono', monospace; fill: #3a5a70; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="560" fill="url(#tdl-bg)"/>
+
+  <g opacity="0.07" stroke="#5fa2d0" stroke-width="1">
+    <line x1="0" y1="150" x2="1200" y2="150"/>
+    <line x1="0" y1="290" x2="1200" y2="290"/>
+    <line x1="0" y1="430" x2="1200" y2="430"/>
+  </g>
+
+  <text class="tdl-t" x="60" y="66">The 30-Day Ledger</text>
+  <text class="tdl-s" x="60" y="94">Every task I handed to the agent stack, logged and graded — nothing cherry-picked after the fact</text>
+
+  <!-- Card 1: Delegated -->
+  <rect x="60" y="150" width="260" height="280" rx="14" fill="url(#tdl-cardCyan)" stroke="rgba(78,203,255,0.35)" stroke-width="1.2"/>
+  <text class="tdl-big" x="80" y="248" fill="#4ecbff" filter="url(#tdl-glow)">214</text>
+  <text class="tdl-lbl" x="80" y="280">Tasks delegated</text>
+  <text class="tdl-sm" x="80" y="308">Coding tickets, PR triage,</text>
+  <text class="tdl-sm" x="80" y="326">client email drafts, standup</text>
+  <text class="tdl-sm" x="80" y="344">notes, and estimates.</text>
+
+  <!-- Card 2: Shipped untouched -->
+  <rect x="340" y="150" width="260" height="280" rx="14" fill="url(#tdl-cardGreen)" stroke="rgba(78,242,165,0.4)" stroke-width="1.2"/>
+  <text class="tdl-big" x="360" y="248" fill="#4ef2a5" filter="url(#tdl-glow)">132</text>
+  <text class="tdl-pct" x="360" y="270" fill="#8dffcb">62% of total</text>
+  <text class="tdl-lbl" x="360" y="296">Shipped untouched</text>
+  <text class="tdl-sm" x="360" y="324">Bounded tasks with a clear</text>
+  <text class="tdl-sm" x="360" y="342">spec and a checkable output.</text>
+
+  <!-- Card 3: Needed rework -->
+  <rect x="620" y="150" width="260" height="280" rx="14" fill="url(#tdl-cardAmber)" stroke="rgba(255,193,125,0.4)" stroke-width="1.2"/>
+  <text class="tdl-big" x="640" y="248" fill="#ffc17d" filter="url(#tdl-glow)">61</text>
+  <text class="tdl-pct" x="640" y="270" fill="#ffdba8">28% of total</text>
+  <text class="tdl-lbl" x="640" y="296">Needed rework</text>
+  <text class="tdl-sm" x="640" y="324">Right direction, wrong detail —</text>
+  <text class="tdl-sm" x="640" y="342">a few minutes of editing fixed it.</text>
+
+  <!-- Card 4: Taken back -->
+  <rect x="900" y="150" width="260" height="280" rx="14" fill="url(#tdl-cardPink)" stroke="rgba(255,106,158,0.4)" stroke-width="1.2"/>
+  <text class="tdl-big" x="920" y="248" fill="#ff6a9e" filter="url(#tdl-glow)">21</text>
+  <text class="tdl-pct" x="920" y="270" fill="#ffaac8">10% of total</text>
+  <text class="tdl-lbl" x="920" y="296">Taken back, done by hand</text>
+  <text class="tdl-sm" x="920" y="324">Judgment calls the agent had</text>
+  <text class="tdl-sm" x="920" y="342">no way to see the context for.</text>
+
+  <text class="tdl-foot" x="60" y="500">Source: my own task log, 30-day experiment, July–August 2026. Not a vendor study — just one engineer's month.</text>
+</svg>

@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 760" role="img" aria-labelledby="loop-title loop-desc">
+  <title id="loop-title">Same Agent, Two Completely Different Loops</title>
+  <desc id="loop-desc">Side-by-side diagram comparing two workflows: the vibe coding loop of prompt, code, run, and hope that loops back with a tweaked prompt, versus the spec-driven loop of spec, generate, verify against acceptance tests, and review spec plus diff that loops back by updating the spec.</desc>
+  <defs>
+    <linearGradient id="loop-bg" x1="0" y1="0" x2="1400" y2="760" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="loop-pink" x1="60" y1="0" x2="660" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <linearGradient id="loop-teal" x1="740" y1="0" x2="1340" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#6ee7b7"/>
+    </linearGradient>
+    <filter id="loop-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="loop-arrow-pink" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#ff9dbd"/>
+    </marker>
+    <marker id="loop-arrow-teal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7ee7c9"/>
+    </marker>
+    <style>
+      .lp-title  { font: 700 32px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
+      .lp-sub    { font: 500 15px 'Space Mono', monospace; fill: #9bc0d8; }
+      .lp-panel  { font: 700 20px 'Space Grotesk', sans-serif; letter-spacing: 1px; }
+      .lp-box    { font: 700 17px 'Space Grotesk', sans-serif; }
+      .lp-note   { font: 500 13px 'Space Mono', monospace; }
+      .lp-head   { font: 700 13px 'Space Grotesk', sans-serif; letter-spacing: 0.5px; }
+      .lp-vs     { font: 700 14px 'Space Grotesk', sans-serif; fill: #cfe9f7; }
+      .lp-foot   { font: 500 13px 'Space Mono', monospace; fill: #4a7090; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="760" fill="url(#loop-bg)"/>
+
+  <text class="lp-title" x="700" y="60" text-anchor="middle">Same Agent. Two Completely Different Loops.</text>
+  <text class="lp-sub"   x="700" y="90" text-anchor="middle">What actually changes when you swap vibing for a spec</text>
+
+  <line x1="700" y1="130" x2="700" y2="690" stroke="#5fa2d0" stroke-width="1" stroke-dasharray="4 7" opacity="0.25"/>
+  <circle cx="700" cy="384" r="23" fill="#0f2032" stroke="#4a7a95" stroke-width="1.2"/>
+  <text class="lp-vs" x="700" y="389" text-anchor="middle">VS</text>
+
+  <!-- LEFT PANEL: VIBE LOOP -->
+  <text class="lp-panel" x="360" y="152" text-anchor="middle" fill="#ff9dbd">THE VIBE LOOP</text>
+
+  <g>
+    <rect x="80"  y="190" width="120" height="76" rx="10" fill="rgba(255,106,158,0.10)" stroke="rgba(255,106,158,0.5)" stroke-width="1.2"/>
+    <rect x="227" y="190" width="120" height="76" rx="10" fill="rgba(255,106,158,0.10)" stroke="rgba(255,106,158,0.5)" stroke-width="1.2"/>
+    <rect x="374" y="190" width="120" height="76" rx="10" fill="rgba(255,106,158,0.10)" stroke="rgba(255,106,158,0.5)" stroke-width="1.2"/>
+    <rect x="521" y="190" width="120" height="76" rx="10" fill="rgba(255,106,158,0.10)" stroke="rgba(255,106,158,0.5)" stroke-width="1.2"/>
+    <text class="lp-box" x="140" y="234" text-anchor="middle" fill="#ffd7e6">PROMPT</text>
+    <text class="lp-box" x="287" y="234" text-anchor="middle" fill="#ffd7e6">CODE</text>
+    <text class="lp-box" x="434" y="234" text-anchor="middle" fill="#ffd7e6">RUN</text>
+    <text class="lp-box" x="581" y="234" text-anchor="middle" fill="#ffd7e6">HOPE</text>
+
+    <line x1="200" y1="228" x2="223" y2="228" stroke="#ff9dbd" stroke-width="2" marker-end="url(#loop-arrow-pink)"/>
+    <line x1="347" y1="228" x2="370" y2="228" stroke="#ff9dbd" stroke-width="2" marker-end="url(#loop-arrow-pink)"/>
+    <line x1="494" y1="228" x2="517" y2="228" stroke="#ff9dbd" stroke-width="2" marker-end="url(#loop-arrow-pink)"/>
+
+    <path d="M581,266 C 581,352 140,352 140,266" fill="none" stroke="#ff6a9e" stroke-width="2" stroke-dasharray="5 5" marker-end="url(#loop-arrow-pink)"/>
+    <text class="lp-note" x="360" y="332" text-anchor="middle" fill="#ff9dbd">tweak the prompt, run it again, hope harder</text>
+
+    <rect x="80" y="420" width="560" height="164" rx="12" fill="rgba(255,106,158,0.06)" stroke="rgba(255,106,158,0.28)" stroke-width="1"/>
+    <text class="lp-head" x="106" y="455" fill="#ffb3cc">WHAT SURVIVES A CYCLE</text>
+    <text class="lp-note" x="106" y="481" fill="#cdd9e2">Nothing durable — just the next prompt,</text>
+    <text class="lp-note" x="106" y="501" fill="#cdd9e2">rewritten again next time it breaks.</text>
+    <text class="lp-head" x="106" y="536" fill="#ffb3cc">WHAT YOU REVIEW</text>
+    <text class="lp-note" x="106" y="562" fill="#cdd9e2">The vibe. Whether it looks like it works.</text>
+  </g>
+
+  <!-- RIGHT PANEL: SPEC LOOP -->
+  <text class="lp-panel" x="1040" y="152" text-anchor="middle" fill="#7ee7c9">THE SPEC LOOP</text>
+
+  <g>
+    <rect x="760"  y="190" width="120" height="76" rx="10" fill="rgba(78,203,255,0.10)" stroke="rgba(110,231,183,0.5)" stroke-width="1.2"/>
+    <rect x="907"  y="190" width="120" height="76" rx="10" fill="rgba(78,203,255,0.10)" stroke="rgba(110,231,183,0.5)" stroke-width="1.2"/>
+    <rect x="1054" y="190" width="120" height="76" rx="10" fill="rgba(78,203,255,0.10)" stroke="rgba(110,231,183,0.5)" stroke-width="1.2"/>
+    <rect x="1201" y="190" width="120" height="76" rx="10" fill="rgba(78,203,255,0.10)" stroke="rgba(110,231,183,0.5)" stroke-width="1.2"/>
+    <text class="lp-box" x="820"  y="234" text-anchor="middle" fill="#cdf3ff">SPEC</text>
+    <text class="lp-box" x="967"  y="234" text-anchor="middle" fill="#cdf3ff" style="font-size:15px">GENERATE</text>
+    <text class="lp-box" x="1114" y="234" text-anchor="middle" fill="#cdf3ff" style="font-size:15px">VERIFY</text>
+    <text class="lp-box" x="1261" y="234" text-anchor="middle" fill="#cdf3ff" style="font-size:15px">REVIEW</text>
+
+    <line x1="880"  y1="228" x2="903"  y2="228" stroke="#7ee7c9" stroke-width="2" marker-end="url(#loop-arrow-teal)"/>
+    <line x1="1027" y1="228" x2="1050" y2="228" stroke="#7ee7c9" stroke-width="2" marker-end="url(#loop-arrow-teal)"/>
+    <line x1="1174" y1="228" x2="1197" y2="228" stroke="#7ee7c9" stroke-width="2" marker-end="url(#loop-arrow-teal)"/>
+
+    <path d="M1261,266 C 1261,352 820,352 820,266" fill="none" stroke="#4ecbff" stroke-width="2" stroke-dasharray="5 5" marker-end="url(#loop-arrow-teal)"/>
+    <text class="lp-note" x="1040" y="332" text-anchor="middle" fill="#7ee7c9">update the spec, regenerate from scratch</text>
+
+    <rect x="760" y="420" width="560" height="164" rx="12" fill="rgba(78,203,255,0.06)" stroke="rgba(110,231,183,0.28)" stroke-width="1"/>
+    <text class="lp-head" x="786" y="455" fill="#9ce9d6">WHAT SURVIVES A CYCLE</text>
+    <text class="lp-note" x="786" y="481" fill="#cdd9e2">The spec. Code is regenerated,</text>
+    <text class="lp-note" x="786" y="501" fill="#cdd9e2">not patched on top of itself.</text>
+    <text class="lp-head" x="786" y="536" fill="#9ce9d6">WHAT YOU REVIEW</text>
+    <text class="lp-note" x="786" y="562" fill="#cdd9e2">The spec, the tests, and the diff against them.</text>
+  </g>
+
+  <text class="lp-foot" x="700" y="730" text-anchor="middle">Same AI agent, same raw capability — a different artifact of record.</text>
+</svg>

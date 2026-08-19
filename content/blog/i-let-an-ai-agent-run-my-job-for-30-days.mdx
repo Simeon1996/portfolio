@@ -1,0 +1,86 @@
+---
+title: "I Let an AI Agent Run My Job for 30 Days. Here's What It Couldn't Do"
+date: 2026-08-19
+excerpt: "I build production AI agents for a living, so I turned the experiment on myself for 30 days — and the moment that taught me the most was the moment the agent confidently did the wrong thing."
+tags: ["AI", "Agents", "Productivity", "Engineering", "Reality"]
+published: true
+---
+
+# I Let an AI Agent Run My Job for 30 Days. Here's What It Couldn't Do
+
+On day twelve, the agent fixed a bug I never asked it to fix.
+
+It was working through a real ticket — "clean up flaky error handling" in a document-matching workflow. It found a retry loop that looked wrong: three attempts on a timeout, when one should have been plenty. So it tightened it, wrote a clean commit message, and opened a PR. I'd told the agent stack it could auto-merge small maintenance PRs that passed CI. This one passed CI. It merged. Nobody looked twice until invoices for one vendor started piling up unmatched the next afternoon.
+
+The retry loop wasn't a bug. It was a scar. Four months earlier, someone on the team had widened it on purpose, because that vendor's webhook occasionally fired twice with a stale payload, and the extra retry was the cheap fix. Nobody wrote that reason down anywhere the agent could read it. It lived in a Slack thread and in one engineer's memory. The agent didn't fail at coding — the fix was clean, tested, and technically correct. It failed at knowing it was standing on top of somebody else's decision.
+
+That one incident taught me more than the other three hundred tasks combined. So here's the full thirty days.
+
+---
+
+## The Setup
+
+I build agent systems for clients for a living — document routers that read invoices and route them, internal assistants that answer questions from Slack and Drive and Jira. I know what these systems are good at. I wanted to find out what happens when you point one at your own job instead of someone else's.
+
+For thirty days, I ran everything I reasonably could through an agent stack: coding tickets, first-pass PR review, draft replies to client emails, daily standup notes, and rough effort estimates for new work.
+
+Two rules kept it honest. First, anything touching money, a contract, or an unresolved back-and-forth with a client needed my sign-off before it left the building — draft freely, send nothing without me. Second, I logged every single task: delegated, shipped as-is, needed rework, or taken back and done by hand myself. No cherry-picking the wins after the fact.
+
+---
+
+## What It Actually Nailed
+
+By the end of the month, the ledger read: 214 tasks delegated, 132 shipped completely untouched, 61 needed rework, and 21 I took back and just did myself.
+
+![Four stat cards showing a personal 30-day task ledger: 214 tasks delegated, 132 shipped untouched at 62 percent, 61 needed rework at 28 percent, and 21 taken back and done by hand at 10 percent](/blog/i-let-an-ai-agent-run-my-job-for-30-days/thirty-day-ledger.svg)
+
+That 62% untouched rate wasn't spread evenly across the month. It clustered hard around tasks with a clear spec and a way to check the answer: coding tickets that already had a test file waiting, first-pass PR triage flagging missing tests or naming issues, standup notes built straight from git log and calendar entries. Give the agent a bounded job and a way to verify its own output, and it was fast, consistent, and honestly a little boring — which, as I've written about before, is [exactly the pattern that works in production](/blog/bounded-agents-the-pattern-that-works).
+
+Estimates were the pleasant surprise. Not the final number I'd tell a client — the sizing math underneath it. Pulling comparable past tickets, laying out a breakdown by component, the agent did that faster and more consistently than I did by hand at 4pm on a Thursday.
+
+---
+
+## Three Things It Couldn't Do
+
+### 1. Knowing Which Bug Not to Fix
+
+The retry-loop incident above is the clean example, but it wasn't the only one. Twice more that month the agent "fixed" something that was working on purpose — an off-looking config value, a duplicated validation check — because the reason behind it lived nowhere the agent could search. Code tells you what a system does. It rarely tells you why someone made it do that, especially when the why was a decision made once, under pressure, months ago, and never written down. A human who was in the room, or who at least knows to ask "does anyone remember why this is here" before touching it, catches this. An agent reading only the repository cannot.
+
+### 2. Reading Between the Lines of a Client Email
+
+A client wrote: "Let's revisit the Q4 timeline when you get a chance." The agent drafted a tidy, logistical reply — three proposed call times and a revised schedule attached. Technically correct. If I'd sent it as written, it would have landed badly, because that sentence wasn't really about scheduling. This client had gone quiet on a previous project right before a budget conversation, and this line had the same shape. The actual reply needed to open by naming the concern directly, before a single date got mentioned. That context wasn't in the email thread. It was in a year of knowing how this specific person communicates when something's wrong — exactly the kind of [state that lives outside the system](/blog/agentic-ai-why-it-gets-fired) no agent can query.
+
+### 3. Saying No to Scope Creep
+
+A "small" PR came through triage: the actual ticket work, plus a new dependency quietly bundled in to make a related task easier down the road. Tests passed. Lint was clean. The agent approved it — nothing was technically wrong with the diff in front of it. But that dependency was a maintenance commitment nobody had agreed to take on, and the right call was to split it out and ask why it was there, not ship it because it happened to work. That's not a code-quality judgment. It's a "what does this team want to be responsible for in six months" judgment, and nothing in the diff tells you the answer.
+
+![Split diagram titled Where the Line Actually Sits, showing what the agent stack handled on the left — bounded coding tickets, first-pass PR triage, standup notes, and estimate math — versus what stayed human on the right — which bugs not to fix, client email subtext, scope-creep calls, and final numbers committed to a client](/blog/i-let-an-ai-agent-run-my-job-for-30-days/capability-boundary.svg)
+
+---
+
+## What I Kept Doing By Hand
+
+After thirty days, a few things quietly moved back to "mine, always": final review on any client email with money or relationship stakes attached, the actual call on which bugs get touched versus left alone, sign-off on any PR that expands scope or adds a dependency, and the final number that goes in front of a client — even when the agent's sizing math got me most of the way there.
+
+None of that is a knock on the tooling. It's the same boundary I keep rediscovering on every agent project I ship for clients: agents are excellent inside a fence, and the fence is context that never made it into a ticket, a comment, or a spec. Deciding what an agent can act on alone versus what needs a human checkpoint is most of what actually makes these systems [reliable enough to trust](/blog/agent-reliability-blueprint).
+
+There's a broader pattern underneath this, too. A METR study earlier this year found experienced developers were 19% *slower* with AI tools on real tasks — not because the tools were bad, but because using them without discipline costs more than it saves. My ledger is the same lesson from the other direction: the month only came out ahead because I was tracking every single task closely enough to catch the day-twelve mistake before it quietly became a habit.
+
+---
+
+## Key Takeaways
+
+- Over 30 days I delegated 214 tasks to an agent stack; 62% shipped untouched, 28% needed rework, and 10% I took back and did entirely by hand.
+- The agent was fastest and most reliable on bounded tasks with a clear spec and a checkable output — coding tickets with existing tests, first-pass PR triage, standup notes built from git and calendar data.
+- Its worst failure wasn't a coding mistake — it "fixed" a working retry loop that existed for a reason nobody had written down, and the fix auto-merged and broke invoice matching for a day.
+- Client communication needs context that lives in relationship history, not in the email thread — the agent's replies were technically correct and would have landed badly.
+- Scope-creep calls on PRs and decisions about which bugs *not* to fix are judgment calls, not code-quality checks, and both stayed with me the entire month.
+- The win wasn't "delegate everything." It was logging every task honestly enough to see exactly where the line sits — and keeping the fence around what an agent can act on alone deliberately narrow.
+
+## Related Posts
+
+- [Bounded Agents: The Only Multi-Agent Pattern That Actually Works in Production](/blog/bounded-agents-the-pattern-that-works) — Why the narrow-scope, human-in-the-loop pattern behind this experiment is what actually holds up in production.
+- [Your AI Agent Just Got Fired: Why Agentic AI Still Can't Handle Real Business](/blog/agentic-ai-why-it-gets-fired) — The context gap behind the retry-loop failure, explained at the system level.
+- [Agent Reliability Blueprint: SLOs, Guardrails, and Human Override](/blog/agent-reliability-blueprint) — How to build the checkpoints that would have caught the auto-merged fix before it ever shipped.
+- [How Developers Actually Use AI Coding Agents in 2026](/blog/how-developers-actually-use-ai-coding-agents) — The METR finding behind this post's closing point, and what disciplined AI use looks like day to day.
+- [Vibe Coding Is Dead: Spec-Driven Development Takes Over](/blog/vibe-coding-is-dead-spec-driven-development) — A sibling post, published the same day, on why writing the spec down is exactly what would have stopped the agent from fixing the wrong bug.

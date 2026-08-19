@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" role="img" aria-labelledby="oc-title oc-desc">
+  <title id="oc-title">Five Role-Scoped Agents, One Human Owning Every Handoff</title>
+  <desc id="oc-desc">Org chart with a single "YOU" node at the top labeled manager, arbiter, and merge button, with lines fanning down to five agent cards: Spec/PM Agent (turns ideas into specs and acceptance criteria, cannot touch code or architecture), Builder Agent (implements strictly against the spec, cannot change scope or deploy config), Reviewer Agent (adversarial review of every diff, cannot write or merge code), QA Agent (writes tests and tries to break every flow, cannot edit implementation to pass), and Ops/Content Agent (deploy checks, docs, and landing copy, cannot touch business logic or pricing). A footer note reads every line still runs through one person.</desc>
+  <defs>
+    <linearGradient id="oc-bg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1200" y2="620">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="oc-you" gradientUnits="userSpaceOnUse" x1="470" y1="0" x2="730" y2="0">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="oc-line" gradientUnits="userSpaceOnUse" x1="0" y1="164" x2="0" y2="250">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#3a5168"/>
+    </linearGradient>
+    <linearGradient id="oc-pink" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="200" y2="0">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <filter id="oc-glow" x="-40%" y="-60%" width="180%" height="220%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .oc-title { font: 700 30px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
+      .oc-sub   { font: 500 14px 'Space Mono', monospace; fill: #9bc0d8; }
+      .oc-you   { font: 700 16px 'Space Grotesk', sans-serif; fill: #06131f; }
+      .oc-cname { font: 700 15px 'Space Grotesk', sans-serif; fill: #e3f5ff; }
+      .oc-scope { font: 500 12.5px 'Space Mono', monospace; fill: #a9c9e0; }
+      .oc-cannot-tag { font: 700 11px 'Space Mono', monospace; fill: #ff9dbd; letter-spacing: 0.6px; }
+      .oc-cannot-txt { font: 500 12px 'Space Mono', monospace; fill: #ffb4ce; }
+      .oc-foot  { font: 500 12px 'Space Mono', monospace; fill: #4a7090; }
+      .card     { fill: rgba(14, 29, 46, 0.85); stroke: rgba(120, 179, 216, 0.4); stroke-width: 1.2; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="620" fill="url(#oc-bg)"/>
+
+  <g opacity="0.14">
+    <circle cx="150" cy="90" r="140" fill="#2c4f6b"/>
+    <circle cx="1080" cy="560" r="170" fill="#5a3550"/>
+  </g>
+
+  <text class="oc-title" x="60" y="52">Five Agents. One Manager.</text>
+  <text class="oc-sub" x="60" y="76">The rules I gave each agent before I let it touch anything.</text>
+
+  <!-- YOU node -->
+  <rect x="470" y="102" width="260" height="62" rx="12" fill="url(#oc-you)" filter="url(#oc-glow)"/>
+  <text class="oc-you" x="600" y="128" text-anchor="middle">YOU</text>
+  <text class="oc-you" x="600" y="148" text-anchor="middle" style="font-size:11px">MANAGER · ARBITER · MERGE BUTTON</text>
+
+  <!-- fan lines to five cards -->
+  <path d="M600 164 L150 250" fill="none" stroke="url(#oc-line)" stroke-width="2"/>
+  <path d="M600 164 L375 250" fill="none" stroke="url(#oc-line)" stroke-width="2"/>
+  <path d="M600 164 L600 250" fill="none" stroke="url(#oc-line)" stroke-width="2"/>
+  <path d="M600 164 L825 250" fill="none" stroke="url(#oc-line)" stroke-width="2"/>
+  <path d="M600 164 L1050 250" fill="none" stroke="url(#oc-line)" stroke-width="2"/>
+  <circle cx="150" cy="250" r="5" fill="#4ecbff"/>
+  <circle cx="375" cy="250" r="5" fill="#4ecbff"/>
+  <circle cx="600" cy="250" r="5" fill="#4ecbff"/>
+  <circle cx="825" cy="250" r="5" fill="#4ecbff"/>
+  <circle cx="1050" cy="250" r="5" fill="#4ecbff"/>
+
+  <!-- Card 1: Spec/PM -->
+  <rect class="card" x="45" y="250" width="210" height="228" rx="12"/>
+  <text class="oc-cname" x="65" y="280">Spec / PM Agent</text>
+  <text class="oc-scope" x="65" y="306">Turns raw ideas into</text>
+  <text class="oc-scope" x="65" y="322">specs + acceptance</text>
+  <text class="oc-scope" x="65" y="338">criteria before anyone</text>
+  <text class="oc-scope" x="65" y="354">writes a line of code.</text>
+  <rect x="65" y="392" width="170" height="62" rx="8" fill="rgba(49,24,40,0.55)" stroke="rgba(255,142,180,0.4)"/>
+  <text class="oc-cannot-tag" x="77" y="412">CANNOT</text>
+  <text class="oc-cannot-txt" x="77" y="430">Touch code or</text>
+  <text class="oc-cannot-txt" x="77" y="444">pick the architecture</text>
+
+  <!-- Card 2: Builder -->
+  <rect class="card" x="270" y="250" width="210" height="228" rx="12"/>
+  <text class="oc-cname" x="290" y="280">Builder Agent</text>
+  <text class="oc-scope" x="290" y="306">Implements strictly</text>
+  <text class="oc-scope" x="290" y="322">against the approved</text>
+  <text class="oc-scope" x="290" y="338">spec doc. Nothing</text>
+  <text class="oc-scope" x="290" y="354">extra, nothing assumed.</text>
+  <rect x="290" y="392" width="170" height="62" rx="8" fill="rgba(49,24,40,0.55)" stroke="rgba(255,142,180,0.4)"/>
+  <text class="oc-cannot-tag" x="302" y="412">CANNOT</text>
+  <text class="oc-cannot-txt" x="302" y="430">Change scope or</text>
+  <text class="oc-cannot-txt" x="302" y="444">touch deploy config</text>
+
+  <!-- Card 3: Reviewer -->
+  <rect class="card" x="495" y="250" width="210" height="228" rx="12"/>
+  <text class="oc-cname" x="515" y="280">Reviewer Agent</text>
+  <text class="oc-scope" x="515" y="306">Adversarial read of</text>
+  <text class="oc-scope" x="515" y="322">every diff. Job is to</text>
+  <text class="oc-scope" x="515" y="338">find what breaks it,</text>
+  <text class="oc-scope" x="515" y="354">not to be agreeable.</text>
+  <rect x="515" y="392" width="170" height="62" rx="8" fill="rgba(49,24,40,0.55)" stroke="rgba(255,142,180,0.4)"/>
+  <text class="oc-cannot-tag" x="527" y="412">CANNOT</text>
+  <text class="oc-cannot-txt" x="527" y="430">Write code or</text>
+  <text class="oc-cannot-txt" x="527" y="444">merge anything</text>
+
+  <!-- Card 4: QA -->
+  <rect class="card" x="720" y="250" width="210" height="228" rx="12"/>
+  <text class="oc-cname" x="740" y="280">QA Agent</text>
+  <text class="oc-scope" x="740" y="306">Writes and runs tests,</text>
+  <text class="oc-scope" x="740" y="322">tries to break every</text>
+  <text class="oc-scope" x="740" y="338">flow with weird input</text>
+  <text class="oc-scope" x="740" y="354">and edge cases.</text>
+  <rect x="740" y="392" width="170" height="62" rx="8" fill="rgba(49,24,40,0.55)" stroke="rgba(255,142,180,0.4)"/>
+  <text class="oc-cannot-tag" x="752" y="412">CANNOT</text>
+  <text class="oc-cannot-txt" x="752" y="430">Edit implementation</text>
+  <text class="oc-cannot-txt" x="752" y="444">to make a test pass</text>
+
+  <!-- Card 5: Ops/Content -->
+  <rect class="card" x="945" y="250" width="210" height="228" rx="12"/>
+  <text class="oc-cname" x="965" y="280">Ops / Content Agent</text>
+  <text class="oc-scope" x="965" y="306">Deploy checks, docs,</text>
+  <text class="oc-scope" x="965" y="322">README, and landing</text>
+  <text class="oc-scope" x="965" y="338">page copy. Ships the</text>
+  <text class="oc-scope" x="965" y="354">last mile.</text>
+  <rect x="965" y="392" width="170" height="62" rx="8" fill="rgba(49,24,40,0.55)" stroke="rgba(255,142,180,0.4)"/>
+  <text class="oc-cannot-tag" x="977" y="412">CANNOT</text>
+  <text class="oc-cannot-txt" x="977" y="430">Touch business logic</text>
+  <text class="oc-cannot-txt" x="977" y="444">or change pricing</text>
+
+  <line x1="60" y1="510" x2="1140" y2="510" stroke="#2a4a62" stroke-width="1"/>
+  <text class="oc-foot" x="60" y="540">Five narrow scopes, five hard "cannot" lines — and every arrow still runs back through one person.</text>
+  <text class="oc-foot" x="60" y="562">That person is the leverage. That person is also the bottleneck.</text>
+</svg>

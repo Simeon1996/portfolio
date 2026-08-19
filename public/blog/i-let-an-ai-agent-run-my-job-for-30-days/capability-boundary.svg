@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" role="img" aria-labelledby="cb-title cb-desc">
+  <title id="cb-title">Where the Line Actually Sits: Agent-Handled vs. Human-Only Work</title>
+  <desc id="cb-desc">Split diagram from a 30-day experiment. Left side, agent handled: bounded coding tickets with existing tests, first-pass PR triage for lint and missing tests, standup notes built from git log and calendar, and estimate math pulled from comparable past tickets. Right side, stayed human: deciding which bugs not to fix, reading the subtext in a client email, saying no to scope creep in a technically clean PR, and the final numbers actually committed to a client.</desc>
+  <defs>
+    <linearGradient id="cb-bg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1200" y2="620">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="cb-cyanBar" gradientUnits="userSpaceOnUse" x1="90" y1="0" x2="90" y2="620">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="cb-pinkBar" gradientUnits="userSpaceOnUse" x1="650" y1="0" x2="650" y2="620">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <linearGradient id="cb-cyanCard" gradientUnits="userSpaceOnUse" x1="90" y1="0" x2="550" y2="0">
+      <stop offset="0%" stop-color="rgba(78,203,255,0.09)"/>
+      <stop offset="100%" stop-color="rgba(78,203,255,0.02)"/>
+    </linearGradient>
+    <linearGradient id="cb-pinkCard" gradientUnits="userSpaceOnUse" x1="650" y1="0" x2="1110" y2="0">
+      <stop offset="0%" stop-color="rgba(255,106,158,0.10)"/>
+      <stop offset="100%" stop-color="rgba(255,106,158,0.02)"/>
+    </linearGradient>
+    <filter id="cb-glow" x="-40%" y="-60%" width="180%" height="220%">
+      <feGaussianBlur stdDeviation="3.2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .cb-title { font: 700 30px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
+      .cb-sub   { font: 500 14px 'Space Mono', monospace; fill: #9bc0d8; }
+      .cb-h     { font: 700 15px 'Space Grotesk', sans-serif; letter-spacing: 1.2px; }
+      .cb-ctitle{ font: 700 16px 'Space Grotesk', sans-serif; fill: #e3f5ff; }
+      .cb-ctext { font: 500 12.5px 'Space Mono', monospace; fill: #9bc4dd; }
+      .cb-mid   { font: 700 12px 'Space Mono', monospace; fill: #6a8aa2; letter-spacing: 1.5px; }
+      .cb-foot  { font: 500 12px 'Space Mono', monospace; fill: #4a7090; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="620" fill="url(#cb-bg)"/>
+
+  <g opacity="0.14">
+    <circle cx="150" cy="90" r="150" fill="#1f4f5a"/>
+    <circle cx="1060" cy="560" r="180" fill="#5a3550"/>
+  </g>
+
+  <text class="cb-title" x="60" y="52">Where the Line Actually Sits</text>
+  <text class="cb-sub" x="60" y="76">After 30 days: what the agent stack handled on its own vs. what needed a human in the loop</text>
+
+  <line x1="600" y1="102" x2="600" y2="560" stroke="#2a4a62" stroke-width="1.5" stroke-dasharray="4 6"/>
+  <text class="cb-mid" x="600" y="94" text-anchor="middle">THE CONTEXT LINE</text>
+
+  <!-- LEFT: agent handled -->
+  <text class="cb-h" x="90" y="120" fill="#7bdcff">AGENT HANDLED</text>
+  <rect x="86" y="140" width="4" height="354" rx="2" fill="url(#cb-cyanBar)"/>
+
+  <rect x="106" y="140" width="444" height="78" rx="12" fill="url(#cb-cyanCard)" stroke="rgba(78,203,255,0.32)" stroke-width="1.1"/>
+  <text class="cb-ctitle" x="128" y="170">Bounded coding tickets</text>
+  <text class="cb-ctext" x="128" y="194">Clear spec, existing tests to check the answer against</text>
+
+  <rect x="106" y="232" width="444" height="78" rx="12" fill="url(#cb-cyanCard)" stroke="rgba(78,203,255,0.32)" stroke-width="1.1"/>
+  <text class="cb-ctitle" x="128" y="262">First-pass PR triage</text>
+  <text class="cb-ctext" x="128" y="286">Lint failures, missing tests, naming issues</text>
+
+  <rect x="106" y="324" width="444" height="78" rx="12" fill="url(#cb-cyanCard)" stroke="rgba(78,203,255,0.32)" stroke-width="1.1"/>
+  <text class="cb-ctitle" x="128" y="354">Standup notes</text>
+  <text class="cb-ctext" x="128" y="378">Built straight from git log and calendar, not memory</text>
+
+  <rect x="106" y="416" width="444" height="78" rx="12" fill="url(#cb-cyanCard)" stroke="rgba(78,203,255,0.32)" stroke-width="1.1"/>
+  <text class="cb-ctitle" x="128" y="446">Estimate math</text>
+  <text class="cb-ctext" x="128" y="470">Sizing pulled from comparable past tickets</text>
+
+  <!-- RIGHT: stayed human -->
+  <text class="cb-h" x="650" y="120" fill="#ff9dbd">STAYED HUMAN</text>
+  <rect x="646" y="140" width="4" height="354" rx="2" fill="url(#cb-pinkBar)"/>
+
+  <rect x="666" y="140" width="444" height="78" rx="12" fill="url(#cb-pinkCard)" stroke="rgba(255,106,158,0.34)" stroke-width="1.1" filter="url(#cb-glow)"/>
+  <text class="cb-ctitle" x="688" y="170">Which bugs not to fix</text>
+  <text class="cb-ctext" x="688" y="194">The reason lived in a Slack thread, not the repo</text>
+
+  <rect x="666" y="232" width="444" height="78" rx="12" fill="url(#cb-pinkCard)" stroke="rgba(255,106,158,0.34)" stroke-width="1.1"/>
+  <text class="cb-ctitle" x="688" y="262">Client email subtext</text>
+  <text class="cb-ctext" x="688" y="286">Tone and history that no thread ever wrote down</text>
+
+  <rect x="666" y="324" width="444" height="78" rx="12" fill="url(#cb-pinkCard)" stroke="rgba(255,106,158,0.34)" stroke-width="1.1"/>
+  <text class="cb-ctitle" x="688" y="354">Scope-creep calls</text>
+  <text class="cb-ctext" x="688" y="378">Saying no to a PR that is technically fine</text>
+
+  <rect x="666" y="416" width="444" height="78" rx="12" fill="url(#cb-pinkCard)" stroke="rgba(255,106,158,0.34)" stroke-width="1.1"/>
+  <text class="cb-ctitle" x="688" y="446">Final numbers, sent</text>
+  <text class="cb-ctext" x="688" y="470">What actually gets committed to a client</text>
+
+  <text class="cb-foot" x="60" y="540">The pattern isn't "agents can't be trusted." It's that the fence is context no ticket, comment, or spec ever captured.</text>
+</svg>

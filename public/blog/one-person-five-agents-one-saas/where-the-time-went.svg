@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" role="img" aria-labelledby="tt-title tt-desc">
+  <title id="tt-title">Where My Own Time Actually Went, Building Solo With Five Agents</title>
+  <desc id="tt-desc">Horizontal bar chart of the author's personal, self-tracked time breakdown while building the SaaS: reviewing agent output 27%, arbitrating disagreements between agents 21%, ops and deploy and docs oversight 19%, writing specs and acceptance criteria 18%, and hands-on coding 15%. A footer notes this is a personal tally, not a third-party study.</desc>
+  <defs>
+    <linearGradient id="tt-bg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1200" y2="620">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="tt-cyan" gradientUnits="userSpaceOnUse" x1="340" y1="0" x2="1040" y2="0">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="tt-pink" gradientUnits="userSpaceOnUse" x1="340" y1="0" x2="1040" y2="0">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <linearGradient id="tt-gray" gradientUnits="userSpaceOnUse" x1="340" y1="0" x2="1040" y2="0">
+      <stop offset="0%" stop-color="#2a3f55"/>
+      <stop offset="100%" stop-color="#3a5168"/>
+    </linearGradient>
+    <linearGradient id="tt-green" gradientUnits="userSpaceOnUse" x1="340" y1="0" x2="1040" y2="0">
+      <stop offset="0%" stop-color="#4ef2a5"/>
+      <stop offset="100%" stop-color="#78ffe2"/>
+    </linearGradient>
+    <filter id="tt-glow" x="-5%" y="-30%" width="110%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .tt-title { font: 700 30px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
+      .tt-sub   { font: 500 14px 'Space Mono', monospace; fill: #9bc0d8; }
+      .tt-label { font: 600 15px 'Space Grotesk', sans-serif; fill: #c8e6f8; }
+      .tt-pct   { font: 700 20px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
+      .tt-axis  { font: 500 12px 'Space Mono', monospace; fill: #4a7090; }
+      .tt-foot  { font: 500 12px 'Space Mono', monospace; fill: #4a7090; }
+      .tt-tag   { font: 700 11px 'Space Mono', monospace; fill: #6affc7; letter-spacing: 1px; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="620" fill="url(#tt-bg)"/>
+
+  <g opacity="0.12">
+    <circle cx="1080" cy="120" r="150" fill="#5a3550"/>
+    <circle cx="120" cy="560" r="160" fill="#2c4f6b"/>
+  </g>
+
+  <text class="tt-title" x="60" y="52">Where My Time Actually Went</text>
+  <text class="tt-sub" x="60" y="76">My own tracked hours across the build — five agents, one calendar.</text>
+
+  <!-- axis -->
+  <line x1="340" y1="500" x2="1040" y2="500" stroke="#2a4a62" stroke-width="1.5"/>
+  <text class="tt-axis" x="340" y="520" text-anchor="middle">0%</text>
+  <text class="tt-axis" x="573" y="520" text-anchor="middle">10%</text>
+  <text class="tt-axis" x="807" y="520" text-anchor="middle">20%</text>
+  <text class="tt-axis" x="1040" y="520" text-anchor="middle">30%</text>
+  <line x1="573" y1="500" x2="573" y2="506" stroke="#2a4a62"/>
+  <line x1="807" y1="500" x2="807" y2="506" stroke="#2a4a62"/>
+
+  <!-- Row 1: Reviewing agent output 27% -->
+  <text class="tt-label" x="325" y="152" text-anchor="end">Reviewing agent output</text>
+  <rect x="340" y="130" width="630" height="38" rx="4" fill="url(#tt-cyan)" filter="url(#tt-glow)"/>
+  <text class="tt-pct" x="985" y="156">27%</text>
+
+  <!-- Row 2: Arbitrating disagreements 21% -->
+  <text class="tt-label" x="325" y="230" text-anchor="end">Arbitrating disagreements</text>
+  <rect x="340" y="208" width="490" height="38" rx="4" fill="url(#tt-pink)"/>
+  <text class="tt-pct" x="845" y="234">21%</text>
+
+  <!-- Row 3: Ops / deploy / docs oversight 19% -->
+  <text class="tt-label" x="325" y="308" text-anchor="end">Ops, deploy &amp; docs checks</text>
+  <rect x="340" y="286" width="443" height="38" rx="4" fill="url(#tt-gray)"/>
+  <text class="tt-pct" x="798" y="312">19%</text>
+
+  <!-- Row 4: Specs & acceptance criteria 18% -->
+  <text class="tt-label" x="325" y="386" text-anchor="end">Writing specs &amp; acceptance criteria</text>
+  <rect x="340" y="364" width="420" height="38" rx="4" fill="url(#tt-gray)"/>
+  <text class="tt-pct" x="775" y="390">18%</text>
+
+  <!-- Row 5: Hands-on coding 15% -->
+  <text class="tt-label" x="325" y="464" text-anchor="end">Hands-on coding, myself</text>
+  <rect x="340" y="442" width="350" height="38" rx="4" fill="url(#tt-green)" filter="url(#tt-glow)"/>
+  <text class="tt-pct" x="705" y="468">15%</text>
+
+  <text class="tt-tag" x="340" y="484" style="font-size:11px" fill="#6affc7">SMALLEST SLICE, GREEN</text>
+
+  <text class="tt-foot" x="60" y="565">Personal tally from my own calendar across the build — not a third-party study, not a benchmark. Just what I noticed when I looked back.</text>
+  <text class="tt-foot" x="60" y="585">Reviewing + arbitrating alone = 48% of my hours. Writing code by hand = 15%.</text>
+</svg>

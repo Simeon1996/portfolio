@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" role="img" aria-labelledby="rev-title rev-desc">
+  <title id="rev-title">The Volume Doesn't Shrink. The Review Surface Does.</title>
+  <desc id="rev-desc">Bar comparison showing that in a typical AI-generated feature, the raw generated code diff runs to thousands of lines that nobody reads end to end, while the spec and its acceptance tests are a compact, fully reviewable artifact of around thirty lines.</desc>
+  <defs>
+    <linearGradient id="rev-bg" x1="0" y1="0" x2="1200" y2="560" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="rev-pink" x1="310" y1="0" x2="1060" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <linearGradient id="rev-green" x1="310" y1="0" x2="400" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#6ee7b7"/>
+    </linearGradient>
+    <filter id="rev-glow" x="-5%" y="-30%" width="110%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .rev-title { font: 700 30px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
+      .rev-sub   { font: 500 15px 'Space Mono', monospace; fill: #9bc0d8; }
+      .rev-label { font: 600 15px 'Space Grotesk', sans-serif; fill: #c8e6f8; }
+      .rev-pct   { font: 700 21px 'Space Grotesk', sans-serif; }
+      .rev-note  { font: 500 13px 'Space Mono', monospace; fill: #7aaabf; }
+      .rev-foot  { font: 500 12px 'Space Mono', monospace; fill: #3d6478; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="560" fill="url(#rev-bg)"/>
+
+  <g opacity="0.06" stroke="#5fa2d0" stroke-width="1">
+    <line x1="0" y1="150" x2="1200" y2="150"/>
+    <line x1="0" y1="270" x2="1200" y2="270"/>
+    <line x1="0" y1="390" x2="1200" y2="390"/>
+  </g>
+
+  <text class="rev-title" x="60" y="62">The Volume Doesn't Shrink. The Review Surface Does.</text>
+  <text class="rev-sub"   x="60" y="90">What one AI-generated feature branch actually asks you to read</text>
+
+  <!-- ROW 1: raw generated diff -->
+  <text class="rev-label" x="295" y="177" text-anchor="end">Reviewing the</text>
+  <text class="rev-label" x="295" y="197" text-anchor="end">raw code diff</text>
+  <rect x="310" y="156" width="750" height="42" rx="4" fill="url(#rev-pink)" filter="url(#rev-glow)"/>
+  <text class="rev-pct" x="1075" y="184" fill="#ffaac8">~5,000 lines</text>
+  <text class="rev-note" x="310" y="222">Nobody reads all of this line by line. That was always the problem.</text>
+
+  <!-- ROW 2: spec + tests -->
+  <text class="rev-label" x="295" y="297" text-anchor="end">Reviewing the</text>
+  <text class="rev-label" x="295" y="317" text-anchor="end">spec + tests</text>
+  <rect x="310" y="276" width="90" height="42" rx="4" fill="url(#rev-green)" filter="url(#rev-glow)"/>
+  <text class="rev-pct" x="415" y="304" fill="#9cf0d8">~30 lines + 5 tests</text>
+  <text class="rev-note" x="310" y="342">One sitting, every time — the same size no matter how the code grows.</text>
+
+  <!-- footer notes -->
+  <text class="rev-foot" x="60" y="477">Same underlying feature, same agent — the difference is which artifact you actually read.</text>
+  <text class="rev-foot" x="60" y="497">Illustrative example, not a measured study — actual line counts vary by feature. See the rate-limiter spec below for a real one.</text>
+</svg>

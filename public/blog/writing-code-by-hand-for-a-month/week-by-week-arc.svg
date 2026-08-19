@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" role="img" aria-labelledby="wa-title wa-desc">
+  <title id="wa-title">Four Weeks Without AI: Speed Down, Understanding Up</title>
+  <desc id="wa-desc">Line chart comparing self-rated output speed and self-rated code understanding across four weeks of hand-writing code without AI assistance. Output speed starts near a pre-experiment baseline of 8 out of 10, drops sharply to 3 in week one, and climbs back to 7 by week four. Code understanding starts at 4 out of 10, rises steadily each week, and ends at 9 by week four — higher than output speed ever recovers to.</desc>
+  <defs>
+    <linearGradient id="wa-bg" x1="0" y1="0" x2="1200" y2="520" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="wa-cyanFill" x1="0" y1="120" x2="0" y2="430" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="rgba(78,203,255,0.30)"/>
+      <stop offset="100%" stop-color="rgba(78,203,255,0.01)"/>
+    </linearGradient>
+    <linearGradient id="wa-pinkFill" x1="0" y1="120" x2="0" y2="430" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="rgba(255,106,158,0.24)"/>
+      <stop offset="100%" stop-color="rgba(255,106,158,0.01)"/>
+    </linearGradient>
+    <linearGradient id="wa-cyanLine" x1="0" y1="0" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#7df5f2"/>
+    </linearGradient>
+    <linearGradient id="wa-pinkLine" x1="0" y1="0" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <filter id="wa-glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .wa-title { font: 700 30px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
+      .wa-sub   { font: 500 15px 'Space Mono', monospace; fill: #9bc0d8; }
+      .wa-axis  { font: 500 12px 'Space Mono', monospace; fill: #4a7090; }
+      .wa-xaxis { font: 600 13px 'Space Mono', monospace; fill: #6f95ac; }
+      .wa-legend{ font: 600 14px 'Space Grotesk', sans-serif; }
+      .wa-note  { font: 500 12px 'Space Mono', monospace; fill: #5a8099; }
+      .wa-tag   { font: 700 13px 'Space Grotesk', sans-serif; }
+      .wa-foot  { font: 500 12px 'Space Mono', monospace; fill: #3d6478; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="520" fill="url(#wa-bg)"/>
+
+  <!-- header -->
+  <text class="wa-title" x="60" y="58">Speed Down, Understanding Up</text>
+  <text class="wa-sub"   x="60" y="85">My own self-rated scores, week by week — one month, zero AI coding assistance</text>
+
+  <!-- plot grid -->
+  <g opacity="0.08" stroke="#5fa2d0" stroke-width="1">
+    <line x1="150" y1="140" x2="1140" y2="140"/>
+    <line x1="150" y1="210" x2="1140" y2="210"/>
+    <line x1="150" y1="280" x2="1140" y2="280"/>
+    <line x1="150" y1="350" x2="1140" y2="350"/>
+  </g>
+
+  <!-- y axis -->
+  <line x1="150" y1="120" x2="150" y2="420" stroke="#2a4a62" stroke-width="1.5"/>
+  <text class="wa-axis" x="132" y="124" text-anchor="end">10</text>
+  <text class="wa-axis" x="132" y="214" text-anchor="end">5</text>
+  <text class="wa-axis" x="132" y="424" text-anchor="end">0</text>
+
+  <!-- x axis -->
+  <line x1="150" y1="420" x2="1140" y2="420" stroke="#2a4a62" stroke-width="1.5"/>
+  <text class="wa-xaxis" x="150"  y="446" text-anchor="middle">Baseline</text>
+  <text class="wa-xaxis" x="397.5" y="446" text-anchor="middle">Week 1</text>
+  <text class="wa-xaxis" x="645"  y="446" text-anchor="middle">Week 2</text>
+  <text class="wa-xaxis" x="892.5" y="446" text-anchor="middle">Week 3</text>
+  <text class="wa-xaxis" x="1140" y="446" text-anchor="middle">Week 4</text>
+
+  <!-- x positions: 150, 397.5, 645, 892.5, 1140 ; y = 420 - value*30 -->
+  <!-- Output speed: 8, 3, 4, 6, 7 -> y: 180, 330, 300, 240, 210 -->
+  <polygon points="150,420 150,180 397.5,330 645,300 892.5,240 1140,210 1140,420"
+           fill="url(#wa-pinkFill)"/>
+  <polyline points="150,180 397.5,330 645,300 892.5,240 1140,210"
+            fill="none" stroke="url(#wa-pinkLine)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#wa-glow)"/>
+
+  <!-- Understanding: 4, 5, 6, 8, 9 -> y: 300, 270, 240, 180, 150 -->
+  <polygon points="150,420 150,300 397.5,270 645,240 892.5,180 1140,150 1140,420"
+           fill="url(#wa-cyanFill)"/>
+  <polyline points="150,300 397.5,270 645,240 892.5,180 1140,150"
+            fill="none" stroke="url(#wa-cyanLine)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#wa-glow)"/>
+
+  <!-- data point dots + values : Output speed (pink) -->
+  <circle cx="150" cy="180" r="5" fill="#ff8fb4"/>
+  <circle cx="397.5" cy="330" r="5" fill="#ff8fb4"/>
+  <circle cx="645" cy="300" r="5" fill="#ff8fb4"/>
+  <circle cx="892.5" cy="240" r="5" fill="#ff8fb4"/>
+  <circle cx="1140" cy="210" r="5" fill="#ff8fb4"/>
+  <text class="wa-tag" x="397.5" y="352" text-anchor="middle" fill="#ff8fb4">3</text>
+
+  <!-- data point dots + values : Understanding (cyan) -->
+  <circle cx="150" cy="300" r="5" fill="#7df5f2"/>
+  <circle cx="397.5" cy="270" r="5" fill="#7df5f2"/>
+  <circle cx="645" cy="240" r="5" fill="#7df5f2"/>
+  <circle cx="892.5" cy="180" r="5" fill="#7df5f2"/>
+  <circle cx="1140" cy="150" r="5" fill="#7df5f2"/>
+  <text class="wa-tag" x="1140" y="132" text-anchor="middle" fill="#7df5f2">9</text>
+  <text class="wa-tag" x="1140" y="196" text-anchor="middle" fill="#ff8fb4">7</text>
+
+  <!-- legend -->
+  <circle cx="700" cy="65" r="6" fill="#ff8fb4"/>
+  <text class="wa-legend" x="714" y="70" fill="#ffaac8">Output speed</text>
+  <circle cx="870" cy="65" r="6" fill="#7df5f2"/>
+  <text class="wa-legend" x="884" y="70" fill="#9be8f0">Code understanding</text>
+
+  <!-- footer notes -->
+  <text class="wa-note" x="150" y="478">Self-rated, 1-10 scale — one developer's own log, not a formal study.</text>
+  <text class="wa-foot" x="150" y="500">Speed dipped hardest in week one and only partly recovered. Understanding never gave any of itself back.</text>
+</svg>
