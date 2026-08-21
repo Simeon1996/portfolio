@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 760" role="img" aria-labelledby="grid-title grid-desc">
+  <title id="grid-title">54 Cheatsheets, Organized the Way You'd Actually Look</title>
+  <desc id="grid-desc">Grid of eight category cards from ReferentialSheet's public cheatsheet library — Cloud and Infra, Databases, DevOps and Config, Programming and Web, Data Science and Math, Security and Networking, Developer Tools, and Misc — each card listing a few example cheatsheet names such as AWS CLI, Terraform, MongoDB, Docker, Kubernetes, Python, Pandas, OWASP Top 10, Git, and Cron Expressions, with a note that more sheets exist in each category.</desc>
+  <defs>
+    <linearGradient id="grid-bg" x1="0" y1="0" x2="1400" y2="760" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0a1625"/>
+      <stop offset="55%" stop-color="#111f33"/>
+      <stop offset="100%" stop-color="#1a2f45"/>
+    </linearGradient>
+    <linearGradient id="grid-pink" x1="0" y1="0" x2="302" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ff6a9e"/>
+      <stop offset="100%" stop-color="#ffc17d"/>
+    </linearGradient>
+    <linearGradient id="grid-cyan" x1="0" y1="0" x2="302" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#4ecbff"/>
+      <stop offset="100%" stop-color="#6ee7b7"/>
+    </linearGradient>
+    <filter id="grid-glow" x="-20%" y="-60%" width="140%" height="260%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .grid-title  { font: 700 28px 'Space Grotesk', sans-serif; fill: #e8f6ff; }
+      .grid-sub    { font: 500 15px 'Space Mono', monospace; fill: #9bc0d8; }
+      .grid-cat    { font: 700 18px 'Space Grotesk', sans-serif; fill: #eaf6ff; }
+      .grid-item   { font: 500 14px 'Space Mono', monospace; fill: #c8e6f8; }
+      .grid-more   { font: 500 12.5px 'Space Mono', monospace; fill: #6ee7b7; }
+      .grid-snip   { font: 500 11.5px 'Space Mono', monospace; fill: #4d7691; }
+      .grid-foot   { font: 500 12px 'Space Mono', monospace; fill: #3d6478; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="760" fill="url(#grid-bg)"/>
+  <g opacity="0.05" stroke="#5fa2d0" stroke-width="1">
+    <line x1="0" y1="190" x2="1400" y2="190"/>
+    <line x1="0" y1="380" x2="1400" y2="380"/>
+    <line x1="0" y1="570" x2="1400" y2="570"/>
+  </g>
+
+  <text class="grid-title" x="60" y="54">54 Cheatsheets, Organized the Way You'd Actually Look</text>
+  <text class="grid-sub" x="60" y="82">Eight categories in the public ReferentialSheet library</text>
+
+  <!-- Row 1 -->
+  <g transform="translate(60,124)">
+    <rect width="302" height="248" rx="12" fill="#0f2136" stroke="#3a2a44" stroke-width="1.2"/>
+    <rect x="16" y="16" width="270" height="6" rx="3" fill="url(#grid-pink)" filter="url(#grid-glow)"/>
+    <text class="grid-cat" x="16" y="54">Cloud &amp; Infra</text>
+    <circle cx="22" cy="84" r="3" fill="#ffaac8"/><text class="grid-item" x="34" y="89">AWS CLI</text>
+    <circle cx="22" cy="116" r="3" fill="#ffaac8"/><text class="grid-item" x="34" y="121">Terraform</text>
+    <circle cx="22" cy="148" r="3" fill="#ffaac8"/><text class="grid-item" x="34" y="153">Azure CLI</text>
+    <text class="grid-more" x="16" y="188">+ Pulumi, CloudFormation, GKE CLI &amp; more</text>
+    <text class="grid-snip" x="16" y="222">6–13 snippets per sheet</text>
+  </g>
+
+  <g transform="translate(386,124)">
+    <rect width="302" height="248" rx="12" fill="#0f2136" stroke="#1f3a52" stroke-width="1.2"/>
+    <rect x="16" y="16" width="270" height="6" rx="3" fill="url(#grid-cyan)" filter="url(#grid-glow)"/>
+    <text class="grid-cat" x="16" y="54">Databases</text>
+    <circle cx="22" cy="84" r="3" fill="#9cf0d8"/><text class="grid-item" x="34" y="89">MongoDB</text>
+    <circle cx="22" cy="116" r="3" fill="#9cf0d8"/><text class="grid-item" x="34" y="121">DynamoDB</text>
+    <circle cx="22" cy="148" r="3" fill="#9cf0d8"/><text class="grid-item" x="34" y="153">SQL</text>
+    <text class="grid-more" x="16" y="188">+ Cassandra, CockroachDB &amp; more</text>
+    <text class="grid-snip" x="16" y="222">6–13 snippets per sheet</text>
+  </g>
+
+  <g transform="translate(712,124)">
+    <rect width="302" height="248" rx="12" fill="#0f2136" stroke="#3a2a44" stroke-width="1.2"/>
+    <rect x="16" y="16" width="270" height="6" rx="3" fill="url(#grid-pink)" filter="url(#grid-glow)"/>
+    <text class="grid-cat" x="16" y="54">DevOps &amp; Config</text>
+    <circle cx="22" cy="84" r="3" fill="#ffaac8"/><text class="grid-item" x="34" y="89">Docker</text>
+    <circle cx="22" cy="116" r="3" fill="#ffaac8"/><text class="grid-item" x="34" y="121">Kubernetes</text>
+    <circle cx="22" cy="148" r="3" fill="#ffaac8"/><text class="grid-item" x="34" y="153">Helm</text>
+    <text class="grid-more" x="16" y="188">+ Ansible, Chef, Puppet, SaltStack</text>
+    <text class="grid-snip" x="16" y="222">6–13 snippets per sheet</text>
+  </g>
+
+  <g transform="translate(1038,124)">
+    <rect width="302" height="248" rx="12" fill="#0f2136" stroke="#1f3a52" stroke-width="1.2"/>
+    <rect x="16" y="16" width="270" height="6" rx="3" fill="url(#grid-cyan)" filter="url(#grid-glow)"/>
+    <text class="grid-cat" x="16" y="54">Programming &amp; Web</text>
+    <circle cx="22" cy="84" r="3" fill="#9cf0d8"/><text class="grid-item" x="34" y="89">Python</text>
+    <circle cx="22" cy="116" r="3" fill="#9cf0d8"/><text class="grid-item" x="34" y="121">React</text>
+    <circle cx="22" cy="148" r="3" fill="#9cf0d8"/><text class="grid-item" x="34" y="153">CSS Grid</text>
+    <text class="grid-more" x="16" y="188">+ JS DOM API, Flexbox, Selectors</text>
+    <text class="grid-snip" x="16" y="222">6–13 snippets per sheet</text>
+  </g>
+
+  <!-- Row 2 -->
+  <g transform="translate(60,404)">
+    <rect width="302" height="248" rx="12" fill="#0f2136" stroke="#3a2a44" stroke-width="1.2"/>
+    <rect x="16" y="16" width="270" height="6" rx="3" fill="url(#grid-pink)" filter="url(#grid-glow)"/>
+    <text class="grid-cat" x="16" y="54">Data Science &amp; Math</text>
+    <circle cx="22" cy="84" r="3" fill="#ffaac8"/><text class="grid-item" x="34" y="89">Pandas</text>
+    <circle cx="22" cy="116" r="3" fill="#ffaac8"/><text class="grid-item" x="34" y="121">NumPy</text>
+    <circle cx="22" cy="148" r="3" fill="#ffaac8"/><text class="grid-item" x="34" y="153">Statistics</text>
+    <text class="grid-more" x="16" y="188">+ ML Formulas, ML Math, Algebra</text>
+    <text class="grid-snip" x="16" y="222">6–13 snippets per sheet</text>
+  </g>
+
+  <g transform="translate(386,404)">
+    <rect width="302" height="248" rx="12" fill="#0f2136" stroke="#1f3a52" stroke-width="1.2"/>
+    <rect x="16" y="16" width="270" height="6" rx="3" fill="url(#grid-cyan)" filter="url(#grid-glow)"/>
+    <text class="grid-cat" x="16" y="54">Security &amp; Networking</text>
+    <circle cx="22" cy="84" r="3" fill="#9cf0d8"/><text class="grid-item" x="34" y="89">OWASP Top 10</text>
+    <circle cx="22" cy="116" r="3" fill="#9cf0d8"/><text class="grid-item" x="34" y="121">HashiCorp Vault</text>
+    <circle cx="22" cy="148" r="3" fill="#9cf0d8"/><text class="grid-item" x="34" y="153">Networking</text>
+    <text class="grid-more" x="16" y="188">+ Cybersecurity, Ports, HTTP Status</text>
+    <text class="grid-snip" x="16" y="222">6–13 snippets per sheet</text>
+  </g>
+
+  <g transform="translate(712,404)">
+    <rect width="302" height="248" rx="12" fill="#0f2136" stroke="#3a2a44" stroke-width="1.2"/>
+    <rect x="16" y="16" width="270" height="6" rx="3" fill="url(#grid-pink)" filter="url(#grid-glow)"/>
+    <text class="grid-cat" x="16" y="54">Developer Tools</text>
+    <circle cx="22" cy="84" r="3" fill="#ffaac8"/><text class="grid-item" x="34" y="89">Git</text>
+    <circle cx="22" cy="116" r="3" fill="#ffaac8"/><text class="grid-item" x="34" y="121">Bash</text>
+    <circle cx="22" cy="148" r="3" fill="#ffaac8"/><text class="grid-item" x="34" y="153">Claude Code</text>
+    <text class="grid-more" x="16" y="188">+ Linux, Regex, curl, MCP</text>
+    <text class="grid-snip" x="16" y="222">6–13 snippets per sheet</text>
+  </g>
+
+  <g transform="translate(1038,404)">
+    <rect width="302" height="248" rx="12" fill="#0f2136" stroke="#1f3a52" stroke-width="1.2"/>
+    <rect x="16" y="16" width="270" height="6" rx="3" fill="url(#grid-cyan)" filter="url(#grid-glow)"/>
+    <text class="grid-cat" x="16" y="54">Misc</text>
+    <circle cx="22" cy="84" r="3" fill="#9cf0d8"/><text class="grid-item" x="34" y="89">Cron Expressions</text>
+    <circle cx="22" cy="116" r="3" fill="#9cf0d8"/><text class="grid-item" x="34" y="121">Design Patterns</text>
+    <circle cx="22" cy="148" r="3" fill="#9cf0d8"/><text class="grid-item" x="34" y="153">System Design</text>
+    <text class="grid-more" x="16" y="188">+ Excel, Agentic AI Tools</text>
+    <text class="grid-snip" x="16" y="222">6–13 snippets per sheet</text>
+  </g>
+
+  <text class="grid-foot" x="60" y="722">54 cheatsheets total, free to browse — no account required to look, one to save your own.</text>
+</svg>

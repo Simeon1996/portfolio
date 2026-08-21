@@ -1,0 +1,129 @@
+---
+title: "Vibe Coding Is Dead. Spec-Driven Development Is What Comes Next"
+date: 2026-08-19
+excerpt: "Vibe coding's failure mode was always the same: nobody could review what the AI actually built. Spec-driven development fixes that by making the spec the artifact you own — and the code the disposable part."
+tags: ["AI", "Software Engineering", "Developer Tools", "Vibe Coding", "Engineering"]
+published: true
+---
+
+# Vibe Coding Is Dead. Spec-Driven Development Is What Comes Next
+
+Here's a question worth sitting with: if an AI agent just handed you 4,800 lines of new code, how much of it would you actually read before you hit merge? Not skim — read, the way you'd read code you're about to put your name on. If your honest answer is "not much," you already understand why vibe coding died.
+
+I covered the diagnosis in [The Vibe Coding Hangover](/blog/the-vibe-coding-hangover): AI-generated code ships with security flaws at a far higher rate than reviewed code, and even Andrej Karpathy — who coined "vibe coding" — quietly renamed his own term once the bill came due. That post is the disease. This one is the treatment that's actually catching on: spec-driven development.
+
+The idea is simple: instead of reviewing the code an agent writes, you review the spec that told it what to write, and let tests — not your eyeballs — check that the code matches. The code stops being precious. The spec is what you own.
+
+---
+
+## What Spec-Driven Development Actually Is
+
+A spec isn't a paragraph of vibes either — "build me a login form, make it nice." It's a short, structured document with four parts:
+
+- **Goal** — one or two sentences on what this is for.
+- **Requirements and constraints** — precise enough that two engineers would build the same thing from them.
+- **Acceptance criteria** — a numbered list of checkable conditions, ideally ones that map directly to test cases.
+- **Out of scope** — what you're explicitly not asking for, so the agent doesn't "helpfully" add it anyway.
+
+You write this; an agent implements against it and generates a test suite that encodes the acceptance criteria as executable checks. The implementation gets thrown away and regenerated when things change — the spec and its tests are the artifact of record, the way you trust a compiler's tests, not its assembly output.
+
+---
+
+## What Changes in the Actual Workflow
+
+1. **The spec is a file in the repo** — versioned and reviewed like any other change, not a throwaway chat message.
+2. **The agent implements against the spec**, not a running conversation — ambiguity gets caught before generation, not after.
+3. **Tests verify the implementation against the acceptance criteria**, automatically, not "I ran it once and it looked fine."
+4. **You review the spec and the diff**, not the implementation line by line — did I ask for the right thing, and do the tests check what the criteria claim?
+5. **When requirements change, you regenerate, not patch.** Patch-on-patch is exactly how vibe-coded systems degraded into the unreviewable pile [The Vibe Coding Hangover](/blog/the-vibe-coding-hangover) described.
+
+![Side-by-side diagram comparing two workflows: the vibe coding loop of prompt, code, run, and hope that loops back with a tweaked prompt, versus the spec-driven loop of spec, generate, verify against acceptance tests, and review spec plus diff that loops back by updating the spec](/blog/vibe-coding-is-dead-spec-driven-development/vibe-loop-vs-spec-loop.svg)
+
+In the vibe loop, when something breaks, you tweak the prompt and roll the dice again — nothing durable gets written down. In the spec loop, the change goes into the spec first, so understanding accumulates there instead of in the code. It's close to the small-loop pattern already forming in [How Developers Actually Use AI Coding Agents in 2026](/blog/how-developers-actually-use-ai-coding-agents), just with a written artifact instead of a disappearing prompt.
+
+---
+
+## Why This Actually Fixes the Failure Mode
+
+The problem was never that AI writes bad code sometimes. It's that human review attention doesn't scale with generation speed — an agent can produce a feature in minutes, but no engineer can carefully review thousands of unfamiliar lines in minutes.
+
+A spec inverts that math.
+
+![Bar comparison showing that in a typical AI-generated feature, the raw generated code diff runs to thousands of lines that nobody reads end to end, while the spec and its acceptance tests are a compact, fully reviewable artifact of around thirty lines](/blog/vibe-coding-is-dead-spec-driven-development/review-surface-inversion.svg)
+
+A 30-line spec with five acceptance criteria is something one person can read carefully, every time, no matter how much code the agent generates underneath it. The bottleneck moves from "read everything the machine produced" to "read the contract you gave it" — and the contract doesn't grow just because the codebase does. It's the same principle behind the SLOs in our [Agent Reliability Blueprint](/blog/agent-reliability-blueprint): define "correct" in advance, check against it mechanically.
+
+---
+
+## A Small Spec, Start to Finish
+
+Here's an actual spec for something small — an API rate limiter:
+
+```markdown
+# SPEC: API Rate Limiter
+
+## Goal
+Stop a single API key from exceeding 100 requests per 60-second window.
+
+## Requirements
+- Sliding window, not fixed window (a fixed window lets a client burst
+  200 requests across a boundary — 100 right before it resets, 100 right after)
+- Tracked per API key, not globally
+- On limit hit: return HTTP 429 with a `Retry-After` header
+- In-memory state is fine for now — a Redis-backed version is a future spec
+
+## Constraints
+- Adds no more than 5ms at p99 to a request
+- Safe under concurrent requests from the same key
+
+## Acceptance Criteria
+1. 100 requests from one key in 60s → all succeed
+2. The 101st request in that window → 429 with Retry-After
+3. Two different keys, 100 requests each, same window → both succeed
+4. After the window fully rolls over → the limit resets
+5. 500 concurrent requests from one key → exactly 100 succeed, no race
+   condition lets the count drift above or below 100
+
+## Out of Scope
+- Distributed rate limiting across multiple servers
+- Per-endpoint limits (this is per-key, global across endpoints)
+```
+
+From this, the agent generates the sliding-window implementation and five tests, one per acceptance criterion — including one that fires 500 concurrent requests instead of faking it in a loop.
+
+My review takes about ten minutes: did I really want a sliding window, does test 5 genuinely exercise concurrency, does "out of scope" still match what I want. I don't read the mutex handling line by line — if all five tests pass and test what they claim, the implementation is correct by construction. When Redis-backed limiting becomes real, "distributed" moves from Out of Scope into Requirements and the whole thing regenerates.
+
+---
+
+## Where Vibing Is Still Fine
+
+You don't need a spec to write a script that renames some files. A genuinely unambiguous spec takes real thought, and that overhead isn't worth paying everywhere.
+
+Rule of thumb: if you'd never write a design doc or a ticket for this, you don't need a spec either. Prototypes, hackathon demos, one-off scripts, and code you're writing purely to see if an approach is viable — vibe away, the blast radius is small. For the opposite extreme, see [Writing Code by Hand for a Month](/blog/writing-code-by-hand-for-a-month), publishing the same day: someone deliberately writing everything by hand, no agent at all. SDD sits in the middle — faster than typing every line, with a reviewable artifact pure vibing never gave you.
+
+---
+
+## The Skill Shift: Writing Specs Is the New Senior Skill
+
+Design docs and precise API contracts used to be what senior engineers wrote and junior engineers skipped on the way to "just start coding." SDD makes that habit obviously backwards.
+
+A spec is now the primary interface to your agent, and ambiguity in it doesn't get caught by a compiler — it gets faithfully implemented and shipped exactly as ambiguous as you wrote it. "Handle errors gracefully" is not an acceptance criterion. "On a malformed request, return 400 with a JSON body containing an `error` field" is. That precision is the same edge-case thinking that made a good code reviewer valuable — boundaries, load, bad input — except it now happens explicitly, in writing, before any implementation exists. The developers who get good at that are the ones this rewards.
+
+---
+
+## Key Takeaways
+
+- SDD means writing a structured spec — goal, requirements, constraints, acceptance criteria, out of scope — and letting an agent implement and test against it.
+- The spec and tests are the durable artifacts. The implementation is disposable: regenerate it when things change, don't patch it.
+- It fixes vibe coding's real failure mode — nobody can review thousands of generated lines, but anyone can review a 30-line spec, every time.
+- Review shifts to two questions: did I ask for the right thing, and do the tests check what the acceptance criteria claim?
+- SDD has real overhead and isn't worth it for prototypes, one-offs, or throwaway exploration — vibing is still the right call there.
+- Writing unambiguous specs is the design-doc skill senior engineers already had, now the main way you talk to your agent.
+
+## Related Posts
+
+- [The Vibe Coding Hangover](/blog/the-vibe-coding-hangover) — Why unreviewed AI code became 2026's quiet crisis.
+- [How Developers Actually Use AI Coding Agents in 2026](/blog/how-developers-actually-use-ai-coding-agents) — The small, supervised loop SDD formalizes into a written artifact.
+- [Agent Reliability Blueprint: SLOs, Guardrails, and Human Override](/blog/agent-reliability-blueprint) — Defining "correct" in advance and checking against it mechanically.
+- [Writing Code by Hand for a Month](/blog/writing-code-by-hand-for-a-month) — The opposite experiment, publishing the same day: giving up AI-generated code entirely.
+- [I Let an AI Agent Run My Job for 30 Days](/blog/i-let-an-ai-agent-run-my-job-for-30-days) — Why specs and guardrails matter, publishing the same day.

@@ -1,0 +1,91 @@
+---
+title: "I Went Back to Writing Code by Hand for a Month. I'm Not Going Back… Mostly"
+date: 2026-08-19
+excerpt: "I turned off every AI coding tool for a month and worked real client projects by hand. It was slower, humbling, and it quietly fixed a skill I didn't know I'd lost — reading code, not just writing it."
+tags: ["AI", "Career", "Developer Tools", "Software Engineering", "Productivity"]
+published: true
+---
+
+# I Went Back to Writing Code by Hand for a Month. I'm Not Going Back… Mostly
+
+Four days. That's how long it took me to notice I'd forgotten how to write a Python context manager from scratch.
+
+Not the concept — I know exactly what `__enter__` and `__exit__` do. I mean the actual keystrokes. I sat there for a solid minute, hands on the keyboard, waiting for a ghost-text suggestion that wasn't coming, because I'd turned it off. On purpose. For a month.
+
+I've used AI coding agents daily for close to two years — Claude Code and Copilot, stacked together roughly the way [most developers do in 2026](/blog/how-developers-actually-use-ai-coding-agents). I'm not the guy from [The Programmer Who Refused to Change](/blog/the-programmer-who-refused-to-change) — I adapted early, and it worked well for me. But sometime in year two I noticed I couldn't remember the last time I'd read an entire file top to bottom before touching it. I went straight to the diff and skimmed.
+
+That bothered me enough to run an experiment: one month, real client work, zero AI coding assistance. No completions, no chat, no agent. Just me, a keyboard, and documentation I apparently needed to relearn how to read.
+
+---
+
+## Week One: Humbling, in a Very Specific Way
+
+Week one wasn't hard because the problems were hard. It was hard because I'd outsourced skills without noticing I'd outsourced them.
+
+A retry-with-backoff decorator that normally takes me two minutes with an agent took forty-five — and thirty of those minutes were spent re-reading Python's `asyncio` docs for a `Semaphore`, a class I've used a couple hundred times, always through generated code I skimmed and accepted. I knew *what* it did. I'd forgotten exactly *how* to write it.
+
+A routine database migration for a client's onboarding flow took two and a half hours instead of twenty minutes. Most of that gap wasn't thinking time — it was me tabbing over to ORM documentation I use every week, because the tool that used to hold those details in its head for me was switched off.
+
+None of this meant I'd become a bad programmer. A specific, boring kind of memory — the "which argument comes second" kind — had quietly gone soft. I hadn't needed it in a long time, so I'd stopped keeping it sharp.
+
+---
+
+## Weeks Two and Three: Something Actually Changed
+
+By week two, the raw speed hit had mostly stopped getting worse. By week three, something better started happening: I noticed I'd almost stopped asking "wait, why is this here?"
+
+That question — the one you ask staring at a weird conditional with no idea whether it's load-bearing — used to follow me around constantly. It's the tax you pay when a large share of the code in front of you was accepted rather than authored. This month, I didn't pay it, because I'd typed every line of the files I was working in. I knew why the weird conditional was there. I'd put it there, on a Tuesday, for a reason I could still recall on Thursday.
+
+Debugging got noticeably easier in week three, and it wasn't subtle. A production bug showed up in a webhook handler for a client's billing integration — exactly the kind of thing I'd normally hand an agent along with a stack trace and a "fix this." Instead, I already had a working mental model of the whole file. I knew which function touched shared state, because I'd written the shared state. I found the bug in about fifteen minutes, most of which was reproducing it, not searching for it.
+
+![Line chart comparing self-rated output speed and self-rated code understanding across four weeks of hand-writing code without AI assistance: output speed starts near a pre-experiment baseline, drops sharply in week one, and partially recovers by week four, while code understanding climbs steadily each week and ends well above where it started](/blog/writing-code-by-hand-for-a-month/week-by-week-arc.svg)
+
+Looking at that chart now, the story is simple: I traded speed for understanding for about three weeks. By week four I was getting some of the speed back — but the understanding never gave any of itself up.
+
+---
+
+## The METR Study Stopped Surprising Me
+
+Around week three I re-read the METR study everyone had been arguing about — the [randomized controlled trial that found experienced developers were 19% slower using AI tools](/blog/how-developers-actually-use-ai-coding-agents) on real tasks. Before this month, I'd filed that under "must be measuring something wrong." After this month, I filed it under "yeah, obviously."
+
+If AI tools quietly erode the skill of reading and holding a codebase in your head, and you then hand a bug to the tool instead of building that mental model yourself, some tasks get slower. Not because the tool writes bad code. Because you got worse at the part that was never the tool's job in the first place — actually understanding what's in front of you.
+
+That's not an argument against AI agents, any more than [the vibe coding hangover](/blog/the-vibe-coding-hangover) was an argument against AI writing code at all. It's an argument for noticing which of your own skills you're quietly letting go slack.
+
+---
+
+## What I Actually Do Differently Now
+
+I went back to agents on day thirty-two. I'm writing this in an editor with Claude Code open in a terminal tab. I didn't come out of this a hand-coding purist — that would be its own kind of silly, and I have client deadlines that don't care about my personal growth arc.
+
+But I changed what I delegate:
+
+- **Core domain logic** — the parts of a client's system that encode the actual business rules — I write by hand, first draft, every time.
+- **Tricky or novel bugs** — anything where I don't already have a working theory of what's wrong — I debug myself before letting an agent anywhere near it.
+- **Anything security-adjacent** — auth, payments, anything touching user data — gets hand-written and hand-reviewed, no exceptions.
+- **Boilerplate, tests, docs, and repetitive refactors** go straight back to the agent, exactly like before. That work never needed my understanding to compound in the first place.
+
+![Split card diagram comparing what the author now writes by hand versus what gets delegated to an AI agent after the one-month experiment: the hand-written column lists core domain logic, tricky or novel debugging, and security-adjacent code, and the delegated column lists boilerplate and CRUD, test scaffolding, documentation, and repetitive refactors](/blog/writing-code-by-hand-for-a-month/hand-vs-delegated.svg)
+
+The month didn't make me worse at using AI tools. It made me better at noticing when I was letting one read code *for* me instead of *to* me — and it turns out those are very different things.
+
+---
+
+## Key Takeaways
+
+- A month with zero AI coding assistance exposed how much syntactic, "muscle memory" knowledge had quietly atrophied after two years of daily agent use.
+- Week one was genuinely slower — a routine migration took roughly seven times longer than it does with an agent.
+- By week three, hand-writing code paid off in a different currency: fewer "wait, why is this here?" moments and noticeably faster debugging, because the mental model was already built.
+- The METR finding that AI tools made experienced developers 19% slower stopped feeling like a fluke and started feeling like an obvious consequence of skipped understanding.
+- The point isn't to quit AI agents — it's to notice which tasks build understanding you'll need later, and hand-write those, while delegating the rest.
+- Post-experiment split: hand-write core domain logic, novel debugging, and security-adjacent code; delegate boilerplate, tests, docs, and repetitive refactors.
+
+---
+
+## Related Posts
+
+- [How Developers Actually Use AI Coding Agents in 2026](/blog/how-developers-actually-use-ai-coding-agents) — The three-layer AI stack and the METR study referenced above, explained in full.
+- [The Programmer Who Refused to Change](/blog/the-programmer-who-refused-to-change) — The opposite failure mode: rejecting AI tools permanently instead of using them deliberately.
+- [The Vibe Coding Hangover: The AI Code Quality Crisis of 2026](/blog/the-vibe-coding-hangover) — Why skipping the "read the code" step at an industry scale created a security crisis.
+- [Vibe Coding Is Dead: Spec-Driven Development Takes Over](/blog/vibe-coding-is-dead-spec-driven-development) — A different team's answer to the same underlying problem, published the same day.
+- [I Let an AI Agent Run My Job for 30 Days](/blog/i-let-an-ai-agent-run-my-job-for-30-days) — The mirror-image experiment, published the same day.

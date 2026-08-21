@@ -1,0 +1,88 @@
+---
+title: "One Person, Five AI Agents, One SaaS: My Solo \"Team\" Experiment"
+date: 2026-08-19
+excerpt: "I ran five role-scoped AI agents like a tiny team to build and ship a small SaaS by myself — a spec agent, a builder, a reviewer, a QA agent, and an ops agent. The leverage was real. So was the fact that I never stopped being the manager."
+tags: ["AI", "Agents", "Engineering", "Production", "Career"]
+published: true
+---
+
+# One Person, Five AI Agents, One SaaS: My Solo "Team" Experiment
+
+Could five AI agents, each doing one job, let one person ship a real SaaS the way a small team would? I tried it: six weeks, one small app — a tool that chases freelancers' overdue invoices automatically — and five agents, each with a job description and a list of things it was explicitly not allowed to do.
+
+Short version: it worked. I built something I couldn't have built alone that fast. It also didn't feel like managing five employees. It felt like being very fast and very tired, because every decision still routed through me. Here's the honest account of both halves.
+
+---
+
+## The Five Roles, and What Each One Could Not Touch
+
+The limits mattered more than the titles. A vague scope wanders into someone else's job, and two agents both "helping" the same decision is chaos with extra steps.
+
+- **Spec / PM Agent** — Turns a rough idea into a written spec with acceptance criteria. Cannot touch code or pick the architecture.
+- **Builder Agent** — Implements strictly against the approved spec. Cannot invent scope or touch deploy config. If the spec is silent, it has to ask, not guess.
+- **Reviewer Agent** — Adversarial review of every diff, hunting for security holes, race conditions, missed edge cases. Cannot write code or merge anything.
+- **QA Agent** — Writes and runs tests, tries to break every flow with bad input and edge cases. Cannot edit implementation code to make a test pass.
+- **Ops / Content Agent** — Deploy checks, docs, landing page copy. Cannot touch business logic or change pricing without asking me.
+
+![Org chart showing a single YOU node labeled manager, arbiter, and merge button, with lines fanning down to five agent cards — Spec/PM Agent, Builder Agent, Reviewer Agent, QA Agent, and Ops/Content Agent — each showing its scope and a red CANNOT boundary line](/blog/one-person-five-agents-one-saas/five-agent-org-chart.svg)
+
+Every line on that chart still runs back through me — not by design, but because the one time I let two agents coordinate without me, they made a call I had to unwind two days later. That's basically the shape I described in [Bounded Agents: The Only Multi-Agent Pattern That Actually Works in Production](/blog/bounded-agents-the-pattern-that-works). I didn't set out to prove that pattern; I kept getting burned giving an agent too much room, until the boundaries got small enough that failures got small too.
+
+---
+
+## The Story: Two Agents Disagreed, and Both Were Wrong
+
+I asked the builder to add signup rate limiting, to stop someone spinning up fifty trial accounts from one throwaway domain. It shipped an in-memory counter — clean diff, looked fine on a skim. The reviewer caught the real problem: the app runs on serverless functions, so that counter doesn't share state across instances. Every new instance starts at zero. The limit was fake. Good catch.
+
+So the builder swapped it for a shared Redis counter. The reviewer approved it. I skimmed it too and didn't object. Here's what none of us checked: the Redis connection string wasn't actually set yet in the deployed environment — it was on the ops agent's list, not done. The builder's code caught that connection error and let signups through rather than crash the flow — fail open, not closed. Nobody had specified which one it should do, because the spec never mentioned Redis being unavailable. It didn't exist when the spec was written.
+
+Result: the limiter did nothing, again, for a completely different reason than the first time. I found out four days later, looking at thirty-one trial accounts from one domain.
+
+Both agents did their job correctly. The failure lived in the seam between them and the ops agent's checklist — a seam nobody had reason to check, because it wasn't inside anyone's scope. It was inside mine, and I missed it too, until real signups told me. That's the gap the [Agent Reliability Blueprint](/blog/agent-reliability-blueprint) argues you need circuit breakers for — something that fails loud instead of quietly doing nothing. I didn't have one there. Now I do.
+
+---
+
+## Where My Time Actually Went
+
+I started tracking my own hours about two weeks in, once I noticed I was busier than "five agents doing the work" should have left me. Here's the personal tally — my own calendar, not a study, not a benchmark.
+
+![Horizontal bar chart of the author's personal time breakdown: reviewing agent output 27%, arbitrating disagreements between agents 21%, ops and deploy and docs oversight 19%, writing specs and acceptance criteria 18%, and hands-on coding 15%](/blog/one-person-five-agents-one-saas/where-the-time-went.svg)
+
+- **Reviewing agent output — 27%.** Reading every diff, every spec, every test file. Not rubber-stamping.
+- **Arbitrating disagreements — 21%.** Builder says X, reviewer says Y, someone breaks the tie. That was always me — I couldn't delegate it, since the tiebreaker needed the full picture no single agent had.
+- **Ops, deploy & docs oversight — 19%.** Checking that the ops agent's checklist actually got followed, not just written.
+- **Writing specs & acceptance criteria — 18%.** Even with a spec agent drafting, I still had to know exactly what I wanted first.
+- **Hands-on coding, myself — 15%.** The smallest slice, by a good margin.
+
+Reviewing plus arbitrating alone is 48% of my hours — almost half the project — spent managing, not building. Coding, the thing I used to spend nearly all my time on, became the smallest wedge on the chart.
+
+---
+
+## The Verdict: Five Agents Isn't Five Employees
+
+Here's the honest conclusion, no hedging: **five agents is not five employees. It's one very fast engineer with a process.**
+
+The leverage is real — I would not have shipped this in six weeks typing every line myself. But the "team" metaphor holds up only until you look at where accountability lives. A real team distributes judgment; at least one of five human employees would likely have asked "is Redis actually connected in prod?" My agents each held a slice of context with no way to see past their own boundary. I was the only one holding the whole picture — and I still missed it once.
+
+That's the shift I described in [From Prompt Engineer to Agent Architect](/blog/prompt-engineer-to-agent-architect): the job isn't writing prompts anymore, it's specs, review, and arbitration. A parallel experiment on this site bet the opposite way, one agent running the whole job end to end — see [I Let an AI Agent Run My Job for 30 Days](/blog/i-let-an-ai-agent-run-my-job-for-30-days), publishing the same day as this post. Neither approach gets you out of being the manager. It just changes what you're managing.
+
+Would I do it again? Yes — but I'd write "who owns the seam between these agents" into the spec, instead of learning it from a support ticket.
+
+---
+
+## Key Takeaways
+
+- Five role-scoped agents (spec/PM, builder, reviewer, QA, ops/content) genuinely let one person ship a small SaaS faster than working alone — the leverage is real.
+- Each agent needs an explicit "cannot" list, not just a job description. The limits prevented more chaos than the titles ever did.
+- The most dangerous bugs don't live inside any single agent's scope — they live in the seams between agents, where nobody's job is to check.
+- In one real incident, a builder and a reviewer agent both did their job correctly and still shipped a rate limiter that silently did nothing, because neither owned the deploy-environment assumption underneath the fix.
+- My own tracked time: 27% reviewing agent output, 21% arbitrating disagreements, 19% ops/deploy oversight, 18% writing specs, 15% hands-on coding — reviewing and arbitrating alone ate almost half the project.
+- Five agents is not five employees. It's one very fast engineer with a process — and the process is where the real work moved to.
+
+## Related Posts
+
+- [Bounded Agents: The Only Multi-Agent Pattern That Actually Works in Production](/blog/bounded-agents-the-pattern-that-works) — The narrow-scope, human-owns-the-handoffs pattern this experiment accidentally rediscovered.
+- [From Prompt Engineer to Agent Architect](/blog/prompt-engineer-to-agent-architect) — The career shift behind why specs, review, and arbitration are now the scarce skills.
+- [Agent Reliability Blueprint: SLOs, Guardrails, and Human Override](/blog/agent-reliability-blueprint) — What should have caught the Redis gap before real users did.
+- [I Let an AI Agent Run My Job for 30 Days](/blog/i-let-an-ai-agent-run-my-job-for-30-days) — The one-agent-does-everything version of this same question, published the same day.
+- [Vibe Coding Is Dead: Spec-Driven Development](/blog/vibe-coding-is-dead-spec-driven-development) — The deeper case for why the spec agent's job description matters more than any prompt, published the same day.
