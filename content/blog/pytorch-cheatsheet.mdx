@@ -1,0 +1,327 @@
+---
+title: "PyTorch Cheatsheet: Everything You Need in One Place"
+date: 2026-08-26
+excerpt: "A dense, no-fluff reference for PyTorch — tensors, autograd, building models with nn.Module, the training loop, evaluation, and saving/loading, all with working code examples."
+tags: ["PyTorch", "Deep Learning", "Python", "Cheatsheet", "Reference"]
+published: true
+---
+
+This is a reference, not a tutorial. Find the section you need, grab the pattern, move on.
+
+---
+
+## 1. Tensors: Creation & Dtypes
+
+A tensor is PyTorch's core data structure — an n-dimensional array, just like a NumPy array, but one that can also live on a GPU and track gradients.
+
+```python
+import torch
+
+torch.tensor([1, 2, 3])          # from a Python list
+torch.zeros(3, 4)                # 3x4 tensor of zeros
+torch.ones(2, 2)                 # tensor of ones
+torch.rand(2, 3)                 # uniform random in [0, 1)
+torch.randn(2, 3)                # standard normal (mean 0, std 1)
+torch.arange(0, 10, 2)           # [0, 2, 4, 6, 8]
+torch.eye(3)                     # 3x3 identity matrix
+
+x = torch.tensor([1.0, 2.0, 3.0])
+x.dtype        # torch.float32 — the default float type
+x.shape        # torch.Size([3])
+x.ndim         # 1
+
+# explicit dtype — set it, don't let it default
+torch.tensor([1, 2, 3], dtype=torch.float32)
+torch.tensor([1, 2, 3], dtype=torch.int64)    # "long" — required for embedding/index lookups
+x.to(torch.float16)                           # cast to half precision
+```
+
+---
+
+## 2. Devices & GPU
+
+Tensors default to CPU. Moving to GPU is one call — but every tensor involved in an operation must be on the same device.
+
+```python
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+x = torch.randn(3, 3).to(device)      # move an existing tensor to the target device
+model = model.to(device)              # move all of a model's parameters too
+
+y = torch.randn(3, 3, device=device)  # create directly on the device — faster than create-then-move
+```
+
+> **Gotcha:** Mixing a CPU tensor and a GPU tensor in the same operation raises `RuntimeError: Expected all tensors to be on the same device`. Move the model, the inputs, and the labels to `device` before anything else in the loop.
+
+---
+
+## 3. Common Tensor Operations
+
+```python
+x = torch.randn(2, 3)
+y = torch.randn(2, 3)
+
+x + y                  # elementwise add (also x.add(y))
+x * y                  # elementwise multiply
+x @ y.T                # matrix multiplication (also torch.matmul(x, y.T))
+x.sum()                # sum of all elements
+x.sum(dim=0)           # sum along dim 0 -> shape (3,)
+x.mean(dim=1)          # mean along dim 1 -> shape (2,)
+x.max(dim=1)           # returns (values, indices)
+
+x.reshape(3, 2)        # reshape — copies if the memory layout requires it
+x.view(3, 2)           # reshape — requires contiguous memory, never copies
+x.transpose(0, 1)      # swap two dimensions
+x.unsqueeze(0)         # add a size-1 dim -> shape (1, 2, 3)
+x.squeeze()            # remove all size-1 dims
+
+x[0]                   # first row
+x[:, 1]                # second column
+x[x > 0]               # boolean mask — every element greater than 0
+```
+
+> **Gotcha:** `.view()` throws a "not contiguous" error after operations like `.transpose()` or `.permute()`, because those don't physically reorder memory. Use `.reshape()` instead — it falls back to a copy automatically when needed.
+
+---
+
+## 4. NumPy Interop
+
+Tensors and NumPy arrays share the same mental model — conversion between them is nearly free, with one sharp edge.
+
+```python
+import numpy as np
+
+arr = np.array([1.0, 2.0, 3.0])
+t = torch.from_numpy(arr)          # shares memory with arr — mutating one mutates the other
+t2 = torch.tensor(arr)             # copies — fully independent of arr
+
+t.numpy()                          # tensor -> NumPy array (CPU tensors only, shares memory)
+t.detach().cpu().numpy()           # the safe, general pattern for any tensor
+```
+
+> **Gotcha:** `.numpy()` fails outright on a GPU tensor and on a tensor with `requires_grad=True`. Get in the habit of writing `.detach().cpu().numpy()` any time you're pulling a model output out into NumPy — it works in every case, so there's no reason to reach for the shorter form and hit the error later.
+
+For the NumPy fundamentals PyTorch tensors mirror, see the [NumPy Cheatsheet](/blog/numpy-cheatsheet).
+
+---
+
+## 5. Autograd Basics
+
+`requires_grad=True` tells PyTorch to track every operation on a tensor so it can compute gradients automatically via `.backward()`. This is the entire mechanism behind training a neural network without hand-deriving calculus.
+
+```python
+x = torch.tensor(3.0, requires_grad=True)
+y = x ** 2 + 2 * x + 1          # y = (x + 1)^2
+
+y.backward()                    # compute dy/dx via the chain rule
+print(x.grad)                   # tensor(8.) — dy/dx = 2x + 2, at x=3 that's 8
+
+x.grad.zero_()                  # gradients accumulate — clear them between steps
+
+with torch.no_grad():           # disable tracking — for inference, not training
+    y = x ** 2                  # no graph is built: faster, less memory
+
+z = y.detach()                  # pull a tensor off the graph without a global no_grad block
+```
+
+> **Gotcha:** Gradients accumulate on every `.backward()` call instead of resetting. Skip zeroing them — usually via `optimizer.zero_grad()` — and each step's gradient gets added on top of the last one, corrupting training in a way that doesn't throw an error, just quietly wrong loss curves.
+
+---
+
+## 6. Building Models: nn.Module and nn.Sequential
+
+`nn.Module` is the base class for every layer and model in PyTorch. Subclass it, define layers in `__init__`, implement `forward()`, and PyTorch handles parameter tracking and gradient flow for you.
+
+```python
+import torch.nn as nn
+
+# nn.Module — use this when the forward pass has any branching or custom logic
+class MLP(nn.Module):
+    def __init__(self, in_dim, hidden_dim, out_dim):
+        super().__init__()
+        self.fc1 = nn.Linear(in_dim, hidden_dim)
+        self.fc2 = nn.Linear(hidden_dim, out_dim)
+
+    def forward(self, x):
+        x = torch.relu(self.fc1(x))
+        return self.fc2(x)
+
+model = MLP(784, 256, 10)
+output = model(torch.randn(32, 784))     # calling model(x) invokes forward() for you
+output.shape                              # torch.Size([32, 10])
+
+# nn.Sequential — shortcut for a simple, linear stack of layers
+model = nn.Sequential(
+    nn.Linear(784, 256),
+    nn.ReLU(),
+    nn.Linear(256, 10),
+)
+
+list(model.parameters())                              # every learnable weight and bias
+sum(p.numel() for p in model.parameters())            # total parameter count
+```
+
+> **Gotcha:** `nn.Sequential` can't express skip connections, multiple inputs, or conditional logic — anything a ResNet-style block or transformer needs. The moment your forward pass isn't a straight line, switch to `nn.Module`.
+
+---
+
+## 7. Common Layers, Activations, and Loss Functions
+
+```python
+import torch.nn as nn
+
+# layers
+nn.Linear(in_features, out_features)              # fully connected layer
+nn.Conv2d(in_channels, out_channels,
+          kernel_size=3, padding=1)               # 2D convolution
+nn.LSTM(input_size, hidden_size, batch_first=True) # recurrent layer
+nn.Embedding(num_embeddings, embedding_dim)        # lookup table: token IDs -> vectors
+nn.Dropout(p=0.5)                                  # zeroes 50% of activations at train time
+nn.BatchNorm2d(num_features)                       # normalizes activations per channel
+nn.LayerNorm(normalized_shape)                     # normalizes across the feature dimension
+
+# activations
+nn.ReLU()           # max(0, x) — default for hidden layers
+nn.GELU()           # smoother than ReLU — the standard in transformers
+nn.Sigmoid()        # squashes to (0, 1) — binary output probabilities
+nn.Softmax(dim=-1)  # squashes a dimension into a probability distribution
+nn.Tanh()           # squashes to (-1, 1)
+
+# loss functions
+nn.CrossEntropyLoss()   # multi-class classification — expects raw logits, not softmax output
+nn.BCEWithLogitsLoss()  # binary classification — expects raw logits, applies sigmoid internally
+nn.MSELoss()            # regression — mean squared error
+nn.L1Loss()             # regression — mean absolute error, more robust to outliers
+```
+
+> **Gotcha:** `nn.CrossEntropyLoss` applies `log_softmax` internally. Feed it probabilities you already ran through `softmax` yourself, and it silently computes a mathematically wrong loss — the model still trains, just worse, with no error to tip you off.
+
+---
+
+## 8. Optimizers and the Training Loop
+
+Every PyTorch training loop follows the same five-step pattern: clear gradients, run the forward pass, compute the loss, run the backward pass, update the weights.
+
+```python
+import torch.optim as optim
+
+optimizer = optim.Adam(model.parameters(), lr=1e-3)
+# optim.SGD(model.parameters(), lr=0.01, momentum=0.9)         # classic alternative, more tuning
+# optim.AdamW(model.parameters(), lr=1e-3, weight_decay=0.01)  # Adam + correct weight decay — the default for transformers
+
+criterion = nn.CrossEntropyLoss()
+
+model.train()                               # set training mode — see next section
+for epoch in range(num_epochs):
+    for batch_x, batch_y in train_loader:
+        batch_x, batch_y = batch_x.to(device), batch_y.to(device)
+
+        optimizer.zero_grad()               # 1. clear gradients from the last step
+        outputs = model(batch_x)            # 2. forward pass
+        loss = criterion(outputs, batch_y)  # 3. compute the loss
+        loss.backward()                     # 4. backward pass — compute gradients
+        optimizer.step()                    # 5. update weights using those gradients
+
+    print(f"Epoch {epoch}: loss={loss.item():.4f}")
+```
+
+> **Gotcha:** The order is fixed: `zero_grad()` → forward → loss → `backward()` → `step()`. Calling `step()` before `backward()` updates weights with a stale or missing gradient; skipping `zero_grad()` silently accumulates gradients across steps. Both are the most common training-loop bugs, and both fail quietly — the loop keeps running, it just doesn't learn correctly.
+
+---
+
+## 9. Evaluation Mode
+
+`model.eval()` and `torch.no_grad()` solve two different problems and you need both during validation and inference.
+
+```python
+model.eval()                       # turn off dropout, freeze BatchNorm running stats
+
+with torch.no_grad():              # stop building the autograd graph — faster, less memory
+    for batch_x, batch_y in val_loader:
+        batch_x, batch_y = batch_x.to(device), batch_y.to(device)
+        outputs = model(batch_x)
+        val_loss = criterion(outputs, batch_y)
+
+model.train()                      # switch back before resuming training
+```
+
+> **Gotcha:** Forget `model.eval()` and Dropout keeps randomly zeroing activations while BatchNorm keeps using batch statistics instead of its learned running averages — your validation numbers come out lower and noisier than the model's real performance. Forget to call `model.train()` again afterward and the rest of your training run silently keeps running in eval mode.
+
+---
+
+## 10. Dataset & DataLoader
+
+`Dataset` defines how to fetch one sample; `DataLoader` wraps it to handle batching, shuffling, and parallel loading.
+
+```python
+from torch.utils.data import Dataset, DataLoader
+
+class MyDataset(Dataset):
+    def __init__(self, features, labels):
+        self.features = features
+        self.labels = labels
+
+    def __len__(self):
+        return len(self.features)               # total number of samples
+
+    def __getitem__(self, idx):
+        return self.features[idx], self.labels[idx]   # one sample and its label
+
+dataset = MyDataset(X, y)
+train_loader = DataLoader(
+    dataset,
+    batch_size=32,
+    shuffle=True,        # reshuffle every epoch — important for training
+    num_workers=4,        # parallel worker processes for loading
+)
+
+for batch_x, batch_y in train_loader:
+    pass    # batch_x.shape == (32, ...) — batches are assembled automatically
+
+# built-in datasets follow the same interface
+from torchvision import datasets, transforms
+train_data = datasets.MNIST(root="./data", train=True, download=True,
+                             transform=transforms.ToTensor())
+```
+
+> **Gotcha:** Use `shuffle=True` for the training loader and `shuffle=False` for validation/test loaders. Shuffling eval data isn't incorrect, but it makes runs harder to compare and debug — you want the same samples in the same order every time you check.
+
+---
+
+## 11. Saving & Loading Models
+
+Save the `state_dict` — a plain dictionary of tensor weights — rather than the whole model object.
+
+```python
+# save — weights only, the recommended approach
+torch.save(model.state_dict(), "model.pth")
+
+# load — recreate the architecture first, then load weights into it
+model = MLP(784, 256, 10)
+model.load_state_dict(torch.load("model.pth", weights_only=True))
+model.eval()                       # ready for inference
+
+# save optimizer state too, to resume training later
+torch.save({
+    "epoch": epoch,
+    "model_state_dict": model.state_dict(),
+    "optimizer_state_dict": optimizer.state_dict(),
+    "loss": loss,
+}, "checkpoint.pth")
+
+checkpoint = torch.load("checkpoint.pth", weights_only=True)
+model.load_state_dict(checkpoint["model_state_dict"])
+optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
+```
+
+> **Gotcha:** `load_state_dict` requires the exact architecture used when the weights were saved — same layer names, same shapes. Saving the whole model with `torch.save(model, "model.pth")` looks more convenient, but it pickles the class definition itself and breaks the moment you refactor the model code. `state_dict` is the format that survives refactors.
+
+---
+
+## Related Posts
+
+- [Hugging Face Cheatsheet: Everything You Need in One Place](/blog/huggingface-cheatsheet) — The layer built on top of these tensor and training-loop fundamentals: pipelines, tokenizers, `Trainer`, and the Hub.
+- [PyTorch Essentials: What You Actually Need to Know](/blog/pytorch-essentials) — The deeper dive: why PyTorch won, the real tradeoffs, and what to watch for beyond this quick reference.
+- [Scikit-learn Cheatsheet: Everything You Need in One Place](/blog/sklearn-cheatsheet) — The equivalent quick reference for classical ML instead of deep learning.
+- [Essential Machine Learning Models: A Practical Cheat Sheet](/blog/essential-ml-models-cheat-sheet) — When to reach for a neural network versus a simpler model, and the honest tradeoffs between them.
+- [The Python Data Science Stack: NumPy, Pandas, Matplotlib, and Scikit-learn](/blog/python-data-science-stack) — How the classical data science stack fits alongside a deep learning framework like PyTorch.

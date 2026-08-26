@@ -1,0 +1,244 @@
+---
+title: "Hugging Face Cheatsheet: Everything You Need in One Place"
+date: 2026-08-26
+excerpt: "A dense, no-fluff reference for Hugging Face — pipelines, tokenizers, inference, text generation, the datasets library, fine-tuning with Trainer, and the Hub, all with working code examples."
+tags: ["Hugging Face", "Transformers", "NLP", "Python", "Cheatsheet", "Reference"]
+published: true
+---
+
+This is a reference, not a tutorial. Find the section you need, grab the pattern, move on.
+
+---
+
+## 1. pipeline() One-Liners
+
+`pipeline()` wraps a tokenizer, a model, and the pre/post-processing around it into a single call. It's the fastest way to run a common task with zero boilerplate.
+
+```python
+from transformers import pipeline
+
+classifier = pipeline("sentiment-analysis")
+classifier("This cheatsheet is exactly what I needed.")
+# [{'label': 'POSITIVE', 'score': 0.9998}]
+
+ner = pipeline("ner", aggregation_strategy="simple")
+ner("Hugging Face is based in New York City.")
+# groups sub-word tokens into whole entities: [{'entity_group': 'ORG', 'word': 'Hugging Face', ...}, ...]
+
+summarizer = pipeline("summarization")
+summarizer(long_article_text, max_length=100, min_length=30)
+
+generator = pipeline("text-generation", model="gpt2")
+generator("The future of AI is", max_new_tokens=30, do_sample=True)
+
+qa = pipeline("question-answering")
+qa(question="Where is Hugging Face based?", context="Hugging Face is based in New York City.")
+
+zero_shot = pipeline("zero-shot-classification")
+zero_shot("This is a tutorial about tensors.", candidate_labels=["education", "sports", "politics"])
+```
+
+> **Gotcha:** Calling `pipeline("sentiment-analysis")` with no `model=` argument downloads whatever the current default checkpoint is for that task — fine for prototyping, risky for production. Pin an explicit model (`pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-sst-2-english")`) so a library update can't silently swap the model under you.
+
+---
+
+## 2. Loading with AutoTokenizer / AutoModel
+
+The `Auto*` classes inspect a checkpoint's config and load the right tokenizer or model architecture automatically — you rarely need to name the class directly.
+
+```python
+from transformers import AutoTokenizer, AutoModel, AutoModelForSequenceClassification
+
+checkpoint = "bert-base-uncased"
+
+tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+model = AutoModel.from_pretrained(checkpoint)                              # base model, hidden states only
+clf_model = AutoModelForSequenceClassification.from_pretrained(
+    checkpoint, num_labels=2                                               # task head appended on top
+)
+```
+
+> **Gotcha:** Always load the tokenizer from the *same* checkpoint name as the model. Each checkpoint has its own vocabulary and token-to-ID mapping — pairing a model with a mismatched tokenizer doesn't error, it just silently feeds the model the wrong word for every ID, and the output is garbage with no warning.
+
+---
+
+## 3. Tokenizer Basics
+
+A tokenizer turns text into the integer IDs a model actually consumes, and back again. `padding`, `truncation`, and `return_tensors` are the three arguments you'll set on nearly every call.
+
+```python
+# single string
+inputs = tokenizer("PyTorch and Transformers work well together.", return_tensors="pt")
+inputs["input_ids"]        # tensor of token IDs
+inputs["attention_mask"]   # 1 for real tokens, 0 for padding
+
+# batch of strings — padding makes every sequence in the batch the same length
+batch = tokenizer(
+    ["Short text.", "A somewhat longer piece of text than the first one."],
+    padding=True,           # pad shorter sequences up to the longest in the batch
+    truncation=True,        # cut sequences longer than the model's max length
+    max_length=128,
+    return_tensors="pt",    # "pt" for PyTorch tensors, "np" for NumPy, "tf" for TensorFlow
+)
+
+tokenizer.decode(inputs["input_ids"][0])                    # IDs back to a string, special tokens included
+tokenizer.decode(inputs["input_ids"][0], skip_special_tokens=True)  # clean text, no [CLS]/[SEP]/<pad>
+tokenizer.tokenize("unbelievable")                           # see the raw sub-word pieces, e.g. ['un', '##believable']
+```
+
+> **Gotcha:** GPT-2 and other decoder-only models ship with **no `pad_token`** — batching them raises `ValueError: Asking to pad but the tokenizer does not have a padding token`. Fix it with `tokenizer.pad_token = tokenizer.eos_token` before tokenizing.
+
+---
+
+## 4. Running Inference: Logits to Predictions
+
+A model's raw output is **logits** — unnormalized scores, not probabilities. You have to apply `softmax` yourself, and keep the model and its inputs on the same device.
+
+```python
+import torch
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+clf_model = clf_model.to(device)
+clf_model.eval()
+
+inputs = tokenizer("This movie was fantastic.", return_tensors="pt").to(device)
+
+with torch.no_grad():                          # no gradient tracking needed for inference
+    outputs = clf_model(**inputs)
+
+logits = outputs.logits                        # raw scores, shape (1, num_labels) — NOT probabilities
+probs = torch.softmax(logits, dim=-1)           # convert to a probability distribution
+predicted_class = probs.argmax(dim=-1).item()   # index of the highest-probability class
+
+clf_model.config.id2label[predicted_class]      # human-readable label, e.g. "POSITIVE"
+```
+
+> **Gotcha:** Treating raw `logits` as probabilities — checking `if logits[0][1] > 0.5` — is a common and silent bug. Logits aren't bounded to `[0, 1]` and don't sum to 1 across classes. Always run them through `softmax` first.
+
+---
+
+## 5. Text Generation with generate()
+
+`generate()` handles the autoregressive loop — predicting one token, appending it, and repeating — for you. The sampling parameters control how creative versus deterministic the output is.
+
+```python
+from transformers import AutoModelForCausalLM
+
+tokenizer = AutoTokenizer.from_pretrained("gpt2")
+tokenizer.pad_token = tokenizer.eos_token
+tokenizer.padding_side = "left"                 # required for correct batched generation on decoder-only models
+
+gen_model = AutoModelForCausalLM.from_pretrained("gpt2").to(device)
+
+inputs = tokenizer("The best way to learn PyTorch is", return_tensors="pt").to(device)
+
+output_ids = gen_model.generate(
+    **inputs,
+    max_new_tokens=50,       # how many new tokens to generate (not total length)
+    do_sample=True,          # True = sample from the distribution; False = greedy/deterministic
+    temperature=0.7,         # lower = more focused/repetitive, higher = more random
+    top_p=0.9,               # nucleus sampling — sample only from the top 90% probability mass
+)
+
+tokenizer.decode(output_ids[0], skip_special_tokens=True)
+```
+
+> **Gotcha:** Left-vs-right padding matters here in a way it doesn't for classification. Decoder-only models predict the next token from whatever comes immediately before it — pad on the *right* (the default) and the model ends up predicting from a stream of padding tokens instead of your real text. Always set `tokenizer.padding_side = "left"` before batch-generating with a GPT-style model.
+
+---
+
+## 6. The datasets Library
+
+`datasets` gives you memory-mapped access to a dataset with a small, consistent API: `map`, `filter`, and `train_test_split` all return a new dataset rather than mutating in place.
+
+```python
+from datasets import load_dataset
+
+dataset = load_dataset("imdb")               # downloads/caches, returns a DatasetDict
+dataset["train"][0]                          # {'text': '...', 'label': 0}
+len(dataset["train"])
+
+# map — apply a function to every example (or every batch, with batched=True)
+def tokenize_fn(examples):
+    return tokenizer(examples["text"], padding="max_length", truncation=True)
+
+tokenized = dataset.map(tokenize_fn, batched=True)   # batched=True is dramatically faster
+
+# filter — keep only examples matching a condition
+short_reviews = dataset["train"].filter(lambda x: len(x["text"]) < 200)
+
+# train_test_split — carve a held-out split out of a single split
+split = dataset["train"].train_test_split(test_size=0.2, seed=42)
+split["train"], split["test"]
+```
+
+> **Gotcha:** `map()` without `batched=True` calls your function once per example — on a 25,000-row dataset that's 25,000 slow Python-level tokenizer calls instead of a handful of fast, vectorized batch calls. Default to `batched=True` unless your function genuinely can't operate on a batch.
+
+---
+
+## 7. Fine-Tuning with Trainer
+
+`Trainer` wraps the training loop from the PyTorch cheatsheet's [training loop section](/blog/pytorch-cheatsheet) — `zero_grad`, forward, loss, `backward`, `step` — behind a config object, so you rarely write that loop by hand for standard fine-tuning jobs.
+
+```python
+from transformers import TrainingArguments, Trainer
+
+training_args = TrainingArguments(
+    output_dir="./results",
+    num_train_epochs=3,
+    per_device_train_batch_size=16,
+    per_device_eval_batch_size=32,
+    eval_strategy="epoch",           # run evaluation once per epoch
+    save_strategy="epoch",           # checkpoint once per epoch
+    learning_rate=2e-5,
+    weight_decay=0.01,
+    logging_steps=50,
+)
+
+trainer = Trainer(
+    model=clf_model,
+    args=training_args,
+    train_dataset=tokenized["train"],
+    eval_dataset=tokenized["test"],
+    processing_class=tokenizer,      # handles padding for you at collation time
+)
+
+trainer.train()
+trainer.evaluate()
+```
+
+> **Gotcha:** Older tutorials pass `tokenizer=tokenizer` to `Trainer` — that argument is deprecated in current `transformers` releases in favor of `processing_class=tokenizer`. It still works with a warning today, but don't be surprised when a future major version removes it entirely.
+
+---
+
+## 8. Saving, Loading, and Pushing to the Hub
+
+Both the model and the tokenizer need saving — a model checkpoint without its matching tokenizer is only half-useful to whoever loads it next.
+
+```python
+# save locally — writes config.json, weights, and (for the tokenizer) vocab files
+clf_model.save_pretrained("./my-model")
+tokenizer.save_pretrained("./my-model")
+
+# load back from that same local folder
+loaded_model = AutoModelForSequenceClassification.from_pretrained("./my-model")
+loaded_tokenizer = AutoTokenizer.from_pretrained("./my-model")
+
+# push to the Hugging Face Hub — requires `huggingface-cli login` (or an HF_TOKEN env var) first
+clf_model.push_to_hub("your-username/my-fine-tuned-model")
+tokenizer.push_to_hub("your-username/my-fine-tuned-model")
+
+# anyone (including future you) can now load it directly by repo name
+model = AutoModelForSequenceClassification.from_pretrained("your-username/my-fine-tuned-model")
+```
+
+> **Gotcha:** `save_pretrained` on the model alone is not enough to make a checkpoint reusable — without the tokenizer files sitting next to it, whoever loads the model next has no matching vocabulary to encode new text with. Always save (and push) both together.
+
+---
+
+## Related Posts
+
+- [PyTorch Cheatsheet: Everything You Need in One Place](/blog/pytorch-cheatsheet) — The tensor, autograd, and training-loop fundamentals that Hugging Face's `Trainer` and `generate()` are built on top of.
+- [Stop Fine-Tuning GPT-5. A 7B Open-Source Model Will Beat It on Your Use Case](/blog/stop-finetuning-gpt5-use-7b) — The case for fine-tuning an open-weight model instead of a closed API, using exactly this kind of workflow.
+- [Why Your AI Strategy Should Be 'Small Models, Big Impact' in 2026](/blog/small-models-big-impact-2026) — Where small, Hub-hosted models beat frontier LLMs on cost and latency.
+- [Building a Production LLM Pipeline in 2025](/blog/production-llm-pipeline) — How a fine-tuned or pipeline-served model fits into a larger production system.
